@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { LogoBlack } from "../global/Logo";
 import * as motion from "motion/react-client";
 import { useRouter } from "nextjs-toploader/app";
 import { zodResolver } from "@hookform/resolvers/zod";

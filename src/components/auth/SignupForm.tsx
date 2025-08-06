@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { LogoBlack } from "../global/Logo";
 import * as motion from "motion/react-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -78,9 +77,6 @@ function SignUpForm() {
       }}
       className="w-full max-w-[500px] flex gap-8 flex-col p-6 rounded-[1.25rem] border border-[#E6E8EC80] bg-white shadow-sm shadow-darker-grey/10"
     >
-  
-    
-
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
