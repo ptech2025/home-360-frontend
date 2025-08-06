@@ -21,6 +21,7 @@ import {
   ForgotPasswordSchemaType,
 } from "@/utils/zod-schemas";
 import { Input } from "../ui/input";
+import { authClient } from "@/lib/auth-client";
 
 import PasswordResetLinkSent from "./PasswordResetLinkSent";
 
@@ -38,28 +39,28 @@ function ForgotPasswordForm() {
   });
 
   const onSubmit = async (values: ForgotPasswordSchemaType) => {
-    // await authClient.requestPasswordReset(
-    //   {
-    //     email: values.email,
-    //     redirectTo: "/reset-password",
-    //   },
-    //   {
-    //     onRequest: () => {
-    //       setIsLoading(true);
-    //     },
-    //     onSuccess: async () => {
-    //       toast.success("Password Reset Link Sent.");
-    //       setShowPasswordResetLinkSent(true);
-    //     },
-    //     onError: (ctx) => {
-    //       console.log(ctx);
+    await authClient.requestPasswordReset(
+      {
+        email: values.email,
+        redirectTo: "/reset-password",
+      },
+      {
+        onRequest: () => {
+          setIsLoading(true);
+        },
+        onSuccess: async () => {
+          toast.success("Password Reset Link Sent.");
+          setShowPasswordResetLinkSent(true);
+        },
+        onError: (ctx) => {
+          console.log(ctx);
 
-    //       toast.error(
-    //         ctx.error.message ?? "Something went wrong, try again later."
-    //       );
-    //     },
-    //   }
-    // );
+          toast.error(
+            ctx.error.message ?? "Something went wrong, try again later."
+          );
+        },
+      }
+    );
     setIsLoading(false);
   };
 

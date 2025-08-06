@@ -13,6 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ArrowRight, EyeOff, Eye, Loader2 } from "lucide-react";
@@ -32,33 +33,34 @@ function SignUpForm() {
       firstName: "",
       lastName: "",
       password: "",
+
     },
   });
 
   const onSubmit = async (values: SignUpSchemaType) => {
-    // await authClient.signUp.email(
-    //   {
-    //     email: values.email,
-    //     name: `${values.firstName} ${values.lastName}`,
-    //     password: values.password,
-    //     image: `https://ui-avatars.com/api/?size=60&background=d1d6dc&color=000&rounded=true&name=${values.firstName}+${values.lastName}`,
-    //   },
-    //   {
-    //     onRequest: () => {
-    //       setIsLoading(true);
-    //     },
-    //     onSuccess: async () => {
-    //       toast.success("Email Verification Link Sent.");
-    //       setShowVerifyEmail(true);
-    //     },
-    //     onError: (ctx) => {
-    //       console.log(ctx);
-    //       toast.error(
-    //         ctx.error.message ?? "Something went wrong, try again later."
-    //       );
-    //     },
-    //   }
-    // );
+    await authClient.signUp.email(
+      {
+        email: values.email,
+        name: `${values.firstName} ${values.lastName}`,
+        password: values.password,
+        image: `https://ui-avatars.com/api/?size=60&background=d1d6dc&color=000&rounded=true&name=${values.firstName}+${values.lastName}`,
+      },
+      {
+        onRequest: () => {
+          setIsLoading(true);
+        },
+        onSuccess: async () => {
+          toast.success("Email Verification Link Sent.");
+          setShowVerifyEmail(true);
+        },
+        onError: (ctx) => {
+          console.log(ctx);
+          toast.error(
+            ctx.error.message ?? "Something went wrong, try again later."
+          );
+        },
+      }
+    );
     setIsLoading(false);
   };
 

@@ -6,6 +6,7 @@ import { useRouter } from "nextjs-toploader/app";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { authClient } from "@/lib/auth-client";
 import {
   Form,
   FormControl,
@@ -40,31 +41,31 @@ function ResetPasswordForm({ token }: { token: string }) {
   });
 
   const onSubmit = async (values: ResetPasswordSchemaType) => {
-    // await authClient.resetPassword(
-    //   {
-    //     token: token,
-    //     newPassword: values.newPassword,
-    //   },
-    //   {
-    //     onRequest: () => {
-    //       setIsLoading(true);
-    //     },
-    //     onSuccess: async () => {
-    //       toast.success("Password Reset Successfully.");
-    //       push("/sign-in");
-    //     },
-    //     onError: (ctx) => {
-    //       console.log(ctx);
-    //       if (ctx.error.code === "INVALID_TOKEN") {
-    //         setShowInValid(true);
-    //       } else {
-    //         toast.error(
-    //           ctx.error.message ?? "Something went wrong, try again later."
-    //         );
-    //       }
-    //     },
-    //   }
-    // );
+    await authClient.resetPassword(
+      {
+        token: token,
+        newPassword: values.newPassword,
+      },
+      {
+        onRequest: () => {
+          setIsLoading(true);
+        },
+        onSuccess: async () => {
+          toast.success("Password Reset Successfully.");
+          push("/sign-in");
+        },
+        onError: (ctx) => {
+          console.log(ctx);
+          if (ctx.error.code === "INVALID_TOKEN") {
+            setShowInValid(true);
+          } else {
+            toast.error(
+              ctx.error.message ?? "Something went wrong, try again later."
+            );
+          }
+        },
+      }
+    );
     setIsLoading(false);
   };
 

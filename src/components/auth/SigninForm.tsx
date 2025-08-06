@@ -14,6 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ArrowRight, Eye, EyeOff, Loader2 } from "lucide-react";
@@ -38,55 +39,55 @@ function SignInForm() {
   });
 
   const onSubmit = async (values: SignInSchemaType) => {
-    // await authClient.signIn.email(
-    //   {
-    //     email: values.email,
-    //     password: values.password,
-    //   },
-    //   {
-    //     onRequest: () => {
-    //       setIsLoading(true);
-    //     },
-    //     onSuccess: async () => {
-    //       toast.success("Successfully signed in.");
-    //       push("/dashboard/my-orders");
-    //     },
-    //     onError: (ctx) => {
-    //       console.log(ctx);
-    //       if (ctx.error.code === "EMAIL_NOT_VERIFIED") {
-    //         handleManualVerifyEmailSend(values.email);
-    //       } else {
-    //         toast.error(
-    //           ctx.error.message ?? "Something went wrong, try again later."
-    //         );
-    //       }
-    //     },
-    //   }
-    // );
+    await authClient.signIn.email(
+      {
+        email: values.email,
+        password: values.password,
+      },
+      {
+        onRequest: () => {
+          setIsLoading(true);
+        },
+        onSuccess: async () => {
+          toast.success("Successfully signed in.");
+          // push("/dashboard/my-orders");
+        },
+        onError: (ctx) => {
+          console.log(ctx);
+          if (ctx.error.code === "EMAIL_NOT_VERIFIED") {
+            handleManualVerifyEmailSend(values.email);
+          } else {
+            toast.error(
+              ctx.error.message ?? "Something went wrong, try again later."
+            );
+          }
+        },
+      }
+    );
     setIsLoading(false);
   };
 
   const handleManualVerifyEmailSend = async (email: string) => {
-    // await authClient.sendVerificationEmail(
-    //   {
-    //     email,
-    //   },
-    //   {
-    //     onRequest: () => {
-    //       setIsLoading(true);
-    //     },
-    //     onSuccess: async () => {
-    //       toast.success("Email Verification Link Sent.");
-    //       setShowVerifyEmail(true);
-    //     },
-    //     onError: (ctx) => {
-    //       console.log(ctx);
-    //       toast.error(
-    //         ctx.error.message ?? "Something went wrong, try again later."
-    //       );
-    //     },
-    //   }
-    // );
+    await authClient.sendVerificationEmail(
+      {
+        email,
+      },
+      {
+        onRequest: () => {
+          setIsLoading(true);
+        },
+        onSuccess: async () => {
+          toast.success("Email Verification Link Sent.");
+          setShowVerifyEmail(true);
+        },
+        onError: (ctx) => {
+          console.log(ctx);
+          toast.error(
+            ctx.error.message ?? "Something went wrong, try again later."
+          );
+        },
+      }
+    );
     setIsLoading(false);
   };
 
