@@ -41,6 +41,10 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --font-dm: "DM Sans", sans-serif;
+  --color-dark-orange: var(--dark-orange);
+  --color-main-blue: var(--main-blue);
+  --color-light-blue: var(--light-blue);
 }
 
 :root {
@@ -76,6 +80,9 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+  --dark-orange: rgba(199, 106, 59, 1);
+  --main-blue: rgba(65, 87, 111, 1);
+  --light-blue: rgba(239, 242, 245, 1);
 }
 
 .dark {
@@ -117,6 +124,13 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-dm;
+  }
+  .custom-container {
+    @apply max-w-[1800px] w-full mx-auto p-6  md:p-10 lg:p-14;
+  }
+  a,
+  button {
+    @apply cursor-pointer disabled:cursor-not-allowed!;
   }
 }

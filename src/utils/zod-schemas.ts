@@ -65,7 +65,7 @@ export const requestQuoteFormSchema = z.object({
 export const profileSchema = z.object({
   firstName: z.string().min(1, { message: "First Name is required" }),
   lastName: z.string().min(1, { message: "Last Name is required" }),
-  oldImage: z.string().url({ message: "Old Image must be a Url" }),
+  oldImage: z.url({ message: "Old Image must be a Url" }),
 });
 
 export const imageSchema = z.object({
@@ -76,6 +76,13 @@ export const uploadImagesSchema = z.object({
   assets: validateImageFiles().refine((files) => files.length > 0, {
     message: "At least one image is required",
   }),
+});
+
+export const waitListSchema = z.object({
+  email: z.email({
+    message: "Invalid email address",
+  }),
+  trade: z.string().optional(),
 });
 
 export function validateImageFiles() {
@@ -134,3 +141,4 @@ export type SignInSchemaType = z.infer<typeof signInSchema>;
 export type ResetPasswordSchemaType = z.infer<typeof resetPasswordSchema>;
 export type ForgotPasswordSchemaType = z.infer<typeof forgotPasswordSchema>;
 export type ContactFormSchemaType = z.infer<typeof contactFormSchema>;
+export type WaitListSchemaType = z.infer<typeof waitListSchema>;
