@@ -7,7 +7,6 @@ export const fetchWaitListCount = async () => {
     const res: { data: { count: number } } = await axios.get(
       `${API_URL}/api/waitlist`
     );
-    console.log(res);
     return res.data.count;
   } catch (error) {
     console.error(error);

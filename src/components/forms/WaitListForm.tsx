@@ -23,7 +23,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { waitListSchema, WaitListSchemaType } from "@/utils/zod-schemas";
 import { Input } from "../ui/input";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchWaitListCount, saveToWaitList } from "@/services/waitlist";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
 
@@ -40,11 +40,10 @@ const supportedTrades = [
 ];
 
 function WaitListForm() {
+  const queryClient = useQueryClient();
   const { data: count } = useQuery({
     queryKey: ["waitListCount"],
-    queryFn: () => {
-      return fetchWaitListCount();
-    },
+    queryFn: fetchWaitListCount,
   });
 
   const form = useForm<WaitListSchemaType>({
@@ -66,6 +65,7 @@ function WaitListForm() {
     onSuccess: () => {
       form.reset();
       toast.success("Thanks for joining our waitlist!");
+      queryClient.invalidateQueries({ queryKey: ["waitListCount"] });
     },
     onError: (error) => {
       console.log(error);
