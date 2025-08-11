@@ -7,6 +7,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 function UnsubscribeButtons({ email }: { email: string }) {
   const router = useRouter();
@@ -36,9 +37,13 @@ function UnsubscribeButtons({ email }: { email: string }) {
         <Button
           disabled={isLoading}
           onClick={() => mutate(email)}
-          className="h-11  rounded-sm w-40 bg-dark-orange"
+          className="h-11 text-white rounded-sm w-40 bg-dark-orange"
         >
-          Yes, Unsubscribe Me
+          {isLoading ? (
+            <Loader2 className="size-4" />
+          ) : (
+            <span>Yes, Unsubscribe Me</span>
+          )}
         </Button>
         <Button
           disabled={isLoading}
