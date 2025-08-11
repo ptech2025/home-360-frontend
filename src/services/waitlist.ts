@@ -19,3 +19,7 @@ export const saveToWaitList = async (data: {
 }) => {
   await axios.post(`${API_URL}/api/waitlist`, data);
 };
+
+export const unsubscribeFromWaitList = async (data: { email: string }) => {
+  await axios.patch(`${API_URL}/api/waitlist/unsubscribe`, data);
+};

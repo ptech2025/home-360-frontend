@@ -20,7 +20,7 @@ export const createAxios = (cookie?: string) => {
 export const renderAxiosOrAuthError = (error: unknown): string => {
   if (error instanceof AxiosError) {
     return (
-      error.response?.data?.message ||
+      error.response?.data?.error ||
       error.message ||
       "Request failed. Try again later."
     );
