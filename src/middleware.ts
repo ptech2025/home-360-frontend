@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  if (process.env.APP_ENV === "production") {
+  const isNotHome = request.nextUrl.pathname !== "/";
+  if (process.env.APP_ENV === "production" && isNotHome) {
     const url = request.nextUrl.clone();
     url.pathname = "/";
     return NextResponse.redirect(url);
