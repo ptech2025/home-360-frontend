@@ -58,11 +58,11 @@ async function WaitListPage() {
           <div className="flex relative  items-center  justify-center lg:items-start lg:justify-between z-10 flex-col gap-8">
             <div className="flex w-full max-w-[40rem] gap-4 flex-col items-center  justify-center lg:items-start lg:justify-between">
               <h1 className="text-[2rem] md:text-[2.8rem]  lg:text-[4rem] lg:leading-20 font-dm text-main-blue font-bold text-center lg:text-start">
-                Win More Jobs With AI-Generated Proposals in 30 Seconds
+                Win More Jobs With AI-Generated Estimate in 30 Seconds
               </h1>
               <p className="text-sm md:text-base lg:text-lg max-w-[30rem] text-main-blue font-dm text-center lg:text-start">
-                Talk your bid. Our app writes the full proposal; scope, price,
-                timeline and sends it for you.
+                Talk your bid. Our app generate the full estimate, proposal,
+                scope, timeline and sends it for you.
               </p>
             </div>
             <WaitListForm />

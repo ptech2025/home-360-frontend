@@ -13,7 +13,7 @@ function LayoutScreen() {
         </div>{" "}
         <div className="flex flex-col gap-4">
           <h2 className="text-white text-center  font-bold font-dm text-base leading-10 md:text-[1.2rem] lg:text-[1.4rem]">
-            Generate Proposal Instantly
+            Generate Estimate Instantly
           </h2>
           <div className="flex flex-col gap-1 items-center">
             <span className="text-white text-center text-lg lg:text-lg font-dm ">
