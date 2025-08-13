@@ -9,7 +9,7 @@ export const signUpSchema = z.object({
     .min(1, { message: "Email is required" }),
   password: z
     .string()
-    .min(6, { message: "Password must be at least 6 characters long" }),
+    .min(8, { message: "Password must be at least 8 characters long" }),
 });
 
 export const signInSchema = z.object({
@@ -18,17 +18,17 @@ export const signInSchema = z.object({
     .min(1, { message: "Email is required" }),
   password: z
     .string()
-    .min(6, { message: "Password must be at least 6 characters long" }),
+    .min(8, { message: "Password must be at least 8 characters long" }),
 });
 
 export const resetPasswordSchema = z
   .object({
     newPassword: z
       .string()
-      .min(6, { message: "Password must be at least 6 characters long" }),
+      .min(8, { message: "Password must be at least 8 characters long" }),
     confirmPassword: z
       .string()
-      .min(6, { message: "Password must be at least 6 characters long" }),
+      .min(8, { message: "Password must be at least 8 characters long" }),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
     message: "Passwords do not match",

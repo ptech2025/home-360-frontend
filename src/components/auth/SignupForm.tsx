@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { ArrowRight, EyeOff, Eye, Loader2 } from "lucide-react";
 import { signUpSchema, SignUpSchemaType } from "@/utils/zod-schemas";
 import { Input } from "../ui/input";
+import { GoogleIcon } from "../global/Icons";
 import EmailVerificationSent from "./EmailVerificationSent";
 
 function SignUpForm() {
@@ -33,9 +34,16 @@ function SignUpForm() {
       firstName: "",
       lastName: "",
       password: "",
-
     },
   });
+
+  const signInWithGoogle = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      newUserCallbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
+      callbackURL: `${process.env.NEXT_PUBLIC_URL}/`,
+    });
+  };
 
   const onSubmit = async (values: SignUpSchemaType) => {
     await authClient.signUp.email(
@@ -68,33 +76,87 @@ function SignUpForm() {
     return <EmailVerificationSent setShowVerifyEmail={setShowVerifyEmail} />;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{
-        duration: 0.5,
-        ease: "easeOut",
-        type: "spring",
-        stiffness: 100,
-      }}
-      className="w-full max-w-[500px] flex gap-8 flex-col p-6 rounded-[1.25rem] border border-[#E6E8EC80] bg-white shadow-sm shadow-darker-grey/10"
-    >
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex w-full  justify-center  flex-col gap-4"
+    <div className="flex flex-col w-full items-center justify-center gap-6">
+      <div className="w-full grid grid-cols-2 max-w-[360px] h-11  items-center justify-center bg-main-blue/20 p-1 rounded-md">
+        <Button
+          type="button"
+          data-state="active"
+          asChild
+          className="h-full w-full data-[state=inactive]:border-0 data-[state=inactive]:shadow-none data-[state=inactive]:bg-transparent data-[state=inactive]:text-main-blue/80 data-[state=active]:bg-main-blue data-[state=active]:text-white"
         >
-          <div className="flex gap-4 w-full">
+          <Link href={"/sign-up"}>Create an Account</Link>
+        </Button>{" "}
+        <Button
+          type="button"
+          data-state="inactive"
+          asChild
+          className="h-full w-full data-[state=inactive]:border-0 data-[state=inactive]:shadow-none data-[state=inactive]:bg-transparent data-[state=inactive]:text-main-blue/80 data-[state=active]:bg-main-blue data-[state=active]:text-white"
+        >
+          <Link href={"/sign-in"}>Sign in</Link>
+        </Button>
+      </div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 0.5,
+          ease: "easeOut",
+          type: "spring",
+          stiffness: 100,
+        }}
+        className="w-full max-w-[500px] flex gap-8 flex-col items-center  justify-center"
+      >
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex w-full justify-center  flex-col gap-4"
+          >
+            <div className="flex gap-4 w-full">
+              <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem className="w-full lg:w-1/2">
+                    <FormLabel className="text-main-blue">First Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="First Name"
+                        className="h-11"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem className="w-full lg:w-1/2">
+                    <FormLabel className="text-main-blue">Last Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Last Name"
+                        className="h-11"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
-              name="firstName"
+              name="email"
               render={({ field }) => (
-                <FormItem className="w-full lg:w-1/2">
-                  <FormLabel className="text-black">First Name</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel className="text-main-blue">Email</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="First Name"
-                      className="h-12"
+                      placeholder="Email Address"
+                      className="h-11"
                       {...field}
                     />
                   </FormControl>
@@ -104,99 +166,79 @@ function SignUpForm() {
             />
             <FormField
               control={form.control}
-              name="lastName"
+              name="password"
               render={({ field }) => (
-                <FormItem className="w-full lg:w-1/2">
-                  <FormLabel className="text-black">Last Name</FormLabel>
+                <FormItem className="flex flex-col items-start justify-start w-full gap-2">
+                  <FormLabel className="text-main-blue">Password</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Last Name"
-                      className="h-12"
-                      {...field}
-                    />
+                    <div className="w-full m-0! aria-invalid:border-destructive focus-within:ring-[3px] focus-within:ring-ring/50 focus-within:border-ring aria-invalid:ring-destructive/20 flex items-center justify-between   rounded-md h-11 px-3 py-1  outline-0 border border-input ">
+                      <input
+                        placeholder="Password"
+                        type={showPassword ? "text" : "password"}
+                        {...field}
+                        className="flex-grow focus-visible:outline-offset-none border-none focus-visible:ring-none  shadow-none outline-none rounded-none focus-visible:ring-0 pl-0 py-0 placeholder:text-sm  text-sm  outline-0 border-0  h-full"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="shrink-0 flex items-center justify-center"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="size-[1rem] text-main-blue" />
+                        ) : (
+                          <Eye className="size-[1rem] text-main-blue" />
+                        )}
+                      </button>
+                    </div>
                   </FormControl>
-                  <FormMessage className="text-xs" />
+                  <FormMessage className="text-xs " />
                 </FormItem>
               )}
             />
-          </div>
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel className="text-black">Email</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Email Address"
-                    className="h-12"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem className="flex flex-col items-start justify-start w-full gap-2">
-                <FormLabel className="text-black">Password</FormLabel>
-                <FormControl>
-                  <div className="w-full m-0! aria-invalid:border-destructive focus-within:ring-[3px] focus-within:ring-ring/50 focus-within:border-ring aria-invalid:ring-destructive/20 flex items-center justify-between   rounded-md h-12 px-3 py-1  outline-0 border border-input ">
-                    <input
-                      placeholder="Password"
-                      type={showPassword ? "text" : "password"}
-                      {...field}
-                      className="flex-grow focus-visible:outline-offset-none border-none focus-visible:ring-none  shadow-none outline-none rounded-none focus-visible:ring-0 pl-0 py-0 placeholder:text-sm  text-sm  outline-0 border-0  h-full"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="shrink-0 flex items-center justify-center"
-                    >
-                      {showPassword ? (
-                        <EyeOff className="size-[1.125rem] text-black" />
-                      ) : (
-                        <Eye className="size-[1.125rem] text-black" />
-                      )}
-                    </button>
-                  </div>
-                </FormControl>
-                <FormMessage className="text-xs " />
-              </FormItem>
-            )}
-          />
 
-          <Button
-            size={"lg"}
-            disabled={isLoading}
-            className="gap-2 group text-white h-12 w-full font-bold text-base bg-black"
-          >
-            {isLoading ? (
-              <Loader2 className="size-5 animate-spin" />
-            ) : (
-              <>
-                <span>Sign Up</span>
-                <ArrowRight className="size-5 group-hover:translate-x-4 transition-transform duration-200" />
-              </>
-            )}
-          </Button>
-        </form>
-      </Form>
-      <div className="flex flex-col items-center justify-center ">
-        <p className="text-sm text-center text-balance text-light-grey">
-          Already have an account?{" "}
-          <Link
-            className=" text-black hover:underline underline-offset-2"
-            href="/sign-in"
-          >
-            Sign in
+            <Button
+              size={"lg"}
+              disabled={isLoading}
+              className="gap-2 group text-white h-12 w-full font-medium font-dms text-base bg-dark-orange hover:bg-main-blue"
+            >
+              {isLoading ? (
+                <Loader2 className="size-5 animate-spin" />
+              ) : (
+                <>
+                  <span>Sign Up</span>
+                </>
+              )}
+            </Button>
+            <div className="flex items-center gap-4 justify-between w-full text-main-blue/80 text-base">
+              <span className="h-px bg-main-blue/50 flex-grow"></span>
+              <span>OR</span>
+              <span className="h-px bg-main-blue/50 flex-grow"></span>
+            </div>
+            <Button
+              type="button"
+              size={"lg"}
+              onClick={signInWithGoogle}
+              disabled={isLoading}
+              className="gap-2 group text-black h-12 w-full font-medium font-dm text-base bg-white hover:bg-main-blue/20 border border-main-blues"
+            >
+              <GoogleIcon className="size-5" />
+              <span>Continue with Google</span>
+            </Button>
+          </form>
+        </Form>
+        <p className="text-sm max-w-[300px] text-center text-balance text-main-blue/80">
+          By signing up to create an account I accept Company’s{" "}
+          <Link href="/terms" className="hover:underline text-main-blue">
+            Terms of use{" "}
+          </Link>
+          &
+          <Link href="/terms" className="hover:underline text-main-blue">
+            {" "}
+            Privacy Policy.
           </Link>
         </p>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }
 export default SignUpForm;

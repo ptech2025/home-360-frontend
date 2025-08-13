@@ -1,6 +1,17 @@
+import SignUpForm from "@/components/auth/SignupForm";
+import { LogoWithText } from "@/components/global/Logo";
+import Link from "next/link";
+
+
 function SignUpPage() {
   return (
-    <div>SignUpPage</div>
-  )
+    <div className="flex flex-col gap-6 items-center justify-center">
+      <Link href="/">
+        <LogoWithText />
+      </Link>
+
+      <SignUpForm />
+    </div>
+  );
 }
-export default SignUpPage
+export default SignUpPage;

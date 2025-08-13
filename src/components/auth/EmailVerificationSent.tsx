@@ -18,16 +18,16 @@ function EmailVerificationSent({
         duration: 0.4,
         scale: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
       }}
-      className="w-full max-w-[400px] flex gap-4 flex-col p-6 rounded-[1.25rem] border border-[#E6E8EC80] bg-white shadow-sm shadow-darker-grey/10"
+      className="w-full max-w-[400px] flex gap-4 flex-col p-6  "
     >
       <div className="flex flex-col justify-center items-center gap-2">
         <CheckCircle2 className="size-14 text-green-500" />
 
-        <h1 className="text-center text-black font-dm text-2xl font-bold">
+        <h1 className="text-center text-main-blue font-dm text-2xl font-bold">
           Email Verification Link Sent
         </h1>
       </div>
-      <p className="text-light-grey text-center text-base ">
+      <p className="text-main-blue/80 text-center text-base ">
         {" "}
         We&apos;ve sent a verification link to your inbox. Please check your
         email and click the link to complete your sign-up.
@@ -40,7 +40,7 @@ function EmailVerificationSent({
             type="button"
             variant={"link"}
             onClick={() => setShowVerifyEmail(false)}
-            className="text-black underline"
+            className="text-main-blue underline"
           >
             Resend
           </Button>{" "}
@@ -49,7 +49,7 @@ function EmailVerificationSent({
               type="button"
               variant={"link"}
               asChild
-              className="text-black underline"
+              className="text-main-blue underline"
             >
               <Link href="/sign-in">Sign In</Link>
             </Button>

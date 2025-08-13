@@ -81,14 +81,14 @@ function ForgotPasswordForm() {
         type: "spring",
         stiffness: 100,
       }}
-      className="w-full max-w-[500px] flex gap-8 flex-col p-6 rounded-[1.25rem] border border-[#E6E8EC80] bg-white shadow-sm shadow-darker-grey/10"
+      className="w-full max-w-[500px] flex gap-8 flex-col "
     >
       <div className="flex w-full flex-col gap-2">
-        <h1 className="text-black font-dm font-bold text-2xl">
+        <h1 className="text-main-blue font-dm font-bold text-2xl">
           {" "}
           Forgot Password
         </h1>
-        <p className="text-sm text-light-grey">
+        <p className="text-sm text-main-blue/80">
           {" "}
           Enter your email address and we will send you a link to reset your
           password
@@ -105,11 +105,11 @@ function ForgotPasswordForm() {
             name="email"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="text-black">Email</FormLabel>
+                <FormLabel className="text-main-blue">Email</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Email Address"
-                    className="h-12"
+                    className="h-11"
                     {...field}
                   />
                 </FormControl>
@@ -121,14 +121,13 @@ function ForgotPasswordForm() {
           <Button
             size={"lg"}
             disabled={isLoading}
-            className="gap-2 group text-white h-12 w-full font-bold text-base bg-black"
+            className="gap-2 group text-white h-12 w-full font-medium font-dms text-base bg-dark-orange hover:bg-main-blue"
           >
             {isLoading ? (
               <Loader2 className="size-5 animate-spin" />
             ) : (
               <>
                 <span>Send Reset Link</span>
-                <ArrowRight className="size-5 group-hover:translate-x-4 transition-transform duration-200" />
               </>
             )}
           </Button>

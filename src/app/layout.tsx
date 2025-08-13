@@ -9,7 +9,6 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
 });
 
-
 export const metadata: Metadata = {
   title: "Quick Estimate AI - Instant Job Estimates",
   description:
@@ -46,7 +45,6 @@ export const metadata: Metadata = {
   },
 };
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -56,7 +54,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${dmSans.variable} antialiased`}>
         <Providers>
-          <NextTopLoader color="#000000" showSpinner={false} />
+          <NextTopLoader color="#41576F" showSpinner={false} />
           {children}
 
           <Toaster
