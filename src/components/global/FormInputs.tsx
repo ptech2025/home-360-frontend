@@ -5,10 +5,16 @@ import dynamic from "next/dynamic";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { CloudUpload } from "lucide-react";
+import { CloudUpload, Loader2, MapPin } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 import { TagsInput } from "../ui/tags-input";
+import { getCurrentLocation } from "@/utils/funcs";
+import { validateUserLocation } from "@/services/user";
+import { renderAxiosOrAuthError } from "@/lib/axios-client";
+import { toast } from "sonner";
+import { Button } from "../ui/button";
+import { Slider } from "../ui/slider";
 
 const IntlTelInput = dynamic(() => import("intl-tel-input/reactWithUtils"), {
   ssr: false,
@@ -23,7 +29,7 @@ export function PhoneInput({
   setPhoneNumber: (value: string) => void;
 }) {
   return (
-    <div className={className}>
+    <div>
       <IntlTelInput
         onChangeNumber={setPhoneNumber}
         initOptions={{
@@ -115,3 +121,144 @@ export function UploadCompanyLogoInput({
   );
 }
 
+export function MarkupPercentInput({
+  markupPercent,
+  setMarkupPercent,
+}: {
+  markupPercent: number;
+  setMarkupPercent: (num: number) => void;
+}) {
+  return (
+    <div className="flex flex-col gap-6">
+      <div className="flex gap-1 flex-col">
+        <p className="text-sm font-medium text-main-blue/80 ">
+          Set your default markup percentage. You can always change this per
+          estimate.
+        </p>
+        <span className="text-xs font-medium text-main-blue/80">
+          This will not be visible to your clients.
+        </span>
+      </div>
+      <div className="border border-input rounded-lg p-4 gap-5 flex flex-col justify-center items-center">
+        <div className="flex flex-col gap-1 items-center">
+          <span className="text-xs font-medium text-main-blue/80">Markup</span>
+          <span className="text-xl font-medium text-main-blue">
+            {markupPercent} %
+          </span>
+        </div>
+
+        <Slider
+          value={[markupPercent]}
+          step={1}
+          max={100}
+          onValueChange={(value) => {
+            setMarkupPercent(value[0]);
+          }}
+        />
+
+        <Button
+          type="button"
+          onClick={() => setMarkupPercent(0)}
+          className="text-dark-orange"
+          variant={"link"}
+        >
+          Use AI’s Suggested Estimate
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+export function LocationSelectionInput({
+  handleLocationSelect,
+}: {
+  handleLocationSelect: (data: {
+    address: string;
+    mode: "auto" | "manual";
+    isValid: boolean;
+  }) => void;
+}) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleAutoSelect = async () => {
+    setIsLoading(true);
+
+    try {
+      const position = await getCurrentLocation();
+      const { latitude, longitude } = position.coords;
+
+      console.log(latitude, longitude);
+
+      const { address, isInUSA } = await validateUserLocation({
+        latitude,
+        longitude,
+      });
+      console.log(address, isInUSA);
+      handleLocationSelect({
+        address: isInUSA ? address : "",
+        mode: "manual",
+        isValid: isInUSA,
+      });
+      if (!isInUSA) {
+        toast.error(
+          "We do not currently support estimates outside of the USA."
+        );
+      }
+    } catch (err) {
+      console.log(err);
+      const msg = renderAxiosOrAuthError(err);
+
+      toast.error(msg);
+      handleLocationSelect({
+        address: "",
+        mode: "manual",
+        isValid: false,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  return (
+    <div className="border border-input rounded-lg p-4 gap-5 flex flex-col justify-center items-center">
+      <div className="size-10 flex items-center justify-center shrink-0 border border-input rounded-lg p-2">
+        <MapPin className="size-5 text-main-blue/80" />
+      </div>
+      <p className="text-sm text-main-blue/80 text-center">
+        Choose your pricing location or enable location access for automatic
+        estimates.{" "}
+      </p>
+      <Button
+        type="button"
+        className="h-12 w-full hover:bg-main-blue bg-dark-orange"
+        onClick={handleAutoSelect}
+        disabled={isLoading}
+        size="lg"
+      >
+        {isLoading ? (
+          <Loader2 className="animate-spin" />
+        ) : (
+          <span>Allow location access</span>
+        )}
+      </Button>
+      <Button
+        type="button"
+        className="h-12 w-full hover:bg-dark-orange/50 bg-dark-orange/10 text-dark-orange border border-dark-orange"
+        onClick={() =>
+          handleLocationSelect({
+            address: "",
+            mode: "manual",
+            isValid: false,
+          })
+        }
+        disabled={isLoading}
+        size="lg"
+      >
+        <span>Choose Manually</span>
+      </Button>
+    </div>
+  );
+}
+
+export function ManualLocationSelectionInput() {
+  return <div></div>;
+}

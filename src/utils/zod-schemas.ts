@@ -93,12 +93,8 @@ export const companyTradeSchema = z.object({
 
 export const pricingSchema = z.object({
   markupPercentage: z
-    .number()
-    .min(1, { message: "Markup percentage is required" }),
-  location: z.object({
-    lat: z.number(),
-    lng: z.number(),
-  }),
+    .number(),
+  location: z.string().min(1, { message: "Location is required" }),
 });
 
 export function validateImageFiles() {

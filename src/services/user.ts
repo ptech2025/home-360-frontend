@@ -25,20 +25,22 @@ export const fetchUserClient = async () => {
   }
 };
 
-export const saveUserLocation = async ({
-  lat,
-  lng,
+export const validateUserLocation = async ({
+  latitude,
+  longitude,
 }: {
-  lat: number;
-  lng: number;
+  latitude: number;
+  longitude: number;
 }) => {
-  return await axios.put(
-    `${API_URL}/api/user/location`,
-    { lat, lng },
+  const res: { data: { address: string; isInUSA: boolean } } = await axios.post(
+    `${API_URL}/api/user/validate-location`,
+    { latitude, longitude },
     {
       withCredentials: true,
     }
   );
+
+  return res.data;
 };
 
 export const saveOrgOnboardingInfo = async (data: OrgInfoSchemaType) => {

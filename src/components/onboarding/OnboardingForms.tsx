@@ -26,7 +26,13 @@ import {
   pricingSchema,
 } from "@/utils/zod-schemas";
 import { Input } from "@/components/ui/input";
-import { PhoneInput, UploadCompanyLogoInput } from "../global/FormInputs";
+import {
+  LocationSelectionInput,
+  ManualLocationSelectionInput,
+  MarkupPercentInput,
+  PhoneInput,
+  UploadCompanyLogoInput,
+} from "../global/FormInputs";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   saveOrgOnboardingInfo,
@@ -373,29 +379,29 @@ export function TradeOnboardingForm() {
 }
 
 export function PricingOnboardingForm() {
-  const { setCurrentPage } = useOnboardingStore();
   const queryClient = useQueryClient();
+  const [locationSelectionMode, setLocationSelectionMode] = useState<
+    "auto" | "manual"
+  >("auto");
+  const [isLocationValid, setIsLocationValid] = useState(false);
 
-  const defaultValues: OrgInfoSchemaType = {
-    companyName: "",
-    phoneNumber: "",
-    license: undefined,
-    companyLogo: undefined,
+  const defaultValues: PricingSchemaType = {
+    location: "",
+    markupPercentage: 0,
   };
 
-  const form = useForm<OrgInfoSchemaType>({
-    resolver: zodResolver(orgInfoSchema),
+  const form = useForm<PricingSchemaType>({
+    resolver: zodResolver(pricingSchema),
     mode: "onChange",
     defaultValues,
   });
 
   const { mutate, isPending: isLoading } = useMutation({
-    mutationFn: async (data: OrgInfoSchemaType) => {
-      return saveOrgOnboardingInfo(data);
+    mutationFn: async (data: PricingSchemaType) => {
+      return "";
     },
     onSuccess: () => {
       form.reset(defaultValues);
-      setCurrentPage(2);
       toast.success("Successfully saved!");
       queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
@@ -406,15 +412,25 @@ export function PricingOnboardingForm() {
     },
   });
 
-  const setLogo = async (logo: File) => {
-    form.setValue("companyLogo", logo, { shouldValidate: true });
-    const isValid = await form.trigger("companyLogo");
-    if (!isValid) {
-      form.setValue("companyLogo", undefined);
-    }
+  const handleLocationSelection = ({
+    address,
+    mode,
+    isValid,
+  }: {
+    address: string;
+    mode: "auto" | "manual";
+    isValid: boolean;
+  }) => {
+    form.setValue("location", address, { shouldValidate: true });
+    setLocationSelectionMode(mode);
+    setIsLocationValid(isValid);
   };
 
-  const onSubmit = (values: OrgInfoSchemaType) => {
+  const handleMarkupChange = (value: number) => {
+    form.setValue("markupPercentage", value, { shouldValidate: true });
+  };
+
+  const onSubmit = (values: PricingSchemaType) => {
     mutate(values);
   };
 
@@ -435,20 +451,69 @@ export function PricingOnboardingForm() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex w-full justify-center  flex-col gap-4"
         >
-        
-          <Button
-            size={"lg"}
-            disabled={isLoading}
-            className="gap-2 group text-white h-12 w-full font-medium font-dms text-base bg-dark-orange hover:bg-main-blue"
-          >
-            {isLoading ? (
-              <Loader2 className="size-5 animate-spin" />
-            ) : (
-              <>
-                <span>Continue</span>
-              </>
-            )}
-          </Button>
+          {locationSelectionMode === "auto" ? (
+            <LocationSelectionInput
+              handleLocationSelect={handleLocationSelection}
+            />
+          ) : (
+            <>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                  duration: 0.5,
+                  ease: "easeIn",
+                  type: "spring",
+                  stiffness: 100,
+                }}
+              >
+                <ManualLocationSelectionInput />
+                
+              </motion.div>
+              {
+
+                isLocationValid && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{
+                    duration: 0.5,
+                    ease: "easeIn",
+                    type: "spring",
+                    stiffness: 100,
+                  }}
+                >
+                  <FormField
+                    control={form.control}
+                    name="markupPercentage"
+                    render={({ field }) => (
+                      <FormItem className="w-full grid-cols-1 gap-1">
+                        <MarkupPercentInput
+                          markupPercent={field.value}
+                          setMarkupPercent={handleMarkupChange}
+                        />
+                        <FormMessage className="text-xs" />
+                      </FormItem>
+                    )}
+                  />
+                </motion.div>
+                )
+              }
+              <Button
+                size={"lg"}
+                disabled={isLoading}
+                className="gap-2 group text-white h-12 w-full font-medium font-dms text-base bg-dark-orange hover:bg-main-blue"
+              >
+                {isLoading ? (
+                  <Loader2 className="size-5 animate-spin" />
+                ) : (
+                  <>
+                    <span>Continue</span>
+                  </>
+                )}
+              </Button>
+            </>
+          )}
         </form>
       </Form>
     </motion.div>
