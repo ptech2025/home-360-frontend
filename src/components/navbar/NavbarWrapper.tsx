@@ -13,7 +13,7 @@ function NavbarWrapper() {
         </Link>
         <div className="flex gap-3 items-center">
           <a
-            href="https://web.facebook.com/people/Quick-Estimate/61579318614985/"
+            href="https://m.facebook.com/quickestimateai/"
             className="rounded-full hover:shadow hover:shadow-[#061C3D0D] hover:bg-dark-orange text-main-blue transition-all hover:text-white hover:border-white border border-main-blue grid place-items-center p-2"
           >
             <TiSocialFacebook className=" size-5" />

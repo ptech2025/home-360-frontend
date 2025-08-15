@@ -1,3 +1,4 @@
+import { phoneNumber } from "better-auth/plugins/phone-number";
 import { z } from "zod";
 import { fromError } from "zod-validation-error";
 
@@ -52,16 +53,6 @@ export const contactFormSchema = z.object({
     .min(5, { message: "Message must be at least 5 characters long" }),
 });
 
-export const requestQuoteFormSchema = z.object({
-  fullName: z.string().min(1, { message: "Full Name is required" }),
-  phoneNumber: z.string().min(1, { message: "Phone number is required" }),
-  service: z.string().min(1, { message: "Service is required" }),
-  budget: z.string().min(1, { message: "Budget is required" }),
-  message: z
-    .string()
-    .min(5, { message: "Message must be at least 5 characters long" }),
-});
-
 export const profileSchema = z.object({
   firstName: z.string().min(1, { message: "First Name is required" }),
   lastName: z.string().min(1, { message: "Last Name is required" }),
@@ -85,9 +76,40 @@ export const waitListSchema = z.object({
   trade: z.string().optional(),
 });
 
+export const orgInfoSchema = z.object({
+  companyName: z.string().min(1, { message: "Business Name is required" }),
+  phoneNumber: z
+    .string()
+    .min(12, { message: "Please enter a valid US phone number" }),
+  license: z.string().optional(),
+  companyLogo: validateImageFile().optional(),
+});
+
+export const companyTradeSchema = z.object({
+  companyTrade: z
+    .array(z.string())
+    .min(1, { message: "At least one trade is required" }),
+});
+
+export const pricingSchema = z.object({
+  markupPercentage: z
+    .number()
+    .min(1, { message: "Markup percentage is required" }),
+  location: z.object({
+    lat: z.number(),
+    lng: z.number(),
+  }),
+});
+
 export function validateImageFiles() {
   const maxUploadSize = 2 * 1024 * 1024; // 2MB
-  const acceptedFileTypes = ["image/"];
+  const acceptedFileTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/gif",
+    "image/jpg",
+  ];
 
   return z
     .array(z.instanceof(File))
@@ -101,7 +123,7 @@ export function validateImageFiles() {
         files.every((file) =>
           acceptedFileTypes.some((type) => file.type.startsWith(type))
         ),
-      "All files must be valid image types"
+      "File must be a valid image type (JPEG, PNG, WebP, GIF, JPG)"
     );
 }
 
@@ -112,6 +134,7 @@ function validateImageFile() {
     "image/png",
     "image/webp",
     "image/gif",
+    "image/jpg",
   ];
   return z
     .instanceof(File)
@@ -120,7 +143,7 @@ function validateImageFile() {
     }, `File size must be less than 2 MB`)
     .refine((file) => {
       return !file || acceptedFileTypes.includes(file.type);
-    }, "File must be a valid image type (JPEG, PNG, WebP, GIF)");
+    }, "File must be a valid image type (JPEG, PNG, WebP, GIF, JPG)");
 }
 
 export function validateWithZodSchema<T>(
@@ -142,3 +165,8 @@ export type ResetPasswordSchemaType = z.infer<typeof resetPasswordSchema>;
 export type ForgotPasswordSchemaType = z.infer<typeof forgotPasswordSchema>;
 export type ContactFormSchemaType = z.infer<typeof contactFormSchema>;
 export type WaitListSchemaType = z.infer<typeof waitListSchema>;
+export type ProfileSchemaType = z.infer<typeof profileSchema>;
+
+export type OrgInfoSchemaType = z.infer<typeof orgInfoSchema>;
+export type CompanyTradeSchemaType = z.infer<typeof companyTradeSchema>;
+export type PricingSchemaType = z.infer<typeof pricingSchema>;

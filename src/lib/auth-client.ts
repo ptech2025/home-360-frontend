@@ -5,30 +5,6 @@ export const authClient = createAuthClient({
   plugins: [
     inferAdditionalFields({
       user: {
-        phoneNumber: {
-          type: "string",
-          input: false,
-        },
-        companyLogo: {
-          type: "string",
-          input: false,
-        },
-        companyName: {
-          type: "string",
-          input: false,
-        },
-        location: {
-          type: "string",
-          input: false,
-        },
-        jobTitle: {
-          type: "string",
-          input: false,
-        },
-        priceMarkupPercentage: {
-          type: "number",
-          input: false,
-        },
         isOnboarded: {
           type: "boolean",
           input: false,
@@ -42,3 +18,7 @@ export const authClient = createAuthClient({
     adminClient(),
   ],
 });
+
+export type SessionType = NonNullable<
+  ReturnType<typeof authClient.useSession>["data"]
+>;

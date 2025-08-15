@@ -134,3 +134,15 @@
     @apply cursor-pointer disabled:cursor-not-allowed!;
   }
 }
+
+.iti {
+  @apply font-dm has-invalid:ring-destructive/20  has-invalid:border-destructive text-black focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]  bg-white outline-0 border border-input placeholder:text-sm placeholder:text-main-blue w-full  text-base  rounded-md h-11  py-1 px-3;
+}
+
+.iti__tel-input:focus-visible {
+  @apply outline-0;
+}
+
+.iti__tel-input {
+  @apply w-full pl-[45px]! bottom-[-5px]!;
+}

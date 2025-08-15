@@ -52,7 +52,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${dmSans.variable} antialiased`}>
+      <body className={`${dmSans.variable} antialiased font-dm`}>
         <Providers>
           <NextTopLoader color="#41576F" showSpinner={false} />
           {children}
@@ -61,7 +61,7 @@ export default function RootLayout({
             position="top-center"
             richColors
             toastOptions={{
-              className: "md:min-w-[500px] justify-center  rounded-3xl! py-6!",
+              className: "md:min-w-[500px] justify-center  py-4!",
             }}
           />
         </Providers>

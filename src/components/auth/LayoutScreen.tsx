@@ -1,6 +1,6 @@
 function LayoutScreen() {
   return (
-    <div className="flex p-4 relative overflow-clip  bg-[url(/images/auth-layout.jpg)] bg-cover bg-center items-center max-h-[950px] h-full  justify-center rounded-[1.25rem]">
+    <div className="hidden md:flex p-4 relative overflow-clip  bg-[url(/images/auth-layout.jpg)] bg-cover bg-center items-center max-h-[950px] h-full  justify-center rounded-[1.25rem]">
       <div className="bg-gradient-to-b inset-0 absolute from-dark-orange/37 to-main-blue"></div>
       <div className="w-full relative z-10 flex-col h-[80%] flex items-center justify-between gap-4">
         <div className="flex flex-col gap-1.5 items-center">
