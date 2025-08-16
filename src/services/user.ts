@@ -5,7 +5,7 @@ import {
   PricingSchemaType,
 } from "@/utils/zod-schemas";
 import axios from "axios";
-import { AuthUserType } from "@/types";
+import { AuthUserType, PlaceSuggestion } from "@/types";
 
 export const fetchUserClient = async () => {
   try {
@@ -77,4 +77,21 @@ export const savePricingOnboardingInfo = async (data: PricingSchemaType) => {
   return await axios.patch(`${API_URL}/api/user/complete-onboarding`, data, {
     withCredentials: true,
   });
+};
+
+export const fetchPlaces = async (
+  query: string
+): Promise<PlaceSuggestion[]> => {
+  const res: { data: { suggestions: PlaceSuggestion[] } } = await axios.get(
+    `${API_URL}/api/user/places`,
+    {
+      params: { query },
+      withCredentials: true,
+    }
+  );
+
+  return res.data.suggestions.map((s) => ({
+    description: s.description.trim(),
+    placeId: s.placeId,
+  }));
 };

@@ -1,3 +1,6 @@
+// utils/fetchPlaces.ts
+
+
 export const getCurrentLocation = (): Promise<GeolocationPosition> => {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {

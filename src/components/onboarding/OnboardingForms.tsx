@@ -466,39 +466,36 @@ export function PricingOnboardingForm() {
                   type: "spring",
                   stiffness: 100,
                 }}
+                className="flex flex-col gap-6"
               >
-                <ManualLocationSelectionInput />
-                
-              </motion.div>
-              {
+                <FormField
+                  control={form.control}
+                  name="location"
+                  render={({ field }) => (
+                    <FormItem className="w-full grid-cols-1 gap-1">
+                      <ManualLocationSelectionInput
+                        value={field.value}
+                        handleLocationSelect={handleLocationSelection}
+                      />
+                    </FormItem>
+                  )}
+                />
 
-                isLocationValid && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{
-                    duration: 0.5,
-                    ease: "easeIn",
-                    type: "spring",
-                    stiffness: 100,
-                  }}
-                >
-                  <FormField
-                    control={form.control}
-                    name="markupPercentage"
-                    render={({ field }) => (
-                      <FormItem className="w-full grid-cols-1 gap-1">
-                        <MarkupPercentInput
-                          markupPercent={field.value}
-                          setMarkupPercent={handleMarkupChange}
-                        />
-                        <FormMessage className="text-xs" />
-                      </FormItem>
-                    )}
-                  />
-                </motion.div>
-                )
-              }
+                <FormField
+                  control={form.control}
+                  name="markupPercentage"
+                  render={({ field }) => (
+                    <FormItem className="w-full grid-cols-1 gap-1">
+                      <MarkupPercentInput
+                        markupPercent={field.value}
+                        setMarkupPercent={handleMarkupChange}
+                      />
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
               <Button
                 size={"lg"}
                 disabled={isLoading}

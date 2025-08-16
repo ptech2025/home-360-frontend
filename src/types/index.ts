@@ -15,3 +15,8 @@ export type ProfileType = {
 export type AuthUserType = SessionType["user"] & {
   profile: ProfileType | null;
 };
+
+export type PlaceSuggestion = {
+  description: string;
+  placeId: string;
+};

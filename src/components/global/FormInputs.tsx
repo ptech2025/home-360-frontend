@@ -8,13 +8,13 @@ import { Input } from "../ui/input";
 import { CloudUpload, Loader2, MapPin } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
-import { TagsInput } from "../ui/tags-input";
 import { getCurrentLocation } from "@/utils/funcs";
 import { validateUserLocation } from "@/services/user";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { Slider } from "../ui/slider";
+import Autocomplete from "../onboarding/Autocomplete";
 
 const IntlTelInput = dynamic(() => import("intl-tel-input/reactWithUtils"), {
   ssr: false,
@@ -193,7 +193,6 @@ export function LocationSelectionInput({
         latitude,
         longitude,
       });
-      console.log(address, isInUSA);
       handleLocationSelect({
         address: isInUSA ? address : "",
         mode: "manual",
@@ -259,6 +258,73 @@ export function LocationSelectionInput({
   );
 }
 
-export function ManualLocationSelectionInput() {
-  return <div></div>;
+export function ManualLocationSelectionInput({
+  handleLocationSelect,
+  value,
+}: {
+  value: string;
+  handleLocationSelect: (data: {
+    address: string;
+    mode: "auto" | "manual";
+    isValid: boolean;
+  }) => void;
+}) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleAutoSelect = async () => {
+    setIsLoading(true);
+
+    try {
+      const position = await getCurrentLocation();
+      const { latitude, longitude } = position.coords;
+
+      console.log(latitude, longitude);
+
+      const { address, isInUSA } = await validateUserLocation({
+        latitude,
+        longitude,
+      });
+      handleLocationSelect({
+        address: isInUSA ? address : "",
+        mode: "manual",
+        isValid: isInUSA,
+      });
+      if (!isInUSA) {
+        toast.error(
+          "We do not currently support estimates outside of the USA."
+        );
+      }
+    } catch (err) {
+      console.log(err);
+      const msg = renderAxiosOrAuthError(err);
+
+      toast.error(msg);
+      handleLocationSelect({
+        address: "",
+        mode: "manual",
+        isValid: false,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleManualSelect = (address: string) => {
+    handleLocationSelect({
+      address,
+      mode: "manual",
+      isValid: true,
+    });
+  };
+
+  return (
+    <div className="w-full flex-col gap-6 flex">
+      <Autocomplete
+        onChange={handleManualSelect}
+        value={value}
+        isAllowAccessLoading={isLoading}
+        handleAutoSelect={handleAutoSelect}
+      />
+    </div>
+  );
 }
