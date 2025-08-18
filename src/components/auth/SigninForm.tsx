@@ -24,7 +24,7 @@ import { GoogleIcon } from "../global/Icons";
 import EmailVerificationSent from "./EmailVerificationSent";
 
 function SignInForm() {
-  const { push } = useRouter();
+  const {} = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -52,14 +52,15 @@ function SignInForm() {
       {
         email: values.email,
         password: values.password,
+        callbackURL: "/onboarding",
       },
       {
         onRequest: () => {
           setIsLoading(true);
         },
         onSuccess: async () => {
+          // push("/onboarding");
           toast.success("Signed in successfully.");
-          push("/onboarding");
         },
         onError: (ctx) => {
           console.log(ctx);
