@@ -129,9 +129,9 @@ async function WaitListPage() {
                 What to Expect
               </h2>
               <p className="text-main-blue max-w-md lg:max-w-xl text-end text-sm md:text-base">
-                Whether you're a contractor, remodeler, plumber, electrician, or
-                handyman, our AI-powered platform helps you generate fast,
-                accurate job estimates with just a few clicks
+                Whether you&apos;re a contractor, remodeler, plumber,
+                electrician, or handyman, our AI-powered platform helps you
+                generate fast, accurate job estimates with just a few clicks
               </p>
             </div>
           </div>

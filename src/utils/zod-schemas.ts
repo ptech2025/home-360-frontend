@@ -1,4 +1,3 @@
-import { phoneNumber } from "better-auth/plugins/phone-number";
 import { z } from "zod";
 import { fromError } from "zod-validation-error";
 
@@ -92,8 +91,7 @@ export const companyTradeSchema = z.object({
 });
 
 export const pricingSchema = z.object({
-  markupPercentage: z
-    .number(),
+  markupPercentage: z.number(),
   location: z.string().min(1, { message: "Location is required" }),
 });
 

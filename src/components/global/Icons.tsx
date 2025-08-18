@@ -7,6 +7,7 @@ export const ScrewIcon = ({ className }: IconProps) => {
     <svg
       width="32"
       height="32"
+      className={className}
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -21,15 +22,15 @@ export const ScrewIcon = ({ className }: IconProps) => {
           d="M16 21C18.7614 21 21 18.7614 21 16C21 13.2386 18.7614 11 16 11C13.2386 11 11 13.2386 11 16C11 18.7614 13.2386 21 16 21Z"
           stroke="#263238"
           strokeWidth="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M5.17867 22.2613C4.62614 21.3096 4.20283 20.2885 3.91992 19.225L6.01742 16.6C5.99367 16.1987 5.99367 15.7964 6.01742 15.395L3.92117 12.77C4.2036 11.7064 4.62604 10.685 5.17742 9.73254L8.51617 9.35754C8.78279 9.05716 9.06704 8.77291 9.36742 8.50629L9.74242 5.16879C10.6935 4.62004 11.7132 4.20011 12.7749 3.92004L15.3999 6.01754C15.8012 5.99379 16.2036 5.99379 16.6049 6.01754L19.2299 3.92129C20.2936 4.20372 21.315 4.62616 22.2674 5.17754L22.6424 8.51629C22.9428 8.78291 23.2271 9.06716 23.4937 9.36754L26.8312 9.74254C27.3837 10.6942 27.807 11.7153 28.0899 12.7788L25.9924 15.4038C26.0162 15.8051 26.0162 16.2075 25.9924 16.6088L28.0887 19.2338C27.8082 20.2971 27.3879 21.3186 26.8387 22.2713L23.4999 22.6463C23.2333 22.9467 22.9491 23.2309 22.6487 23.4975L22.2737 26.835C21.322 27.3876 20.3009 27.8109 19.2374 28.0938L16.6124 25.9963C16.2111 26.02 15.8087 26.02 15.4074 25.9963L12.7824 28.0925C11.7191 27.8121 10.6977 27.3918 9.74492 26.8425L9.36992 23.5038C9.06954 23.2372 8.78529 22.9529 8.51867 22.6525L5.17867 22.2613Z"
           stroke="#263238"
           strokeWidth="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </g>
       <defs>
@@ -46,6 +47,7 @@ export const CubeIcon = ({ className }: IconProps) => {
     <svg
       width="32"
       height="32"
+      className={className}
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -60,22 +62,22 @@ export const CubeIcon = ({ className }: IconProps) => {
           d="M4.08789 9.61499L16.0004 16.135L27.9129 9.61499"
           stroke="#263238"
           strokeWidth="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M16.48 3.12505L27.48 9.14755C27.6371 9.23349 27.7682 9.36003 27.8597 9.51394C27.9511 9.66786 27.9996 9.84351 28 10.0226V21.9776C27.9996 22.1566 27.9511 22.3322 27.8597 22.4862C27.7682 22.6401 27.6371 22.7666 27.48 22.8526L16.48 28.8751C16.3328 28.9556 16.1678 28.9978 16 28.9978C15.8322 28.9978 15.6672 28.9556 15.52 28.8751L4.52 22.8526C4.36293 22.7666 4.23181 22.6401 4.14035 22.4862C4.04888 22.3322 4.00041 22.1566 4 21.9776V10.0226C4.00041 9.84351 4.04888 9.66786 4.14035 9.51394C4.23181 9.36003 4.36293 9.23349 4.52 9.14755L15.52 3.12505C15.6672 3.04453 15.8322 3.00232 16 3.00232C16.1678 3.00232 16.3328 3.04453 16.48 3.12505Z"
           stroke="#263238"
           strokeWidth="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M16 16.1362V29"
           stroke="#263238"
           strokeWidth="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </g>
       <defs>
@@ -93,6 +95,7 @@ export const ElectricIcon = ({ className }: IconProps) => {
       width="32"
       height="32"
       viewBox="0 0 32 32"
+      className={className}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -106,8 +109,8 @@ export const ElectricIcon = ({ className }: IconProps) => {
           d="M20 2L18 12L26 15L12 30L14 20L6 17L20 2Z"
           stroke="#263238"
           strokeWidth="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </g>
       <defs>
@@ -124,6 +127,7 @@ export const PipeIcon = ({ className }: IconProps) => {
       width="32"
       height="32"
       viewBox="0 0 32 32"
+      className={className}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -137,57 +141,57 @@ export const PipeIcon = ({ className }: IconProps) => {
           d="M14 21V18C14 16.9391 14.4214 15.9217 15.1716 15.1716C15.9217 14.4214 16.9391 14 18 14H21"
           stroke="#263238"
           strokeWidth="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M21 6H18C14.8174 6 11.7652 7.26428 9.51472 9.51472C7.26428 11.7652 6 14.8174 6 18V21"
           stroke="#263238"
           strokeWidth="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M24 5H22C21.4477 5 21 5.44772 21 6V14C21 14.5523 21.4477 15 22 15H24C24.5523 15 25 14.5523 25 14V6C25 5.44772 24.5523 5 24 5Z"
           stroke="#263238"
           strokeWidth="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M14 21H6C5.44772 21 5 21.4477 5 22V24C5 24.5523 5.44772 25 6 25H14C14.5523 25 15 24.5523 15 24V22C15 21.4477 14.5523 21 14 21Z"
           stroke="#263238"
           strokeWidth="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M14 25V29"
           stroke="#263238"
           strokeWidth="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M6 25V29"
           stroke="#263238"
           strokeWidth="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M29 6H25"
           stroke="#263238"
           strokeWidth="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M29 14H25"
           stroke="#263238"
           strokeWidth="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </g>
       <defs>

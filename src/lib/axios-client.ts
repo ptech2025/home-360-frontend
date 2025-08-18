@@ -6,7 +6,7 @@ function isErrorContext(error: unknown): error is ErrorContext {
     typeof error === "object" &&
     error !== null &&
     "error" in error &&
-    (error as any).error instanceof Error
+    error instanceof Error
   );
 }
 export const createAxios = (cookie?: string) => {

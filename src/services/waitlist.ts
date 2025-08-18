@@ -1,4 +1,3 @@
-import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import { API_URL } from "@/utils/constants";
 import axios from "axios";
 

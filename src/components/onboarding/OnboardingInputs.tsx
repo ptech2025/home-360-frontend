@@ -1,8 +1,3 @@
-"use client";
-import "intl-tel-input/styles";
-
-import dynamic from "next/dynamic";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { ChevronRight, CloudUpload, Loader2, MapPin } from "lucide-react";
@@ -14,7 +9,7 @@ import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { Slider } from "../ui/slider";
-import Autocomplete from "../onboarding/Autocomplete";
+import Autocomplete from "./Autocomplete";
 
 import {
   Dialog,
@@ -23,37 +18,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
-const IntlTelInput = dynamic(() => import("intl-tel-input/reactWithUtils"), {
-  ssr: false,
-  loading: () => <Skeleton className="h-11 w-full" />,
-});
-
-export function PhoneInput({
-  className,
-  setPhoneNumber,
-}: {
-  className: string;
-  setPhoneNumber: (value: string) => void;
-}) {
-  return (
-    <div>
-      <IntlTelInput
-        onChangeNumber={setPhoneNumber}
-        initOptions={{
-          initialCountry: "us",
-          onlyCountries: ["us"],
-          formatOnDisplay: true,
-          allowDropdown: false,
-          formatAsYouType: true,
-          showFlags: true,
-          strictMode: true,
-          separateDialCode: true,
-        }}
-      />
-    </div>
-  );
-}
 
 export function UploadCompanyLogoInput({
   setLogo,

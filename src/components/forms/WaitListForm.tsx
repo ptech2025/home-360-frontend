@@ -18,7 +18,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { waitListSchema, WaitListSchemaType } from "@/utils/zod-schemas";
@@ -148,7 +147,7 @@ function WaitListForm() {
 
           {count !== undefined && count >= 10 && (
             <p className="text-sm text-main-blue text-center lg:text-start">
-              {count} people are already on the waitlist — don't miss out!
+              {count} people are already on the waitlist — don&apos;t miss out!
             </p>
           )}
         </div>

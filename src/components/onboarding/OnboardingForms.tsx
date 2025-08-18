@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import * as motion from "motion/react-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -13,10 +12,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ArrowRight, EyeOff, Eye, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import {
   orgInfoSchema,
   OrgInfoSchemaType,
@@ -30,9 +28,9 @@ import {
   AutoLocationSelectionInput,
   ManualLocationSelectionInput,
   MarkupPercentInput,
-  PhoneInput,
   UploadCompanyLogoInput,
-} from "../global/FormInputs";
+} from "./OnboardingInputs";
+import PhoneInput from "../global/PhoneInput";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   saveOrgOnboardingInfo,
@@ -186,10 +184,7 @@ export function OrgOnboardingForm() {
                   Phone Number
                 </FormLabel>
                 <FormControl>
-                  <PhoneInput
-                    className="w-full"
-                    setPhoneNumber={field.onChange}
-                  />
+                  <PhoneInput setPhoneNumber={field.onChange} />
                 </FormControl>
                 <FormMessage className="text-xs" />
               </FormItem>

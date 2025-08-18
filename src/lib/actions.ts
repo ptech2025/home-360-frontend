@@ -1,11 +1,7 @@
 "use server";
 import { AuthUserType } from "@/types";
 import { API_URL } from "@/utils/constants";
-import {
-  CompanyTradeSchemaType,
-  OrgInfoSchemaType,
-  PricingSchemaType,
-} from "@/utils/zod-schemas";
+
 import axios from "axios";
 import { cookies } from "next/headers";
 
