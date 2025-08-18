@@ -31,6 +31,7 @@ export async function middleware(request: NextRequest) {
   if (isPrivateRoute) {
     console.log("running private route middleware");
     const res = await protectDashboard(request);
+    console.log("private route middlewares", res);
     if (res) return res;
   }
 
@@ -43,6 +44,8 @@ export async function middleware(request: NextRequest) {
   if (isAuthRoute) {
     console.log("running auth route middleware");
     const res = await redirectAuthUser(request);
+    console.log("auth route middlewares", res);
+
     if (res) return res;
   }
 
