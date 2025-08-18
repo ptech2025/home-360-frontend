@@ -15,14 +15,12 @@ const fetchSession = async (req: NextRequest) => {
       },
     }
   );
-  console.log("dashboard session", session, req.headers.get("cookie"));
 
   return session;
 };
 
 export const protectDashboard = async (req: NextRequest) => {
   const session = await fetchSession(req);
-  console.log("dashboard session", session);
   if (!session) {
     return NextResponse.redirect(new URL("/sign-in", req.url));
   } else if (
@@ -45,8 +43,6 @@ export const protectAdmin = async (req: NextRequest) => {
 
 export const redirectAuthUser = async (req: NextRequest) => {
   const session = await fetchSession(req);
-
-  console.log("dashboard session", session);
 
   if (session) {
     const redirectPath = session.user.isOnboarded
