@@ -24,6 +24,7 @@ import EmailVerificationSent from "./EmailVerificationSent";
 
 function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showVerifyEmail, setShowVerifyEmail] = useState(false);
   const form = useForm<SignUpSchemaType>({
@@ -38,11 +39,25 @@ function SignUpForm() {
   });
 
   const signInWithGoogle = async () => {
-    await authClient.signIn.social({
-      provider: "google",
-      newUserCallbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
-      callbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
-    });
+    await authClient.signIn.social(
+      {
+        provider: "google",
+        newUserCallbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
+        callbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
+      },
+      {
+        onRequest: () => {
+          setIsGoogleLoading(true);
+        },
+        onError: (ctx) => {
+          console.log(ctx);
+          toast.error(
+            ctx.error.message ?? "Something went wrong, try again later."
+          );
+        },
+      }
+    );
+    setIsGoogleLoading(false);
   };
 
   const onSubmit = async (values: SignUpSchemaType) => {
@@ -198,7 +213,7 @@ function SignUpForm() {
 
             <Button
               size={"lg"}
-              disabled={isLoading}
+              disabled={isLoading || isGoogleLoading}
               className="gap-2 group text-white h-12 w-full font-medium font-dms text-base bg-dark-orange hover:bg-main-blue"
             >
               {isLoading ? (
@@ -218,11 +233,17 @@ function SignUpForm() {
               type="button"
               size={"lg"}
               onClick={signInWithGoogle}
-              disabled={isLoading}
+              disabled={isLoading || isGoogleLoading}
               className="gap-2 group text-black h-12 w-full font-medium font-dm text-base bg-white hover:bg-main-blue/20 border border-main-blues"
             >
-              <GoogleIcon className="size-5" />
-              <span>Continue with Google</span>
+              {isGoogleLoading ? (
+                <Loader2 className="size-5 animate-spin" />
+              ) : (
+                <>
+                  <GoogleIcon className="size-5" />
+                  <span>Continue with Google</span>
+                </>
+              )}
             </Button>
           </form>
         </Form>
