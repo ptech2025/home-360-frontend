@@ -9,6 +9,8 @@ export const fetchUserServer = async () => {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
 
+  console.log(cookieHeader);
+
   try {
     const res: { data: { user: AuthUserType } } = await axios.get(
       `${API_URL}/api/auth/get-session`,

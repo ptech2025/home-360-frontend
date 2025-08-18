@@ -11,11 +11,11 @@ async function OnboardingPage() {
   const queryClient = new QueryClient();
   const user = await fetchUserServer();
 
-  if (!user) {
-    redirect("/sign-in");
-  }
+  // if (!user) {
+  //   redirect("/sign-in");
+  // }
 
-  if (user.isOnboarded) {
+  if (user?.isOnboarded) {
     redirect("/dashboard");
   }
   console.log(user);
