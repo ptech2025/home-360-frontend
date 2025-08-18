@@ -39,12 +39,14 @@ export const protectDashboard = async (req: NextRequest) => {
   const session = await fetchSession(req);
   if (!session) {
     return NextResponse.redirect(new URL("/sign-in", req.url));
-  } else if (
-    !session.user.isOnboarded &&
-    !onboardingRoutes.includes(req.nextUrl.pathname)
-  ) {
-    return NextResponse.redirect(new URL("/onboarding", req.url));
   }
+
+  // else if (
+  //   !session.user.isOnboarded &&
+  //   !onboardingRoutes.includes(req.nextUrl.pathname)
+  // ) {
+  //   return NextResponse.redirect(new URL("/onboarding", req.url));
+  // }
   return NextResponse.next();
 };
 
