@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { CloudUpload, Loader2, MapPin } from "lucide-react";
+import { ChevronRight, CloudUpload, Loader2, MapPin } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 import { getCurrentLocation } from "@/utils/funcs";
@@ -15,6 +15,14 @@ import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { Slider } from "../ui/slider";
 import Autocomplete from "../onboarding/Autocomplete";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const IntlTelInput = dynamic(() => import("intl-tel-input/reactWithUtils"), {
   ssr: false,
@@ -169,16 +177,18 @@ export function MarkupPercentInput({
   );
 }
 
-export function LocationSelectionInput({
+export function AutoLocationSelectionInput({
   handleLocationSelect,
+  value,
 }: {
   handleLocationSelect: (data: {
     address: string;
     mode: "auto" | "manual";
-    isValid: boolean;
   }) => void;
+  value: string;
 }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleAutoSelect = async () => {
     setIsLoading(true);
@@ -187,21 +197,19 @@ export function LocationSelectionInput({
       const position = await getCurrentLocation();
       const { latitude, longitude } = position.coords;
 
-      console.log(latitude, longitude);
-
       const { address, isInUSA } = await validateUserLocation({
         latitude,
         longitude,
       });
       handleLocationSelect({
         address: isInUSA ? address : "",
-        mode: "manual",
-        isValid: isInUSA,
+        mode: isInUSA ? "manual" : "auto",
       });
       if (!isInUSA) {
         toast.error(
-          "We do not currently support estimates outside of the USA."
+          "sorry, only locations in the USA are currently supported."
         );
+        setIsOpen(true);
       }
     } catch (err) {
       console.log(err);
@@ -211,12 +219,17 @@ export function LocationSelectionInput({
       handleLocationSelect({
         address: "",
         mode: "manual",
-        isValid: false,
       });
+      setIsOpen(true);
     } finally {
       setIsLoading(false);
     }
   };
+
+  const onChange = (value: string) => {
+    handleLocationSelect({ address: value, mode: "manual" });
+  };
+
   return (
     <div className="border border-input rounded-lg p-4 gap-5 flex flex-col justify-center items-center">
       <div className="size-10 flex items-center justify-center shrink-0 border border-input rounded-lg p-2">
@@ -239,21 +252,30 @@ export function LocationSelectionInput({
           <span>Allow location access</span>
         )}
       </Button>
-      <Button
-        type="button"
-        className="h-12 w-full hover:bg-dark-orange/50 bg-dark-orange/10 text-dark-orange border border-dark-orange"
-        onClick={() =>
-          handleLocationSelect({
-            address: "",
-            mode: "manual",
-            isValid: false,
-          })
-        }
-        disabled={isLoading}
-        size="lg"
-      >
-        <span>Choose Manually</span>
-      </Button>
+
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger asChild>
+          <Button
+            type="button"
+            className="h-12 w-full hover:bg-dark-orange/50 bg-dark-orange/10 text-dark-orange border border-dark-orange"
+            disabled={isLoading}
+            size="lg"
+          >
+            <span>Choose Manually</span>
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[500px] ">
+          <DialogHeader>
+            <DialogTitle>Price Location</DialogTitle>
+          </DialogHeader>
+          <Autocomplete
+            handleAutoSelect={handleAutoSelect}
+            isAllowAccessLoading={isLoading}
+            value={value}
+            onChange={onChange}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
@@ -266,10 +288,10 @@ export function ManualLocationSelectionInput({
   handleLocationSelect: (data: {
     address: string;
     mode: "auto" | "manual";
-    isValid: boolean;
   }) => void;
 }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleAutoSelect = async () => {
     setIsLoading(true);
@@ -278,20 +300,17 @@ export function ManualLocationSelectionInput({
       const position = await getCurrentLocation();
       const { latitude, longitude } = position.coords;
 
-      console.log(latitude, longitude);
-
       const { address, isInUSA } = await validateUserLocation({
         latitude,
         longitude,
       });
       handleLocationSelect({
-        address: isInUSA ? address : "",
+        address: address,
         mode: "manual",
-        isValid: isInUSA,
       });
       if (!isInUSA) {
         toast.error(
-          "We do not currently support estimates outside of the USA."
+          "sorry, only locations in the USA are currently supported."
         );
       }
     } catch (err) {
@@ -302,29 +321,51 @@ export function ManualLocationSelectionInput({
       handleLocationSelect({
         address: "",
         mode: "manual",
-        isValid: false,
       });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleManualSelect = (address: string) => {
+  const onChange = (address: string) => {
     handleLocationSelect({
       address,
       mode: "manual",
-      isValid: true,
     });
   };
 
   return (
     <div className="w-full flex-col gap-6 flex">
-      <Autocomplete
-        onChange={handleManualSelect}
-        value={value}
-        isAllowAccessLoading={isLoading}
-        handleAutoSelect={handleAutoSelect}
-      />
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger asChild>
+          <Button
+            type="button"
+            className="h-20 group justify-between w-full text-lg font-medium rounded-2xl hover:bg-main-blue/10 bg-transparent  text-main-blue/80 border border-input"
+            disabled={isLoading}
+            size="lg"
+          >
+            <div className="inline-flex gap-2 items-center">
+              <div className="size-10 flex items-center justify-center shrink-0 border border-inherit group-hover:border-input rounded-lg p-2">
+                <MapPin className="size-5 text-main-blue" />
+              </div>
+
+              <span>{value ? value : "Choose your location"}</span>
+            </div>
+            <ChevronRight className="size-5 text-main-blue" />
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[500px] ">
+          <DialogHeader>
+            <DialogTitle>Price Location</DialogTitle>
+          </DialogHeader>
+          <Autocomplete
+            handleAutoSelect={handleAutoSelect}
+            isAllowAccessLoading={isLoading}
+            value={value}
+            onChange={onChange}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

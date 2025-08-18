@@ -15,10 +15,7 @@ const steps = [
     label: "Location",
     number: 3,
   },
-  {
-    label: "How it works",
-    number: 4,
-  },
+
 ];
 
 function OnboardingSteps({ currentStep }: { currentStep: number }) {

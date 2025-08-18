@@ -4,10 +4,12 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useDebounce } from "use-debounce";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Loader2, Map } from "lucide-react";
+import { Search, Loader2, Map, MapPin } from "lucide-react";
 import { fetchPlaces } from "@/services/user";
 
 import { PlaceSuggestion } from "@/types";
+import { cn } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
 
 interface AutoCompleteProps {
   isAllowAccessLoading: boolean;
@@ -17,7 +19,7 @@ interface AutoCompleteProps {
 }
 
 export default function Autocomplete({
-  value = "",
+  value,
   isAllowAccessLoading,
   handleAutoSelect,
   onChange,
@@ -26,32 +28,11 @@ export default function Autocomplete({
   const [debouncedQuery] = useDebounce(query, 300);
   const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [isLoading, setIsLoading] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-
-  const fetchSuggestionsCallback = useCallback(async (q: string) => {
-    if (q.trim() === "") {
-      setSuggestions([]);
-      return;
-    }
-    setIsLoading(true);
-    const results = await fetchPlaces(q);
-    setSuggestions(results);
-    setIsLoading(false);
-  }, []);
-
-  useEffect(() => {
-    if (debouncedQuery && isFocused) {
-      fetchSuggestionsCallback(debouncedQuery);
-    } else {
-      setSuggestions([]);
-    }
-  }, [debouncedQuery, fetchSuggestionsCallback, isFocused]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setQuery(newValue);
-    onChange(newValue);
     setSelectedIndex(-1);
   };
 
@@ -68,7 +49,7 @@ export default function Autocomplete({
       e.preventDefault();
       const chosen = suggestions[selectedIndex];
       setQuery(chosen.description);
-      onChange?.(chosen.description);
+      onChange(chosen.description);
       setSuggestions([]);
       setSelectedIndex(-1);
     } else if (e.key === "Escape") {
@@ -93,40 +74,52 @@ export default function Autocomplete({
     }, 200);
   };
 
+  const { isLoading, data } = useQuery({
+    queryKey: ["placeSuggestions", debouncedQuery],
+    queryFn: () => fetchPlaces(debouncedQuery),
+    enabled: Boolean(debouncedQuery.trim()) && isFocused, // only run if query is not empty & input is focused
+    staleTime: 1000 * 60, // cache suggestions for 1 minute
+    gcTime: 1000 * 60 * 5, // keep in memory for 5 minutes
+  });
+
+  useEffect(() => {
+    setSuggestions(data || []);
+  }, [data]);
+
   return (
     <>
-      <div className="w-full relative">
+      <div className={cn("w-full relative min-h-40")}>
         <div className="relative">
+          <Button
+            type="button"
+            size="icon"
+            variant="ghost"
+            className="absolute left-0 top-0 h-full"
+            aria-label="Search"
+          >
+            <Search className="h-4 w-4" />
+          </Button>
           <Input
-            type="text"
+            type="search"
             disabled={isAllowAccessLoading}
-            placeholder="Search..."
+            placeholder="Set your price location"
             value={query}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             onFocus={handleFocus}
             onBlur={handleBlur}
-            className="pr-10 h-11"
+            className="pl-10 h-11"
             aria-label="Search input"
             aria-autocomplete="list"
             aria-controls="suggestions-list"
             aria-expanded={suggestions.length > 0}
           />
-          <Button
-            type="button"
-            size="icon"
-            variant="ghost"
-            className="absolute right-0 top-0 h-full"
-            aria-label="Search"
-          >
-            <Search className="h-4 w-4" />
-          </Button>
         </div>
 
         {/* Loading */}
         {isLoading && isFocused && (
-          <div className="mt-2 p-2 bg-background border rounded-md shadow-sm absolute z-10 w-full">
-            Loading...
+          <div className="mt-2 p-2 bg-background border rounded-md min-h-35 flex items-center justify-center shadow-sm absolute z-10 w-full">
+            <Loader2 className="animate-spin text-main-blue" />
           </div>
         )}
 
@@ -147,20 +140,29 @@ export default function Autocomplete({
                 role="option"
                 aria-selected={index === selectedIndex}
               >
-                {s.description}
+                <div className="flex items-center gap-2 justify-start">
+                  <div className="size-10 flex items-center justify-center shrink-0  bg-input rounded-full p-2">
+                    <MapPin className="size-5 text-main-blue" />
+                  </div>
+                  <span>{s.description}</span>
+                </div>
               </li>
             ))}
           </ul>
         )}
-      </div>
-      {suggestions.length === 0 &&
-        !isLoading &&
-        debouncedQuery.length > 2 &&
-        isFocused && (
-          <div>
+
+        {!isLoading && suggestions.length === 0 && (
+          <div className="flex flex-col items-center p-2 gap-2 mt-2">
+            <div className="size-10 flex items-center justify-center shrink-0 border border-input rounded-lg p-2">
+              <Map className="size-5 text-main-blue/80" />
+            </div>
+            <p className="text-sm text-main-blue/80 text-center">
+              Choose your pricing location or enable location access for
+              automatic estimates.{" "}
+            </p>
             <Button
               type="button"
-              className="h-12 w-full hover:bg-main-blue bg-dark-orange"
+              className="h-12 w-full hover:bg-main-blue bg-dark-orange rounded-4xl max-w-[12rem]"
               onClick={handleAutoSelect}
               disabled={isAllowAccessLoading}
               size="lg"
@@ -173,6 +175,7 @@ export default function Autocomplete({
             </Button>
           </div>
         )}
+      </div>
     </>
   );
 }

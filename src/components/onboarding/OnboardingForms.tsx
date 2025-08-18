@@ -27,7 +27,7 @@ import {
 } from "@/utils/zod-schemas";
 import { Input } from "@/components/ui/input";
 import {
-  LocationSelectionInput,
+  AutoLocationSelectionInput,
   ManualLocationSelectionInput,
   MarkupPercentInput,
   PhoneInput,
@@ -36,6 +36,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   saveOrgOnboardingInfo,
+  savePricingOnboardingInfo,
   saveTradeOnboardingInfo,
 } from "@/services/user";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
@@ -44,6 +45,7 @@ import { nanoid } from "nanoid";
 import { Checkbox } from "../ui/checkbox";
 import { CubeIcon, ElectricIcon, PipeIcon, ScrewIcon } from "../global/Icons";
 import { TagsInput } from "../ui/tags-input";
+import { useRouter } from "next/navigation";
 
 const tradeArr = [
   {
@@ -100,7 +102,6 @@ export function OrgOnboardingForm() {
     onSuccess: () => {
       form.reset(defaultValues);
       setCurrentPage(2);
-      toast.success("Successfully saved!");
       queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
     onError: (error) => {
@@ -250,7 +251,6 @@ export function TradeOnboardingForm() {
     onSuccess: () => {
       form.reset(defaultValues);
       setCurrentPage(3);
-      toast.success("Successfully saved!");
       queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
     onError: (error) => {
@@ -379,11 +379,11 @@ export function TradeOnboardingForm() {
 }
 
 export function PricingOnboardingForm() {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const [locationSelectionMode, setLocationSelectionMode] = useState<
     "auto" | "manual"
   >("auto");
-  const [isLocationValid, setIsLocationValid] = useState(false);
 
   const defaultValues: PricingSchemaType = {
     location: "",
@@ -398,11 +398,10 @@ export function PricingOnboardingForm() {
 
   const { mutate, isPending: isLoading } = useMutation({
     mutationFn: async (data: PricingSchemaType) => {
-      return "";
+      return savePricingOnboardingInfo(data);
     },
     onSuccess: () => {
-      form.reset(defaultValues);
-      toast.success("Successfully saved!");
+      router.push("/dashboard");
       queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
     onError: (error) => {
@@ -415,15 +414,12 @@ export function PricingOnboardingForm() {
   const handleLocationSelection = ({
     address,
     mode,
-    isValid,
   }: {
     address: string;
     mode: "auto" | "manual";
-    isValid: boolean;
   }) => {
     form.setValue("location", address, { shouldValidate: true });
     setLocationSelectionMode(mode);
-    setIsLocationValid(isValid);
   };
 
   const handleMarkupChange = (value: number) => {
@@ -452,8 +448,17 @@ export function PricingOnboardingForm() {
           className="flex w-full justify-center  flex-col gap-4"
         >
           {locationSelectionMode === "auto" ? (
-            <LocationSelectionInput
-              handleLocationSelect={handleLocationSelection}
+            <FormField
+              control={form.control}
+              name="location"
+              render={({ field }) => (
+                <FormItem className="w-full grid-cols-1 gap-1">
+                  <AutoLocationSelectionInput
+                    handleLocationSelect={handleLocationSelection}
+                    value={field.value}
+                  />
+                </FormItem>
+              )}
             />
           ) : (
             <>

@@ -90,6 +90,8 @@ export const fetchPlaces = async (
     }
   );
 
+  if (res.data.suggestions.length === 0) return [];
+
   return res.data.suggestions.map((s) => ({
     description: s.description.trim(),
     placeId: s.placeId,
