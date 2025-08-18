@@ -48,18 +48,18 @@ function SignInForm() {
   };
 
   const onSubmit = async (values: SignInSchemaType) => {
-    const { data } = await authClient.signIn.email(
+    await authClient.signIn.email(
       {
         email: values.email,
         password: values.password,
-        callbackURL: "/onboarding",
+        // callbackURL: "/onboarding",
       },
       {
         onRequest: () => {
           setIsLoading(true);
         },
         onSuccess: async (ctx) => {
-          // console.log(ctx);
+          console.log(ctx);
           toast.success("Signed in successfully.");
         },
         onError: (ctx) => {
@@ -74,7 +74,6 @@ function SignInForm() {
         },
       }
     );
-    console.log(data);
     setIsLoading(false);
   };
 
