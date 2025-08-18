@@ -52,7 +52,7 @@ function SignInForm() {
       {
         email: values.email,
         password: values.password,
-        // callbackURL: "/onboarding",
+        callbackURL: "/onboarding",
       },
       {
         onRequest: () => {
