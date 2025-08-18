@@ -11,17 +11,18 @@ async function OnboardingPage() {
   const queryClient = new QueryClient();
   const user = await fetchUserServer();
 
-  if (!user) {
-    redirect("/sign-in");
-  }
+  // if (!user) {
+  //   redirect("/sign-in");
+  // }
 
-  if (user.isOnboarded) {
-    redirect("/dashboard");
-  }
+  // if (user.isOnboarded) {
+  //   redirect("/dashboard");
+  // }
+  console.log(user);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <OnboardingWrapper profile={user.profile} />
+      <OnboardingWrapper profile={user ? user?.profile : null} />
     </HydrationBoundary>
   );
 }
