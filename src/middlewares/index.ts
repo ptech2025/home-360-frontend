@@ -7,11 +7,6 @@ const onboardingRoutes = ["/onboarding"];
 
 const fetchSession = async (req: NextRequest) => {
   const cookie = req.headers.get("cookie");
-  const tokenKey =
-    process.env.NODE_ENV === "production"
-      ? "__Secure-better-auth.session_token"
-      : "better-auth.session_token";
-  const token = req.cookies.get(tokenKey)?.value;
 
   const { data: session } = await betterFetch<SessionType>(
     "/api/auth/get-session",
@@ -19,18 +14,11 @@ const fetchSession = async (req: NextRequest) => {
       baseURL: API_URL,
       headers: {
         cookie: cookie || "",
-        Authorization: `Bearer ${encodeURIComponent(token || "")}`,
       },
     }
   );
 
-  if (process.env.NODE_ENV === "production") {
-    console.log("staging session", session);
-    console.log("staging token", encodeURIComponent(token || ""));
-  } else {
-    console.log("dev session", session);
-    console.log("dev token", encodeURIComponent(token || ""));
-  }
+  console.log("session token", cookie);
 
   return session;
 };

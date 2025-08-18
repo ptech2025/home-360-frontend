@@ -15,10 +15,10 @@ async function OnboardingPage() {
   //   redirect("/sign-in");
   // }
 
+  console.log(user);
   if (user?.isOnboarded) {
     redirect("/dashboard");
   }
-  console.log(user);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

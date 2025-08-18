@@ -28,24 +28,24 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith(route)
   );
 
-  // if (isPrivateRoute) {
-  //   console.log("running private route middleware");
-  //   const res = await protectDashboard(request);
-  //   if (res) return res;
-  // }
+  if (isPrivateRoute) {
+    console.log("running private route middleware");
+    const res = await protectDashboard(request);
+    if (res) return res;
+  }
 
-  // if (isAdminRoute) {
-  //   console.log("running admin route middleware");
-  //   const res = await protectAdmin(request);
-  //   if (res) return res;
-  // }
+  if (isAdminRoute) {
+    console.log("running admin route middleware");
+    const res = await protectAdmin(request);
+    if (res) return res;
+  }
 
-  // if (isAuthRoute) {
-  //   console.log("running auth route middleware");
-  //   const res = await redirectAuthUser(request);
+  if (isAuthRoute) {
+    console.log("running auth route middleware");
+    const res = await redirectAuthUser(request);
 
-  //   if (res) return res;
-  // }
+    if (res) return res;
+  }
 
   // optional "production lock" — but only if you still want it
   if (process.env.APP_ENV === "production" && pathname !== "/") {
