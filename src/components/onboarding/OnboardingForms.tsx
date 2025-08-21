@@ -22,7 +22,7 @@ import {
   CompanyTradeSchemaType,
   PricingSchemaType,
   pricingSchema,
-} from "@/utils/zod-schemas";
+} from "@/types/zod-schemas";
 import { Input } from "@/components/ui/input";
 import {
   AutoLocationSelectionInput,
@@ -374,8 +374,8 @@ export function TradeOnboardingForm() {
 }
 
 export function PricingOnboardingForm() {
-  const router = useRouter();
   const queryClient = useQueryClient();
+  const { setCurrentPage } = useOnboardingStore();
   const [locationSelectionMode, setLocationSelectionMode] = useState<
     "auto" | "manual"
   >("auto");
@@ -396,7 +396,7 @@ export function PricingOnboardingForm() {
       return savePricingOnboardingInfo(data);
     },
     onSuccess: () => {
-      router.push("/dashboard");
+      setCurrentPage(4);
       queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
     onError: (error) => {

@@ -18,8 +18,6 @@ const fetchSession = async (req: NextRequest) => {
     }
   );
 
-  console.log("session token", cookie);
-
   return session;
 };
 
@@ -39,7 +37,7 @@ export const protectDashboard = async (req: NextRequest) => {
 export const protectAdmin = async (req: NextRequest) => {
   const session = await fetchSession(req);
   if (!session || session.user.role !== "admin") {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+    return NextResponse.redirect(new URL("/dashboard/projects", req.url));
   }
 
   return NextResponse.next();
@@ -50,7 +48,7 @@ export const redirectAuthUser = async (req: NextRequest) => {
 
   if (session) {
     const redirectPath = session.user.isOnboarded
-      ? "/dashboard"
+      ? "/dashboard/projects"
       : "/onboarding";
     return NextResponse.redirect(new URL(redirectPath, req.url));
   }

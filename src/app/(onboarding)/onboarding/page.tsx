@@ -1,4 +1,3 @@
-import DashboardWrapper from "@/components/dashboard/DashboardWrapper";
 import OnboardingWrapper from "@/components/onboarding/OnboardingWrapper";
 import { fetchUserServer } from "@/lib/actions";
 import {
@@ -8,7 +7,7 @@ import {
 } from "@tanstack/react-query";
 import { redirect } from "next/navigation";
 
-async function DashboardPage() {
+async function OnboardingPage() {
   const queryClient = new QueryClient();
   const user = await fetchUserServer();
 
@@ -16,14 +15,18 @@ async function DashboardPage() {
     redirect("/sign-in");
   }
 
-  if (!user.isOnboarded) {
-    redirect("/onboarding");
+  if (user.isOnboarded && user.hasProjects) {
+    redirect("/dashboard/projects");
   }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <DashboardWrapper />
+      <OnboardingWrapper
+        profile={user.profile}
+        name={user.name}
+        userId={user.id}
+      />
     </HydrationBoundary>
   );
 }
-export default DashboardPage;
+export default OnboardingPage;

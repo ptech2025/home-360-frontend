@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
-import { waitListSchema, WaitListSchemaType } from "@/utils/zod-schemas";
+import { waitListSchema, WaitListSchemaType } from "@/types/zod-schemas";
 import { Input } from "../ui/input";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchWaitListCount, saveToWaitList } from "@/services/waitlist";

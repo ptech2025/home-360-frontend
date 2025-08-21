@@ -21,7 +21,7 @@ import { ArrowRight, Eye, EyeOff, Loader2 } from "lucide-react";
 import {
   resetPasswordSchema,
   ResetPasswordSchemaType,
-} from "@/utils/zod-schemas";
+} from "@/types/zod-schemas";
 import ExpiredLink from "./ExpiredLink";
 
 function ResetPasswordForm({ token }: { token: string }) {

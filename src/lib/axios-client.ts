@@ -18,6 +18,7 @@ export const createAxios = (cookie?: string) => {
 };
 
 export const renderAxiosOrAuthError = (error: unknown): string => {
+  console.log(error)
   if (error instanceof AxiosError) {
     return (
       error.response?.data?.message ||

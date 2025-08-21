@@ -19,7 +19,7 @@ import { ArrowRight, Loader2 } from "lucide-react";
 import {
   forgotPasswordSchema,
   ForgotPasswordSchemaType,
-} from "@/utils/zod-schemas";
+} from "@/types/zod-schemas";
 import { Input } from "../ui/input";
 import { authClient } from "@/lib/auth-client";
 

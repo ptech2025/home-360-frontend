@@ -6,7 +6,12 @@ import {
   redirectAuthUser,
 } from "./middlewares";
 
-const privateRoutes = ["/dashboard", "/onboarding"];
+const privateRoutes = [
+  "/dashboard/projects",
+  "/dashboard/chat",
+  "/onboarding",
+  "/dashboard/chat/[sessionId]",
+];
 const authRoutes = [
   "/forgot-password",
   "/reset-password",

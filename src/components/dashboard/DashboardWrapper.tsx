@@ -1,4 +1,4 @@
-import HowitWorks from "./HowitWorks";
+import HowitWorks from "../onboarding/InitProject";
 
 function DashboardWrapper() {
   return (
