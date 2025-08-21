@@ -11,75 +11,60 @@ import {
 
 import { Loader } from "@/components/ai-elements/loader";
 import { MicIcon } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useAudioRecorder } from "@/hooks/use-audio-recorder";
-import { useChat } from "@/hooks/use-chat";
-import ConversationWrapper from "./ConversationWrapper";
+
 import DisplayRecording from "./DisplayRecording";
+import { initiateNewChatSession } from "@/services/chat-session";
 import { useRouter } from "nextjs-toploader/app";
 
-type ChatPanelProps = {
-  sessionId: string;
-};
-export default function ChatPanel({ sessionId }: ChatPanelProps) {
+export default function NewChatPanel({ userId }: { userId: string }) {
+  const { replace } = useRouter();
   const [prompt, setPrompt] = useState("");
   const [promptMode, setPromptMode] = useState<"text" | "audio">("text");
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
-  const { replace } = useRouter();
+  const queryClient = useQueryClient();
 
-  const { messages, sendMessage, isSendLoading } = useChat(sessionId);
-  const {
-    isRecording,
-    startRecording,
-    stopRecording,
-    isTranscribing,
-    timer,
-    error,
-  } = useAudioRecorder({
-    eventId: sessionId,
-    onTranscriptionComplete: (final) => {
-      setPrompt((prev) => prev + "\n" + final);
-      setPromptMode("text");
+  const { isRecording, startRecording, stopRecording, isTranscribing, timer } =
+    useAudioRecorder({
+      eventId: userId,
+      onTranscriptionComplete: (final) => {
+        setPrompt((prev) => prev + "\n" + final);
+        setPromptMode("text");
+      },
+    });
+
+  const { mutate: sendMessage, isPending: isSendLoading } = useMutation({
+    mutationFn: (prompt: string) => {
+      return initiateNewChatSession(prompt);
+    },
+
+    onSuccess(data) {
+      queryClient.invalidateQueries({ queryKey: ["messages", data] });
+      replace(`/dashboard/c/${data}`);
+    },
+    onError: (error) => {
+      const msg = renderAxiosOrAuthError(error);
+      toast.error(msg);
     },
   });
 
-  useEffect(() => {
-    if (!scrollContainerRef.current) return;
-    const container = scrollContainerRef.current;
-    container.scrollTo({
-      top: container.scrollHeight,
-      behavior: "smooth", // use "auto" if you don't want animation
-    });
-
-    if (!messages) {
-      toast.error(`Unable to load messages for ${sessionId}`);
-    }
-  }, [messages, sessionId]);
-
-  useEffect(() => {
-    if (error) {
-      toast.error(`Unable to load messages for ${sessionId}`);
-      replace("/dashboard/c");
-    }
-  }, [error, sessionId, replace]);
-
   return (
     <div className="bg-sidebar grid grid-cols-1 grid-rows-[auto_1fr_auto] gap-0 p-4 pr-0 rounded-lg  shadow-sm border border-sidebar-border h-full">
-      <ChatPanelHeader firstMessage={messages?.[0] ?? null} />
-      <div
-        ref={scrollContainerRef}
-        className="flex w-full items-start justify-center overflow-y-auto pb-16 scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-dark-orange scrollbar-track-dark-orange/20"
-      >
-        {messages && messages.length > 0 ? (
-          <ConversationWrapper messages={messages} sessionId={sessionId} />
-        ) : (
+      <ChatPanelHeader firstMessage={null} />
+
+      {isSendLoading ? (
+        <div className="flex justify-center items-center gap-2">
+          <Loader />
+        </div>
+      ) : (
+        <div className="flex w-full items-start justify-center overflow-y-auto pb-16 scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-dark-orange scrollbar-track-dark-orange/20">
           <ChatEmpty setPrompt={setPrompt} />
-        )}
-      </div>
+        </div>
+      )}
       <div className="pr-4 w-full">
         {(promptMode === "audio" && isRecording) || isTranscribing ? (
           <DisplayRecording

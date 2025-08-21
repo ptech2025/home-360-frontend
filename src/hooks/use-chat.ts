@@ -15,7 +15,7 @@ const messageId = createIdGenerator({
 export const useChat = (sessionId: string) => {
   const queryClient = useQueryClient();
   const eventSourceRef = useRef<EventSource | null>(null);
-  const [shouldConnectSSE, setShouldConnectSSE] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const {
     data: messages,
@@ -27,8 +27,7 @@ export const useChat = (sessionId: string) => {
   });
 
   const { mutate: sendMessage, isPending: isSendLoading } = useMutation({
-    mutationFn: async (prompt: string) => {
-      setShouldConnectSSE(true)
+    mutationFn: (prompt: string) => {
       return sendChatMessage(sessionId, prompt);
     },
     onMutate(prompt) {
@@ -59,24 +58,23 @@ export const useChat = (sessionId: string) => {
     onError: (error) => {
       const msg = renderAxiosOrAuthError(error);
       toast.error(msg);
-      setShouldConnectSSE(false)
-
     },
   });
 
   const handleSSEMessage = useCallback(
     (event: MessageEvent) => {
-      console.log("SSE message:", event.data);
       try {
         const data: ChatSSEMessage = JSON.parse(event.data);
 
         switch (data.type) {
           case "generating":
+            setIsGenerating(true);
             break;
 
           case "message_error":
             const errorMsg = data.data as string;
             toast.error(errorMsg);
+            setIsGenerating(false);
             break;
 
           case "message_result":
@@ -94,6 +92,7 @@ export const useChat = (sessionId: string) => {
                 return [message];
               }
             );
+            setIsGenerating(false);
             break;
 
           default:
@@ -102,6 +101,7 @@ export const useChat = (sessionId: string) => {
       } catch (err) {
         console.error("Failed to parse SSE message:", err);
         toast.error("Failed to process message");
+        setIsGenerating(false);
       }
     },
     [sessionId, queryClient]
@@ -113,7 +113,10 @@ export const useChat = (sessionId: string) => {
     }
 
     const eventSource = new EventSource(
-      `${API_URL}/chat-session/${sessionId}/stream`
+      `${API_URL}/api/chat-session/${sessionId}/stream`,
+      {
+        withCredentials: true,
+      }
     );
     eventSourceRef.current = eventSource;
 
@@ -125,7 +128,6 @@ export const useChat = (sessionId: string) => {
 
     eventSource.onerror = (err) => {
       console.error("Chat SSE error:", err);
-      toast.error("Chat Connection error");
       eventSource.close();
     };
 
@@ -149,5 +151,6 @@ export const useChat = (sessionId: string) => {
     isFetchLoading,
     sendMessage,
     isSendLoading,
+    isGenerating,
   };
 };

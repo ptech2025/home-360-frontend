@@ -20,10 +20,12 @@ type Props = {
 };
 
 function ChatEstimate({ estimate, metadata, sessionId }: Props) {
-  const isTablet  = useIsTablet();
+  const isTablet = useIsTablet();
   if (!estimate) return null;
 
-  const viewEstimateUrl = isTablet ? `/dashboard/estimates/${metadata?.estimatedId}` :  `/dashboard/chat/${sessionId}?estimateId=${metadata?.estimatedId}`;
+  const viewEstimateUrl = isTablet
+    ? `/dashboard/estimates/${metadata?.estimatedId}`
+    : `/dashboard/c/${sessionId}?estimateId=${metadata?.estimatedId}`;
 
   return (
     <Card className="w-full">

@@ -8,11 +8,14 @@ import axios from "axios";
 import { MyUIMessage } from "@/types/message-schema";
 
 export const createSession = async () => {
-  const res = await axios.post(`${API_URL}/api/chat/create-session`, {
-    withCredentials: true,
-  });
-
-  const sessionId = res.data.sessionId;
+  const res = await axios.post(
+    `${API_URL}/api/chat-session/create`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+  const sessionId = res.data.sessionId as string;
 
   return sessionId;
 };
@@ -50,13 +53,19 @@ export const fetchMessages = async (sessionId: string) => {
 
 export const sendChatMessage = async (sessionId: string, prompt: string) => {
   return await axios.post(
-    `${API_URL}/api/chat/send`,
+    `${API_URL}/api/chat-session/send`,
     {
-      sessionId,
+      chatId: sessionId,
       prompt,
     },
     {
       withCredentials: true,
     }
   );
+};
+
+export const initiateNewChatSession = async (prompt: string) => {
+  const sessionId = await createSession();
+  sendChatMessage(sessionId, prompt);
+  return sessionId;
 };

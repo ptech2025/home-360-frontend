@@ -71,7 +71,10 @@ export function useAudioRecorder({
 
           // Open SSE stream
           const sse = new EventSource(
-            `${API_URL}/api/transcribe/${eventId}/stream`
+            `${API_URL}/api/transcribe/${eventId}/stream`,
+            {
+              withCredentials: true,
+            }
           );
           sseRef.current = sse;
 

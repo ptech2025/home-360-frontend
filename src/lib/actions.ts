@@ -32,19 +32,16 @@ export const createChatSessionServer = async () => {
 
   let redirectUrl = "/dashboard/projects";
 
-  try {
-    const res = await axios.post(
-      `${API_URL}/api/chat-session/create`,
-      {},
-      {
-        headers: { Cookie: cookieHeader },
-      }
-    );
-    const sessionId = res.data.sessionId;
-    redirectUrl = `/dashboard/chat/${sessionId}`;
-  } catch (error) {
-    console.error("Error creating session:", error);
-  }
+  const res = await axios.post(
+    `${API_URL}/api/chat-session/create`,
+    {},
+    {
+      headers: { Cookie: cookieHeader },
+      withCredentials: true,
+    }
+  );
+  redirectUrl = `/dashboard/c/${res.data.sessionId}`;
+
   revalidateTag("chat-sessions");
   revalidatePath("/dashboard", "layout");
 
@@ -65,7 +62,7 @@ export const initiateProjectServer = async ({
   const res = await axios.post(
     `${API_URL}/api/chat-session/initiate-project`,
     {
-      prompt: prompt.trim(),
+      prompt,
       title: projectTitle.length > 0 ? projectTitle : "Untitled",
     },
     {
@@ -75,7 +72,7 @@ export const initiateProjectServer = async ({
   );
   const sessionId = res.data.sessionId as string;
 
-  redirectUrl = `/dashboard/chat/${sessionId}`;
+  redirectUrl = `/dashboard/c/${sessionId}`;
 
   if (redirectUrl) {
     redirect(redirectUrl);

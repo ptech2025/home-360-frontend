@@ -23,7 +23,7 @@ const sidebarLinks: DashboardLink[] = [
   {
     icon: <StarIcon />,
     title: "Ask AI",
-    url: "/dashboard/chat",
+    url: "/dashboard/c",
     access: ["user", "admin"],
   },
   {
@@ -48,8 +48,11 @@ const footerLinks: DashboardLink[] = [
   },
 ];
 
-function DashboardSidebar() {
-  const userRole = "admin"; // Replace with actual user role from context or props
+type Props = {
+  userRole: string;
+};
+
+function DashboardSidebar({ userRole }: Props) {
   return (
     <Sidebar
       variant="floating"

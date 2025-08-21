@@ -29,7 +29,6 @@ import {
   DialogContent,
 } from "@/components/ui/dialog";
 import { PiTrash } from "react-icons/pi";
-import { useRouter } from "nextjs-toploader/app";
 import { format } from "date-fns";
 import { useParams } from "next/navigation";
 import Link from "next/link";
@@ -39,12 +38,10 @@ type Props = {
 };
 
 function AllChatSessionsSheet({ sessions }: Props) {
-  const { push } = useRouter();
   const params = useParams();
   const sessionId = params.sessionId;
   const { isSessionsPanelOpen, setIsSessionsPanelOpen } = useChatPanelStore();
 
-  console.log("AllChatSessionsSheet sessions:", sessions);
 
   return (
     <Sheet open={isSessionsPanelOpen} onOpenChange={setIsSessionsPanelOpen}>
@@ -70,7 +67,7 @@ function AllChatSessionsSheet({ sessions }: Props) {
                     className="h-20 text-main-blue data-[state=active]:text-accent-foreground hover:bg-accent cursor-pointer flex items-center justify-between gap-4 data-[state=active]:bg-main-blue/20"
                   >
                     <Link
-                      href={`/dashboard/chat/${session.id}`}
+                      href={`/dashboard/c/${session.id}`}
                       onClick={() => {
                         setIsSessionsPanelOpen(false);
                       }}

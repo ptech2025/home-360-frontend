@@ -8,9 +8,9 @@ import {
 
 const privateRoutes = [
   "/dashboard/projects",
-  "/dashboard/chat",
+  "/dashboard/c",
   "/onboarding",
-  "/dashboard/chat/[sessionId]",
+  "/dashboard/c/[sessionId]",
 ];
 const authRoutes = [
   "/forgot-password",

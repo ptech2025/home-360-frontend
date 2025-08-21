@@ -1,17 +1,13 @@
 "use client";
 
-import ChatPanel from "@/components/chat/ChatPanel";
 import DisplayEstimate from "@/components/estimates/DisplayEstimate";
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import { useIsTablet } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 import { useChatPanelStore } from "@/store/chatPanelStore";
+import NewChatPanel from "./NewChatPanel";
 
-type Props = {
-  sessionId: string;
-};
-
-function ChatWrapper({ sessionId }: Props) {
+function NewChatWrapper({ userId }: { userId: string }) {
   const { isChatPanelOpen, setIsChatPanelOpen } = useChatPanelStore();
   const isTablet = useIsTablet();
   return (
@@ -29,7 +25,7 @@ function ChatWrapper({ sessionId }: Props) {
         className="h-full relative"
       >
         <CollapsibleContent className="h-full absolute left-0 top-0 pb-1">
-          <ChatPanel sessionId={sessionId} />
+          <NewChatPanel userId={userId} />
         </CollapsibleContent>
       </Collapsible>
       <div className="hidden lg:block h-full pb-1 transition-width duration-300 ease-in-out">
@@ -38,4 +34,4 @@ function ChatWrapper({ sessionId }: Props) {
     </div>
   );
 }
-export default ChatWrapper;
+export default NewChatWrapper;

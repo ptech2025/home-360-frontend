@@ -2,10 +2,8 @@ import { MyUIMessage } from "@/types/message-schema";
 import {
   Conversation,
   ConversationContent,
-  ConversationScrollButton,
 } from "@/components/ai-elements/conversation";
 import { Message, MessageContent } from "../ai-elements/message";
-import { Response } from "@/components/ai-elements/response";
 import ChatEstimate from "./ChatEstimate";
 
 type Props = {
@@ -27,27 +25,16 @@ function ConversationWrapper({ messages, sessionId }: Props) {
               {message.parts.map((part, i) => {
                 switch (part.type) {
                   case "text": // we don't use any reasoning or tool calls in this example
-                    return (
-                      <Response key={`${message.id}-${i}`}>
-                        {part.text}
-                      </Response>
-                    );
+                    return <p key={`${message.id}-${i}`}>{part.text}</p>;
                   case "data-response":
-                    return (
-                      <Response key={`${message.id}-${i}`}>
-                        {part.data}
-                      </Response>
-                    );
+                    return <p key={`${message.id}-${i}`}>{part.data}</p>;
                   case "data-estimate":
                     return (
                       <>
                         {part.data.notes && (
-                          <div
-                            key={`${message.id}-${i}-notes`}
-                            className="pt-4"
-                          >
-                            <Response>{part.data.notes}</Response>
-                          </div>
+                          <p key={`${message.id}-${i}-notes`} className="pt-4">
+                            {part.data.notes}
+                          </p>
                         )}
                       </>
                     );
@@ -57,12 +44,10 @@ function ConversationWrapper({ messages, sessionId }: Props) {
                 }
               })}
             </MessageContent>
-            {message.parts.some(
-              (part) => part.type === "data-estimate"
-            ) && (
+            {message.parts.some((part) => part.type === "data-estimate") && (
               <ChatEstimate
                 sessionId={sessionId}
-                key={`${message.id}-estimate`}
+                key={`${message.id}-${message.metadata?.estimatedId}`}
                 estimate={
                   message.parts.find((part) => part.type === "data-estimate")
                     ?.data

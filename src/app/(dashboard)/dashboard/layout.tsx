@@ -21,7 +21,7 @@ export default async function DashboardLayout({
 
   return (
     <SidebarProvider>
-      <DashboardSidebar />
+      <DashboardSidebar userRole={user.role} />
       <AllChatSessionsSheet sessions={sessions} />
       <main className="px-2  w-full bg-white">{children}</main>
     </SidebarProvider>
