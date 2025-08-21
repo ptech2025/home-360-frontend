@@ -1,6 +1,7 @@
 "use server";
 import { AuthUserType } from "@/types";
 import { ChatSession } from "@/types/chat";
+import { Estimate } from "@/types/estimate";
 import { MyUIMessage } from "@/types/message-schema";
 import { API_URL } from "@/utils/constants";
 
@@ -121,6 +122,22 @@ export const fetchMessagesServer = async (sessionId: string) => {
     return messages;
   } catch (error) {
     console.error("Error fetching messages (server)", error);
+    return null;
+  }
+};
+export const fetchEstimateByIdServer = async (id: string) => {
+  try {
+    const cookieStore = await cookies();
+    const cookieHeader = cookieStore.toString();
+
+    const res = await axios.get(`${API_URL}/api/estimate/${id}`, {
+      headers: { Cookie: cookieHeader },
+      withCredentials: true,
+    });
+    const estimate: Estimate = res.data;
+    return estimate;
+  } catch (error) {
+    console.error("Error fetching estimate (server)", error);
     return null;
   }
 };

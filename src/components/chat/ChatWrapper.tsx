@@ -9,11 +9,13 @@ import { useChatPanelStore } from "@/store/chatPanelStore";
 
 type Props = {
   sessionId: string;
+  estimateId?: string;
 };
 
-function ChatWrapper({ sessionId }: Props) {
+function ChatWrapper({ sessionId, estimateId }: Props) {
   const { isChatPanelOpen, setIsChatPanelOpen } = useChatPanelStore();
   const isTablet = useIsTablet();
+
   return (
     <div
       className={cn(
@@ -33,7 +35,7 @@ function ChatWrapper({ sessionId }: Props) {
         </CollapsibleContent>
       </Collapsible>
       <div className="hidden lg:block h-full pb-1 transition-width duration-300 ease-in-out">
-        <DisplayEstimate />
+        <DisplayEstimate estimateId={estimateId} />
       </div>
     </div>
   );

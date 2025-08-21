@@ -5,13 +5,15 @@ import {
 } from "@/components/ai-elements/conversation";
 import { Message, MessageContent } from "../ai-elements/message";
 import ChatEstimate from "./ChatEstimate";
+import { StarIcon } from "../global/Icons";
 
 type Props = {
   messages: MyUIMessage[];
   sessionId: string;
+  isGenerating: boolean;
 };
 
-function ConversationWrapper({ messages, sessionId }: Props) {
+function ConversationWrapper({ messages, sessionId, isGenerating }: Props) {
   return (
     <Conversation>
       <ConversationContent className="p-2.5">
@@ -58,6 +60,7 @@ function ConversationWrapper({ messages, sessionId }: Props) {
           </Message>
         ))}
       </ConversationContent>
+      {isGenerating && <StarIcon className="w-6 h-6 animate-bounce" />}
     </Conversation>
   );
 }

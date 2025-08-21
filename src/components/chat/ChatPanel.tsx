@@ -31,7 +31,8 @@ export default function ChatPanel({ sessionId }: ChatPanelProps) {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const { replace } = useRouter();
 
-  const { messages, sendMessage, isSendLoading } = useChat(sessionId);
+  const { messages, sendMessage, isSendLoading, isGenerating } =
+    useChat(sessionId);
   const {
     isRecording,
     startRecording,
@@ -61,11 +62,11 @@ export default function ChatPanel({ sessionId }: ChatPanelProps) {
   }, [messages, sessionId]);
 
   useEffect(() => {
-    if (error) {
+    if (error || !messages) {
       toast.error(`Unable to load messages for ${sessionId}`);
       replace("/dashboard/c");
     }
-  }, [error, sessionId, replace]);
+  }, [error, sessionId, replace, messages]);
 
   return (
     <div className="bg-sidebar grid grid-cols-1 grid-rows-[auto_1fr_auto] gap-0 p-4 pr-0 rounded-lg  shadow-sm border border-sidebar-border h-full">
@@ -75,7 +76,11 @@ export default function ChatPanel({ sessionId }: ChatPanelProps) {
         className="flex w-full items-start justify-center overflow-y-auto pb-16 scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-dark-orange scrollbar-track-dark-orange/20"
       >
         {messages && messages.length > 0 ? (
-          <ConversationWrapper messages={messages} sessionId={sessionId} />
+          <ConversationWrapper
+            messages={messages}
+            sessionId={sessionId}
+            isGenerating={isGenerating}
+          />
         ) : (
           <ChatEmpty setPrompt={setPrompt} />
         )}

@@ -5,7 +5,7 @@ import {
   dehydrate,
   QueryClient,
 } from "@tanstack/react-query";
-import { fetchMessagesServer } from "@/lib/actions";
+import { fetchMessagesServer, fetchEstimateByIdServer } from "@/lib/actions";
 
 async function SessionChatPage({
   params,
@@ -22,6 +22,13 @@ async function SessionChatPage({
     queryFn: () => fetchMessagesServer(sessionId),
   });
 
+  if (estimateId) {
+    await queryClient.prefetchQuery({
+      queryKey: ["estimate", estimateId],
+      queryFn: () => fetchEstimateByIdServer(estimateId),
+    });
+  }
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <section className="w-full h-full py-4  flex-col flex gap-4">
@@ -29,7 +36,7 @@ async function SessionChatPage({
           url="/dashboard/projects"
           showRedirect={true}
         />
-        <ChatWrapper sessionId={sessionId} />
+        <ChatWrapper sessionId={sessionId} estimateId={estimateId} />
       </section>
     </HydrationBoundary>
   );

@@ -1,9 +1,4 @@
 import { API_URL } from "@/utils/constants";
-import {
-  CompanyTradeSchemaType,
-  OrgInfoSchemaType,
-  PricingSchemaType,
-} from "@/types/zod-schemas";
 import axios from "axios";
 import { MyUIMessage } from "@/types/message-schema";
 
