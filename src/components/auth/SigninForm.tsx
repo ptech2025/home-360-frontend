@@ -74,8 +74,6 @@ function SignInForm() {
           setIsLoading(true);
         },
         onSuccess: async (ctx) => {
-          console.log(ctx);
-          push("/onboarding");
           toast.success("Signed in successfully.");
         },
         onError: (ctx) => {
