@@ -67,6 +67,7 @@ function SignInForm() {
       {
         email: values.email,
         password: values.password,
+        callbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
       },
       {
         onRequest: () => {
