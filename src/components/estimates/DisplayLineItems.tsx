@@ -1,4 +1,4 @@
-import { Estimate, EstimateLineItem } from "@/types/estimate";
+import {  EstimateLineItem } from "@/types/estimate";
 
 type Props = {
   lineItems: EstimateLineItem[];

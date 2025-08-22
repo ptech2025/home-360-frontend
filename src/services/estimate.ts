@@ -12,6 +12,7 @@ export const fetchEstimateById = async (id: string | undefined) => {
     const estimate: Estimate = res.data;
     return estimate;
   } catch (err) {
+    console.error(err);
     return null;
   }
 };

@@ -3,31 +3,21 @@
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import {
   Command,
-  CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
 import { useChatPanelStore } from "@/store/chatPanelStore";
 import { ChatSession } from "@/types/chat";
 import { getChatHeading } from "@/utils/funcs";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogClose,
-  DialogContent,
-} from "@/components/ui/dialog";
+import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import { PiTrash } from "react-icons/pi";
 import { format } from "date-fns";
 import { useParams } from "next/navigation";
@@ -41,7 +31,6 @@ function AllChatSessionsSheet({ sessions }: Props) {
   const params = useParams();
   const sessionId = params.sessionId;
   const { isSessionsPanelOpen, setIsSessionsPanelOpen } = useChatPanelStore();
-
 
   return (
     <Sheet open={isSessionsPanelOpen} onOpenChange={setIsSessionsPanelOpen}>

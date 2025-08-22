@@ -16,7 +16,7 @@ import {
 import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ArrowRight, EyeOff, Eye, Loader2 } from "lucide-react";
+import {  EyeOff, Eye, Loader2 } from "lucide-react";
 import { signUpSchema, SignUpSchemaType } from "@/types/zod-schemas";
 import { Input } from "../ui/input";
 import { GoogleIcon } from "../global/Icons";

@@ -21,6 +21,8 @@ import { useAudioRecorder } from "@/hooks/use-audio-recorder";
 import DisplayRecording from "./DisplayRecording";
 import { initiateNewChatSession } from "@/services/chat-session";
 import { useRouter } from "nextjs-toploader/app";
+import { generateUserTempMessage } from "@/utils/funcs";
+import { MyUIMessage } from "@/types/message-schema";
 
 export default function NewChatPanel({ userId }: { userId: string }) {
   const { replace } = useRouter();
@@ -43,7 +45,17 @@ export default function NewChatPanel({ userId }: { userId: string }) {
     },
 
     onSuccess(data) {
-      queryClient.invalidateQueries({ queryKey: ["messages", data] });
+      const temporaryMessage = generateUserTempMessage(prompt, data);
+      queryClient.setQueryData<MyUIMessage[]>(
+        ["messages", data],
+        (oldMessages) => {
+          if (oldMessages) {
+            return [...oldMessages, temporaryMessage];
+          }
+          return [temporaryMessage];
+        }
+      );
+
       replace(`/dashboard/c/${data}`);
     },
     onError: (error) => {

@@ -1,7 +1,12 @@
 // utils/fetchPlaces.ts
 
 import { MyUIMessage } from "@/types/message-schema";
+import { createIdGenerator } from "ai";
 
+const messageId = createIdGenerator({
+  prefix: "msgc",
+  size: 16,
+});
 export const getCurrentLocation = (): Promise<GeolocationPosition> => {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
@@ -81,9 +86,22 @@ export function formatEstimateId(id: string | undefined): string {
   return formattedId.toUpperCase();
 }
 
-
 export function formatTimer(seconds: number): string {
   const minutes = Math.floor(seconds / 60);
   const secs = seconds % 60;
   return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+}
+
+export function generateUserTempMessage(prompt: string, sessionId: string): MyUIMessage {
+  const temporaryMessage: MyUIMessage = {
+    id: messageId(),
+    role: "user",
+    parts: [{ type: "text", text: prompt }],
+    metadata: {
+      sessionId,
+      createdAt: new Date(),
+      confidence: "medium",
+    },
+  };
+  return temporaryMessage;
 }

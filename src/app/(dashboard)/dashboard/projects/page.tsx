@@ -1,10 +1,10 @@
-import { fetchUserServer } from "@/lib/actions";
+// import { fetchUserServer } from "@/lib/actions";
 import {
   HydrationBoundary,
   dehydrate,
   QueryClient,
 } from "@tanstack/react-query";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 
 async function ProjectsPage() {
   const queryClient = new QueryClient();

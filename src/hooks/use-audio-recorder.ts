@@ -1,5 +1,5 @@
 import { transcribeRecording } from "@/services/transcription";
-import { EventType, TranscriptionSSEMessage } from "@/types/chat";
+import { TranscriptionSSEMessage } from "@/types/chat";
 import { API_URL } from "@/utils/constants";
 import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";

@@ -1,5 +1,4 @@
 import { StarIcon } from "@/components/global/Icons";
-import { Badge } from "@/components/ui/badge";
 import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
 
 import { samplePrompts } from "@/utils/options";

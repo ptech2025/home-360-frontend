@@ -76,7 +76,7 @@ type DataEstimatePart = {
 };
 
 // 1. Define a metadata schema with Zod
-const metadataSchema = z.object({
+export const metadataSchema = z.object({
   sessionId: z.string().optional(),
   createdAt: z.date(),
   estimatedId: z.string().optional(),
@@ -147,7 +147,7 @@ export const dataPartSchema = z.object({
 export type MyDataParts = z.infer<typeof dataPartSchema>;
 
 // 3. If you use tools, define them here
-const tools = {} satisfies ToolSet;
+export const tools = {} satisfies ToolSet;
 type MyTools = InferUITools<typeof tools>;
 
 type MyMessagePart = TextPart | DataResponsePart | DataEstimatePart;

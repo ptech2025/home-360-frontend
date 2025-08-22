@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import * as motion from "motion/react-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -15,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import {
   forgotPasswordSchema,
   ForgotPasswordSchemaType,

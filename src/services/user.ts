@@ -6,7 +6,6 @@ import {
 } from "@/types/zod-schemas";
 import axios from "axios";
 import { AuthUserType, PlaceSuggestion } from "@/types";
-import { string } from "zod";
 
 export const fetchUserClient = async () => {
   try {

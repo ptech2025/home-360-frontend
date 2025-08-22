@@ -9,12 +9,9 @@ import {
   PromptInputTools,
 } from "@/components/ai-elements/prompt-input";
 
-import { Loader } from "@/components/ai-elements/loader";
 import { MicIcon } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
-import { renderAxiosOrAuthError } from "@/lib/axios-client";
-import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useAudioRecorder } from "@/hooks/use-audio-recorder";
 import { useChat } from "@/hooks/use-chat";
@@ -33,20 +30,14 @@ export default function ChatPanel({ sessionId }: ChatPanelProps) {
 
   const { messages, sendMessage, isSendLoading, isFetchLoading, isGenerating } =
     useChat(sessionId);
-  const {
-    isRecording,
-    startRecording,
-    stopRecording,
-    isTranscribing,
-    timer,
-    error,
-  } = useAudioRecorder({
-    eventId: sessionId,
-    onTranscriptionComplete: (final) => {
-      setPrompt((prev) => prev + "\n" + final);
-      setPromptMode("text");
-    },
-  });
+  const { isRecording, startRecording, stopRecording, isTranscribing, timer } =
+    useAudioRecorder({
+      eventId: sessionId,
+      onTranscriptionComplete: (final) => {
+        setPrompt((prev) => prev + "\n" + final);
+        setPromptMode("text");
+      },
+    });
 
   useEffect(() => {
     if (!scrollContainerRef.current) return;
@@ -64,7 +55,7 @@ export default function ChatPanel({ sessionId }: ChatPanelProps) {
   useEffect(() => {
     if (!isFetchLoading && !messages) {
       toast.error(`Unable to load messages for ${sessionId}`);
-      replace("/dashboard/c");
+      replace("/dashboard/projects");
     }
   }, [isFetchLoading, sessionId, replace, messages]);
 

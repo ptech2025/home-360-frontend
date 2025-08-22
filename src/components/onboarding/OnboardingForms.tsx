@@ -43,7 +43,7 @@ import { nanoid } from "nanoid";
 import { Checkbox } from "../ui/checkbox";
 import { CubeIcon, ElectricIcon, PipeIcon, ScrewIcon } from "../global/Icons";
 import { TagsInput } from "../ui/tags-input";
-import { useRouter } from "next/navigation";
+
 
 const tradeArr = [
   {

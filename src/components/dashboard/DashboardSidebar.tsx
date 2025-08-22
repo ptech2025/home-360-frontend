@@ -18,14 +18,9 @@ import { LogoSvg } from "@/components/global/Logo";
 
 import Link from "next/link";
 import { StarIcon } from "../global/Icons";
+import AskAIBtn from "./AskAIBtn";
 
 const sidebarLinks: DashboardLink[] = [
-  {
-    icon: <StarIcon />,
-    title: "Ask AI",
-    url: "/dashboard/c",
-    access: ["user", "admin"],
-  },
   {
     icon: <PiToolbox />,
     title: "Projects",
@@ -75,11 +70,14 @@ function DashboardSidebar({ userRole }: Props) {
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup className="flex-1 mt-6 p-0">
+        <SidebarGroup className="flex-1  p-0">
           <SidebarGroupLabel className="sr-only">
-            Dashboard Sidebar Menu
+            Dashboard Sidebar Menu Links
           </SidebarGroupLabel>
           <SidebarGroupContent className="p-2">
+            <SidebarMenu className="my-6">
+              <AskAIBtn />
+            </SidebarMenu>
             <SidebarMenu>
               {sidebarLinks.map((link) => {
                 return (

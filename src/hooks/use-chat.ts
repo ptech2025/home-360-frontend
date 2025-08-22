@@ -7,11 +7,9 @@ import { API_URL } from "@/utils/constants";
 import { ChatSSEMessage } from "@/types/chat";
 import { MyUIMessage } from "@/types/message-schema";
 import { createIdGenerator } from "ai";
+import { generateUserTempMessage } from "@/utils/funcs";
 
-const messageId = createIdGenerator({
-  prefix: "msgc",
-  size: 16,
-});
+
 export const useChat = (sessionId: string) => {
   const queryClient = useQueryClient();
   const eventSourceRef = useRef<EventSource | null>(null);
@@ -31,17 +29,7 @@ export const useChat = (sessionId: string) => {
       return sendChatMessage(sessionId, prompt);
     },
     onMutate(prompt) {
-      const temporaryMessage: MyUIMessage = {
-        id: messageId(),
-        role: "user",
-        parts: [{ type: "text", text: prompt }],
-        metadata: {
-          sessionId,
-          createdAt: new Date(),
-          confidence: "medium",
-        },
-      };
-
+      const temporaryMessage = generateUserTempMessage(prompt, sessionId);
       queryClient.setQueryData<MyUIMessage[]>(
         ["messages", sessionId],
         (oldMessages) => {
