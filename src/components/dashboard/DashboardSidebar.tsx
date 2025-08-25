@@ -8,6 +8,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarFooter,
+  SidebarTrigger,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { DashboardLink } from "@/types";
@@ -61,7 +62,7 @@ function DashboardSidebar({ userRole }: Props) {
               asChild
               className="group-data-[collapsible=icon]:p-0! group-data-[collapsible=icon]:pl-1! hover:bg-transparent group-data-[collapsible=icon]:size-12! h-12 uppercase font-black text-2xl"
             >
-              <Link href="/dashboard/projects">
+              <Link href="/">
                 <LogoSvg className="size-[38px]!" />
               </Link>
             </SidebarMenuButton>
@@ -99,6 +100,21 @@ function DashboardSidebar({ userRole }: Props) {
             Organization Sidebar Footer
           </SidebarGroupLabel>
           <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  tooltip={{
+                    children: "Toggle Sidebar",
+                  }}
+                  className={
+                    "group my-4 flex h-10 w-full [&_svg]:size-5!   group-data-[collapsible=icon]:!pl-1.5   items-center justify-start gap-2 text-sm font-medium text-dark-orange transition-all data-[active=true]:bg-dark-orange/20 "
+                  }
+                >
+                  <SidebarTrigger />
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
             <SidebarMenu>
               {footerLinks.map((link) => {
                 return (

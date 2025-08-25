@@ -95,6 +95,13 @@ export const pricingSchema = z.object({
   location: z.string().min(1, { message: "Location is required" }),
 });
 
+export const createClientSchema = z.object({
+  name: z.string().min(1, { message: "Client name is required" }),
+  email: z.email({ message: "Invalid email address" }),
+  phone: z.string().optional(),
+  address: z.string().optional(),
+});
+
 export function validateImageFiles() {
   const maxUploadSize = 2 * 1024 * 1024; // 2MB
   const acceptedFileTypes = [
@@ -164,3 +171,4 @@ export type ProfileSchemaType = z.infer<typeof profileSchema>;
 export type OrgInfoSchemaType = z.infer<typeof orgInfoSchema>;
 export type CompanyTradeSchemaType = z.infer<typeof companyTradeSchema>;
 export type PricingSchemaType = z.infer<typeof pricingSchema>;
+export type CreateClientSchemaType = z.infer<typeof createClientSchema>;

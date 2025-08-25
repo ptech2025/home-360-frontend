@@ -1,8 +1,16 @@
 "use server";
 import { AuthUserType } from "@/types";
 import { ChatSession } from "@/types/chat";
+import {
+  FetchAllClientRequestSearchParams,
+  FetchAllClientsResponse,
+} from "@/types/client";
 import { Estimate } from "@/types/estimate";
 import { MyUIMessage } from "@/types/message-schema";
+import {
+  FetchAllProjectsRequestSearchParams,
+  FetchAllProjectsResponse,
+} from "@/types/project";
 import { API_URL } from "@/utils/constants";
 
 import axios from "axios";
@@ -139,5 +147,63 @@ export const fetchEstimateByIdServer = async (id: string) => {
   } catch (error) {
     console.error("Error fetching estimate (server)", error);
     return null;
+  }
+};
+
+export const fetchAllProjectsServer = async (
+  searchParams: FetchAllProjectsRequestSearchParams
+): Promise<FetchAllProjectsResponse> => {
+  try {
+    const cookieStore = await cookies();
+    const cookieHeader = cookieStore.toString();
+    const res: { data: FetchAllProjectsResponse } = await axios.get(
+      `${API_URL}/api/project`,
+      {
+        headers: { Cookie: cookieHeader },
+        withCredentials: true,
+        params: searchParams,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    return {
+      projects: [],
+      pagination: {
+        size: 10,
+        totalRecords: 0,
+        currentPage: 1,
+        totalPages: 1,
+      },
+    };
+  }
+};
+
+export const fetchAllClientsServer = async (
+  searchParams: FetchAllClientRequestSearchParams
+): Promise<FetchAllClientsResponse> => {
+  try {
+    const cookieStore = await cookies();
+    const cookieHeader = cookieStore.toString();
+    const res: { data: FetchAllClientsResponse } = await axios.get(
+      `${API_URL}/api/clients`,
+      {
+        headers: { Cookie: cookieHeader },
+        withCredentials: true,
+        params: searchParams,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    return {
+      clients: [],
+      pagination: {
+        size: 10,
+        totalRecords: 0,
+        currentPage: 1,
+        totalPages: 1,
+      },
+    };
   }
 };

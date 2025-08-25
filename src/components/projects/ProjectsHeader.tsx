@@ -1,0 +1,23 @@
+import SearchBar from "../global/SearchBar";
+import { AddNewProjectDialog } from "./ProjectsDialogs";
+import ProjectsFilter from "./ProjectsFilter";
+
+type ProjectsHeaderProps = {
+  hasProjects: boolean;
+};
+
+function ProjectsHeader({ hasProjects }: ProjectsHeaderProps) {
+  return (
+    <div className="flex items-center justify-between gap-4">
+      <h1 className="md:text-lg lg:text-xl text-base text-main-blue font-semibold">
+        Projects
+      </h1>
+      <div className="w-full max-w-[35rem] flex gap-4 items-center h-11">
+        <SearchBar searchKey="title" placeHolder="Search by title" />
+        <ProjectsFilter />
+        {hasProjects && <AddNewProjectDialog />}
+      </div>
+    </div>
+  );
+}
+export default ProjectsHeader;

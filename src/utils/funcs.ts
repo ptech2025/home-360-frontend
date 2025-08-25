@@ -92,7 +92,10 @@ export function formatTimer(seconds: number): string {
   return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
 }
 
-export function generateUserTempMessage(prompt: string, sessionId: string): MyUIMessage {
+export function generateUserTempMessage(
+  prompt: string,
+  sessionId: string
+): MyUIMessage {
   const temporaryMessage: MyUIMessage = {
     id: messageId(),
     role: "user",
@@ -104,4 +107,15 @@ export function generateUserTempMessage(prompt: string, sessionId: string): MyUI
     },
   };
   return temporaryMessage;
+}
+
+export function formatNameWithDot(name: string): string {
+  const parts = name.trim().split(/\s+/);
+
+  if (parts.length === 0) return "";
+
+  const firstInitial = parts[0][0].toUpperCase();
+  const lastName = parts.length > 1 ? parts[1].toLowerCase() : "";
+
+  return lastName ? `${firstInitial}.${lastName}` : firstInitial;
 }
