@@ -22,7 +22,7 @@ function ClientsPageWrapper({ page, client }: Props) {
     return (
       <section className="w-full  py-4">
         <div className="rounded-lg p-4 w-full min-h-svh shadow-sm border border-sidebar-border  flex-col flex gap-4">
-          <HeaderSkeleton heading="Projects" />
+          <HeaderSkeleton heading="Clients" />
           <TableSkeleton />
         </div>
       </section>
