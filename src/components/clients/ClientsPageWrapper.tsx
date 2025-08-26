@@ -5,6 +5,7 @@ import PaginationContainer from "../global/PaginationContainer";
 import { fetchAllClients } from "@/services/client";
 import ClientsHeader from "./ClientsHeader";
 import ClientsTable from "./ClientsTable";
+import { HeaderSkeleton, TableSkeleton } from "../global/Skeletons";
 
 interface Props {
   page: number;
@@ -16,6 +17,17 @@ function ClientsPageWrapper({ page, client }: Props) {
     queryKey: ["clients", { page, client }],
     queryFn: () => fetchAllClients({ page, client, size: 10 }),
   });
+
+  if (isLoading) {
+    return (
+      <section className="w-full  py-4">
+        <div className="rounded-lg p-4 w-full min-h-svh shadow-sm border border-sidebar-border  flex-col flex gap-4">
+          <HeaderSkeleton heading="Projects" />
+          <TableSkeleton />
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="w-full  py-4">

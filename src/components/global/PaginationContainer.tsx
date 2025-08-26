@@ -132,7 +132,7 @@ function PaginationContainer({
     return null;
   }
   return (
-    <div className="flex w-full items-center justify-between">
+    <div className="flex  w-full flex-col sm:flex-row items-center sm:justify-between">
       <p className="font-nunito text-sm text-[#B9B8BD]">
         Showing {size || 10} {contentTitle} per page
       </p>

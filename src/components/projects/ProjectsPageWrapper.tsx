@@ -5,6 +5,7 @@ import ProjectsHeader from "./ProjectsHeader";
 import ProjectsTable from "./ProjectsTable";
 import { fetchAllProjects } from "@/services/project";
 import PaginationContainer from "../global/PaginationContainer";
+import { HeaderSkeleton, TableSkeleton } from "../global/Skeletons";
 
 interface Props {
   page: number;
@@ -17,6 +18,16 @@ function ProjectsPageWrapper({ page, title, status }: Props) {
     queryKey: ["projects", { page, title }],
     queryFn: () => fetchAllProjects({ page, title, status }),
   });
+  if (isLoading) {
+    return (
+      <section className="w-full  py-4">
+        <div className="rounded-lg p-4 w-full min-h-svh shadow-sm border border-sidebar-border  flex-col flex gap-4">
+          <HeaderSkeleton heading="Projects" />
+          <TableSkeleton />
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="w-full  py-4">
