@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import { API_URL } from "@/utils/constants";
 import { ChatSSEMessage } from "@/types/chat";
 import { MyUIMessage } from "@/types/message-schema";
-import { createIdGenerator } from "ai";
 import { generateUserTempMessage } from "@/utils/funcs";
 
 

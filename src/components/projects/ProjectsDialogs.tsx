@@ -45,7 +45,9 @@ export function AddNewProjectDialog() {
     },
 
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["projects", { page: 1 }] });
+      queryClient.invalidateQueries({
+        queryKey: ["projects", { page: 1, title: "" }],
+      });
       toast.success("Project created successfully.");
       setProjectTitle("");
       setOpen(false);
@@ -142,7 +144,9 @@ export function UpdateProjectTitleDialog({
     },
 
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["projects", { page: 1 }] });
+      queryClient.invalidateQueries({
+        queryKey: ["projects", { page: 1, title: "" }],
+      });
       toast.success("Project updated successfully.");
       setIsDialogOpen(false);
     },
@@ -192,12 +196,12 @@ export function UpdateProjectTitleDialog({
             className="h-11  w-full border-sidebar-border!"
           />
         </div>
-        <DialogFooter>
+        <DialogFooter className="grid grid-cols-1 items-center gap-4 sm:grid-cols-2">
           <Button
             disabled={isPending}
             onClick={() => setIsDialogOpen(false)}
             variant={"outline"}
-            className="text-xs"
+            className=" w-full border border-main-blue hover:bg-sidebar-border bg-transparent text-main-blue"
           >
             Cancel
           </Button>
@@ -205,7 +209,7 @@ export function UpdateProjectTitleDialog({
           <Button
             disabled={isPending}
             onClick={handleUpdateProject}
-            className="bg-destructive text-xs"
+            className="bg w-full max-sm:order-first bg-main-blue text-white"
           >
             {isPending ? "Saving..." : "Save"}
           </Button>
@@ -231,7 +235,9 @@ export function DeleteProjectDialog({
     },
 
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["projects", { page: 1 }] });
+      queryClient.invalidateQueries({
+        queryKey: ["projects", { page: 1, title: "" }],
+      });
       toast.success("Project deleted successfully.");
       setIsDialogOpen(false);
     },
@@ -249,15 +255,15 @@ export function DeleteProjectDialog({
           <DialogTitle>Delete This Project</DialogTitle>
           <DialogDescription>
             you cannot undo this action, are you sure you want to delete this
-            order?
+            project?
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="grid grid-cols-1 items-center gap-4 sm:grid-cols-2">
           <Button
             disabled={isPending}
             onClick={() => setIsDialogOpen(false)}
             variant={"outline"}
-            className="text-xs"
+            className="w-full"
           >
             Cancel
           </Button>
@@ -265,7 +271,7 @@ export function DeleteProjectDialog({
           <Button
             disabled={isPending}
             onClick={() => mutate()}
-            className="bg-destructive text-xs"
+            className="bg-destructive w-full max-sm:order-first"
           >
             {isPending ? "Deleting..." : "Delete"}
           </Button>
@@ -275,7 +281,7 @@ export function DeleteProjectDialog({
   );
 }
 
-export function ProjectActions({ project }: { project: Project }) {
+export function ProjectsActions({ project }: { project: Project }) {
   const { push } = useRouter();
   const handleViewProject = () => {
     push(`/dashboard/projects/${project.id}`);
@@ -303,7 +309,7 @@ export function ProjectActions({ project }: { project: Project }) {
           </Button>
         </UpdateProjectTitleDialog>
         <DeleteProjectDialog projectId={project.id}>
-          <Button className="rounded-t-none  rounded-b-md  text-xs data-[state=active]:bg-black data-[state=active]:text-destructive  bg-transparent w-full text-black hover:bg-destructive/20 ">
+          <Button className="rounded-t-none  rounded-b-md  text-xs  bg-destructive/20 w-full text-destructive hover:bg-destructive/20 ">
             Delete
           </Button>
         </DeleteProjectDialog>

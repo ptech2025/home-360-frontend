@@ -30,7 +30,8 @@ export interface ProjectPagination {
 
 export interface FetchAllProjectsRequestSearchParams {
   page: number;
-  title: string | undefined;
+  title?: string;
+  status?: string;
 }
 
 export interface FetchAllProjectsResponse {

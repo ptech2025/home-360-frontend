@@ -60,8 +60,8 @@ function ProjectsFilter() {
             <ListFilter className="size-6" />
           </PopoverTrigger>
         </TooltipTrigger>
-        <TooltipContent side="right">
-          <p className="text-xs">Filter by Order Status</p>
+        <TooltipContent side="top">
+          <p className="text-xs">Filter by Status</p>
         </TooltipContent>
       </Tooltip>
       <PopoverContent

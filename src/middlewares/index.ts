@@ -47,10 +47,20 @@ export const redirectAuthUser = async (req: NextRequest) => {
   const session = await fetchSession(req);
 
   if (session) {
-    const redirectPath = session.user.isOnboarded
-      ? "/dashboard/projects"
-      : "/onboarding";
-    return NextResponse.redirect(new URL(redirectPath, req.url));
+    const isOnboarded = session.user.isOnboarded;
+    const redirectPath = isOnboarded ? "/dashboard/projects" : "/onboarding";
+
+    if (req.nextUrl.pathname !== redirectPath) {
+      const url = req.nextUrl.clone();
+      url.pathname = redirectPath;
+
+      if (!isOnboarded) {
+        url.search = "";
+      }
+
+      return NextResponse.redirect(url);
+    }
   }
+
   return NextResponse.next();
 };

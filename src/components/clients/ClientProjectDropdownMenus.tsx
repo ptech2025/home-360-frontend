@@ -22,7 +22,7 @@ import { CommandLoading } from "cmdk";
 import { Client } from "@/types/client";
 import { Button } from "../ui/button";
 import { Check, Mail, MapPin, Phone, Plus } from "lucide-react";
-import { AddClientDialog } from "./ClientDialogs";
+import { AddClientDialog } from "./ClientsDialogs";
 import { toast } from "sonner";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import { addClientToProject } from "@/services/project";
@@ -82,14 +82,9 @@ function ClientItem({
   );
 }
 
-export function ClientProjectPopover({
-  client,
-  projectId,
-}: ClientProjectPopoverProps) {
+export function ClientProjectPopover({ projectId }: ClientProjectPopoverProps) {
   const [allClientsOpen, setAllClientsOpen] = useState(false);
   const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { push } = useRouter();
 
   // controlled search state
   const [searchVal, setSearchVal] = useState(searchParams?.get("client") || "");
@@ -102,17 +97,6 @@ export function ClientProjectPopover({
     queryFn: () =>
       fetchAllClients({ page: 1, client: debouncedSearchVal, size: 5 }),
   });
-
-  useEffect(() => {
-    const query = new URLSearchParams();
-
-    if (debouncedSearchVal.trim()) {
-      query.set("client", debouncedSearchVal.trim());
-      query.set("page", "1");
-    }
-
-    push(`${pathname}?${query.toString()}`, { scroll: false });
-  }, [debouncedSearchVal, pathname, push]);
 
   useEffect(() => {
     if (data) {
@@ -187,8 +171,6 @@ export function AssignedClientProjectPopover({
   const [clientOpen, setClientOpen] = useState(false);
   const [clientMode, setClientMode] = useState<"add" | "assign">("assign");
   const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { push } = useRouter();
 
   // controlled search state
   const [searchVal, setSearchVal] = useState(searchParams?.get("client") || "");
@@ -201,17 +183,6 @@ export function AssignedClientProjectPopover({
     queryFn: () =>
       fetchAllClients({ page: 1, client: debouncedSearchVal, size: 5 }),
   });
-
-  useEffect(() => {
-    const query = new URLSearchParams();
-
-    if (debouncedSearchVal.trim()) {
-      query.set("client", debouncedSearchVal.trim());
-      query.set("page", "1");
-    }
-
-    push(`${pathname}?${query.toString()}`, { scroll: false });
-  }, [debouncedSearchVal, pathname, push]);
 
   useEffect(() => {
     if (data) {

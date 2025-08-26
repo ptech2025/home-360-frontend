@@ -36,7 +36,7 @@ async function AllClientsPage({ searchParams }: Props) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ClientsPageWrapper />
+      <ClientsPageWrapper page={page} client={client} />
     </HydrationBoundary>
   );
 }

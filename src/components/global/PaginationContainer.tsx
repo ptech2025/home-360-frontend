@@ -1,4 +1,170 @@
-function PaginationContainer() {
-  return <div>PaginationContainer</div>;
+"use client";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+type PaginationContainerProps = {
+  currentPage: number;
+  totalPages: number;
+  size?: number;
+  contentTitle: string;
+  searchKey: string;
+};
+
+type ButtonProps = {
+  page: number;
+  activeClass: boolean;
+};
+
+import { Button } from "@/components/ui/button";
+function PaginationContainer({
+  currentPage,
+  totalPages,
+  searchKey,
+  contentTitle,
+  size,
+}: PaginationContainerProps) {
+  const searchParams = useSearchParams();
+  const { push } = useRouter();
+  const pathname = usePathname();
+
+  const handlePageChange = (page: number) => {
+    const queryParams: Record<string, string> = Object.fromEntries(
+      Object.entries({
+        [searchKey]: searchParams?.get(searchKey) || "",
+        page: String(page),
+        status: searchParams?.get("status") ?? "",
+        //eslint-disable-next-line
+      }).filter(([_, value]) => value !== "")
+    );
+
+    const search = new URLSearchParams(queryParams).toString();
+    push(`${pathname}?${search}`, { scroll: false });
+  };
+
+  const addPageButton = ({ page, activeClass }: ButtonProps) => {
+    return (
+      <Button
+        key={page}
+        size="icon"
+        className={`border-sidebar-border transition-all duration-300 ${
+          activeClass
+            ? "bg-dark-orange text-white"
+            : "text-main-blue bg-transparent"
+        }`}
+        variant={activeClass ? "default" : "outline"}
+        onClick={() => handlePageChange(page)}
+      >
+        {page}
+      </Button>
+    );
+  };
+
+  const renderPageButtons = () => {
+    const pageButtons = [];
+    // first page
+    pageButtons.push(
+      addPageButton({ page: 1, activeClass: currentPage === 1 })
+    );
+    // dots
+
+    if (currentPage > 3) {
+      pageButtons.push(
+        <Button
+          size="icon"
+          className="border-sidebar-border"
+          variant="outline"
+          key="dots-1"
+        >
+          ...
+        </Button>
+      );
+    }
+    // one before current page
+    if (currentPage !== 1 && currentPage !== 2) {
+      pageButtons.push(
+        addPageButton({
+          page: currentPage - 1,
+          activeClass: false,
+        })
+      );
+    }
+    // current page
+    if (currentPage !== 1 && currentPage !== totalPages) {
+      pageButtons.push(
+        addPageButton({
+          page: currentPage,
+          activeClass: true,
+        })
+      );
+    }
+    // one after current page
+
+    if (currentPage !== totalPages && currentPage !== totalPages - 1) {
+      pageButtons.push(
+        addPageButton({
+          page: currentPage + 1,
+          activeClass: false,
+        })
+      );
+    }
+    if (currentPage < totalPages - 2) {
+      pageButtons.push(
+        <Button
+          size="icon"
+          variant="outline"
+          className="border-sidebar-border"
+          key="dots-2"
+        >
+          ...
+        </Button>
+      );
+    }
+    pageButtons.push(
+      addPageButton({
+        page: totalPages,
+        activeClass: currentPage === totalPages,
+      })
+    );
+    return pageButtons;
+  };
+
+  if (totalPages <= 1) {
+    return null;
+  }
+  return (
+    <div className="flex w-full items-center justify-between">
+      <p className="font-nunito text-sm text-[#B9B8BD]">
+        Showing {size || 10} {contentTitle} per page
+      </p>
+
+      <div className="flex gap-x-2">
+        {/* prev */}
+        <Button
+          className="flex items-center gap-x-2 border-sidebar-border"
+          variant="outline"
+          onClick={() => {
+            let prevPage = currentPage - 1;
+            if (prevPage < 1) prevPage = totalPages;
+            handlePageChange(prevPage);
+          }}
+        >
+          <ChevronLeft />
+        </Button>
+        {renderPageButtons()}
+        {/* next */}
+        <Button
+          className="flex items-center gap-x-2 border-sidebar-border"
+          onClick={() => {
+            let nextPage = currentPage + 1;
+            if (nextPage > totalPages) nextPage = 1;
+            handlePageChange(nextPage);
+          }}
+          variant="outline"
+        >
+          <ChevronRight />
+        </Button>
+      </div>
+    </div>
+  );
 }
 export default PaginationContainer;

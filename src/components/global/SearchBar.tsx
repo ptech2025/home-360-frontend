@@ -4,7 +4,6 @@ import { useState, useEffect, FormEvent } from "react";
 import { Search } from "lucide-react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useDebounce } from "use-debounce";
-import { Input } from "../ui/input";
 
 type Props = {
   searchKey: string;
@@ -35,6 +34,8 @@ function SearchBar({ searchKey, placeHolder }: Props) {
       Object.entries({
         [searchKey]: debouncedSearchVal.trim(),
         page: debouncedSearchVal.trim().length > 0 ? "1" : rawPage || "",
+        status: searchParams?.get("status") || "",
+        //eslint-disable-next-line
       }).filter(([_, value]) => value !== "")
     );
 

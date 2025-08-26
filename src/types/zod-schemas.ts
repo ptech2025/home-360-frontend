@@ -96,7 +96,7 @@ export const pricingSchema = z.object({
 });
 
 export const createClientSchema = z.object({
-  name: z.string().min(1, { message: "Client name is required" }),
+  name: z.string().min(3, { message: "Client name is required" }),
   email: z.email({ message: "Invalid email address" }),
   phone: z.string().optional(),
   address: z.string().optional(),

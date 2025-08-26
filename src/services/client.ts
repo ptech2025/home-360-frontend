@@ -40,3 +40,17 @@ export const createClient = async (data: CreateClientSchemaType) => {
     withCredentials: true,
   });
 };
+
+
+export const updateClient = async (clientId: string, data: CreateClientSchemaType) => {
+  return await axios.patch(`${API_URL}/api/clients/${clientId}`, data, {
+    withCredentials: true,
+  });
+};
+
+
+export const deleteClient = async (clientId: string) => {
+  return await axios.delete(`${API_URL}/api/clients/${clientId}`, {
+    withCredentials: true,
+  });
+};

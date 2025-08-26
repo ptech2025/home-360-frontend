@@ -18,8 +18,8 @@ import SidebarLink from "./SidebarLink";
 import { LogoSvg } from "@/components/global/Logo";
 
 import Link from "next/link";
-import { StarIcon } from "../global/Icons";
 import AskAIBtn from "./AskAIBtn";
+import LogOutBtn from "./LogOutBtn";
 
 const sidebarLinks: DashboardLink[] = [
   {
@@ -34,8 +34,6 @@ const sidebarLinks: DashboardLink[] = [
     url: "/dashboard/clients",
     access: ["user", "admin"],
   },
-];
-const footerLinks: DashboardLink[] = [
   {
     icon: <Settings />,
     title: "Settings",
@@ -43,6 +41,7 @@ const footerLinks: DashboardLink[] = [
     access: ["user", "admin"],
   },
 ];
+const footerLinks: DashboardLink[] = [];
 
 type Props = {
   userRole: string;
@@ -116,15 +115,7 @@ function DashboardSidebar({ userRole }: Props) {
               </SidebarMenuItem>
             </SidebarMenu>
             <SidebarMenu>
-              {footerLinks.map((link) => {
-                return (
-                  <SidebarLink
-                    key={link.title}
-                    link={link}
-                    userRole={userRole} // Replace with actual user role
-                  />
-                );
-              })}
+              <LogOutBtn />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

@@ -8,10 +8,7 @@ import { createChatSessionServer } from "@/lib/actions";
 function AskAIBtn() {
   const pathname = usePathname();
   const url = "/dashboard/c";
-  const isActive =
-    pathname === url ||
-    pathname.startsWith(url + "/") ||
-    pathname.startsWith(url);
+  const isActive = pathname === url || pathname.startsWith(`${url}/`);
   return (
     <SidebarMenuItem>
       <form action={createChatSessionServer}>

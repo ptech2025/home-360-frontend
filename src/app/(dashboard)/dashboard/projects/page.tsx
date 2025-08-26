@@ -16,6 +16,7 @@ type Props = {
     title: string | undefined;
     page: string | undefined;
     client: string | undefined;
+    status: string | undefined;
   }>;
 };
 
@@ -26,10 +27,11 @@ async function ProjectsPage({ searchParams }: Props) {
   const title = rawParams.title || undefined;
   const page = rawParams.page ? (title ? Number(rawParams.page) : 1) : 1;
   const client = rawParams.client || undefined;
+  const status = rawParams.status || undefined;
 
   await queryClient.prefetchQuery({
     queryKey: ["projects", { title, page }],
-    queryFn: () => fetchAllProjectsServer({ title, page }),
+    queryFn: () => fetchAllProjectsServer({ title, page, status}),
   });
 
   await queryClient.prefetchQuery({
@@ -47,7 +49,7 @@ async function ProjectsPage({ searchParams }: Props) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ProjectsPageWrapper title={title} page={page} />
+      <ProjectsPageWrapper title={title} page={page} status={status} />
     </HydrationBoundary>
   );
 }
