@@ -7,9 +7,9 @@ export function TableSkeleton() {
       <div className="flex  w-full flex-col sm:flex-row items-center sm:justify-between">
         <Skeleton className="h-8 w-1/4" />
         <div className="flex gap-2 ">
-          <Skeleton className="h-8 w-5" />
-          <Skeleton className="h-8 w-5" />
-          <Skeleton className="h-8 w-5" />
+          <Skeleton className="h-8 w-8" />
+          <Skeleton className="h-8 w-8" />
+          <Skeleton className="h-8 w-8" />
         </div>
       </div>
     </div>
@@ -24,8 +24,8 @@ export function HeaderSkeleton({ heading }: { heading: string }) {
       </h1>
       <div className="w-full max-w-[35rem] flex gap-4 items-center h-11">
         <Skeleton className="flex-1 h-full" />
-        <Skeleton className="h-11 w-6" />
-        <Skeleton className="h-11 px-3 min-w-6 rounded-4xl  " />
+        <Skeleton className="h-11 w-8" />
+        <Skeleton className="h-11 px-3 min-w-14 rounded-4xl  " />
       </div>
     </div>
   );
