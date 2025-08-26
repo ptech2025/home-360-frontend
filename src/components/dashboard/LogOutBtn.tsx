@@ -23,7 +23,7 @@ function LogOutBtn() {
           children: "Sign Out",
         }}
         className={
-          "group flex h-10 w-full [&>svg]:size-5   group-data-[collapsible=icon]:!pl-1.5   items-center gap-2 text-sm font-medium text-destructive transition-all data-[active=true]:bg-destructive/20 "
+          "group flex h-10 w-full [&>svg]:size-5 hover:bg-destructive/20 hover:text-destructive   group-data-[collapsible=icon]:!pl-1.5   items-center gap-2 text-sm font-medium text-destructive transition-all data-[active=true]:bg-destructive/20 "
         }
       >
         <LogOut />
