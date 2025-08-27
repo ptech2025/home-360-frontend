@@ -41,7 +41,7 @@ const sidebarLinks: DashboardLink[] = [
     access: ["user", "admin"],
   },
 ];
-const footerLinks: DashboardLink[] = [];
+// const footerLinks: DashboardLink[] = [];
 
 type Props = {
   userRole: string;
@@ -103,7 +103,7 @@ function DashboardSidebar({ userRole }: Props) {
                     children: "Toggle Sidebar",
                   }}
                   className={
-                    "group my-4 flex h-10 w-full [&_svg]:size-5!   group-data-[collapsible=icon]:!pl-1.5   items-center justify-start gap-2 text-sm font-medium text-dark-orange transition-all data-[active=true]:bg-dark-orange/20 "
+                    "group my-4 flex h-10 w-full [&_svg]:size-5!   group-data-[collapsible=icon]:!pl-1.5   items-center justify-start gap-2 text-sm font-medium text-main-blue transition-all data-[active=true]:bg-dark-orange/20 "
                   }
                 >
                   <SidebarTrigger />
