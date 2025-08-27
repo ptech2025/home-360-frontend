@@ -9,6 +9,7 @@ import { fetchClientById } from "@/services/client";
 import SingleClientHeader from "./SingleClientHeader";
 import ProjectsTable from "../projects/ProjectsTable";
 import PaginationContainer from "../global/PaginationContainer";
+import { SingleClientPageWrapperSkeleton } from "../global/Skeletons";
 
 type Props = {
   clientId: string;
@@ -24,7 +25,7 @@ function SingleClientPageWrapper({ clientId, status, page }: Props) {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <SingleClientPageWrapperSkeleton />;
   }
 
   if (!data) {

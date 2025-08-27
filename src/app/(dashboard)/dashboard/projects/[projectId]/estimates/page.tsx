@@ -1,4 +1,5 @@
-import SingleProjectWrapper from "@/components/projects/SingleProjectWrapper";
+import ProjectEstimatesPageWrapper from "@/components/estimates/ProjectEstimatesPageWrapper";
+
 import { fetchSingleProjectServer, fetchUserServer } from "@/lib/actions";
 import {
   HydrationBoundary,
@@ -19,7 +20,7 @@ type Props = {
   }>;
 };
 
-async function SingleProjectPage({ params }: Props) {
+async function ProjectEstimatesPage({ params }: Props) {
   const queryClient = new QueryClient();
   const user = await fetchUserServer();
   const { projectId } = await params;
@@ -39,8 +40,8 @@ async function SingleProjectPage({ params }: Props) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <SingleProjectWrapper projectId={projectId} />
+      <ProjectEstimatesPageWrapper projectId={projectId} />
     </HydrationBoundary>
   );
 }
-export default SingleProjectPage;
+export default ProjectEstimatesPage;

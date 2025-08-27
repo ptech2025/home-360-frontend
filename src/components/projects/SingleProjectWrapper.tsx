@@ -12,6 +12,7 @@ import {
   ProjectProposalCard,
   TotalProjectValueCard,
 } from "./ProjectsCards";
+import { SingleProjectPageSkeleton } from "../global/Skeletons";
 
 interface Props {
   projectId: string;
@@ -24,7 +25,7 @@ function SingleProjectWrapper({ projectId }: Props) {
     queryFn: () => fetchSingleProject(projectId),
   });
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <SingleProjectPageSkeleton />;
   }
 
   if (!data) {

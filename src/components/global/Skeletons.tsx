@@ -66,3 +66,77 @@ export function ChatPageSkeleton() {
     </section>
   );
 }
+
+export function SingleClientPageWrapperSkeleton() {
+  return (
+    <section className="w-full flex-col flex gap-4  py-4">
+      <div>
+        <Skeleton className="h-10 w-14 rounded-full" />
+      </div>{" "}
+      <div className="p-2 md:p-4 w-full min-h-svh  flex-col flex gap-6">
+        <div className="flex w-full flex-col gap-4">
+          {" "}
+          <div className="flex gap-2 items-center">
+            <Skeleton className="h-10 w-14" />
+            <Skeleton className="h-10 w-5" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 w-full gap-2">
+            <div className="flex items-center justify-start gap-2 w-full">
+              <Skeleton className="h-5 w-5" />
+              <Skeleton className="h-5 w-7" />
+            </div>{" "}
+            <div className="flex items-center justify-start gap-2 w-full">
+              <Skeleton className="h-5 w-5" />
+              <Skeleton className="h-5 w-7" />
+            </div>{" "}
+            <div className="flex items-center justify-start gap-2 w-full">
+              <Skeleton className="h-5 w-5" />
+              <Skeleton className="h-5 w-7" />
+            </div>
+          </div>
+        </div>
+        <TableSkeleton />
+      </div>
+    </section>
+  );
+}
+
+export function SingleProjectPageSkeleton() {
+  return (
+    <section className="w-full flex-col flex gap-4  py-4">
+      <div>
+        <Skeleton className="h-10 w-14 rounded-full" />
+      </div>{" "}
+      <div className="p-2 md:p-4 w-full min-h-svh  flex-col flex gap-6">
+        <div className="flex md:flex-row flex-col justify-between md:items-center w-full gap-3 lg:gap-6">
+          <div className="flex items-start gap-4">
+            <div className="flex gap-1 flex-col flex-1">
+              <Skeleton className="h-10 w-14" />
+
+              <Skeleton className="h-5 w-7" />
+            </div>
+            <div className="md:hidden flex items-center justify-center">
+              <Skeleton className="h-5 w-5" />
+            </div>
+          </div>
+          <div className="flex max-md:flex-wrap items-center gap-3">
+            <Skeleton className="h-8 w-10" />
+
+            <Skeleton className="h-8 w-10" />
+            <Skeleton className="h-8 w-10" />
+
+            <div className="md:flex items-center justify-center hidden">
+              <Skeleton className="h-5 w-5" />
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full [&>div]:min-h-[16rem]">
+          <Skeleton className="w-full" />
+          <Skeleton className="w-full" />
+          <Skeleton className="w-full" />
+          <Skeleton className="w-full" />
+        </div>
+      </div>
+    </section>
+  );
+}
