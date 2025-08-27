@@ -336,7 +336,7 @@ export function TradeOnboardingForm() {
                       value={field.value}
                       onValueChange={field.onChange}
                       className="w-full"
-                      placeholder="Enter your trades here..."
+                      placeholder="Type a trade or service and press Enter"
                     />
                   </div>
                 ) : (

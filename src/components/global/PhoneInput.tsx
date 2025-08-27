@@ -11,12 +11,15 @@ const IntlTelInput = dynamic(() => import("intl-tel-input/reactWithUtils"), {
 
 function PhoneInput({
   setPhoneNumber,
+  value = "",
 }: {
   setPhoneNumber: (value: string) => void;
+  value?: string;
 }) {
   return (
     <div>
       <IntlTelInput
+        initialValue={value}
         onChangeNumber={setPhoneNumber}
         initOptions={{
           initialCountry: "us",

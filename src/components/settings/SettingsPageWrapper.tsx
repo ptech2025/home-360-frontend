@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CompanyInfo, PersonalInfo } from "./GeneralTabContents";
 import RedirectOrToggleSidebar from "../chat/RedirectOrToggleSidebar";
+import { AuthUserType } from "@/types";
 
 const tabsOptions = [
   {
@@ -17,14 +18,15 @@ const tabsOptions = [
   },
 ];
 
-function SettingsPageWrapper() {
+function SettingsPageWrapper({ user }: { user: AuthUserType }) {
+  const profile = user.profile!;
   return (
     <section className="w-full flex-col flex gap-6 py-4">
       <RedirectOrToggleSidebar url={``} showRedirect={false} />
       <h1 className="text-lg md:text-xl lg:text-2xl font-bold text-main-blue">
         Settings
       </h1>
-      <Tabs defaultValue="general" className="w-full">
+      <Tabs defaultValue="general" className="w-full gap-6">
         <TabsList className="w-full h-12.5 bg-transparent">
           {tabsOptions.map((option) => {
             return (
@@ -39,8 +41,12 @@ function SettingsPageWrapper() {
           })}
         </TabsList>
         <TabsContent value="general" className="grid grid-cols-1 gap-6">
-          <PersonalInfo />
-          <CompanyInfo />
+          <PersonalInfo
+            email={user.email}
+            name={user.name}
+            image={user.image}
+          />
+          <CompanyInfo profile={profile} />
         </TabsContent>
         <TabsContent value="security"></TabsContent>
         <TabsContent value="billing"></TabsContent>

@@ -112,7 +112,7 @@ export function MarkupPercentInput({
         </span>
       </div>
       <div className="border border-input rounded-lg p-4 gap-5 flex flex-col justify-center items-center">
-        <div className="flex flex-col gap-1 items-center">
+        <div className="flex flex-col gap-1 items-center justify-center">
           <span className="text-xs font-medium text-main-blue/80">Markup</span>
           <span className="text-xl font-medium text-main-blue">
             {markupPercent} %

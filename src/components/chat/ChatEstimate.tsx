@@ -47,7 +47,7 @@ function ChatEstimate({ estimate, metadata, sessionId }: Props) {
       </CardContent>
       <CardFooter className="border-t">
         <Button
-          className="rounded-3xl h-10 bg-transparent text-main-blue w-full border border-sidebar-border hover:bg-main-blue/10"
+          className="rounded-4xl h-10 bg-transparent text-main-blue w-full border border-sidebar-border hover:bg-main-blue/10"
           asChild
         >
           <Link href={viewEstimateUrl} prefetch={false} scroll={false}>

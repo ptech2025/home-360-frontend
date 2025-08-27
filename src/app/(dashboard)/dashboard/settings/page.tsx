@@ -21,7 +21,7 @@ async function SettingPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <SettingsPageWrapper />
+      <SettingsPageWrapper user={user} />
     </HydrationBoundary>
   );
 }

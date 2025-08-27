@@ -52,12 +52,6 @@ export const contactFormSchema = z.object({
     .min(5, { message: "Message must be at least 5 characters long" }),
 });
 
-export const profileSchema = z.object({
-  firstName: z.string().min(1, { message: "First Name is required" }),
-  lastName: z.string().min(1, { message: "Last Name is required" }),
-  oldImage: z.url({ message: "Old Image must be a Url" }),
-});
-
 export const imageSchema = z.object({
   image: validateImageFile(),
 });
@@ -92,7 +86,7 @@ export const companyTradeSchema = z.object({
 
 export const pricingSchema = z.object({
   markupPercentage: z.number(),
-  location: z.string().min(1, { message: "Location is required" }),
+  location: z.string().min(5, { message: "Location is required" }),
 });
 
 export const createClientSchema = z.object({
@@ -100,6 +94,18 @@ export const createClientSchema = z.object({
   email: z.email({ message: "Invalid email address" }),
   phone: z.string().optional(),
   address: z.string().optional(),
+});
+
+export const personalInfoSchema = z.object({
+  firstName: z.string().min(1, { message: "First Name is required" }),
+  lastName: z.string().min(1, { message: "Last Name is required" }),
+  image: validateImageFile().optional(),
+});
+
+export const companyInfoSchema = z.object({
+  ...orgInfoSchema.shape,
+  ...companyTradeSchema.shape,
+  ...pricingSchema.shape,
 });
 
 export function validateImageFiles() {
@@ -166,8 +172,8 @@ export type ResetPasswordSchemaType = z.infer<typeof resetPasswordSchema>;
 export type ForgotPasswordSchemaType = z.infer<typeof forgotPasswordSchema>;
 export type ContactFormSchemaType = z.infer<typeof contactFormSchema>;
 export type WaitListSchemaType = z.infer<typeof waitListSchema>;
-export type ProfileSchemaType = z.infer<typeof profileSchema>;
-
+export type PersonalInfoSchemaType = z.infer<typeof personalInfoSchema>;
+export type CompanyInfoSchemaType = z.infer<typeof companyInfoSchema>;
 export type OrgInfoSchemaType = z.infer<typeof orgInfoSchema>;
 export type CompanyTradeSchemaType = z.infer<typeof companyTradeSchema>;
 export type PricingSchemaType = z.infer<typeof pricingSchema>;

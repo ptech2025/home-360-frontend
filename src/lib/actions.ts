@@ -16,6 +16,11 @@ import {
   FetchSingleProjectResponse,
   Project,
 } from "@/types/project";
+import {
+  CompanyInfoSchemaType,
+  CompanyInfoSchemaType,
+  PersonalInfoSchemaType,
+} from "@/types/zod-schemas";
 import { API_URL } from "@/utils/constants";
 
 import axios from "axios";
@@ -38,6 +43,39 @@ export const fetchUserServer = async () => {
     console.error(error);
     return null;
   }
+};
+
+export const updateUserPersonalInfoServer = async (data: PersonalInfoSchemaType) => {
+  const cookieStore = await cookies();
+  const cookieHeader = cookieStore.toString();
+
+  try {
+    await axios.patch(`${API_URL}/api/user/details`, data, {
+      headers: { Cookie: cookieHeader },
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+
+  revalidatePath("/dashboard", "layout")
+
+};
+
+export const updateUserCompanyInfoServer = async (data: CompanyInfoSchemaType) => {
+  const cookieStore = await cookies();
+  const cookieHeader = cookieStore.toString();
+
+  try {
+    await axios.patch(`${API_URL}/api/user/details`, data, {
+      headers: { Cookie: cookieHeader },
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+  revalidatePath("/dashboard", "layout")
+
 };
 
 export const createChatSessionServer = async () => {

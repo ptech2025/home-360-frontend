@@ -388,7 +388,10 @@ export function UpdateClientDialog({
                     Phone Number
                   </FormLabel>
                   <FormControl>
-                    <PhoneInput setPhoneNumber={field.onChange} />
+                    <PhoneInput
+                      value={field.value}
+                      setPhoneNumber={field.onChange}
+                    />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
