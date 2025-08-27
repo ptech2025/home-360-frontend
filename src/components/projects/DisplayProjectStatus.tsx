@@ -13,7 +13,7 @@ type Props = {
   status: ProjectStatus;
 };
 
-const renderStatusIcon = (status: ProjectStatus) => {
+export const renderStatusIcon = (status: ProjectStatus) => {
   switch (String(status)) {
     case "draft":
       return <CircleDashed />;
@@ -32,7 +32,7 @@ const renderStatusIcon = (status: ProjectStatus) => {
   }
 };
 
-const renderStatusStyle = (status: ProjectStatus) => {
+export const renderStatusStyle = (status: ProjectStatus) => {
   switch (String(status)) {
     case "draft":
       return "bg-gray-100 text-gray-700"; // neutral gray

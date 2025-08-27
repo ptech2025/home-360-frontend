@@ -119,7 +119,7 @@ export default function Autocomplete({
         {/* Loading */}
         {isLoading && isFocused && (
           <div className="mt-2 p-2 bg-background border rounded-md min-h-35 flex items-center justify-center shadow-sm absolute z-10 w-full">
-            <Loader2 className="animate-spin text-main-blue" />
+            <Loader2 className="animate-spin text-dark-orange" />
           </div>
         )}
 

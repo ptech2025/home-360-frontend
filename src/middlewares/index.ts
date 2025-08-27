@@ -48,17 +48,24 @@ export const redirectAuthUser = async (req: NextRequest) => {
 
   if (session) {
     const isOnboarded = session.user.isOnboarded;
+    const currentPath = req.nextUrl.pathname;
     const redirectPath = isOnboarded ? "/dashboard/projects" : "/onboarding";
 
-    if (req.nextUrl.pathname !== redirectPath) {
-      const url = req.nextUrl.clone();
-      url.pathname = redirectPath;
+    if (isOnboarded) {
+      const isInOnboardedRoute =
+        currentPath.startsWith("/dashboard") || currentPath === "/onboarding";
 
-      if (!isOnboarded) {
-        url.search = "";
+      if (!isInOnboardedRoute && currentPath !== redirectPath) {
+        const url = req.nextUrl.clone();
+        url.pathname = redirectPath;
+        return NextResponse.redirect(url);
       }
-
-      return NextResponse.redirect(url);
+    } else {
+      if (currentPath !== redirectPath) {
+        const url = req.nextUrl.clone();
+        url.pathname = redirectPath;
+        return NextResponse.redirect(url);
+      }
     }
   }
 

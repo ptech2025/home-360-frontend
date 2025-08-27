@@ -1,5 +1,6 @@
 import { AuthUserType } from ".";
 import { Client } from "./client";
+import { Estimate } from "./estimate";
 
 export enum ProjectStatus {
   draft,
@@ -19,6 +20,7 @@ export interface Project {
   user: AuthUserType;
   status: ProjectStatus;
   createdAt: Date;
+  estimates: Estimate[];
 }
 
 export interface ProjectPagination {
@@ -37,4 +39,8 @@ export interface FetchAllProjectsRequestSearchParams {
 export interface FetchAllProjectsResponse {
   projects: Project[];
   pagination: ProjectPagination;
+}
+export interface FetchSingleProjectResponse {
+  project: Project;
+  projectTotalValue: number;
 }

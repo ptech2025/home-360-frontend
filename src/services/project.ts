@@ -1,6 +1,9 @@
 import {
   FetchAllProjectsRequestSearchParams,
   FetchAllProjectsResponse,
+  FetchSingleProjectResponse,
+  Project,
+  ProjectStatus,
 } from "@/types/project";
 import { API_URL } from "@/utils/constants";
 
@@ -85,18 +88,18 @@ export const fetchAllProjects = async (
   }
 };
 
-export const fetchSingleProject = async (sessionId: string) => {
+export const fetchSingleProject = async (projectId: string) => {
   try {
-    const res: { data: { messages: string[] } } = await axios.get(
-      `${API_URL}/api/chat-session/history/${sessionId}`,
+    const res: { data: FetchSingleProjectResponse } = await axios.get(
+      `${API_URL}/api/project/single/${projectId}`,
       {
         withCredentials: true,
       }
     );
-    return res.data.messages;
+    return res.data;
   } catch (error) {
     console.error(error);
-    return [];
+    return null;
   }
 };
 
@@ -107,6 +110,35 @@ export const addClientToProject = async (
   return await axios.patch(
     `${API_URL}/api/project/add-client/${projectId}/${clientId}`,
     {},
+    {
+      withCredentials: true,
+    }
+  );
+};
+
+export const updateProjectAddress = async (
+  address: string,
+  projectId: string
+) => {
+  return await axios.patch(
+    `${API_URL}/api/project/update-address/${projectId}`,
+    {
+      address,
+    },
+    {
+      withCredentials: true,
+    }
+  );
+};
+export const updateProjectStatus = async (
+  status: ProjectStatus,
+  projectId: string
+) => {
+  return await axios.patch(
+    `${API_URL}/api/project/update-status/${projectId}`,
+    {
+      status,
+    },
     {
       withCredentials: true,
     }

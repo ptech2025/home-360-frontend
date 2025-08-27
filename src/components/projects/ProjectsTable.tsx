@@ -22,7 +22,7 @@ import { Project } from "@/types/project";
 import { format } from "date-fns";
 import {
   ClientProjectPopover,
-  AssignedClientProjectPopover,
+  AssignedClientProjectDropdownMenu,
 } from "@/components/clients/ClientProjectDropdownMenus";
 import DisplayProjectStatus from "./DisplayProjectStatus";
 import { ProjectsActions } from "./ProjectsDialogs";
@@ -49,7 +49,7 @@ export default function ProjectsTable({ projects }: Props) {
       accessorKey: "client",
       cell: ({ row }) => {
         return row.original.client ? (
-          <AssignedClientProjectPopover
+          <AssignedClientProjectDropdownMenu
             client={row.original.client}
             projectId={row.original.id}
           />
@@ -83,7 +83,7 @@ export default function ProjectsTable({ projects }: Props) {
       header: "Actions",
       id: "actions",
       cell: ({ row }) => {
-        return <ProjectsActions project={row.original} />;
+        return <ProjectsActions project={row.original} showView />;
       },
     },
   ];

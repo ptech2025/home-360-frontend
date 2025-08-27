@@ -463,7 +463,7 @@ export function ClientsActions({ client }: { client: Client }) {
           </Button>
         </UpdateClientDialog>
         <DeleteClientDialog clientId={client.id}>
-          <Button className="rounded-t-none  rounded-b-md  text-xs  bg-destructive/20 w-full text-destructive hover:bg-destructive/20 ">
+          <Button className="rounded-t-none  rounded-b-md  text-xs  bg-transparent w-full text-destructive hover:bg-destructive/20 ">
             Delete
           </Button>
         </DeleteClientDialog>

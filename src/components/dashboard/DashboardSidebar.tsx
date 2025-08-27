@@ -49,11 +49,7 @@ type Props = {
 
 function DashboardSidebar({ userRole }: Props) {
   return (
-    <Sidebar
-      variant="floating"
-      collapsible="icon"
-      className="border-main-blue/50 bg-white!"
-    >
+    <Sidebar collapsible="icon" className="border-main-blue/50 bg-white!">
       <SidebarHeader className="px-0 py-2">
         <SidebarMenu>
           <SidebarMenuItem>

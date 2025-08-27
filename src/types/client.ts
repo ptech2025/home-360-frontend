@@ -1,3 +1,5 @@
+import { Project } from "./project";
+
 export interface Client {
   id: string;
   userId: string;
@@ -22,5 +24,16 @@ export interface FetchAllClientRequestSearchParams {
 
 export interface FetchAllClientsResponse {
   clients: Client[];
+  pagination: ClientPagination;
+}
+
+export interface FetchClientRequestSearchParams {
+  page: number;
+  status?: string;
+}
+
+export interface FetchClientResponse {
+  client: Client;
+  projects: Project[];
   pagination: ClientPagination;
 }

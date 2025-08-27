@@ -6,12 +6,7 @@ import {
   redirectAuthUser,
 } from "./middlewares";
 
-const privateRoutes = [
-  "/dashboard/projects",
-  "/dashboard/c",
-  "/onboarding",
-  "/dashboard/c/[sessionId]",
-];
+const privateRoutes = ["/dashboard", "/onboarding"];
 const authRoutes = [
   "/forgot-password",
   "/reset-password",
@@ -23,8 +18,9 @@ const adminRoutes = ["/admin"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const isPrivateRoute = privateRoutes.some((route) =>
-    request.nextUrl.pathname.startsWith(route)
+
+  const isPrivateRoute = privateRoutes.some(
+    (route) => pathname === route || pathname.startsWith(route + "/")
   );
   const isAuthRoute = authRoutes.some((route) =>
     request.nextUrl.pathname.startsWith(route)

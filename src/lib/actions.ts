@@ -4,12 +4,16 @@ import { ChatSession } from "@/types/chat";
 import {
   FetchAllClientRequestSearchParams,
   FetchAllClientsResponse,
+  FetchClientRequestSearchParams,
+  FetchClientResponse,
 } from "@/types/client";
 import { Estimate } from "@/types/estimate";
 import { MyUIMessage } from "@/types/message-schema";
 import {
   FetchAllProjectsRequestSearchParams,
   FetchAllProjectsResponse,
+  FetchSingleProjectResponse,
+  Project,
 } from "@/types/project";
 import { API_URL } from "@/utils/constants";
 
@@ -205,5 +209,45 @@ export const fetchAllClientsServer = async (
         totalPages: 1,
       },
     };
+  }
+};
+
+export const fetchSingleProjectServer = async (projectId: string) => {
+  try {
+    const cookieStore = await cookies();
+    const cookieHeader = cookieStore.toString();
+    const res: { data: FetchSingleProjectResponse } = await axios.get(
+      `${API_URL}/api/project/single/${projectId}`,
+      {
+        headers: { Cookie: cookieHeader },
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export const fetchClientByIdServer = async (
+  clientId: string,
+  searchParams: FetchClientRequestSearchParams
+) => {
+  try {
+    const cookieStore = await cookies();
+    const cookieHeader = cookieStore.toString();
+    const res: { data: FetchClientResponse } = await axios.get(
+      `${API_URL}/api/clients/${clientId}`,
+      {
+        headers: { Cookie: cookieHeader },
+        withCredentials: true,
+        params: searchParams,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    return null;
   }
 };

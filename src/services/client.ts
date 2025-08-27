@@ -1,6 +1,8 @@
 import {
   FetchAllClientRequestSearchParams,
   FetchAllClientsResponse,
+  FetchClientRequestSearchParams,
+  FetchClientResponse,
 } from "@/types/client";
 import axios from "axios";
 import { API_URL } from "@/utils/constants";
@@ -35,19 +37,41 @@ export const fetchAllClients = async (
   }
 };
 
+export const fetchClientById = async (
+  clientId: string,
+  searchParams: FetchClientRequestSearchParams
+) => {
+  try {
+    const res: { data: FetchClientResponse } = await axios.get(
+      `${API_URL}/api/clients/${clientId}`,
+      {
+        withCredentials: true,
+        params: {
+          ...searchParams,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 export const createClient = async (data: CreateClientSchemaType) => {
   return await axios.post(`${API_URL}/api/clients`, data, {
     withCredentials: true,
   });
 };
 
-
-export const updateClient = async (clientId: string, data: CreateClientSchemaType) => {
+export const updateClient = async (
+  clientId: string,
+  data: CreateClientSchemaType
+) => {
   return await axios.patch(`${API_URL}/api/clients/${clientId}`, data, {
     withCredentials: true,
   });
 };
-
 
 export const deleteClient = async (clientId: string) => {
   return await axios.delete(`${API_URL}/api/clients/${clientId}`, {

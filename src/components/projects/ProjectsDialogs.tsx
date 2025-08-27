@@ -147,6 +147,9 @@ export function UpdateProjectTitleDialog({
       queryClient.invalidateQueries({
         queryKey: ["projects", { page: 1, title: "" }],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["single_project", { projectId }],
+      });
       toast.success("Project updated successfully.");
       setIsDialogOpen(false);
     },
@@ -227,6 +230,7 @@ export function DeleteProjectDialog({
   projectId: string;
 }) {
   const queryClient = useQueryClient();
+  const { replace } = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { mutate, isPending } = useMutation({
@@ -238,6 +242,9 @@ export function DeleteProjectDialog({
       queryClient.invalidateQueries({
         queryKey: ["projects", { page: 1, title: "" }],
       });
+
+      replace("/dashboard/projects", { scroll: false });
+
       toast.success("Project deleted successfully.");
       setIsDialogOpen(false);
     },
@@ -281,7 +288,13 @@ export function DeleteProjectDialog({
   );
 }
 
-export function ProjectsActions({ project }: { project: Project }) {
+export function ProjectsActions({
+  project,
+  showView,
+}: {
+  project: Project;
+  showView: boolean;
+}) {
   const { push } = useRouter();
   const handleViewProject = () => {
     push(`/dashboard/projects/${project.id}`);
@@ -297,19 +310,21 @@ export function ProjectsActions({ project }: { project: Project }) {
         sideOffset={5}
         className="flex flex-col w-max p-0 divide-y-muted divide-y "
       >
-        <Button
-          onClick={handleViewProject}
-          className="rounded-b-none  rounded-t-md  text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted "
-        >
-          View Project
-        </Button>
+        {showView && (
+          <Button
+            onClick={handleViewProject}
+            className="rounded-none last:rounded-b-md  first:rounded-t-md  text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted "
+          >
+            View Project
+          </Button>
+        )}
         <UpdateProjectTitleDialog title={project.title} projectId={project.id}>
-          <Button className="rounded-none   text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted ">
+          <Button className="rounded-none last:rounded-b-md  first:rounded-t-md    text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted ">
             Edit Title
           </Button>
         </UpdateProjectTitleDialog>
         <DeleteProjectDialog projectId={project.id}>
-          <Button className="rounded-t-none  rounded-b-md  text-xs  bg-destructive/20 w-full text-destructive hover:bg-destructive/20 ">
+          <Button className="rounded-none last:rounded-b-md  first:rounded-t-md   text-xs  bg-transparent w-full text-destructive hover:bg-destructive/20 ">
             Delete
           </Button>
         </DeleteProjectDialog>
