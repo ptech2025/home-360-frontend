@@ -61,6 +61,17 @@ export const createChatSessionServer = async () => {
   redirect(redirectUrl);
 };
 
+export const deleteChatSessionServer = async (sessionId: string) => {
+  const cookieStore = await cookies();
+  const cookieHeader = cookieStore.toString();
+  await axios.delete(`${API_URL}/api/chat-session/history/${sessionId}`, {
+    headers: { Cookie: cookieHeader },
+    withCredentials: true,
+  });
+  revalidateTag("chat-sessions");
+  revalidatePath("/dashboard", "layout");
+};
+
 export const initiateProjectServer = async ({
   prompt,
   projectTitle,

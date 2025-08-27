@@ -32,10 +32,7 @@ import { createClient, deleteClient, updateClient } from "@/services/client";
 import PhoneInput from "../global/PhoneInput";
 import { Client } from "@/types/client";
 
-import {
-  Loader2,
-  EllipsisVertical,
-} from "lucide-react";
+import { Loader2, EllipsisVertical } from "lucide-react";
 
 import {
   Popover,
@@ -214,6 +211,7 @@ export function DeleteClientDialog({
   children: React.ReactNode;
   clientId: string;
 }) {
+  const { replace } = useRouter();
   const queryClient = useQueryClient();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -227,6 +225,7 @@ export function DeleteClientDialog({
         queryKey: ["clients", { page: 1 }],
       });
       toast.success("Client deleted successfully.");
+      replace("/dashboard/clients", { scroll: false });
       setIsDialogOpen(false);
     },
     onError: (error) => {
@@ -289,15 +288,19 @@ export function UpdateClientDialog({
       address: client.address,
     },
   });
+  const clientId = client.id;
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: CreateClientSchemaType) => {
-      return updateClient(client.id, data);
+      return updateClient(clientId, data);
     },
 
     onSuccess() {
       queryClient.invalidateQueries({
         queryKey: ["clients", { page: 1 }],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["single_client", clientId],
       });
       toast.success("Client updated successfully.");
       form.reset({
@@ -435,7 +438,13 @@ export function UpdateClientDialog({
   );
 }
 
-export function ClientsActions({ client }: { client: Client }) {
+export function ClientsActions({
+  client,
+  showView,
+}: {
+  client: Client;
+  showView: boolean;
+}) {
   const { push } = useRouter();
   const handleViewClientProject = () => {
     push(`/dashboard/clients/${client.id}`);
@@ -451,19 +460,21 @@ export function ClientsActions({ client }: { client: Client }) {
         sideOffset={5}
         className="flex flex-col w-max p-0 divide-y-muted divide-y "
       >
-        <Button
-          onClick={handleViewClientProject}
-          className="rounded-b-none  rounded-t-md  text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted "
-        >
-          View Client Projects
-        </Button>
+        {showView && (
+          <Button
+            onClick={handleViewClientProject}
+            className="rounded-none last:rounded-b-md  first:rounded-t-md   text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted "
+          >
+            View Client Projects
+          </Button>
+        )}
         <UpdateClientDialog client={client}>
-          <Button className="rounded-none   text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted ">
+          <Button className="rounded-none last:rounded-b-md  first:rounded-t-md    text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted ">
             Edit Client
           </Button>
         </UpdateClientDialog>
         <DeleteClientDialog clientId={client.id}>
-          <Button className="rounded-t-none  rounded-b-md  text-xs  bg-transparent w-full text-destructive hover:bg-destructive/20 ">
+          <Button className="rounded-none last:rounded-b-md  first:rounded-t-md  text-xs  bg-transparent w-full text-destructive hover:bg-destructive/20 ">
             Delete
           </Button>
         </DeleteClientDialog>

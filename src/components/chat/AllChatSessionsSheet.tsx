@@ -17,11 +17,11 @@ import {
 import { useChatPanelStore } from "@/store/chatPanelStore";
 import { ChatSession } from "@/types/chat";
 import { getChatHeading } from "@/utils/funcs";
-import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
-import { PiTrash } from "react-icons/pi";
+
 import { format } from "date-fns";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import DeleteSessionDialog from "./DeleteSessionDialog";
 
 type Props = {
   sessions: ChatSession[];
@@ -69,12 +69,7 @@ function AllChatSessionsSheet({ sessions }: Props) {
                         {format(new Date(session.createdAt), "MMM dd, yyyy")}
                       </span>
                     </Link>
-                    <Dialog>
-                      <DialogTrigger className="shrink-0 size-10 rounded-full flex items-center justify-center  hover:bg-destructive/10 ">
-                        <PiTrash className="size-5 text-destructive" />
-                      </DialogTrigger>
-                      <DialogContent></DialogContent>
-                    </Dialog>
+                    <DeleteSessionDialog sessionId={session.id} />
                   </CommandItem>
                 );
               })}

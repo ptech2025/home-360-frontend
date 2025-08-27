@@ -64,3 +64,12 @@ export const initiateNewChatSession = async (prompt: string) => {
   sendChatMessage(sessionId, prompt);
   return sessionId;
 };
+
+export const deleteChatSession = async (sessionId: string) => {
+  return await axios.delete(
+    `${API_URL}/api/chat-session/history/${sessionId}`,
+    {
+      withCredentials: true,
+    }
+  );
+};

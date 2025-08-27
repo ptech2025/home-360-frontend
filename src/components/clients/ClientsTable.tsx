@@ -91,7 +91,7 @@ export default function ClientsTable({ clients }: Props) {
       header: "Actions",
       id: "actions",
       cell: ({ row }) => {
-        return <ClientsActions client={row.original} />;
+        return <ClientsActions client={row.original} showView={true} />;
       },
     },
   ];

@@ -8,11 +8,11 @@ type ProjectsHeaderProps = {
 
 function ProjectsHeader({ hasProjects }: ProjectsHeaderProps) {
   return (
-    <div className="flex items-center justify-between gap-4">
+    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <h1 className="md:text-lg lg:text-xl text-base text-main-blue font-semibold">
         Projects
       </h1>
-      <div className="w-full max-w-[35rem] flex gap-4 items-center h-11">
+      <div className="w-full md:max-w-[35rem] flex gap-4 items-center h-11">
         <SearchBar searchKey="title" placeHolder="Search by title" />
         <ProjectsFilter />
         {hasProjects && <AddNewProjectDialog />}
