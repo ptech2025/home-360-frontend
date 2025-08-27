@@ -19,7 +19,7 @@ function ChatWrapper({ sessionId, estimateId }: Props) {
   return (
     <div
       className={cn(
-        "grid   w-full gap-4 overflow-y-hidden flex-1 justify-between",
+        "grid   w-full gap-4 overflow-y-hidden flex-1 justify-between items-start ",
         isChatPanelOpen
           ? "grid-cols-1 lg:grid-cols-[0.75fr_1fr]"
           : "grid-cols-1"
@@ -28,7 +28,7 @@ function ChatWrapper({ sessionId, estimateId }: Props) {
       <Collapsible
         open={isTablet ? true : isChatPanelOpen}
         onOpenChange={setIsChatPanelOpen}
-        className="h-full relative"
+        className="h-full relative data-[state=closed]:hidden"
       >
         <CollapsibleContent className="h-full absolute left-0 top-0 pb-1">
           <ChatPanel sessionId={sessionId} />

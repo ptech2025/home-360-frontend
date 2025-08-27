@@ -41,15 +41,10 @@ function DisplayEstimate({ estimateId }: Props) {
   }
 
   return (
-    <div className="bg-sidebar grid grid-cols-1 grid-rows-[auto_1fr_auto] gap-0 p-4 pr-0  rounded-lg  shadow-sm border border-sidebar-border h-full">
-      <EstimateHeader
-        estimateId={data.id}
-        estimateTitle={data.title}
-        status={data.status}
-        projectId={data.projectId}
-      />
+    <div className="bg-sidebar overflow-y-hidden grid grid-cols-1 grid-rows-[auto_1fr_auto] gap-0 p-4 pr-0  rounded-lg  shadow-sm border border-sidebar-border h-full">
+      <EstimateHeader estimate={data} />
       <DisplayLineItems lineItems={data.lineItems} estimateId={data.id} />
-      <DisplayEstimateTotal />
+      <DisplayEstimateTotal estimate={data} />
     </div>
   );
 }

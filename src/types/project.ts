@@ -44,3 +44,9 @@ export interface FetchSingleProjectResponse {
   project: Project;
   projectTotalValue: number;
 }
+
+export interface FetchProjectEstimateResponse {
+  project: Project;
+  estimates: Estimate[];
+  pagination: ProjectPagination;
+}

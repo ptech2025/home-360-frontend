@@ -16,3 +16,16 @@ export const fetchEstimateById = async (id: string | undefined) => {
     return null;
   }
 };
+
+export const saveEstimateToProject = async (
+  estimateId: string,
+  projectId: string
+) => {
+  return await axios.patch(
+    `${API_URL}/api/estimate/add-to-project/${estimateId}/${projectId}`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+};

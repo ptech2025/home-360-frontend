@@ -1,6 +1,6 @@
-import ProjectEstimatesPageWrapper from "@/components/estimates/ProjectEstimatesPageWrapper";
+import ProjectEstimatesPageWrapper from "@/components/projects/ProjectEstimatesPageWrapper";
 
-import { fetchSingleProjectServer, fetchUserServer } from "@/lib/actions";
+import { fetchProjectEstimatesServer, fetchUserServer } from "@/lib/actions";
 import {
   HydrationBoundary,
   dehydrate,
@@ -26,8 +26,8 @@ async function ProjectEstimatesPage({ params }: Props) {
   const { projectId } = await params;
 
   await queryClient.prefetchQuery({
-    queryKey: ["single_project", { projectId }],
-    queryFn: () => fetchSingleProjectServer(projectId),
+    queryKey: ["project_estimates", { projectId }],
+    queryFn: () => fetchProjectEstimatesServer(projectId),
   });
 
   if (!user) {

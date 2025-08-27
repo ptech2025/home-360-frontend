@@ -1,6 +1,7 @@
 import {
   FetchAllProjectsRequestSearchParams,
   FetchAllProjectsResponse,
+  FetchProjectEstimateResponse,
   FetchSingleProjectResponse,
   Project,
   ProjectStatus,
@@ -143,4 +144,19 @@ export const updateProjectStatus = async (
       withCredentials: true,
     }
   );
+};
+
+export const fetchProjectEstimates = async (projectId: string) => {
+  try {
+    const res: { data: FetchProjectEstimateResponse } = await axios.get(
+      `${API_URL}/api/project/estimates/${projectId}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 };

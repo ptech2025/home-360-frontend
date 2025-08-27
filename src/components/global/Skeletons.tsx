@@ -52,7 +52,7 @@ export function ChatPageSkeleton() {
       >
         <div
           className={cn(
-            "h-full absolute left-0 top-0 pb-1",
+            "h-full pb-1",
             isChatPanelOpen ? "block" : "hidden"
           )}
         >

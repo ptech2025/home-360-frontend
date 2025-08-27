@@ -12,6 +12,7 @@ import { MyUIMessage } from "@/types/message-schema";
 import {
   FetchAllProjectsRequestSearchParams,
   FetchAllProjectsResponse,
+  FetchProjectEstimateResponse,
   FetchSingleProjectResponse,
   Project,
 } from "@/types/project";
@@ -254,6 +255,24 @@ export const fetchClientByIdServer = async (
         headers: { Cookie: cookieHeader },
         withCredentials: true,
         params: searchParams,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export const fetchProjectEstimatesServer = async (projectId: string) => {
+  try {
+    const cookieStore = await cookies();
+    const cookieHeader = cookieStore.toString();
+    const res: { data: FetchProjectEstimateResponse } = await axios.get(
+      `${API_URL}/api/project/estimates/${projectId}`,
+      {
+        headers: { Cookie: cookieHeader },
+        withCredentials: true,
       }
     );
     return res.data;
