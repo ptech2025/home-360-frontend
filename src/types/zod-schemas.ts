@@ -108,6 +108,22 @@ export const companyInfoSchema = z.object({
   ...pricingSchema.shape,
 });
 
+export const changePasswordSchema = z
+  .object({
+    ...resetPasswordSchema.shape,
+    oldPassword: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long" }),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  })
+  .refine((data) => data.oldPassword !== data.newPassword, {
+    message: "New password cannot be the same as old password",
+    path: ["newPassword"], // highlight the field causing the issue
+  });
+
 export function validateImageFiles() {
   const maxUploadSize = 2 * 1024 * 1024; // 2MB
   const acceptedFileTypes = [
@@ -178,3 +194,4 @@ export type OrgInfoSchemaType = z.infer<typeof orgInfoSchema>;
 export type CompanyTradeSchemaType = z.infer<typeof companyTradeSchema>;
 export type PricingSchemaType = z.infer<typeof pricingSchema>;
 export type CreateClientSchemaType = z.infer<typeof createClientSchema>;
+export type ChangePasswordSchemaType = z.infer<typeof changePasswordSchema>;

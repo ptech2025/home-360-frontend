@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CompanyInfo, PersonalInfo } from "./GeneralTabContents";
 import RedirectOrToggleSidebar from "../chat/RedirectOrToggleSidebar";
 import { AuthUserType } from "@/types";
+import { UpdatePassword } from "./SecurityTabContents";
 
 const tabsOptions = [
   {
@@ -48,7 +49,9 @@ function SettingsPageWrapper({ user }: { user: AuthUserType }) {
           />
           <CompanyInfo profile={profile} />
         </TabsContent>
-        <TabsContent value="security"></TabsContent>
+        <TabsContent value="security">
+          <UpdatePassword />
+        </TabsContent>
         <TabsContent value="billing"></TabsContent>
       </Tabs>
     </section>

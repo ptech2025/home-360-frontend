@@ -18,12 +18,11 @@ import {
 } from "@/types/project";
 import {
   CompanyInfoSchemaType,
-  CompanyInfoSchemaType,
   PersonalInfoSchemaType,
 } from "@/types/zod-schemas";
 import { API_URL } from "@/utils/constants";
 
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -45,37 +44,67 @@ export const fetchUserServer = async () => {
   }
 };
 
-export const updateUserPersonalInfoServer = async (data: PersonalInfoSchemaType) => {
+export const updateUserPersonalInfoServer = async (
+  data: PersonalInfoSchemaType
+) => {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
+  const formData = new FormData();
+
+  formData.append("name", `${data.firstName} ${data.lastName}`);
+
+  if (data.image) {
+    formData.append("file", data.image);
+  }
 
   try {
-    await axios.patch(`${API_URL}/api/user/details`, data, {
-      headers: { Cookie: cookieHeader },
+    await axios.patch(`${API_URL}/api/user/update-user-info`, formData, {
+      headers: {
+        Cookie: cookieHeader,
+        "Content-Type": "multipart/form-data",
+      },
     });
   } catch (error) {
     console.error(error);
     throw error;
   }
 
-  revalidatePath("/dashboard", "layout")
-
+  revalidatePath("/dashboard", "layout");
+  revalidatePath("/dashboard/settings", "page");
 };
 
-export const updateUserCompanyInfoServer = async (data: CompanyInfoSchemaType) => {
+export const updateUserCompanyInfoServer = async (
+  data: CompanyInfoSchemaType
+) => {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
+  const formData = new FormData();
+
+  if (data.companyLogo) {
+    formData.append("file", data.companyLogo);
+  }
+
+  Object.entries(data).forEach(([key, value]) => {
+    if (key !== "companyLogo" && value !== undefined && value !== null) {
+      if (typeof value === "object") {
+        formData.append(key, JSON.stringify(value));
+      } else {
+        formData.append(key, String(value));
+      }
+    }
+  });
 
   try {
-    await axios.patch(`${API_URL}/api/user/details`, data, {
-      headers: { Cookie: cookieHeader },
+    await axios.patch(`${API_URL}/api/user/update-user-profile`, formData, {
+      headers: { Cookie: cookieHeader, "Content-Type": "multipart/form-data" },
     });
   } catch (error) {
-    console.error(error);
+    const err = error as AxiosError;
+    console.error(err.message, err.response);
     throw error;
   }
-  revalidatePath("/dashboard", "layout")
-
+  revalidatePath("/dashboard/settings", "page");
+  revalidatePath("/dashboard", "layout");
 };
 
 export const createChatSessionServer = async () => {

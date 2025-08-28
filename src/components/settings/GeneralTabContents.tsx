@@ -232,7 +232,7 @@ export function CompanyInfo({ profile }: CompanyInfoProps) {
     mode: "onChange",
     defaultValues: {
       companyName,
-      license,
+      license: license || "",
       phoneNumber,
       location,
       companyTrade,
@@ -303,11 +303,11 @@ export function CompanyInfo({ profile }: CompanyInfoProps) {
                     </div>
                     <FormLabel
                       className="bg-main-blue/10 h-11 rounded-3xl px-3 py-1 w-max hover:shadow-sm transition-colors duration-200 flex gap-1 items-center text-main-blue font-medium text-sm"
-                      htmlFor="image"
+                      htmlFor="logo"
                     >
                       <Input
-                        id="image"
-                        name="image"
+                        id="logo"
+                        name="logo"
                         type="file"
                         onChange={(e) => {
                           const files = e.target.files;
