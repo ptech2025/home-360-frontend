@@ -14,7 +14,6 @@ import {
   FetchAllProjectsResponse,
   FetchProjectEstimateResponse,
   FetchSingleProjectResponse,
-  Project,
 } from "@/types/project";
 import {
   CompanyInfoSchemaType,
@@ -99,8 +98,6 @@ export const updateUserCompanyInfoServer = async (
       headers: { Cookie: cookieHeader, "Content-Type": "multipart/form-data" },
     });
   } catch (error) {
-    const err = error as AxiosError;
-    console.error(err.message, err.response);
     throw error;
   }
   revalidatePath("/dashboard/settings", "page");

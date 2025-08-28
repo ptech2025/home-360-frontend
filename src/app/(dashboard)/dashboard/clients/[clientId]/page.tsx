@@ -1,10 +1,5 @@
 import SingleClientPageWrapper from "@/components/clients/SingleClientPageWrapper";
-import ClientsPageWrapper from "@/components/clients/ClientsPageWrapper";
-import {
-  fetchAllClientsServer,
-  fetchClientByIdServer,
-  fetchUserServer,
-} from "@/lib/actions";
+import { fetchClientByIdServer, fetchUserServer } from "@/lib/actions";
 import {
   HydrationBoundary,
   dehydrate,

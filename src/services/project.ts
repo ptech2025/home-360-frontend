@@ -3,7 +3,6 @@ import {
   FetchAllProjectsResponse,
   FetchProjectEstimateResponse,
   FetchSingleProjectResponse,
-  Project,
   ProjectStatus,
 } from "@/types/project";
 import { API_URL } from "@/utils/constants";

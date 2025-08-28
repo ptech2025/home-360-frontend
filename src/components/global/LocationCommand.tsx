@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { CommandLoading } from "cmdk";
-import { MapPin, Map, Ban, Loader2, Check } from "lucide-react";
+import { MapPin, Map, Ban, Loader2, } from "lucide-react";
 
 import { fetchPlaces } from "@/services/user";
 import { PlaceSuggestion } from "@/types";

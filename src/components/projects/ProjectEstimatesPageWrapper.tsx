@@ -1,7 +1,7 @@
 "use client";
 
 import RedirectOrToggleSidebar from "../chat/RedirectOrToggleSidebar";
-import { fetchProjectEstimates, fetchSingleProject } from "@/services/project";
+import { fetchProjectEstimates, } from "@/services/project";
 import { useQuery } from "@tanstack/react-query";
 
 import SingleProjectHeader from "@/components/projects/SingleProjectHeader";
