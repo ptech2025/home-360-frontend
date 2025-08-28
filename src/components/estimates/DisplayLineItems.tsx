@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { formatCurrency } from "@/utils/funcs";
+import { EstimateLineItemCategoryDropdownMenu } from "./EstimateDropdownMenus";
 
 type Props = {
   lineItems: EstimateLineItem[];
@@ -65,7 +66,7 @@ function DisplayLineItems({ lineItems, estimateId }: Props) {
       cell: ({ row }) => {
         return (
           <span className="text-xs text-main-blue   capitalize">
-            {row.original.unitType}
+            {row.original.unitType.toString().replace("_", " ")}
           </span>
         );
       },

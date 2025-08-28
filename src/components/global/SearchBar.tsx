@@ -4,6 +4,7 @@ import { useState, useEffect, FormEvent } from "react";
 import { Search } from "lucide-react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useDebounce } from "use-debounce";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   searchKey: string;
@@ -11,6 +12,7 @@ type Props = {
 };
 
 function SearchBar({ searchKey, placeHolder }: Props) {
+  const queryClient = useQueryClient();
   const { push } = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -39,8 +41,17 @@ function SearchBar({ searchKey, placeHolder }: Props) {
       }).filter(([_, value]) => value !== "")
     );
 
+    queryClient.invalidateQueries({
+      queryKey: ["projects", { page: 1, [searchKey]: debouncedSearchVal }],
+    });
+
+    queryClient.invalidateQueries({
+      queryKey: ["clients", { page: 1, [searchKey]: debouncedSearchVal }],
+    });
+
     const search = new URLSearchParams(queryParams).toString();
     push(`${pathname}?${search}`, { scroll: false });
+
   }, [debouncedSearchVal, pathname, push, searchKey, searchParams]);
 
   return (

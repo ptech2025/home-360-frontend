@@ -108,6 +108,7 @@ export function PersonalInfo({ name, email, image }: PersonalInfoProps) {
                         <Image
                           src={defaultImage}
                           alt={name}
+                          priority
                           width={50}
                           height={50}
                           className="rounded-full  size-[50px] object-center object-cover"
@@ -292,6 +293,7 @@ export function CompanyInfo({ profile }: CompanyInfoProps) {
                         <Image
                           src={defaultImage}
                           alt={companyName}
+                          priority
                           width={50}
                           height={50}
                           className="rounded-full  size-[50px] object-center object-cover"

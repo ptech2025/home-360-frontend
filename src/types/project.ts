@@ -34,6 +34,7 @@ export interface FetchAllProjectsRequestSearchParams {
   page: number;
   title?: string;
   status?: string;
+  size?: number;
 }
 
 export interface FetchAllProjectsResponse {

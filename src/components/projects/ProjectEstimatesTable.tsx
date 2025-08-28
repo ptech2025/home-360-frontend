@@ -18,16 +18,75 @@ import {
 
 import { cn } from "@/lib/utils";
 
-
 import ProjectEstimatesEmpty from "./ProjectEstimatesEmpty";
 import { Estimate } from "@/types/estimate";
+import { formatCurrency, formatEstimateId } from "@/utils/funcs";
+import { format } from "date-fns";
+import { ProjectEstimatesActions } from "./ProjectEstimatesDialogs";
 
 type Props = {
   estimates: Estimate[];
 };
 
 export default function ProjectEstimatesTable({ estimates }: Props) {
-  const columns: ColumnDef<Estimate>[] = [];
+  const columns: ColumnDef<Estimate>[] = [
+    {
+      header: "Estimate Title",
+      accessorKey: "title",
+      cell: ({ row }) => {
+        return (
+          <div className="flex flex-col">
+            <span className="text-xs text-main-blue  capitalize">
+              {formatEstimateId(row.original.id)}
+            </span>
+            <span className="text-sm text-main-blue font-medium  capitalize">
+              {row.original.title}
+            </span>
+          </div>
+        );
+      },
+    },
+    {
+      header: "Line Items",
+      accessorKey: "lineItems",
+      cell: ({ row }) => {
+        return (
+          <span className="text-sm text-main-blue  capitalize">
+            {row.original.lineItems.length}
+          </span>
+        );
+      },
+    },
+    {
+      header: "Date",
+      accessorKey: "createdAt",
+      cell: ({ row }) => {
+        return (
+          <span className="text-xs">
+            {format(row.original.createdAt, "MMM dd, yyyy")}
+          </span>
+        );
+      },
+    },
+    {
+      header: "Total",
+      accessorKey: "total",
+      cell: ({ row }) => {
+        return (
+          <span className="text-sm text-main-blue font-medium  capitalize">
+            {formatCurrency(row.original.totalAmount)}
+          </span>
+        );
+      },
+    },
+    {
+      header: "Actions",
+      id: "actions",
+      cell: ({ row }) => {
+        return <ProjectEstimatesActions estimate={row.original} />;
+      },
+    },
+  ];
 
   const table = useReactTable({
     data: estimates,

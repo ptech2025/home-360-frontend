@@ -5,8 +5,8 @@ import { formatCurrency, formatEstimateId } from "@/utils/funcs";
 
 import { Button } from "../ui/button";
 import Link from "next/link";
-import {  ChevronRight, Loader2, Plus } from "lucide-react";
-import {  useMutation } from "@tanstack/react-query";
+import { ChevronRight, Loader2, Plus } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "nextjs-toploader/app";
 import { toast } from "sonner";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
@@ -65,6 +65,7 @@ export function ProjectEstimatesCard({
   };
 
   const recentEstimate = estimates.length > 0 ? estimates[0] : null;
+  const status = "completed" as unknown as ProjectStatus;
 
   return (
     <div className="rounded-lg flex-col gap-4 flex shadow-sm border border-sidebar-border px-2.5 py-4">
@@ -105,12 +106,8 @@ export function ProjectEstimatesCard({
                 </span>
               </div>
 
-              <Badge
-                className={`capitalize  ${renderStatusStyle(
-                  ProjectStatus.completed
-                )}`}
-              >
-                {renderStatusIcon(ProjectStatus.completed)}
+              <Badge className={`capitalize  ${renderStatusStyle(status)}`}>
+                {renderStatusIcon(status)}
                 <span>{recentEstimate.status.toString()}</span>
               </Badge>
             </div>
@@ -119,7 +116,7 @@ export function ProjectEstimatesCard({
                 Total Including Markup
               </span>
               <h5 className="text-base md:text-lg lg:text-xl font-bold text-main-blue">
-                {formatCurrency(3000)}
+                {formatCurrency(recentEstimate.totalAmount)}
               </h5>
             </div>
           </Link>

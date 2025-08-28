@@ -96,7 +96,7 @@ function ClientItem({
       className="cursor-pointer hover:bg-main-blue/20 flex justify-between items-center gap-2"
     >
       <span>{client.name}</span>
-      {matched && <Check className="text-green-500 size-4" />}
+      {matched && <Check className="text-green-500 size-4 shrink-0" />}
     </CommandItem>
   );
 }

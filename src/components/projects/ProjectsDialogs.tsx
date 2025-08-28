@@ -46,7 +46,7 @@ export function AddNewProjectDialog() {
 
     onSuccess() {
       queryClient.invalidateQueries({
-        queryKey: ["projects", { page: 1, title: "" }],
+        queryKey: ["projects", { page: 1 }],
       });
       toast.success("Project created successfully.");
       setProjectTitle("");
