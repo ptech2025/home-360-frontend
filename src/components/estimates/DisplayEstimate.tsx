@@ -5,9 +5,11 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import EstimateEmpty from "./EstimateEmpty";
 
-import EstimateHeader from "./EstimateHeader";
-import DisplayEstimateTotal from "./DisplayEstimateTotal";
-import DisplayLineItems from "./DisplayLineItems";
+import {
+  DisplayEstimateHeader,
+  DisplayEstimateLineItems,
+  DisplayEstimateTotal,
+} from "./DisplayEstimateComps";
 
 type Props = {
   estimateId?: string;
@@ -42,8 +44,11 @@ function DisplayEstimate({ estimateId }: Props) {
 
   return (
     <div className="bg-sidebar overflow-y-hidden grid grid-cols-1 grid-rows-[auto_1fr_auto] gap-0 p-4 pr-0  rounded-lg  shadow-sm border border-sidebar-border h-full">
-      <EstimateHeader estimate={data} />
-      <DisplayLineItems lineItems={data.lineItems} estimateId={data.id} />
+      <DisplayEstimateHeader estimate={data} />
+      <DisplayEstimateLineItems
+        lineItems={data.lineItems}
+        projectId={data.projectId}
+      />
       <DisplayEstimateTotal estimate={data} />
     </div>
   );

@@ -1,4 +1,49 @@
-function SingleEstimatePage() {
-  return <div>SingleEstimatePage</div>;
+import RedirectOrToggleSidebar from "@/components/chat/RedirectOrToggleSidebar";
+import {
+  HydrationBoundary,
+  dehydrate,
+  QueryClient,
+} from "@tanstack/react-query";
+import { fetchEstimateByIdServer, fetchUserServer } from "@/lib/actions";
+import SingleEstimateWrapper from "@/components/estimates/SingleEstimateWrapper";
+import { redirect } from "next/navigation";
+
+async function SingleEstimatePage({
+  params,
+}: {
+  params: Promise<{ estimateId: string }>;
+}) {
+  const queryClient = new QueryClient();
+  const { estimateId } = await params;
+  const user = await fetchUserServer();
+
+  await queryClient.prefetchQuery({
+    queryKey: ["estimate", estimateId],
+    queryFn: () => fetchEstimateByIdServer(estimateId),
+  });
+
+  if (!user) {
+    redirect("/sign-in");
+  }
+
+  if (!user.isOnboarded) {
+    redirect("/onboarding");
+  }
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <section className="w-full h-full py-4  flex-col flex gap-4">
+        <RedirectOrToggleSidebar
+          url="/dashboard/projects"
+          showRedirect={true}
+        />{" "}
+        <SingleEstimateWrapper
+          estimateId={estimateId}
+          profile={user.profile!}
+          userEmail={user.email}
+        />
+      </section>
+    </HydrationBoundary>
+  );
 }
 export default SingleEstimatePage;

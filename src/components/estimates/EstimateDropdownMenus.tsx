@@ -1,159 +1,109 @@
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
-import {
-  createProject,
-  deleteProject,
-  updateProjectTitle,
-} from "@/services/project";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  FolderPlus,
-  Loader2,
-  Plus,
-  EllipsisVertical,
-  FolderPen,
-  ChevronDown,
-} from "lucide-react";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { EllipsisVertical } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
 
-import { useRouter } from "nextjs-toploader/app";
-import { Project } from "@/types/project";
-import {
-  EstimateLineItemCategory,
-  EstimateLineItemUnitType,
-} from "@/types/message-schema";
+import { RemoveEstimateFromProjectDialog } from "../projects/ProjectEstimatesDialogs";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Estimate } from "@/types/estimate";
+import { useEstimatePanelStore } from "@/store/estimateStore";
+import { fetchEstimatePdf } from "@/services/estimate";
+import { formatEstimateId } from "@/utils/funcs";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
-
-type EstimateLineItemCategoryDropdownMenuProps = {
-  category: EstimateLineItemCategory;
-  estimateId: string;
-  lineItemId: string;
-};
-type EstimateLineItemUnitTypeDropdownMenuProps = {
-  unitType: EstimateLineItemUnitType;
-  estimateId: string;
-  lineItemId: string;
-};
-
-export function EstimateLineItemCategoryDropdownMenu({
-  category,
-}: EstimateLineItemCategoryDropdownMenuProps) {
-  const [open, setOpen] = useState(false);
-  const queryClient = useQueryClient();
-  const categoryOptions = Object.values(EstimateLineItemCategory).filter(
-    (v): v is EstimateLineItemCategory => typeof v === "string"
-  );
+export function EstimateAction({ estimate }: { estimate: Estimate }) {
+  const { setEstimateMode, estimateMode } = useEstimatePanelStore();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async (newCategory: EstimateLineItemCategory) => {},
-    onSuccess() {
-      queryClient.invalidateQueries({
-        //   queryKey: ["single_project", { projectId }],
-      });
-      toast.success("Project updated successfully.");
-      setOpen(false);
+    mutationFn: () => {
+      return fetchEstimatePdf(estimate.id);
     },
 
+    onSuccess(data) {
+      if (!data) return;
+
+      // Convert ArrayBuffer → Blob
+      const blob = new Blob([data], { type: "application/pdf" });
+
+      // Create temporary link
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${formatEstimateId(estimate.id)}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      // Cleanup
+      URL.revokeObjectURL(url);
+
+      toast.success("Estimate downloaded successfully!");
+    },
     onError: (error) => {
       const msg = renderAxiosOrAuthError(error);
       toast.error(msg);
     },
   });
 
-  return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger
-        className={cn(
-          "capitalize hover:shadow-sm rounded-3xl gap-1 [&_svg]:size-4 group/item border border-sidebar-border   transition-colors duration-200  flex items-center py-1 px-2 text-xs "
-        )}
-      >
-        <span>{category}</span>
-        <ChevronDown className="size-4 group-hover/item:rotate-180" />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
-        side={"bottom"}
-        align="end"
-        className="flex flex-col w-max p-0 divide-y-muted divide-y"
-      >
-        {categoryOptions.map((stat) => (
-          <Button
-            key={stat}
-            disabled={isPending || category === stat}
-            onClick={() => mutate(stat)}
-            className={cn(
-              "rounded-none [&_svg]:size-4 last:rounded-b-md justify-between items-center gap-2 first:rounded-t-md bg-transparent text-main-blue hover:bg-main-blue/20   text-xs   capitalize w-full"
-            )}
-          >
-            {stat}
-          </Button>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
+  const handlePreview = () => {
+    setEstimateMode("preview");
+  };
+  const handleEdit = () => {
+    setEstimateMode("edit");
+  };
 
-export function EstimateLineItemUnitTypeDropdownMenu({
-  unitType,
-}: EstimateLineItemUnitTypeDropdownMenuProps) {
-  const [open, setOpen] = useState(false);
-  const queryClient = useQueryClient();
-  const unitTypeOptions = Object.values(EstimateLineItemUnitType).filter(
-    (v): v is EstimateLineItemUnitType => typeof v === "string"
-  );
+  if (estimate.projectId) {
+    return (
+      <Popover>
+        <PopoverTrigger>
+          <EllipsisVertical className="size-5 text-main-blue" />
+        </PopoverTrigger>
+        <PopoverContent
+          align="end"
+          side="bottom"
+          sideOffset={5}
+          className="flex flex-col w-max p-0 divide-y-muted divide-y"
+        >
+          {estimateMode === "edit" ? (
+            <>
+              <Button
+                disabled={isPending}
+                onClick={() => mutate()}
+                className="rounded-none last:rounded-b-md  first:rounded-t-md  text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted "
+              >
+                Export as PDF
+              </Button>
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (newUnit: EstimateLineItemUnitType) => {},
-    onSuccess() {
-      queryClient.invalidateQueries({
-        //   queryKey: ["single_project", { projectId }],
-      });
-      toast.success("Project updated successfully.");
-      setOpen(false);
-    },
+              <Button
+                disabled={isPending}
+                onClick={handlePreview}
+                className="rounded-none last:rounded-b-md  first:rounded-t-md  text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted "
+              >
+                Send to Client
+              </Button>
 
-    onError: (error) => {
-      const msg = renderAxiosOrAuthError(error);
-      toast.error(msg);
-    },
-  });
-
-  return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger
-        className={cn(
-          "capitalize hover:shadow-sm rounded-3xl gap-1 [&_svg]:size-4 group/unit border border-sidebar-border   transition-colors duration-200  flex items-center py-1 px-2 text-xs "
-        )}
-      >
-        <span>{unitType.toString().replace("_", " ")}</span>
-        <ChevronDown className="size-4 group-hover/unit:rotate-180" />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
-        side={"bottom"}
-        align="end"
-        className="flex flex-col w-max p-0 divide-y-muted divide-y"
-      >
-        {unitTypeOptions.map((stat) => (
-          <Button
-            key={stat}
-            disabled={isPending || unitType === stat}
-            onClick={() => mutate(stat)}
-            className={cn(
-              "rounded-none [&_svg]:size-4 last:rounded-b-md justify-between items-center gap-2 first:rounded-t-md bg-transparent text-main-blue hover:bg-main-blue/20   text-xs   capitalize w-full"
-            )}
-          >
-            {stat.toString().replace("_", " ")}
-          </Button>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
+              <RemoveEstimateFromProjectDialog
+                estimateId={estimate.id}
+                projectId={estimate.projectId}
+              >
+                <Button
+                  disabled={isPending}
+                  className="rounded-none last:rounded-b-md  first:rounded-t-md   text-xs  bg-transparent w-full text-destructive hover:bg-destructive/20 "
+                >
+                  Remove from Project
+                </Button>
+              </RemoveEstimateFromProjectDialog>
+            </>
+          ) : (
+            <Button
+              onClick={handleEdit}
+              className="rounded-none last:rounded-b-md  first:rounded-t-md  text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted "
+            >
+              Edit Estimate
+            </Button>
+          )}
+        </PopoverContent>
+      </Popover>
+    );
+  }
 }

@@ -3,6 +3,8 @@ import {
   EstimateLineItemUnitType,
 } from "./message-schema";
 
+import { Project } from "./project";
+
 export enum EstimateStatus {
   draft,
   assigned,
@@ -18,10 +20,20 @@ export interface Estimate {
   createdAt: Date;
   updatedAt: Date;
   projectId: string | null;
+  project: Project;
   lineItems: EstimateLineItem[];
-  estimateTax: EstimateTax | null
-  estimateMarkup: EstimateMarkup | null
-  estimateDiscount: EstimateDiscount | null
+  estimateTax: EstimateTax;
+  estimateMarkup: EstimateMarkup;
+  estimateDiscount: EstimateDiscount;
+  calculations: {
+    subTotal: number;
+    markupValue: number;
+    costAfterMarkup: number;
+    discountValue: number;
+    costAfterDiscount: number;
+    taxValue: number;
+    totalAmount: number;
+  };
 }
 
 export interface EstimateLineItem {
@@ -44,9 +56,8 @@ export interface EstimateTax {
 
 export interface EstimateMarkup {
   id: string;
-  material: number;
-  labor: number;
-  other: number;
+  rate: number;
+  value: number;
 }
 
 export interface EstimateDiscount {

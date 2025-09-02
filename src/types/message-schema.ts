@@ -93,56 +93,65 @@ export const metadataSchema = z.object({
 
 export const dataPartSchema = z.object({
   response: z
-  .string()
-  .min(20, "Response must be at least 20 characters")
-  .max(500, "Response must be less than 500 characters")
-  .describe(
-    "Clear response of user request, project scope and approach (2-4 sentences)"
-    
+    .string()
+    .min(20, "Response must be at least 20 characters")
+    .max(600, "Response must be less than 600 characters")
+    .describe(
+      "Conversational explanation of the request and the approach taken or friendly reply. Be helpful and friendly (2-5 sentences)."
     ),
 
-  estimate: z.object({
-    estimateTitle: z
-      .string()
-      .min(5, "Title must be at least 5 characters")
-      .describe(
-        "Descriptive title of the estimate, e.g., 'Interior Painting - Two Bedrooms'"
-      ),
+  estimate: z
+    .object({
+      estimateTitle: z
+        .string()
+        .min(5, "Title must be at least 5 characters")
+        .describe(
+          "Descriptive title of the estimate, e.g., 'Interior Painting - Two Bedrooms'"
+        ),
 
-    lineItems: z
-      .array(
-        z.object({
-          name: z
-            .string()
-            .min(3, "Item name must be at least 3 characters")
-            .describe("Specific name of the task or material"),
-          quantity: z.number().describe("Number of units, hours, or rooms"),
-          cost: z.number().describe("Cost per unit in local currency"),
-          total: z.number().describe("Calculated total: Quantity × Cost"),
-          unitType: z
-            .enum(EstimateLineItemUnitType)
-            .describe("Unit of measure (hours, sqft, each, etc.)"),
-          category: z
-            .enum(EstimateLineItemCategory)
-            .describe("Category type (labor, material, other)"),
-        })
-      )
-      .min(1, "At least one line item is required"),
+      lineItems: z
+        .array(
+          z.object({
+            name: z
+              .string()
+              .min(3, "Item name must be at least 3 characters")
+              .describe("Specific name of the task or material"),
+            quantity: z.number().positive().describe("Units, hours, or rooms"),
+            cost: z
+              .number()
+              .nonnegative()
+              .describe("Cost per unit in local currency"),
+            total: z.number().nonnegative().describe("Quantity × Cost"),
+            unitType: z
+              .enum(EstimateLineItemUnitType)
+              .describe("Unit of measure"),
+            category: z
+              .enum(EstimateLineItemCategory)
+              .describe("Category type"),
+          })
+        )
+        .min(1, "At least one line item is required"),
 
-    totalEstimate: z.number().describe("Sum of all line item totals"),
+      totalEstimate: z
+        .number()
+        .nonnegative()
+        .describe("Sum of all line item totals"),
+    })
+    .nullable(), // 👈 allow null when estimate can't be generated
 
-    notes: z
-      .string()
-      .optional()
-      .describe("Additional notes or assumptions about the estimate"),
-  }),
   confidence: z
     .enum(["low", "medium", "high"])
     .default("medium")
     .describe("Confidence level in the estimate accuracy"),
+
+  suggestions: z
+    .array(z.string())
+    .max(3)
+    .optional()
+    .describe(
+      "3 example prompts the user could try next, only present when estimate is null"
+    ),
 });
-
-
 
 export type MyDataParts = z.infer<typeof dataPartSchema>;
 
@@ -157,5 +166,3 @@ type MyMetadata = z.infer<typeof metadataSchema>;
 export type MyUIMessage = UIMessage<MyMetadata, MyDataParts, MyTools> & {
   parts: MyMessagePart[];
 };
-
-

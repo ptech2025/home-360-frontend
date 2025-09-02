@@ -45,7 +45,7 @@ export function RemoveEstimateFromProjectDialog({
         queryKey: ["project_estimates", { projectId }],
       });
       queryClient.invalidateQueries({
-        queryKey: ["estimate", { estimateId }],
+        queryKey: ["estimate", estimateId],
       });
 
       toast.success("Estimate removed from project successfully.");

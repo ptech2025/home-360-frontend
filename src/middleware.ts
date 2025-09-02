@@ -4,6 +4,7 @@ import {
   protectAdmin,
   protectDashboard,
   redirectAuthUser,
+  fetchSession,
 } from "./middlewares";
 
 const privateRoutes = ["/dashboard", "/onboarding"];
@@ -19,6 +20,8 @@ const adminRoutes = ["/admin"];
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  const session = await fetchSession(request);
+
   const isPrivateRoute = privateRoutes.some(
     (route) => pathname === route || pathname.startsWith(route + "/")
   );
@@ -31,19 +34,19 @@ export async function middleware(request: NextRequest) {
 
   if (isPrivateRoute) {
     console.log("running private route middleware");
-    const res = await protectDashboard(request);
+    const res = await protectDashboard(request, session);
     if (res) return res;
   }
 
-  if (isAdminRoute) {
+  if (isAdminRoute && session) {
     console.log("running admin route middleware");
-    const res = await protectAdmin(request);
+    const res = await protectAdmin(request, session);
     if (res) return res;
   }
 
   if (isAuthRoute) {
     console.log("running auth route middleware");
-    const res = await redirectAuthUser(request);
+    const res = await redirectAuthUser(request, session);
 
     if (res) return res;
   }

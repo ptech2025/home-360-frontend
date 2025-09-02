@@ -21,7 +21,7 @@ import {
 } from "@/types/zod-schemas";
 import { API_URL } from "@/utils/constants";
 
-import axios, { AxiosError } from "axios";
+import axios  from "axios";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";

@@ -34,7 +34,7 @@ function ChatWrapper({ sessionId, estimateId }: Props) {
           <ChatPanel sessionId={sessionId} />
         </CollapsibleContent>
       </Collapsible>
-      <div className="hidden lg:block h-full pb-1 transition-width duration-300 ease-in-out">
+      <div className="hidden lg:block h-full pb-1 w-full transition-width duration-200 ease-in">
         <DisplayEstimate estimateId={estimateId} />
       </div>
     </div>

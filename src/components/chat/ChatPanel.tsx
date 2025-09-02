@@ -71,6 +71,7 @@ export default function ChatPanel({ sessionId }: ChatPanelProps) {
             messages={messages}
             sessionId={sessionId}
             isGenerating={isGenerating}
+            setPrompt={setPrompt}
           />
         ) : (
           <ChatEmpty setPrompt={setPrompt} />

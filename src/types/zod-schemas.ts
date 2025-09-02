@@ -1,5 +1,9 @@
 import { z } from "zod";
 import { fromError } from "zod-validation-error";
+import {
+  EstimateLineItemCategory,
+  EstimateLineItemUnitType,
+} from "./message-schema";
 
 export const signUpSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required" }),
@@ -124,6 +128,24 @@ export const changePasswordSchema = z
     path: ["newPassword"], // highlight the field causing the issue
   });
 
+export const estimateLineItemSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+
+  quantity: z.number().min(0, "Quantity must be 0 or greater"),
+
+  cost: z.number().min(0, "Cost must be 1 or greater"),
+
+  unitType: z.enum(EstimateLineItemUnitType, {
+    message: `Unknown Unit Type`,
+  }),
+
+  category: z.enum(EstimateLineItemCategory, {
+    message: `Unknown Category`,
+  }),
+});
+
+// Type inference
+
 export function validateImageFiles() {
   const maxUploadSize = 2 * 1024 * 1024; // 2MB
   const acceptedFileTypes = [
@@ -195,3 +217,4 @@ export type CompanyTradeSchemaType = z.infer<typeof companyTradeSchema>;
 export type PricingSchemaType = z.infer<typeof pricingSchema>;
 export type CreateClientSchemaType = z.infer<typeof createClientSchema>;
 export type ChangePasswordSchemaType = z.infer<typeof changePasswordSchema>;
+export type EstimateLineItemType = z.infer<typeof estimateLineItemSchema>;
