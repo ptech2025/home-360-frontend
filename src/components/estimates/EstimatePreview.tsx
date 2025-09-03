@@ -65,7 +65,7 @@ function EstimatePreview({
           </div>
         )}
       </div>
-      <div className="p-2 md:p-4 grid-cols-2 grid gap-4 bg-main-blue/5 rounded-md">
+      <div className="p-2 md:p-4 grid-cols-1 sm:grid-cols-2 grid gap-4 bg-main-blue/5 rounded-md">
         <div className="flex flex-col gap-4 justify-between items-start">
           <Image
             alt={companyName}
@@ -100,7 +100,7 @@ function EstimatePreview({
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex max-sm:order-first flex-col gap-2">
           <h1 className="text-3xl font-bold text-main-blue">Estimate</h1>
           <div className="text-sm text-main-blue/80 flex gap-1">
             <span>Estimate No:</span>

@@ -16,7 +16,10 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { UpdateLineItemDialog } from "./EstimateDialogs";
+import {
+  UpdateEstimateTitleDialog,
+  UpdateLineItemDialog,
+} from "./EstimateDialogs";
 
 export function EstimateAction({ estimate }: { estimate: Estimate }) {
   const [open, setOpen] = useState(false);
@@ -77,6 +80,11 @@ export function EstimateAction({ estimate }: { estimate: Estimate }) {
         >
           {estimateMode === "edit" ? (
             <>
+              <UpdateEstimateTitleDialog
+                isLoading={isPending}
+                estimateId={estimate.id}
+                title={estimate.title}
+              />
               <Button
                 disabled={isPending}
                 onClick={() => mutate()}

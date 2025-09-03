@@ -137,7 +137,7 @@ export const changePasswordSchema = z
   });
 
 export const createEstimateLineItemSchema = z.object({
-  title: z.string().min(1, "Title is required"),
+  title: z.string().min(1, "Item Description is required"),
 
   quantity: z.number().min(1, "Quantity must be 1 or greater"),
 
@@ -150,6 +150,10 @@ export const createEstimateLineItemSchema = z.object({
   category: z.enum(EstimateLineItemCategory, {
     message: `Unknown Category`,
   }),
+});
+
+export const estimateSchema = z.object({
+  title: z.string().min(1, "Title is required"),
 });
 
 // Type inference
@@ -228,3 +232,5 @@ export type ChangePasswordSchemaType = z.infer<typeof changePasswordSchema>;
 export type CreateEstimateLineItemType = z.infer<
   typeof createEstimateLineItemSchema
 >;
+
+export type EstimateSchemaType = z.infer<typeof estimateSchema>;

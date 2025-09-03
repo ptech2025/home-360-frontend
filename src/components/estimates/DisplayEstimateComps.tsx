@@ -23,8 +23,9 @@ import {
 import { Button } from "../ui/button";
 import { formatEstimateId } from "@/utils/funcs";
 import SavedToProjectDropdownMenu from "./SavedToProjectDropdownMenu";
-import { FolderEdit, Pen, Plus } from "lucide-react";
+import { FolderEdit, Pen } from "lucide-react";
 import Link from "next/link";
+import { AddLineItemDialog } from "./EstimateDialogs";
 
 type Props = {
   estimate: Estimate;
@@ -63,8 +64,7 @@ export function DisplayEstimateTotal({ estimate }: Props) {
           </div>{" "}
           <div className="flex  justify-between items-center">
             <span className="text-main-blue text-xs">
-              Discount - {estimate.estimateDiscount.name} (
-              {estimate.estimateDiscount.rate}%)
+              Discount ({estimate.estimateDiscount.rate}%)
             </span>
             <span className="text-sm font-semibold">
               - {formatCurrency(estimate.calculations.discountValue)}
@@ -72,7 +72,7 @@ export function DisplayEstimateTotal({ estimate }: Props) {
           </div>
           <div className="flex  justify-between items-center">
             <span className="text-main-blue text-xs">
-              {estimate.estimateTax.name} ({estimate.estimateTax.rate}%)
+              Tax ({estimate.estimateTax.rate}%)
             </span>
             <span className="text-sm font-semibold">
               {formatCurrency(estimate.calculations.taxValue)}
@@ -320,8 +320,7 @@ export function DisplayEstimatePageTotal({ estimate }: Props) {
           </div>{" "}
           <div className="flex  justify-between items-center">
             <span className="text-main-blue text-xs">
-              Discount - {estimate.estimateDiscount.name} (
-              {estimate.estimateDiscount.rate}%)
+              Discount ({estimate.estimateDiscount.rate}%)
             </span>
             <span className="text-sm font-semibold">
               - {formatCurrency(estimate.calculations.discountValue)}
@@ -329,7 +328,7 @@ export function DisplayEstimatePageTotal({ estimate }: Props) {
           </div>
           <div className="flex  justify-between items-center">
             <span className="text-main-blue text-xs">
-              {estimate.estimateTax.name} ({estimate.estimateTax.rate}%)
+              Tax ({estimate.estimateTax.rate}%)
             </span>
             <span className="text-sm font-semibold">
               {formatCurrency(estimate.calculations.taxValue)}
@@ -441,12 +440,7 @@ export function DisplayEstimatePageLineItems({
 
   return (
     <div className="flex-1 flex-col gap-2 flex">
-      {projectId && (
-        <Button className="bg-transparent text-dark-orange w-max  hover:bg-dark-orange/20">
-          <Plus />
-          <span>Add</span>
-        </Button>
-      )}
+      {projectId && <AddLineItemDialog estimateId={estimateId} />}
       <div className="w-full max-h-[50vh] flex-1 pr-4 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-dark-orange scrollbar-track-dark-orange/20 ">
         <Table>
           <TableHeader>
@@ -638,9 +632,7 @@ export function EstimatePreviewLineItems({
           <span className="text-sm">{estimate.estimateDiscount.rate}%</span>
         </div>
         <div className="flex  justify-between items-center">
-          <span className="text-main-blue text-xs">
-            {estimate.estimateTax.name}
-          </span>
+          <span className="text-main-blue text-xs">Tax</span>
           <span className="text-sm ">{estimate.estimateTax.rate}%</span>
         </div>
         <div className="flex  justify-between items-center">

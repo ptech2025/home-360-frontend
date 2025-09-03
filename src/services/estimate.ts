@@ -2,7 +2,10 @@ import { API_URL } from "@/utils/constants";
 import axios from "axios";
 
 import { Estimate } from "@/types/estimate";
-import { CreateEstimateLineItemType } from "@/types/zod-schemas";
+import {
+  CreateEstimateLineItemType,
+  EstimateSchemaType,
+} from "@/types/zod-schemas";
 
 export const fetchEstimateById = async (id: string | undefined) => {
   if (!id) return null;
@@ -62,11 +65,11 @@ export const removeEstimateFromProject = async (
 };
 export const updateEstimateTitle = async (
   estimateId: string,
-  title: string
+  data: EstimateSchemaType
 ) => {
   return await axios.patch(
-    `${API_URL}/api/estimate//${estimateId}/title`,
-    { title },
+    `${API_URL}/api/estimate/${estimateId}/title`,
+    data,
     {
       withCredentials: true,
     }
