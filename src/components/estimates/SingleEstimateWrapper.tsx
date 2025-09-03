@@ -34,7 +34,7 @@ function SingleEstimateWrapper({ estimateId, profile, userEmail }: Props) {
 
   if (!data) {
     toast.error("Project Not Found");
-    replace("/dashboard/projects");
+    // replace("/dashboard/projects");
     return null;
   }
 
@@ -50,6 +50,7 @@ function SingleEstimateWrapper({ estimateId, profile, userEmail }: Props) {
           <DisplayEstimatePageLineItems
             lineItems={data.lineItems}
             projectId={data.projectId}
+            estimateId={data.id}
           />
           <DisplayEstimatePageTotal estimate={data} />
         </div>

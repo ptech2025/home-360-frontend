@@ -1,17 +1,25 @@
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EllipsisVertical } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 
 import { RemoveEstimateFromProjectDialog } from "../projects/ProjectEstimatesDialogs";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Estimate } from "@/types/estimate";
+import { Estimate, EstimateLineItem } from "@/types/estimate";
 import { useEstimatePanelStore } from "@/store/estimateStore";
-import { fetchEstimatePdf } from "@/services/estimate";
+import { deleteLineItem, fetchEstimatePdf } from "@/services/estimate";
 import { formatEstimateId } from "@/utils/funcs";
+import { useState } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { UpdateLineItemDialog } from "./EstimateDialogs";
 
 export function EstimateAction({ estimate }: { estimate: Estimate }) {
+  const [open, setOpen] = useState(false);
   const { setEstimateMode, estimateMode } = useEstimatePanelStore();
 
   const { mutate, isPending } = useMutation({
@@ -38,6 +46,7 @@ export function EstimateAction({ estimate }: { estimate: Estimate }) {
       URL.revokeObjectURL(url);
 
       toast.success("Estimate downloaded successfully!");
+      setOpen(false);
     },
     onError: (error) => {
       const msg = renderAxiosOrAuthError(error);
@@ -47,18 +56,20 @@ export function EstimateAction({ estimate }: { estimate: Estimate }) {
 
   const handlePreview = () => {
     setEstimateMode("preview");
+    setOpen(false);
   };
   const handleEdit = () => {
     setEstimateMode("edit");
+    setOpen(false);
   };
 
   if (estimate.projectId) {
     return (
-      <Popover>
-        <PopoverTrigger>
+      <DropdownMenu open={open} onOpenChange={setOpen}>
+        <DropdownMenuTrigger>
           <EllipsisVertical className="size-5 text-main-blue" />
-        </PopoverTrigger>
-        <PopoverContent
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
           align="end"
           side="bottom"
           sideOffset={5}
@@ -102,8 +113,63 @@ export function EstimateAction({ estimate }: { estimate: Estimate }) {
               Edit Estimate
             </Button>
           )}
-        </PopoverContent>
-      </Popover>
+        </DropdownMenuContent>
+      </DropdownMenu>
     );
   }
+}
+
+export function EstimateTableItemAction({
+  lineItem,
+  estimateId,
+}: {
+  estimateId: string;
+  lineItem: EstimateLineItem;
+}) {
+  const [open, setOpen] = useState(false);
+
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationFn: () => {
+      return deleteLineItem(lineItem.id, estimateId);
+    },
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["estimate", estimateId],
+      });
+
+      toast.success("Line Item deleted successfully!");
+      setOpen(false);
+    },
+    onError: (error) => {
+      const msg = renderAxiosOrAuthError(error);
+      toast.error(msg);
+    },
+  });
+  return (
+    <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger className="group-hover:visible invisible transition-all duration-200">
+        <EllipsisVertical className="size-5  text-main-blue" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="end"
+        side="bottom"
+        sideOffset={5}
+        className="flex flex-col w-max p-0 divide-y-muted divide-y"
+      >
+        <UpdateLineItemDialog
+          isLoading={isPending}
+          lineItem={lineItem}
+          estimateId={estimateId}
+        />
+        <Button
+          onClick={() => mutate()}
+          disabled={isPending}
+          className="rounded-none last:rounded-b-md  first:rounded-t-md   text-xs  bg-transparent w-full text-destructive hover:bg-destructive/20 "
+        >
+          Delete
+        </Button>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 }

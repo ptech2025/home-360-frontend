@@ -48,6 +48,7 @@ function DisplayEstimate({ estimateId }: Props) {
       <DisplayEstimateLineItems
         lineItems={data.lineItems}
         projectId={data.projectId}
+        estimateId={data.id}
       />
       <DisplayEstimateTotal estimate={data} />
     </div>

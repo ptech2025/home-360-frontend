@@ -13,12 +13,6 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import {
-  UserRoundPlus,
-  UserRoundPen,
-  Loader2,
-  EllipsisVertical,
-} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -30,12 +24,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {
+  categoryValues,
   createClientSchema,
   CreateClientSchemaType,
+  createEstimateLineItemSchema,
+  CreateEstimateLineItemType,
+  unitTypeValues,
 } from "@/types/zod-schemas";
 import { createClient, deleteClient, updateClient } from "@/services/client";
 import PhoneInput from "../global/PhoneInput";
 import { Client } from "@/types/client";
+
+import { Loader2, EllipsisVertical, Pen, UserRoundPlus } from "lucide-react";
 
 import {
   Popover,
@@ -43,8 +43,21 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useRouter } from "nextjs-toploader/app";
+import { EstimateLineItem } from "@/types/estimate";
+import { updateLineItem } from "@/services/estimate";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectItem,
+  SelectContent,
+} from "../ui/select";
+import {
+  EstimateLineItemCategory,
+  EstimateLineItemUnitType,
+} from "@/types/message-schema";
 
-export function AddClientDialog({ children }: { children: React.ReactNode }) {
+export function AddLineItemDialog({ children }: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
 
@@ -207,111 +220,41 @@ export function AddClientDialog({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function DeleteClientDialog({
-  children,
-  clientId,
+export function UpdateLineItemDialog({
+  lineItem,
+  estimateId,
+  isLoading,
 }: {
-  children: React.ReactNode;
-  clientId: string;
-}) {
-  const { replace } = useRouter();
-  const queryClient = useQueryClient();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: () => {
-      return deleteClient(clientId);
-    },
-
-    onSuccess() {
-      queryClient.invalidateQueries({
-        queryKey: ["clients", { page: 1 }],
-      });
-      toast.success("Client deleted successfully.");
-      replace("/dashboard/clients", { scroll: false });
-      setIsDialogOpen(false);
-    },
-    onError: (error) => {
-      const msg = renderAxiosOrAuthError(error);
-      toast.error(msg);
-    },
-  });
-
-  return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Delete This Client</DialogTitle>
-          <DialogDescription>
-            you cannot undo this action, are you sure you want to delete this
-            client?
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter className="grid grid-cols-1 items-center gap-4 sm:grid-cols-2">
-          <Button
-            disabled={isPending}
-            onClick={() => setIsDialogOpen(false)}
-            variant={"outline"}
-            className="w-full"
-          >
-            Cancel
-          </Button>
-
-          <Button
-            disabled={isPending}
-            onClick={() => mutate()}
-            className="bg-destructive w-full max-sm:order-first"
-          >
-            {isPending ? "Deleting..." : "Delete"}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-export function UpdateClientDialog({
-  children,
-  client,
-}: {
-  children: React.ReactNode;
-  client: Client;
+  lineItem: EstimateLineItem;
+  estimateId: string;
+  isLoading: boolean;
 }) {
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
 
-  const form = useForm<CreateClientSchemaType>({
-    resolver: zodResolver(createClientSchema),
+  const form = useForm<CreateEstimateLineItemType>({
+    resolver: zodResolver(createEstimateLineItemSchema),
     mode: "onChange",
     defaultValues: {
-      email: client.email,
-      name: client.name,
-      phone: client.phone,
-      address: client.address,
+      title: lineItem.title,
+      quantity: lineItem.quantity,
+      cost: lineItem.cost,
+      unitType: lineItem.unitType,
+      category: lineItem.category,
     },
   });
-  const clientId = client.id;
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (data: CreateClientSchemaType) => {
-      return updateClient(clientId, data);
+    mutationFn: (data: CreateEstimateLineItemType) => {
+      return updateLineItem(lineItem.id, estimateId, data);
     },
 
     onSuccess() {
       queryClient.invalidateQueries({
-        queryKey: ["clients", { page: 1 }],
+        queryKey: ["estimate", estimateId],
       });
-      queryClient.invalidateQueries({
-        queryKey: ["single_client", clientId],
-      });
-      toast.success("Client updated successfully.");
-      form.reset({
-        email: "",
-        name: "",
-        phone: "",
-        address: "",
-      });
+      toast.success("Line Item updated successfully.");
+
       setOpen(false);
     },
     onError: (error) => {
@@ -320,23 +263,27 @@ export function UpdateClientDialog({
     },
   });
 
-  const onSubmit = (values: CreateClientSchemaType) => {
+  const onSubmit = (values: CreateEstimateLineItemType) => {
     mutate(values);
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogTrigger asChild>
+        <Button
+          disabled={isPending || isLoading}
+          className="rounded-none last:rounded-b-md  first:rounded-t-md  text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted "
+        >
+          Edit
+        </Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader className="flex flex-row gap-2 items-center">
           <div className="rounded-lg flex items-center justify-center shrink-0 p-1 size-12  border border-sidebar-border">
-            <UserRoundPen className="text-main-blue size-6" />
+            <Pen className="text-main-blue size-6" />
           </div>
           <div className="flex gap-1 flex-col justify-center">
-            <DialogTitle>Edit Client</DialogTitle>
-            <DialogDescription>
-              Clients can be assigned to projects
-            </DialogDescription>
+            <DialogTitle>Edit Line Item</DialogTitle>
           </div>
         </DialogHeader>
         <Form {...form}>
@@ -346,15 +293,15 @@ export function UpdateClientDialog({
           >
             <FormField
               control={form.control}
-              name="name"
+              name="title"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel className="text-main-blue after:ml-[-5px] after:text-red-500 after:content-['*']">
-                    Client Name
+                    Item Description
                   </FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Client Name"
+                      placeholder="Item Description"
                       className="h-11"
                       {...field}
                     />
@@ -363,60 +310,120 @@ export function UpdateClientDialog({
                 </FormItem>
               )}
             />{" "}
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel className="text-main-blue after:ml-[-5px] after:text-red-500 after:content-['*']">
-                    Email
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Client Email Address"
-                      className="h-11"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />{" "}
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem className="w-full ">
-                  <FormLabel className="text-main-blue ">
-                    Phone Number
-                  </FormLabel>
-                  <FormControl>
-                    <PhoneInput
-                      value={field.value}
-                      setPhoneNumber={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel className="text-main-blue">Address</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Client Address"
-                      className="h-11"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="quantity"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="text-main-blue after:ml-[-5px] after:text-red-500 after:content-['*']">
+                      Quantity
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        min={1}
+                        placeholder="Quantity"
+                        className="h-11"
+                        value={field.value}
+                        onChange={(e) => {
+                          const qty = Number(e.target.value);
+                          field.onChange(qty);
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />{" "}
+              <FormField
+                control={form.control}
+                name="cost"
+                render={({ field }) => (
+                  <FormItem className="w-full ">
+                    <FormLabel className="text-main-blue ">Cost</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Cost"
+                        min={1}
+                        className="h-11"
+                        value={field.value}
+                        onChange={(e) => {
+                          const qty = Number(e.target.value);
+                          field.onChange(qty);
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="unitType"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="text-main-blue after:ml-[-5px] after:text-red-500 after:content-['*']">
+                      Unit Type
+                    </FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="capitalize w-full h-11!">
+                          <SelectValue placeholder="Unit Type" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {unitTypeValues.map((unit) => (
+                          <SelectItem
+                            key={unit}
+                            value={unit}
+                            className="capitalize"
+                          >
+                            {unit.replace("_", " ")}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />{" "}
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="text-main-blue after:ml-[-5px] after:text-red-500 after:content-['*']">
+                      Category
+                    </FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="capitalize w-full h-11!">
+                          <SelectValue placeholder="Category" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {categoryValues.map((unit) => (
+                          <SelectItem
+                            key={unit}
+                            value={unit}
+                            className="capitalize"
+                          >
+                            {unit.replace("_", " ")}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />{" "}
+            </div>
             <DialogFooter className="grid grid-cols-1 items-center gap-4 sm:grid-cols-2">
               <Button
                 type="button"
@@ -441,50 +448,5 @@ export function UpdateClientDialog({
         </Form>
       </DialogContent>
     </Dialog>
-  );
-}
-
-export function ClientsActions({
-  client,
-  showView,
-}: {
-  client: Client;
-  showView: boolean;
-}) {
-  const { push } = useRouter();
-  const handleViewClientProject = () => {
-    push(`/dashboard/clients/${client.id}`);
-  };
-  return (
-    <Popover>
-      <PopoverTrigger>
-        <EllipsisVertical className="size-5 text-main-blue" />
-      </PopoverTrigger>
-      <PopoverContent
-        align="end"
-        side="bottom"
-        sideOffset={5}
-        className="flex flex-col w-max p-0 divide-y-muted divide-y "
-      >
-        {showView && (
-          <Button
-            onClick={handleViewClientProject}
-            className="rounded-none last:rounded-b-md  first:rounded-t-md   text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted "
-          >
-            View Client Projects
-          </Button>
-        )}
-        <UpdateClientDialog client={client}>
-          <Button className="rounded-none last:rounded-b-md  first:rounded-t-md    text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted ">
-            Edit Client
-          </Button>
-        </UpdateClientDialog>
-        <DeleteClientDialog clientId={client.id}>
-          <Button className="rounded-none last:rounded-b-md  first:rounded-t-md  text-xs  bg-transparent w-full text-destructive hover:bg-destructive/20 ">
-            Delete
-          </Button>
-        </DeleteClientDialog>
-      </PopoverContent>
-    </Popover>
   );
 }

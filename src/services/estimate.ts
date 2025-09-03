@@ -2,7 +2,7 @@ import { API_URL } from "@/utils/constants";
 import axios from "axios";
 
 import { Estimate } from "@/types/estimate";
-import { EstimateLineItemType } from "@/types/zod-schemas";
+import { CreateEstimateLineItemType } from "@/types/zod-schemas";
 
 export const fetchEstimateById = async (id: string | undefined) => {
   if (!id) return null;
@@ -88,7 +88,7 @@ export const shareEstimateToClient = async (
 
 export const addLineItemToEstimate = async (
   estimateId: string,
-  lineItem: EstimateLineItemType
+  lineItem: CreateEstimateLineItemType
 ) => {
   return await axios.post(
     `${API_URL}/api/estimate/${estimateId}/line-items`,
@@ -105,11 +105,23 @@ export const addLineItemToEstimate = async (
 export const updateLineItem = async (
   lineItemId: string,
   estimateId: string,
-  lineItem: EstimateLineItemType
+  lineItem: CreateEstimateLineItemType
 ) => {
   return await axios.patch(
     `${API_URL}/api/estimate/${estimateId}/line-items/${lineItemId}`,
     lineItem,
+    {
+      withCredentials: true,
+    }
+  );
+};
+
+export const deleteLineItem = async (
+  lineItemId: string,
+  estimateId: string
+) => {
+  return await axios.delete(
+    `${API_URL}/api/estimate/${estimateId}/line-items/${lineItemId}`,
     {
       withCredentials: true,
     }

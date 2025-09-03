@@ -5,6 +5,14 @@ import {
   EstimateLineItemUnitType,
 } from "./message-schema";
 
+export const unitTypeValues = Object.values(EstimateLineItemUnitType).filter(
+  (v): v is EstimateLineItemUnitType => typeof v === "string"
+);
+
+export const categoryValues = Object.values(EstimateLineItemCategory).filter(
+  (v): v is EstimateLineItemCategory => typeof v === "string"
+);
+
 export const signUpSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),
@@ -128,12 +136,12 @@ export const changePasswordSchema = z
     path: ["newPassword"], // highlight the field causing the issue
   });
 
-export const estimateLineItemSchema = z.object({
+export const createEstimateLineItemSchema = z.object({
   title: z.string().min(1, "Title is required"),
 
-  quantity: z.number().min(0, "Quantity must be 0 or greater"),
+  quantity: z.number().min(1, "Quantity must be 1 or greater"),
 
-  cost: z.number().min(0, "Cost must be 1 or greater"),
+  cost: z.number().min(1, "Cost must be 1 or greater"),
 
   unitType: z.enum(EstimateLineItemUnitType, {
     message: `Unknown Unit Type`,
@@ -217,4 +225,6 @@ export type CompanyTradeSchemaType = z.infer<typeof companyTradeSchema>;
 export type PricingSchemaType = z.infer<typeof pricingSchema>;
 export type CreateClientSchemaType = z.infer<typeof createClientSchema>;
 export type ChangePasswordSchemaType = z.infer<typeof changePasswordSchema>;
-export type EstimateLineItemType = z.infer<typeof estimateLineItemSchema>;
+export type CreateEstimateLineItemType = z.infer<
+  typeof createEstimateLineItemSchema
+>;

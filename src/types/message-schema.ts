@@ -3,66 +3,66 @@ import { z } from "zod";
 
 export enum EstimateLineItemUnitType {
   // GENERAL
-  none,
-  each,
-  piece,
-  set,
+  none = "none",
+  each = "each",
+  piece = "piece",
+  set = "set",
 
   // AREA
-  square,
-  square_foot,
-  square_meter,
-  acre,
+  square = "square",
+  square_foot = "square_foot",
+  square_meter = "square_meter",
+  acre = "acre",
 
   // LENGTH
-  foot,
-  linear_foot,
-  inch,
-  yard,
-  meter,
-  kilometer,
-  mile,
+  foot = "foot",
+  linear_foot = "linear_foot",
+  inch = "inch",
+  yard = "yard",
+  meter = "meter",
+  kilometer = "kilometer",
+  mile = "mile",
 
   // VOLUME
-  cubic_foot,
-  cubic_meter,
-  liter,
-  gallon,
-  barrel,
-  bucket,
+  cubic_foot = "cubic_foot",
+  cubic_meter = "cubic_meter",
+  liter = "liter",
+  gallon = "gallon",
+  barrel = "barrel",
+  bucket = "bucket",
 
   // WEIGHT
-  pound,
-  kilogram,
-  ton,
-  ounce,
-  gram,
+  pound = "pound",
+  kilogram = "kilogram",
+  ton = "ton",
+  ounce = "ounce",
+  gram = "gram",
 
   // SHEET/BOARD MATERIALS
-  sheet,
-  board_foot,
-  panel,
-  roll,
+  sheet = "sheet",
+  board_foot = "board_foot",
+  panel = "panel",
+  roll = "roll",
 
   // PACKAGED MATERIALS
-  bag,
-  bundle,
-  box,
-  carton,
-  pack,
+  bag = "bag",
+  bundle = "bundle",
+  box = "box",
+  carton = "carton",
+  pack = "pack",
 
   // TIME
-  man_hour,
-  hour,
-  day,
-  week,
-  month,
+  man_hour = "man_hour",
+  hour = "hour",
+  day = "day",
+  week = "week",
+  month = "month",
 }
 
 export enum EstimateLineItemCategory {
-  material,
-  labor,
-  other,
+  material = "material",
+  labor = "labor",
+  other = "other",
 }
 
 type DataResponsePart = {

@@ -16,7 +16,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { EstimateAction } from "./EstimateDropdownMenus";
+import {
+  EstimateAction,
+  EstimateTableItemAction,
+} from "./EstimateDropdownMenus";
 import { Button } from "../ui/button";
 import { formatEstimateId } from "@/utils/funcs";
 import SavedToProjectDropdownMenu from "./SavedToProjectDropdownMenu";
@@ -30,6 +33,7 @@ type Props = {
 type DisplayEstimateLineItemsProps = {
   lineItems: EstimateLineItem[];
   projectId: string | null;
+  estimateId: string;
 };
 
 type EstimatePreviewLineItemsProps = {
@@ -173,7 +177,10 @@ export function DisplayEstimateLineItems({
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="border-b ">
+              <TableRow
+                key={headerGroup.id}
+                className="border-b hover:bg-transparent "
+              >
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
@@ -209,7 +216,7 @@ export function DisplayEstimateLineItems({
                     <TableCell
                       key={cell.id}
                       className={cn(
-                        "py-2.5s ",
+                        "py-2.5 ",
                         cell.column.id === "title" &&
                           "sticky bg-white    left-0 z-10 w-max before:absolute before:right-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:right-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]",
                         cell.column.id === "total" &&
@@ -346,6 +353,7 @@ export function DisplayEstimatePageTotal({ estimate }: Props) {
 export function DisplayEstimatePageLineItems({
   lineItems,
   projectId,
+  estimateId,
 }: DisplayEstimateLineItemsProps) {
   const columns: ColumnDef<EstimateLineItem>[] = [
     {
@@ -408,9 +416,18 @@ export function DisplayEstimatePageLineItems({
       id: "total",
       cell: ({ row }) => {
         return (
-          <span className="text-sm text-main-blue font-medium  capitalize">
-            {formatCurrency(row.original.itemTotal)}
-          </span>
+          <div className="flex gap-2 justify-between items-center">
+            <span className="text-sm text-main-blue font-medium  capitalize">
+              {formatCurrency(row.original.itemTotal)}
+            </span>
+
+            {projectId && (
+              <EstimateTableItemAction
+                estimateId={estimateId}
+                lineItem={row.original}
+              />
+            )}
+          </div>
         );
       },
     },
@@ -434,7 +451,10 @@ export function DisplayEstimatePageLineItems({
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="border-b ">
+              <TableRow
+                key={headerGroup.id}
+                className="border-b hover:bg-transparent"
+              >
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
@@ -470,7 +490,7 @@ export function DisplayEstimatePageLineItems({
                     <TableCell
                       key={cell.id}
                       className={cn(
-                        "py-2.5s ",
+                        "py-2.5 ",
                         cell.column.id === "title" &&
                           "sticky bg-white    left-0 z-10 w-max before:absolute before:right-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:right-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]",
                         cell.column.id === "total" &&
