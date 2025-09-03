@@ -22,7 +22,7 @@ export function TotalProjectValueCard({
   projectTotalValue: number;
 }) {
   return (
-    <div className="rounded-lg  shadow-sm border border-sidebar-border px-2.5 py-4 flex flex-col gap-4">
+    <div className="rounded-lg   border border-sidebar-border p-6 flex flex-col gap-4">
       <div className="flex flex-col gap-0.5">
         <span className="text-main-blue text-xs">Project Value</span>
         <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-dark-orange">
@@ -70,10 +70,10 @@ export function ProjectEstimatesCard({
   const status = "completed" as unknown as ProjectStatus;
 
   return (
-    <div className="rounded-lg flex-col gap-4 flex shadow-sm border border-sidebar-border px-2.5 py-4">
+    <div className="rounded-lg flex-col gap-4 flex  border border-sidebar-border p-6">
       <div className="flex items-center justify-between gap-4">
         <div className="flex gap-1 items-center">
-          <h3 className="text-main-blue text-sm lg:text-base font-medium">
+          <h3 className="text-main-blue text-base  font-broke-medium md:text-lg lg:text-xl font-medium">
             Estimates
           </h3>
           <div className="flex h-5 w-max min-w-5  text-xs shrink-0 items-center justify-center p-1 rounded-full text-main-blue bg-main-blue/20 border border-sidebar-border ">
@@ -94,9 +94,9 @@ export function ProjectEstimatesCard({
         <div className="flex flex-col gap-2 h-full">
           <Link
             href={`/dashboard/estimates/${recentEstimate.id}`}
-            className="flex p-3 flex-1 hover:bg-main-blue/10 flex-col justify-between gap-4 bg-white transition-colors cursor-pointer rounded-md border border-dashed border-main-blue/10"
+            className="flex px-4 py-3 flex-1 hover:bg-main-blue/10 flex-col justify-between gap-4 bg-white transition-colors cursor-pointer rounded-md  border border-dashed border-main-blue/10"
           >
-            <div className="flex w-full justify-between items-center gap-2s ">
+            <div className="flex w-full justify-between items-start gap-2  ">
               <div className="flex-col gap-0.5 flex">
                 <span className="text-main-blue/80 text-xs ">
                   {formatEstimateId(recentEstimate.id)} -{" "}
@@ -105,7 +105,7 @@ export function ProjectEstimatesCard({
                     "MMM dd, yyyy"
                   )}
                 </span>
-                <h4 className="text-main-blue text-sm ">
+                <h4 className="text-main-blue text-base font-medium">
                   {recentEstimate.title}
                 </h4>
                 <span className="text-main-blue/80 text-xs ">
@@ -113,15 +113,12 @@ export function ProjectEstimatesCard({
                 </span>
               </div>
 
-              <Badge className={`capitalize  ${renderStatusStyle(status)}`}>
+              <div className={`capitalize text-green-500`}>
                 {renderStatusIcon(status)}
-                <span>{recentEstimate.status.toString()}</span>
-              </Badge>
+              </div>
             </div>
             <div className="flex-col gap-0.5 flex">
-              <span className="text-main-blue/80 text-xs ">
-                Total Including Markup
-              </span>
+              <span className="text-main-blue/80 text-xs ">Total</span>
               <h5 className="text-base md:text-lg lg:text-xl font-bold text-main-blue">
                 {formatCurrency(recentEstimate.totalAmount)}
               </h5>
@@ -168,9 +165,9 @@ export function ProjectEstimatesCard({
 
 export function ProjectProposalCard() {
   return (
-    <div className="rounded-lg flex-col gap-4 flex shadow-sm border border-sidebar-border px-2.5 py-4">
+    <div className="rounded-lg flex-col gap-4 flex  border border-sidebar-border p-6">
       <div className="flex items-center justify-between gap-4">
-        <h3 className="text-main-blue text-sm lg:text-base font-medium">
+        <h3 className="text-main-blue text-base  font-broke-medium md:text-lg lg:text-xl font-medium">
           Proposals
         </h3>
       </div>
@@ -183,9 +180,9 @@ export function ProjectProposalCard() {
 }
 export function ProjectInvoicesCard() {
   return (
-    <div className="rounded-lg flex-col gap-4 flex shadow-sm border border-sidebar-border px-2.5 py-4">
+    <div className="rounded-lg flex-col gap-4 flex  border border-sidebar-border p-6 ">
       <div className="flex items-center justify-between gap-4">
-        <h3 className="text-main-blue text-sm lg:text-base font-medium">
+        <h3 className="text-main-blue text-base  font-broke-medium md:text-lg lg:text-xl font-medium">
           Invoices
         </h3>
       </div>

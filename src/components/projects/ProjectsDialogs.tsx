@@ -313,18 +313,18 @@ export function ProjectsActions({
         {showView && (
           <Button
             onClick={handleViewProject}
-            className="rounded-none last:rounded-b-md  first:rounded-t-md  text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted "
+            className="rounded-none px-4 py-2.5 last:rounded-b-md  first:rounded-t-md  text-xs justify-start data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted "
           >
             View Project
           </Button>
         )}
         <UpdateProjectTitleDialog title={project.title} projectId={project.id}>
-          <Button className="rounded-none last:rounded-b-md  first:rounded-t-md    text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted ">
+          <Button className="rounded-none justify-start  px-4 py-2.5 last:rounded-b-md  first:rounded-t-md    text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted ">
             Edit Title
           </Button>
         </UpdateProjectTitleDialog>
         <DeleteProjectDialog projectId={project.id}>
-          <Button className="rounded-none last:rounded-b-md  first:rounded-t-md   text-xs  bg-transparent w-full text-destructive hover:bg-destructive/20 ">
+          <Button className="rounded-none justify-start  px-4 py-2.5 last:rounded-b-md  first:rounded-t-md   text-xs  bg-transparent w-full text-destructive hover:bg-destructive/20 ">
             Delete
           </Button>
         </DeleteProjectDialog>

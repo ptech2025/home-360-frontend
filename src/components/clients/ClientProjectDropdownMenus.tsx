@@ -95,7 +95,14 @@ function ClientItem({
       onSelect={() => mutate()}
       className="cursor-pointer hover:bg-main-blue/20 flex justify-between items-center gap-2"
     >
-      <span>{client.name}</span>
+      <div className="flex flex-col gap-0.5">
+        <span className="text-sm text-main-blue font-medium capitalize">
+          {client.name}
+        </span>
+        <span className="text-xs text-main-blue/80 truncate">
+          {client.addresss ? client.address : "No address"}
+        </span>
+      </div>
       {matched && <Check className="text-green-500 size-4 shrink-0" />}
     </CommandItem>
   );
@@ -138,7 +145,7 @@ function ClientCommand({
         )}
 
         {!isLoading && clients.length > 0 && (
-          <CommandGroup heading="Clients">
+          <CommandGroup>
             {clients.map((c) => (
               <ClientItem
                 key={c.id}
@@ -152,7 +159,7 @@ function ClientCommand({
           </CommandGroup>
         )}
 
-        <CommandGroup>
+        <CommandGroup className="border-t">
           <AddClientDialog>
             <Button className="w-full bg-transparent text-main-blue shadow-none hover:bg-main-blue/20">
               <Plus />
@@ -196,8 +203,7 @@ export function ClientProjectPopover({
 
   return (
     <DropdownMenu open={allClientsOpen} onOpenChange={setAllClientsOpen}>
-      <DropdownMenuTrigger className="rounded-3xl gap-1 hover:shadow-sm text-main-blue flex items-center py-1 px-3 text-xs capitalize border border-sidebar-border">
-        <Plus className="size-4" />
+      <DropdownMenuTrigger className="rounded-xl gap-1 hover:shadow-sm text-main-blue flex items-center py-1.5 px-4 text-sm capitalize border-dashed border border-sidebar-border">
         <span>Add Client</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="p-0.5 min-w-[15rem]">
@@ -246,7 +252,7 @@ export function AssignedClientProjectDropdownMenu({
 
   return (
     <DropdownMenu open={clientOpen} onOpenChange={setClientOpen}>
-      <DropdownMenuTrigger className="rounded-3xl flex items-center gap-1 py-1 px-3 text-xs capitalize border-0 bg-green-100 shadow-green-200 text-green-500 hover:shadow-sm">
+      <DropdownMenuTrigger className="rounded-xl flex items-center gap-1 py-1.5 px-4 text-sm capitalize border  bg-transparent text-main-blue hover:shadow-sm">
         <PiUser className="size-4" />
         <span>{client.name}</span>
       </DropdownMenuTrigger>

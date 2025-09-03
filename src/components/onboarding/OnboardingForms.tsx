@@ -44,7 +44,6 @@ import { Checkbox } from "../ui/checkbox";
 import { CubeIcon, ElectricIcon, PipeIcon, ScrewIcon } from "../global/Icons";
 import { TagsInput } from "../ui/tags-input";
 
-
 const tradeArr = [
   {
     id: nanoid(),
@@ -382,7 +381,6 @@ export function PricingOnboardingForm() {
 
   const defaultValues: PricingSchemaType = {
     location: "",
-    markupPercentage: 0,
   };
 
   const form = useForm<PricingSchemaType>({
@@ -477,20 +475,6 @@ export function PricingOnboardingForm() {
                         value={field.value}
                         handleLocationSelect={handleLocationSelection}
                       />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="markupPercentage"
-                  render={({ field }) => (
-                    <FormItem className="w-full grid-cols-1 gap-1">
-                      <MarkupPercentInput
-                        markupPercent={field.value}
-                        setMarkupPercent={handleMarkupChange}
-                      />
-                      <FormMessage className="text-xs" />
                     </FormItem>
                   )}
                 />

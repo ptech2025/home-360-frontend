@@ -92,13 +92,15 @@ export function UpdatePassword() {
     setIsPending(false);
   };
   return (
-    <div className="rounded-4xl bg-main-blue/5 p-3 pt-4 flex-col flex gap-6">
-      <h3 className="text-sm text-main-blue">Update Password</h3>
+    <div className="rounded-[1.75rem] bg-[#FAFAFB]  p-3 pt-4 flex-col flex gap-3">
+      <h3 className=" pl-2 text-base font-medium font-broke-medium text-main-blue">
+        Update Password
+      </h3>
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="bg-white grid-cols-1 grid gap-6 rounded-2xl p-4 lg:p-6 xl:p-8"
+          className="bg-white shadow-xs grid-cols-1 grid gap-6 rounded-2xl p-4 lg:p-6 xl:p-8"
         >
           <FormField
             control={form.control}
@@ -183,7 +185,7 @@ export function UpdatePassword() {
           <Button
             type="submit"
             disabled={isPending || isSigningOut}
-            className="h-11 ml-auto hover:ring-[3px]  ring-dark-orange/50  transition-all duration-200 py-1 px-4  w-full md:w-max rounded-md md:rounded-4xl bg-dark-orange text-white flex gap-1 items-center text-sm border hover:border-dark-orange hover:bg-transparent hover:text-dark-orange"
+            className="h-11 ml-auto hover:ring-[3px]  ring-main-blue/50  transition-all duration-200 py-1 px-4  w-full md:w-max rounded-md md:rounded-4xl bg-main-blue text-white flex gap-1 items-center text-sm border hover:border-main hover:bg-transparent hover:text-main-blue"
           >
             <span>{isPending ? "Saving..." : "Save Changes"}</span>
           </Button>

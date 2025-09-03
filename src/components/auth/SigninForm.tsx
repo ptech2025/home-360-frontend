@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import * as motion from "motion/react-client";
-import { useRouter } from "nextjs-toploader/app";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -24,7 +23,6 @@ import { GoogleIcon } from "../global/Icons";
 import EmailVerificationSent from "./EmailVerificationSent";
 
 function SignInForm() {
-  const {} = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
@@ -214,7 +212,7 @@ function SignInForm() {
             <Button
               size={"lg"}
               disabled={isLoading || isGoogleLoading}
-              className="gap-2 group text-white h-12 w-full font-medium font-dms text-base bg-dark-orange hover:bg-main-blue"
+              className="gap-2 group text-white h-12 w-full font-medium font-dm rounded-4xl text-base bg-dark-orange hover:bg-main-blue"
             >
               {isLoading ? (
                 <Loader2 className="size-5 animate-spin" />

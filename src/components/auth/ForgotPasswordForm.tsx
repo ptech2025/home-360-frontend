@@ -120,7 +120,7 @@ function ForgotPasswordForm() {
           <Button
             size={"lg"}
             disabled={isLoading}
-            className="gap-2 group text-white h-12 w-full font-medium font-dms text-base bg-dark-orange hover:bg-main-blue"
+            className="gap-2 group text-white h-12 w-full font-medium font-dm rounded-4xl text-base bg-dark-orange hover:bg-main-blue"
           >
             {isLoading ? (
               <Loader2 className="size-5 animate-spin" />

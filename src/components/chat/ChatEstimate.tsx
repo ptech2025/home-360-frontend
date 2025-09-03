@@ -11,6 +11,7 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import LinkLoading from "../global/LinkLoading";
 import { useIsTablet } from "@/hooks/use-media-query";
+import { useEstimatePanelStore } from "@/store/estimateStore";
 
 type Props = {
   estimate: MyDataParts["estimate"] | undefined;
@@ -21,6 +22,7 @@ type Props = {
 
 function ChatEstimate({ estimate, metadata, sessionId }: Props) {
   const isTablet = useIsTablet();
+  const { setEstimateMode } = useEstimatePanelStore();
   if (!estimate) return null;
 
   const viewEstimateUrl = isTablet
@@ -50,7 +52,12 @@ function ChatEstimate({ estimate, metadata, sessionId }: Props) {
           className="rounded-4xl h-10 bg-transparent text-main-blue w-full border border-sidebar-border hover:bg-main-blue/10"
           asChild
         >
-          <Link href={viewEstimateUrl} prefetch={false} scroll={false}>
+          <Link
+            href={viewEstimateUrl}
+            prefetch={false}
+            scroll={false}
+            onClick={() => setEstimateMode("edit")}
+          >
             <LinkLoading text="View Estimate" />
           </Link>
         </Button>

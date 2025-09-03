@@ -27,7 +27,8 @@ import { FolderEdit, Pen } from "lucide-react";
 import Link from "next/link";
 import {
   AddLineItemDialog,
-  UpdateEstimateCalculationsDialog,
+  UpdateEstimateDiscountDialog,
+  UpdateEstimateTaxDialog,
 } from "./EstimateDialogs";
 
 type Props = {
@@ -59,14 +60,6 @@ export function DisplayEstimateTotal({ estimate }: Props) {
         <div className="grid grid-cols-1 gap-0.5">
           <div className="flex  justify-between items-center">
             <span className="text-main-blue text-xs">
-              Mark up ({estimate.estimateMarkup.rate}%)
-            </span>
-            <span className="text-sm font-semibold">
-              {formatCurrency(estimate.calculations.markupValue)}
-            </span>
-          </div>{" "}
-          <div className="flex  justify-between items-center">
-            <span className="text-main-blue text-xs">
               {estimate.estimateDiscount.name} ({estimate.estimateDiscount.rate}
               %)
             </span>
@@ -85,9 +78,7 @@ export function DisplayEstimateTotal({ estimate }: Props) {
         </div>
         {/* //Overall Total */}
         <div className="flex justify-between items-center">
-          <span className="text-dark-orange text-sm">
-            Total Including Markup
-          </span>
+          <span className="text-dark-orange text-sm">Total</span>
           <span className="text-lg md:text-xl lg:text-2xl font-bold text-dark-orange shrink-0">
             {formatCurrency(estimate.totalAmount)}
           </span>
@@ -190,11 +181,11 @@ export function DisplayEstimateLineItems({
                     <TableHead
                       key={header.id}
                       className={cn(
-                        "py-1 rounded-none text-main-blue  font-medium",
+                        "py-1 rounded-none   font-normal text-[#929496] text-base  ",
                         header.column.id === "title" &&
-                          "bg-white sticky   left-0 z-10 w-max before:absolute before:right-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:right-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]",
+                          "bg-white sticky  lg:before:hidden lg:after:hidden left-0 z-10 w-max before:absolute before:right-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:right-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]",
                         header.column.id === "total" &&
-                          "bg-white sticky    right-0 z-10 w-max before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:left-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]"
+                          "bg-white sticky  lg:before:hidden lg:after:hidden  right-0 z-10 w-max before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:left-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]"
                       )}
                     >
                       {header.isPlaceholder
@@ -222,9 +213,9 @@ export function DisplayEstimateLineItems({
                       className={cn(
                         "py-2.5 ",
                         cell.column.id === "title" &&
-                          "sticky bg-white    left-0 z-10 w-max before:absolute before:right-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:right-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]",
+                          "sticky bg-white  lg:before:hidden lg:after:hidden  left-0 z-10 w-max before:absolute before:right-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:right-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]",
                         cell.column.id === "total" &&
-                          "bg-white sticky    right-0 z-10 w-max before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:left-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]"
+                          "bg-white sticky  lg:before:hidden lg:after:hidden  right-0 z-10 w-max before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:left-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]"
                       )}
                     >
                       {flexRender(
@@ -299,9 +290,6 @@ export function DisplayEstimatePageTotal({ estimate }: Props) {
   return (
     <div className="pr-4 py-4 ">
       <div className="p-2 grid-cols-1 grid gap-1 bg-main-blue/5 rounded-md">
-        {estimate.projectId && (
-          <UpdateEstimateCalculationsDialog estimate={estimate} />
-        )}
         {/* //Subtotal */}
         <div className="flex  justify-between items-center">
           <span className="text-dark-orange text-sm">Subtotal</span>
@@ -313,19 +301,15 @@ export function DisplayEstimatePageTotal({ estimate }: Props) {
         <div className="grid grid-cols-1 gap-0.5">
           <div className="flex  justify-between items-center">
             <span className="text-main-blue text-xs">
-              Mark up ({estimate.estimateMarkup.rate}%)
-            </span>
-            <span className="text-sm font-semibold">
-              {formatCurrency(estimate.calculations.markupValue)}
-            </span>
-          </div>{" "}
-          <div className="flex  justify-between items-center">
-            <span className="text-main-blue text-xs">
               {estimate.estimateDiscount.name} ({estimate.estimateDiscount.rate}
               %)
             </span>
             <span className="text-sm font-semibold">
-              - {formatCurrency(estimate.calculations.discountValue)}
+              {estimate.projectId ? (
+                <UpdateEstimateDiscountDialog estimate={estimate} />
+              ) : (
+                -formatCurrency(estimate.calculations.discountValue)
+              )}
             </span>
           </div>
           <div className="flex  justify-between items-center">
@@ -333,15 +317,17 @@ export function DisplayEstimatePageTotal({ estimate }: Props) {
               {estimate.estimateTax.name} ({estimate.estimateTax.rate}%)
             </span>
             <span className="text-sm font-semibold">
-              {formatCurrency(estimate.calculations.taxValue)}
+              {estimate.projectId ? (
+                <UpdateEstimateTaxDialog estimate={estimate} />
+              ) : (
+                formatCurrency(estimate.calculations.taxValue)
+              )}
             </span>
           </div>
         </div>
         {/* //Overall Total */}
         <div className="flex justify-between items-center">
-          <span className="text-dark-orange text-sm">
-            Total Including Markup
-          </span>
+          <span className="text-dark-orange text-sm">Total</span>
           <span className="text-lg md:text-xl lg:text-2xl font-bold text-dark-orange shrink-0">
             {formatCurrency(estimate.totalAmount)}
           </span>
@@ -458,9 +444,9 @@ export function DisplayEstimatePageLineItems({
                       className={cn(
                         "py-1 rounded-none text-main-blue  font-medium",
                         header.column.id === "title" &&
-                          "bg-white sticky   left-0 z-10 w-max before:absolute before:right-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:right-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]",
+                          "bg-white sticky   left-0 z-10 w-max lg:before:hidden lg:after:hidden before:absolute before:right-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:right-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]",
                         header.column.id === "total" &&
-                          "bg-white sticky    right-0 z-10 w-max before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:left-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]"
+                          "bg-white sticky    right-0 z-10 w-max lg:before:hidden lg:after:hidden before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:left-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]"
                       )}
                     >
                       {header.isPlaceholder
@@ -488,9 +474,9 @@ export function DisplayEstimatePageLineItems({
                       className={cn(
                         "py-2.5 ",
                         cell.column.id === "title" &&
-                          "sticky bg-white    left-0 z-10 w-max before:absolute before:right-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:right-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]",
+                          "sticky bg-white    left-0 z-10 w-max lg:before:hidden lg:after:hidden before:absolute before:right-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:right-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]",
                         cell.column.id === "total" &&
-                          "bg-white sticky    right-0 z-10 w-max before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:left-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]"
+                          "bg-white sticky    right-0 z-10 w-max lg:before:hidden lg:after:hidden before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-sidebar-border after:absolute after:left-[-24px] after:top-0 after:bottom-0 after:w-6   after:z-[-1]"
                       )}
                     >
                       {flexRender(

@@ -153,7 +153,7 @@ function ResetPasswordForm({ token }: { token: string }) {
           <Button
             size={"lg"}
             disabled={isLoading}
-            className="gap-2 group text-white h-12 w-full font-bold text-base bg-black"
+            className="gap-2 group text-white h-12 w-full font-bold rounded-4xl text-base bg-dark-orange hover:bg-main-blue"
           >
             {isLoading ? (
               <Loader2 className="size-5 animate-spin" />

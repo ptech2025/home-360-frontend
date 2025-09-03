@@ -59,7 +59,12 @@ export const renderStatusStyle = (status: ProjectStatus) => {
 
 function DisplayProjectStatus({ status }: Props) {
   return (
-    <Badge className={cn("capitalize px-2", renderStatusStyle(status))}>
+    <Badge
+      className={cn(
+        "capitalize rounded-xl px-4 py-1.5 text-sm",
+        renderStatusStyle(status)
+      )}
+    >
       {renderStatusIcon(status)}
       <span>{String(status).replace("_", " ")} </span>
     </Badge>

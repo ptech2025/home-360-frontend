@@ -97,7 +97,6 @@ export const companyTradeSchema = z.object({
 });
 
 export const pricingSchema = z.object({
-  markupPercentage: z.number(),
   location: z.string().min(5, { message: "Location is required" }),
 });
 
@@ -156,11 +155,13 @@ export const estimateSchema = z.object({
   title: z.string().min(1, "Title is required"),
 });
 
-export const estimateRatesSchema = z.object({
-  taxName: z.string().min(1, "Tax name is required"),
-  discountName: z.string().min(1, "Discount name is required"),
-  taxRate: z.number().max(100, "Tax rate must be less than 100"),
-  discountRate: z.number().max(100, "Discount rate must be less than 100"),
+export const estimateDiscountSchema = z.object({
+  name: z.string().min(1, "Discount name is required"),
+  rate: z.number().max(100, "Discount rate must be less than 100"),
+});
+export const estimateTaxSchema = z.object({
+  name: z.string().min(1, "Tax name is required"),
+  rate: z.number().max(100, "Tax rate must be less than 100"),
 });
 
 // Type inference
@@ -241,4 +242,5 @@ export type CreateEstimateLineItemType = z.infer<
 >;
 
 export type EstimateSchemaType = z.infer<typeof estimateSchema>;
-export type EstimateRatesSchemaType = z.infer<typeof estimateRatesSchema>;
+export type EstimateTaxSchemaType = z.infer<typeof estimateTaxSchema>;
+export type EstimateDiscountSchemaType = z.infer<typeof estimateDiscountSchema>;

@@ -52,6 +52,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+   
       <body className={`${dmSans.variable} antialiased font-dm`}>
         <Providers>
           <NextTopLoader color="#E48B59" showSpinner={false} />

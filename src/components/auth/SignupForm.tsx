@@ -16,7 +16,7 @@ import {
 import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
 import { toast } from "sonner";
-import {  EyeOff, Eye, Loader2 } from "lucide-react";
+import { EyeOff, Eye, Loader2 } from "lucide-react";
 import { signUpSchema, SignUpSchemaType } from "@/types/zod-schemas";
 import { Input } from "../ui/input";
 import { GoogleIcon } from "../global/Icons";
@@ -214,7 +214,7 @@ function SignUpForm() {
             <Button
               size={"lg"}
               disabled={isLoading || isGoogleLoading}
-              className="gap-2 group text-white h-12 w-full font-medium font-dms text-base bg-dark-orange hover:bg-main-blue"
+              className="gap-2 group text-white h-12 w-full font-medium font-dm rounded-4xl text-base bg-dark-orange hover:bg-main-blue"
             >
               {isLoading ? (
                 <Loader2 className="size-5 animate-spin" />
@@ -247,7 +247,7 @@ function SignUpForm() {
             </Button>
           </form>
         </Form>
-        <p className="text-sm max-w-[300px] text-center text-balance text-main-blue/80">
+        <p className="text-xs max-w-[300px] text-center text-balance text-main-blue/80">
           By signing up to create an account I accept Company’s{" "}
           <Link href="/terms" className="hover:underline text-main-blue">
             Terms of use{" "}

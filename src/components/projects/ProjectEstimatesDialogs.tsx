@@ -22,6 +22,7 @@ import {
 import { useRouter } from "nextjs-toploader/app";
 import { Estimate } from "@/types/estimate";
 import { removeEstimateFromProject } from "@/services/estimate";
+import { useEstimatePanelStore } from "@/store/estimateStore";
 
 export function RemoveEstimateFromProjectDialog({
   children,
@@ -93,7 +94,9 @@ export function RemoveEstimateFromProjectDialog({
 
 export function ProjectEstimatesActions({ estimate }: { estimate: Estimate }) {
   const { push } = useRouter();
+  const { setEstimateMode } = useEstimatePanelStore();
   const handleViewEstimate = () => {
+    setEstimateMode("edit");
     push(`/dashboard/estimates/${estimate.id}`);
   };
 
@@ -111,7 +114,7 @@ export function ProjectEstimatesActions({ estimate }: { estimate: Estimate }) {
         >
           <Button
             onClick={handleViewEstimate}
-            className="rounded-none last:rounded-b-md  first:rounded-t-md  text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted "
+            className="rounded-none  px-4 py-2.5 last:rounded-b-md justify-start  first:rounded-t-md  text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted "
           >
             View Estimate
           </Button>
@@ -120,7 +123,7 @@ export function ProjectEstimatesActions({ estimate }: { estimate: Estimate }) {
             estimateId={estimate.id}
             projectId={estimate.projectId}
           >
-            <Button className="rounded-none last:rounded-b-md  first:rounded-t-md   text-xs  bg-transparent w-full text-destructive hover:bg-destructive/20 ">
+            <Button className="rounded-none justify-start  px-4 py-2.5 last:rounded-b-md  first:rounded-t-md   text-xs  bg-transparent w-full text-destructive hover:bg-destructive/20 ">
               Remove from Project
             </Button>
           </RemoveEstimateFromProjectDialog>

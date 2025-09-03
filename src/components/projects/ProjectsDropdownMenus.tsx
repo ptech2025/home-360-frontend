@@ -199,7 +199,7 @@ export function NoAddressProjectDropdownMenu({
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger className="rounded-3xl gap-1 hover:shadow-sm  border-sidebar-border bg-transparent text-main-blue transition-colors duration-200  flex items-center py-1 px-3 text-xs capitalize border">
+      <DropdownMenuTrigger className="rounded-xl gap-1 hover:shadow-sm  border-sidebar-border bg-transparent text-main-blue transition-colors duration-200  flex items-center py-1.5 px-4 text-sm capitalize border border-dashed">
         <MapPin className="size-4" />
         <span className="truncate">No Address</span>
       </DropdownMenuTrigger>
@@ -252,7 +252,7 @@ export function AddressProjectDropdownMenu({
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger className="rounded-3xl gap-1 hover:shadow-sm shadow-dark-orange/20 border-transparent bg-dark-orange/10 text-dark-orange transition-colors duration-200  flex items-center py-1 px-3 text-xs capitalize border">
+      <DropdownMenuTrigger className="rounded-xl py-1.5 px-4 gap-1 hover:shadow-sm shadow-dark-orange/20 border-transparent bg-dark-orange/10 text-dark-orange transition-colors duration-200  flex items-center  text-sm capitalize border">
         <MapPin className="size-4" />
         <span className="truncate">{address}</span>
       </DropdownMenuTrigger>
@@ -332,7 +332,7 @@ export function ProjectStatusDropdownMenu({
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger
         className={cn(
-          "capitalize hover:shadow-sm rounded-3xl gap-1 [&_svg]:size-4    transition-colors duration-200  flex items-center py-1 px-3 text-xs ",
+          "capitalize hover:shadow-sm rounded-xl py-1.5 px-4 gap-1 [&_svg]:size-4    transition-colors duration-200  flex items-center text-sm ",
           renderStatusStyle(status)
         )}
       >

@@ -21,10 +21,10 @@ function SingleProjectHeader({ project }: Props) {
     <div className="flex md:flex-row flex-col justify-between md:items-center w-full gap-3 lg:gap-6">
       <div className="flex items-start gap-4">
         <div className="flex gap-1 flex-col flex-1">
-          <h1 className="md:text-lg lg:text-xl text-base text-main-blue font-semibold">
+          <h1 className="md:text-xl lg:text-2xl text-lg text-main-blue font-bold font-broke-bold">
             {title}
           </h1>
-          <span className="text-xs text-main-blue">
+          <span className="text-sm text-main-blue/80">
             {format(new Date(createdAt), "MMM dd, yyyy")}
           </span>
         </div>

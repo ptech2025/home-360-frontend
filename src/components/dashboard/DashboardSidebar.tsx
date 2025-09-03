@@ -55,10 +55,13 @@ function DashboardSidebar({ userRole }: Props) {
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className="group-data-[collapsible=icon]:p-0! group-data-[collapsible=icon]:pl-1! hover:bg-transparent group-data-[collapsible=icon]:size-12! h-12 uppercase font-black text-2xl"
+              className="group-data-[collapsible=icon]:p-0! group-data-[collapsible=icon]:pl-1! hover:bg-transparent group-data-[collapsible=icon]:size-12! h-12 items-center flex "
             >
               <Link href="/">
                 <LogoSvg className="size-[38px]!" />
+                <p className="text-sm normal-case font-bold font-broke-bold text-main-blue">
+                  QuickEstimate.<span className="text-dark-orange">ai</span>
+                </p>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -92,7 +95,7 @@ function DashboardSidebar({ userRole }: Props) {
       <SidebarFooter>
         <SidebarGroup className="flex-1 p-0">
           <SidebarGroupLabel className="sr-only">
-            Organization Sidebar Footer
+            Sidebar Footer
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>

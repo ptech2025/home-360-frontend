@@ -80,7 +80,7 @@ export default function ProjectEstimatesTable({ estimates }: Props) {
       },
     },
     {
-      header: "Actions",
+      header: "",
       id: "actions",
       cell: ({ row }) => {
         return <ProjectEstimatesActions estimate={row.original} />;
@@ -95,17 +95,17 @@ export default function ProjectEstimatesTable({ estimates }: Props) {
   });
 
   return (
-    <div className="w-full rounded-lg border   overflow-y-auto">
+    <div className="w-full   overflow-y-auto">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className="border-b">
+            <TableRow key={headerGroup.id} className="border-b bg-[#FCFCFD]">
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead
                     key={header.id}
                     className={cn(
-                      "py-1  text-main-blue font-semibold   ",
+                      "py-3 px-6 font-normal text-[#929496] text-base    ",
                       header.column.id === "actions" && "w-[50px]"
                     )}
                   >
@@ -126,10 +126,10 @@ export default function ProjectEstimatesTable({ estimates }: Props) {
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
-                className="border-b group hover:bg-muted/50 last:[&>td:first-child]:rounded-bl-lg last:[&>td:last-child]:rounded-br-lg"
+                className="border-b group hover:bg-muted/50 "
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className={cn("py-4 ")}>
+                  <TableCell key={cell.id} className={cn("py-3 px-6 ")}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}

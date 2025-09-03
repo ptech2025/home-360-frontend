@@ -27,11 +27,13 @@ import {
   categoryValues,
   createEstimateLineItemSchema,
   CreateEstimateLineItemType,
-  estimateRatesSchema,
-  EstimateRatesSchemaType,
-  estimateSchema,
-  EstimateSchemaType,
+  estimateTaxSchema,
+  EstimateTaxSchemaType,
+  EstimateDiscountSchemaType,
+  estimateDiscountSchema,
   unitTypeValues,
+  EstimateSchemaType,
+  estimateSchema,
 } from "@/types/zod-schemas";
 
 import { Loader2, Pen, Plus, Rows4 } from "lucide-react";
@@ -39,7 +41,8 @@ import { Loader2, Pen, Plus, Rows4 } from "lucide-react";
 import { Estimate, EstimateLineItem } from "@/types/estimate";
 import {
   addLineItemToEstimate,
-  updateEstimateRates,
+  updateEstimateDiscount,
+  updateEstimateTax,
   updateEstimateTitle,
   updateLineItem,
 } from "@/services/estimate";
@@ -54,6 +57,7 @@ import {
   EstimateLineItemCategory,
   EstimateLineItemUnitType,
 } from "@/types/message-schema";
+import { formatCurrency } from "@/utils/funcs";
 
 export function AddLineItemDialog({ estimateId }: { estimateId: string }) {
   const queryClient = useQueryClient();
@@ -99,7 +103,7 @@ export function AddLineItemDialog({ estimateId }: { estimateId: string }) {
       <DialogTrigger asChild>
         <Button
           disabled={isPending}
-          className="bg-transparent text-dark-orange w-max  hover:bg-dark-orange/20"
+          className="bg-transparent shadow-none text-dark-orange w-max  hover:bg-dark-orange/20"
         >
           <Plus />
           <span>Add</span>
@@ -631,35 +635,29 @@ export function UpdateEstimateTitleDialog({
   );
 }
 
-export function UpdateEstimateCalculationsDialog({
-  estimate,
-}: {
-  estimate: Estimate;
-}) {
+export function UpdateEstimateTaxDialog({ estimate }: { estimate: Estimate }) {
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
 
-  const form = useForm<EstimateRatesSchemaType>({
-    resolver: zodResolver(estimateRatesSchema),
+  const form = useForm<EstimateTaxSchemaType>({
+    resolver: zodResolver(estimateTaxSchema),
     mode: "onChange",
     defaultValues: {
-      taxName: estimate.estimateTax.name,
-      taxRate: estimate.estimateTax.rate,
-      discountName: estimate.estimateDiscount.name,
-      discountRate: estimate.estimateDiscount.rate,
+      name: estimate.estimateTax.name,
+      rate: estimate.estimateTax.rate,
     },
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (data: EstimateRatesSchemaType) => {
-      return updateEstimateRates(estimate.id, data);
+    mutationFn: (data: EstimateTaxSchemaType) => {
+      return updateEstimateTax(estimate.id, data);
     },
 
     onSuccess() {
       queryClient.invalidateQueries({
         queryKey: ["estimate", estimate.id],
       });
-      toast.success("Estimate rates updated successfully.");
+      toast.success("Estimate tax updated successfully.");
 
       setOpen(false);
     },
@@ -669,7 +667,7 @@ export function UpdateEstimateCalculationsDialog({
     },
   });
 
-  const onSubmit = (values: EstimateRatesSchemaType) => {
+  const onSubmit = (values: EstimateTaxSchemaType) => {
     mutate(values);
   };
 
@@ -677,11 +675,15 @@ export function UpdateEstimateCalculationsDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
+          variant={"link"}
           disabled={isPending}
-          className="bg-transparent text-dark-orange w-max ml-auto hover:bg-dark-orange/20"
+          className="bg-transparent shadow-none font-semibold text-sm text-main-blue w-max"
         >
-          <Pen />
-          <span>Edit</span>
+          {estimate.calculations.taxValue > 0 ? (
+            <span>{formatCurrency(estimate.calculations.taxValue)}</span>
+          ) : (
+            <span>Add Tax</span>
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -690,7 +692,7 @@ export function UpdateEstimateCalculationsDialog({
             <Pen className="text-main-blue size-6" />
           </div>
           <div className="flex gap-1 flex-col justify-center">
-            <DialogTitle>Edit Estimate Rates</DialogTitle>
+            <DialogTitle>Estimate Tax</DialogTitle>
           </div>
         </DialogHeader>
         <Form {...form}>
@@ -698,110 +700,199 @@ export function UpdateEstimateCalculationsDialog({
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex w-full  justify-center  flex-col gap-4"
           >
-            <fieldset className="border border-gray-300 rounded-lg p-2">
-              <legend className="text-main-blue font-semibold px-2">
-                Discount
-              </legend>
-              <div className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="discountName"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel className="text-main-blue text-xs after:ml-[-5px] after:text-red-500 after:content-['*']">
-                        Name
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Discount"
-                          className="h-11"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-xs" />
-                    </FormItem>
-                  )}
-                />{" "}
-                <FormField
-                  control={form.control}
-                  name="discountRate"
-                  render={({ field }) => (
-                    <FormItem className="w-full ">
-                      <FormLabel className="text-main-blue text-xs after:ml-[-5px] after:text-red-500 after:content-['*']">
-                        Rate
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Rate"
-                          min={0}
-                          step={0.1}
-                          className="h-11"
-                          value={field.value}
-                          onChange={(e) => {
-                            const qty = Number(e.target.value);
-                            field.onChange(qty);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-xs" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </fieldset>
-            <fieldset className="border border-gray-300 rounded-lg p-2">
-              <legend className="text-main-blue font-semibold px-2">Tax</legend>
-              <div className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="taxName"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel className="text-main-blue text-xs after:ml-[-5px] after:text-red-500 after:content-['*']">
-                        Name
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Tax"
-                          className="h-11"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-xs" />
-                    </FormItem>
-                  )}
-                />{" "}
-                <FormField
-                  control={form.control}
-                  name="taxRate"
-                  render={({ field }) => (
-                    <FormItem className="w-full ">
-                      <FormLabel className="text-main-blue text-xs after:ml-[-5px] after:text-red-500 after:content-['*']">
-                        Rate
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Rate"
-                          min={0}
-                          step={0.1}
-                          className="h-11"
-                          value={field.value}
-                          onChange={(e) => {
-                            const qty = Number(e.target.value);
-                            field.onChange(qty);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-xs" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </fieldset>
+            <div className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="text-main-blue text-xs after:ml-[-5px] after:text-red-500 after:content-['*']">
+                      Name
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Tax"
+                        className="h-11"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />{" "}
+              <FormField
+                control={form.control}
+                name="rate"
+                render={({ field }) => (
+                  <FormItem className="w-full ">
+                    <FormLabel className="text-main-blue text-xs after:ml-[-5px] after:text-red-500 after:content-['*']">
+                      Rate
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Rate"
+                        min={0}
+                        step={0.1}
+                        className="h-11"
+                        value={field.value}
+                        onChange={(e) => {
+                          const qty = Number(e.target.value);
+                          field.onChange(qty);
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <DialogFooter className="grid grid-cols-1 items-center gap-4 sm:grid-cols-2">
+              <Button
+                type="button"
+                disabled={isPending}
+                onClick={() => setOpen(false)}
+                className="w-full h-11 bg-transparent text-main-blue rounded-md border border-main-blue hover:bg-sidebar-border"
+              >
+                <span>Cancel</span>
+              </Button>{" "}
+              <Button
+                disabled={isPending}
+                className="w-full max-sm:order-first h-11 rounded-md bg-main-blue text-white"
+              >
+                {isPending ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  <span>Save</span>
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export function UpdateEstimateDiscountDialog({
+  estimate,
+}: {
+  estimate: Estimate;
+}) {
+  const queryClient = useQueryClient();
+  const [open, setOpen] = useState(false);
+
+  const form = useForm<EstimateDiscountSchemaType>({
+    resolver: zodResolver(estimateDiscountSchema),
+    mode: "onChange",
+    defaultValues: {
+      name: estimate.estimateDiscount.name,
+      rate: estimate.estimateDiscount.rate,
+    },
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: EstimateDiscountSchemaType) => {
+      return updateEstimateDiscount(estimate.id, data);
+    },
+
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["estimate", estimate.id],
+      });
+      toast.success("Estimate discount updated successfully.");
+
+      setOpen(false);
+    },
+    onError: (error) => {
+      const msg = renderAxiosOrAuthError(error);
+      toast.error(msg);
+    },
+  });
+
+  const onSubmit = (values: EstimateDiscountSchemaType) => {
+    mutate(values);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button
+          variant={"link"}
+          disabled={isPending}
+          className="bg-transparent shadow-none font-semibold text-sm text-main-blue w-max"
+        >
+          {estimate.calculations.discountValue > 0 ? (
+            <span>{formatCurrency(estimate.calculations.discountValue)}</span>
+          ) : (
+            <span>Add Discount</span>
+          )}
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader className="flex flex-row gap-2 items-center">
+          <div className="rounded-lg flex items-center justify-center shrink-0 p-1 size-12  border border-sidebar-border">
+            <Pen className="text-main-blue size-6" />
+          </div>
+          <div className="flex gap-1 flex-col justify-center">
+            <DialogTitle>Estimate Discount</DialogTitle>
+          </div>
+        </DialogHeader>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex w-full  justify-center  flex-col gap-4"
+          >
+            <div className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="text-main-blue text-xs after:ml-[-5px] after:text-red-500 after:content-['*']">
+                      Name
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Tax"
+                        className="h-11"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />{" "}
+              <FormField
+                control={form.control}
+                name="rate"
+                render={({ field }) => (
+                  <FormItem className="w-full ">
+                    <FormLabel className="text-main-blue text-xs after:ml-[-5px] after:text-red-500 after:content-['*']">
+                      Rate
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Rate"
+                        min={0}
+                        step={0.1}
+                        className="h-11"
+                        value={field.value}
+                        onChange={(e) => {
+                          const qty = Number(e.target.value);
+                          field.onChange(qty);
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+            </div>
             <DialogFooter className="grid grid-cols-1 items-center gap-4 sm:grid-cols-2">
               <Button
                 type="button"

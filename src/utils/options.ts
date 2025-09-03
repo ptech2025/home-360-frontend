@@ -1,12 +1,12 @@
 export const samplePrompts = [
-  {
-    text: "Calculate replacing a standard toilet including labor and materials",
-    projectTitle: "Toilet Replacement",
-  },
-  {
-    text: "Estimate painting two 12x14 bedrooms with primer and two coats",
-    projectTitle: "Bedroom Painting",
-  },
+  // {
+  //   text: "Calculate replacing a standard toilet including labor and materials",
+  //   projectTitle: "Toilet Replacement",
+  // },
+  // {
+  //   text: "Estimate painting two 12x14 bedrooms with primer and two coats",
+  //   projectTitle: "Bedroom Painting",
+  // },
   {
     text: "Quote installing 800 sq ft laminate flooring with underlayment",
     projectTitle: "Laminate Flooring",

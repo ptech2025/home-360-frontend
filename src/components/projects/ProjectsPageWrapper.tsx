@@ -33,7 +33,7 @@ function ProjectsPageWrapper({ page, title, status }: Props) {
   return (
     <section className="w-full flex-col flex gap-4  py-4">
       <RedirectOrToggleSidebar url={``} showRedirect={false} />
-      <div className="rounded-lg p-2 md:p-4 w-full min-h-svh shadow-sm border border-sidebar-border  flex-col flex gap-4">
+      <div className="rounded-lg p-2 md:p-4 lg:p-6 w-full min-h-svh  border border-sidebar-border  flex-col flex gap-4">
         <ProjectsHeader hasProjects={data ? data.projects.length > 0 : false} />
         <div className="flex flex-col gap-4 w-full">
           <ProjectsTable projects={data ? data.projects : []} />

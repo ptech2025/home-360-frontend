@@ -80,13 +80,15 @@ export function PersonalInfo({ name, email, image }: PersonalInfoProps) {
     mutate(values);
   };
   return (
-    <div className="rounded-4xl bg-main-blue/5 p-3 pt-4 flex-col flex gap-6">
-      <h3 className="text-sm text-main-blue">Personal Information</h3>
+    <div className="rounded-[1.75rem]  bg-[#FAFAFB] p-3 pt-4 flex-col flex gap-3">
+      <h3 className="text-base pl-2 font-medium font-broke-medium text-main-blue">
+        Personal Information
+      </h3>
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="bg-white grid-cols-1 grid gap-6 rounded-2xl p-4 lg:p-6 xl:p-8"
+          className="bg-white shadow-xs grid-cols-1 grid gap-6 rounded-2xl p-4 lg:p-6 xl:p-8"
         >
           <FormField
             control={form.control}
@@ -192,7 +194,7 @@ export function PersonalInfo({ name, email, image }: PersonalInfoProps) {
             <FormControl>
               <Input
                 placeholder="Email Address"
-                className="h-11"
+                className="h-11  opacity-50 cursor-not-allowed"
                 readOnly
                 value={email}
               />
@@ -202,7 +204,7 @@ export function PersonalInfo({ name, email, image }: PersonalInfoProps) {
           <Button
             type="submit"
             disabled={isPending}
-            className="h-11 ml-auto hover:ring-[3px]  ring-dark-orange/50  transition-all duration-200 py-1 px-4  w-full md:w-max rounded-md md:rounded-4xl bg-dark-orange text-white flex gap-1 items-center text-sm border hover:border-dark-orange hover:bg-transparent hover:text-dark-orange"
+            className="h-11 ml-auto hover:ring-[3px]  ring-main-blue/50  transition-all duration-200 py-1 px-4  w-full md:w-max rounded-md md:rounded-4xl bg-main-blue text-white flex gap-1 items-center text-sm border hover:border-main hover:bg-transparent hover:text-main-blue"
           >
             <span>{isPending ? "Saving..." : "Save Changes"}</span>
           </Button>
@@ -220,7 +222,6 @@ export function CompanyInfo({ profile }: CompanyInfoProps) {
     phoneNumber,
     location,
     companyTrade,
-    markupPercentage,
   } = profile;
   const defaultImage = companyLogo
     ? companyLogo
@@ -237,7 +238,6 @@ export function CompanyInfo({ profile }: CompanyInfoProps) {
       phoneNumber,
       location,
       companyTrade,
-      markupPercentage,
     },
   });
 
@@ -265,13 +265,15 @@ export function CompanyInfo({ profile }: CompanyInfoProps) {
   };
 
   return (
-    <div className="rounded-4xl bg-main-blue/5 p-3 pt-4 flex-col flex gap-6">
-      <h3 className="text-sm text-main-blue">Company Information</h3>
+    <div className="rounded-[1.75rem] bg-[#FAFAFB]  p-3 pt-4 flex-col flex gap-3">
+      <h3 className="text-base pl-2 font-medium font-broke-medium text-main-blue">
+        Company Information
+      </h3>
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="bg-white grid-cols-1 grid gap-6 rounded-2xl p-4 lg:p-6 xl:p-8"
+          className="bg-white shadow-xs grid-cols-1 grid gap-6 rounded-2xl p-4 lg:p-6 xl:p-8"
         >
           <FormField
             control={form.control}
@@ -386,8 +388,7 @@ export function CompanyInfo({ profile }: CompanyInfoProps) {
                     Company Address
                   </FormLabel>
                   <FormDescription className="text-xs">
-                    Your company’s address or primary work area. Estimates are
-                    based on this location.
+                    Your company’s address or primary work area.
                   </FormDescription>
                   <FormControl>
                     <DropdownMenu onOpenChange={setOpen} open={open}>
@@ -456,47 +457,10 @@ export function CompanyInfo({ profile }: CompanyInfoProps) {
               </FormItem>
             )}
           />{" "}
-          <FormField
-            control={form.control}
-            name="markupPercentage"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel className="text-main-blue ">
-                  Markup Percentage
-                </FormLabel>
-                <FormDescription className="text-xs">
-                  (Optional) A percentage added to the estimate total. This will
-                  not be visible to your clients.
-                </FormDescription>
-                <FormControl>
-                  <div className="border border-input rounded-lg p-4 gap-5 flex flex-col justify-center items-center">
-                    <div className="flex flex-col gap-1 items-center justify-center">
-                      <span className="text-xs font-medium text-main-blue/80">
-                        Markup
-                      </span>
-                      <span className="text-xl font-medium text-main-blue">
-                        {field.value} %
-                      </span>
-                    </div>
-
-                    <Slider
-                      value={[field.value]}
-                      step={1}
-                      max={100}
-                      onValueChange={(value) => {
-                        field.onChange(value[0]);
-                      }}
-                    />
-                  </div>
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />
           <Button
             type="submit"
             disabled={isPending}
-            className="h-11 ml-auto hover:ring-[3px]  ring-dark-orange/50  transition-all duration-200 py-1 px-4  w-full md:w-max rounded-md md:rounded-4xl bg-dark-orange text-white flex gap-1 items-center text-sm border hover:border-dark-orange hover:bg-transparent hover:text-dark-orange"
+            className="h-11 ml-auto hover:ring-[3px]  ring-main-blue/50  transition-all duration-200 py-1 px-4  w-full md:w-max rounded-md md:rounded-4xl bg-main-blue text-white flex gap-1 items-center text-sm border hover:border-main hover:bg-transparent hover:text-main-blue"
           >
             <span>{isPending ? "Saving..." : "Save Changes"}</span>
           </Button>
