@@ -32,11 +32,11 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith(route)
   );
 
-  // if (isPrivateRoute) {
-  //   console.log("running private route middleware");
-  //   const res = await protectDashboard(request, session);
-  //   if (res) return res;
-  // }
+  if (isPrivateRoute) {
+    console.log("running private route middleware");
+    const res = await protectDashboard(request, session);
+    if (res) return res;
+  }
 
   if (isAdminRoute && session) {
     console.log("running admin route middleware");

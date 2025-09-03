@@ -33,7 +33,7 @@ function SingleEstimateWrapper({ estimateId, profile, userEmail }: Props) {
   }
 
   if (!data) {
-    toast.error("Project Not Found");
+    toast.error("Estimate Not Found");
     // replace("/dashboard/projects");
     return null;
   }

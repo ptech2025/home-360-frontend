@@ -1,19 +1,22 @@
 export const samplePrompts = [
   {
-    text: "Could you estimate cost for painting two bedrooms?",
+    text: "Calculate replacing a standard toilet including labor and materials",
+    projectTitle: "Toilet Replacement",
+  },
+  {
+    text: "Estimate painting two 12x14 bedrooms with primer and two coats",
     projectTitle: "Bedroom Painting",
   },
-
   {
-    text: "Looking for cost to install laminate flooring",
+    text: "Quote installing 800 sq ft laminate flooring with underlayment",
     projectTitle: "Laminate Flooring",
   },
   {
-    text: "Estimate for patching drywall and repainting",
-    projectTitle: "Drywall Repair",
+    text: "Estimate installing 600 sq ft hardwood flooring in two rooms",
+    projectTitle: "Hardwood Flooring",
   },
   {
-    text: "Can you quote replacing a broken toilet?",
-    projectTitle: "Toilet Replacement",
+    text: "Price building a 12x16 pressure-treated deck with railings",
+    projectTitle: "Deck Construction",
   },
 ];

@@ -21,7 +21,7 @@ import {
 } from "@/types/zod-schemas";
 import { API_URL } from "@/utils/constants";
 
-import axios  from "axios";
+import axios from "axios";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -148,24 +148,31 @@ export const initiateProjectServer = async ({
   const cookieHeader = cookieStore.toString();
 
   let redirectUrl: string | null = null;
-  const res = await axios.post(
-    `${API_URL}/api/chat-session/initiate-project`,
-    {
-      prompt,
-      title: projectTitle.length > 0 ? projectTitle : "Untitled",
-    },
-    {
-      headers: { Cookie: cookieHeader },
-      withCredentials: true,
-    }
-  );
-  const sessionId = res.data.sessionId as string;
 
-  redirectUrl = `/dashboard/c/${sessionId}`;
-
-  if (redirectUrl) {
-    redirect(redirectUrl);
+  try {
+    const res = await axios.post(
+      `${API_URL}/api/chat-session/initiate-project`,
+      {
+        prompt,
+        title: projectTitle.length > 0 ? projectTitle : "Untitled",
+      },
+      {
+        headers: { Cookie: cookieHeader },
+        withCredentials: true,
+      }
+    );
+    const sessionId = res.data.sessionId as string;
+    redirectUrl = `/dashboard/c/${sessionId}`;
+  } catch (error) {
+    console.log(error);
+    return null;
   }
+
+  console.log(redirectUrl)
+
+  // if (redirectUrl) {
+  //   redirect(redirectUrl);
+  // }
 };
 
 export const fetchUserSessionsServer = async () => {

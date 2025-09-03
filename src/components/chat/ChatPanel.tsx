@@ -70,7 +70,7 @@ export default function ChatPanel({ sessionId }: ChatPanelProps) {
           <ConversationWrapper
             messages={messages}
             sessionId={sessionId}
-            isGenerating={isGenerating}
+            isGenerating={isSendLoading || isGenerating}
             setPrompt={setPrompt}
           />
         ) : (

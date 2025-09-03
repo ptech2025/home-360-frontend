@@ -139,7 +139,7 @@ export const changePasswordSchema = z
 export const createEstimateLineItemSchema = z.object({
   title: z.string().min(1, "Item Description is required"),
 
-  quantity: z.number().min(1, "Quantity must be 1 or greater"),
+  quantity: z.number().min(0.5, "Quantity must be 0.5 or greater"),
 
   cost: z.number().min(1, "Cost must be 1 or greater"),
 
@@ -154,6 +154,13 @@ export const createEstimateLineItemSchema = z.object({
 
 export const estimateSchema = z.object({
   title: z.string().min(1, "Title is required"),
+});
+
+export const estimateRatesSchema = z.object({
+  taxName: z.string().min(1, "Tax name is required"),
+  discountName: z.string().min(1, "Discount name is required"),
+  taxRate: z.number().max(100, "Tax rate must be less than 100"),
+  discountRate: z.number().max(100, "Discount rate must be less than 100"),
 });
 
 // Type inference
@@ -234,3 +241,4 @@ export type CreateEstimateLineItemType = z.infer<
 >;
 
 export type EstimateSchemaType = z.infer<typeof estimateSchema>;
+export type EstimateRatesSchemaType = z.infer<typeof estimateRatesSchema>;

@@ -44,6 +44,7 @@ function SingleProjectWrapper({ projectId }: Props) {
           <ProjectEstimatesCard
             estimates={data.project.estimates}
             projectId={projectId}
+            numberOfEstimates={data.numberOfEstimates}
           />
           <ProjectInvoicesCard />
           <ProjectProposalCard />

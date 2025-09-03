@@ -1,4 +1,4 @@
-import { StarIcon } from "@/components/global/Icons";
+import { StarIcon, PromptStarIcon } from "@/components/global/Icons";
 import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
 
 import { samplePrompts } from "@/utils/options";
@@ -32,11 +32,14 @@ function ChatEmpty({ setPrompt }: Props) {
             <Suggestion
               key={prompt.text}
               suggestion={prompt.text}
-              className="text-dark-orange bg-main-blue/10"
+              className="text-dark-orange text-xs bg-main-blue/10"
               onClick={() => {
                 setPrompt(prompt.text);
               }}
-            />
+            >
+              <PromptStarIcon />
+              <span>{prompt.text}</span>
+            </Suggestion>
           ))}
         </Suggestions>
       </div>

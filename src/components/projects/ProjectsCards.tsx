@@ -40,9 +40,11 @@ export function TotalProjectValueCard({
 export function ProjectEstimatesCard({
   estimates,
   projectId,
+  numberOfEstimates,
 }: {
   estimates: Estimate[];
   projectId: string;
+  numberOfEstimates: number;
 }) {
   const { push } = useRouter();
   const { mutate, isPending } = useMutation({
@@ -70,9 +72,14 @@ export function ProjectEstimatesCard({
   return (
     <div className="rounded-lg flex-col gap-4 flex shadow-sm border border-sidebar-border px-2.5 py-4">
       <div className="flex items-center justify-between gap-4">
-        <h3 className="text-main-blue text-sm lg:text-base font-medium">
-          Estimates
-        </h3>
+        <div className="flex gap-1 items-center">
+          <h3 className="text-main-blue text-sm lg:text-base font-medium">
+            Estimates
+          </h3>
+          <div className="flex h-5 w-max min-w-5  text-xs shrink-0 items-center justify-center p-1 rounded-full text-main-blue bg-main-blue/20 border border-sidebar-border ">
+            <span>{numberOfEstimates}</span>
+          </div>
+        </div>
 
         <Link
           href={`/dashboard/projects/${projectId}/estimates`}

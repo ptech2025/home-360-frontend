@@ -27,6 +27,8 @@ import {
   categoryValues,
   createEstimateLineItemSchema,
   CreateEstimateLineItemType,
+  estimateRatesSchema,
+  EstimateRatesSchemaType,
   estimateSchema,
   EstimateSchemaType,
   unitTypeValues,
@@ -34,9 +36,10 @@ import {
 
 import { Loader2, Pen, Plus, Rows4 } from "lucide-react";
 
-import { EstimateLineItem } from "@/types/estimate";
+import { Estimate, EstimateLineItem } from "@/types/estimate";
 import {
   addLineItemToEstimate,
+  updateEstimateRates,
   updateEstimateTitle,
   updateLineItem,
 } from "@/services/estimate";
@@ -147,7 +150,8 @@ export function AddLineItemDialog({ estimateId }: { estimateId: string }) {
                     <FormControl>
                       <Input
                         type="number"
-                        min={1}
+                        min={0}
+                        step={0.1}
                         placeholder="Quantity"
                         className="h-11"
                         value={field.value}
@@ -174,6 +178,7 @@ export function AddLineItemDialog({ estimateId }: { estimateId: string }) {
                         type="number"
                         placeholder="Cost"
                         min={1}
+                        step={0.1}
                         className="h-11"
                         value={field.value}
                         onChange={(e) => {
@@ -380,7 +385,8 @@ export function UpdateLineItemDialog({
                     <FormControl>
                       <Input
                         type="number"
-                        min={1}
+                        min={0}
+                        step={0.1}
                         placeholder="Quantity"
                         className="h-11"
                         value={field.value}
@@ -407,6 +413,7 @@ export function UpdateLineItemDialog({
                         type="number"
                         placeholder="Cost"
                         min={1}
+                        step={0.1}
                         className="h-11"
                         value={field.value}
                         onChange={(e) => {
@@ -597,6 +604,204 @@ export function UpdateEstimateTitleDialog({
                 </FormItem>
               )}
             />{" "}
+            <DialogFooter className="grid grid-cols-1 items-center gap-4 sm:grid-cols-2">
+              <Button
+                type="button"
+                disabled={isPending}
+                onClick={() => setOpen(false)}
+                className="w-full h-11 bg-transparent text-main-blue rounded-md border border-main-blue hover:bg-sidebar-border"
+              >
+                <span>Cancel</span>
+              </Button>{" "}
+              <Button
+                disabled={isPending}
+                className="w-full max-sm:order-first h-11 rounded-md bg-main-blue text-white"
+              >
+                {isPending ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  <span>Save</span>
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export function UpdateEstimateCalculationsDialog({
+  estimate,
+}: {
+  estimate: Estimate;
+}) {
+  const queryClient = useQueryClient();
+  const [open, setOpen] = useState(false);
+
+  const form = useForm<EstimateRatesSchemaType>({
+    resolver: zodResolver(estimateRatesSchema),
+    mode: "onChange",
+    defaultValues: {
+      taxName: estimate.estimateTax.name,
+      taxRate: estimate.estimateTax.rate,
+      discountName: estimate.estimateDiscount.name,
+      discountRate: estimate.estimateDiscount.rate,
+    },
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: EstimateRatesSchemaType) => {
+      return updateEstimateRates(estimate.id, data);
+    },
+
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["estimate", estimate.id],
+      });
+      toast.success("Estimate rates updated successfully.");
+
+      setOpen(false);
+    },
+    onError: (error) => {
+      const msg = renderAxiosOrAuthError(error);
+      toast.error(msg);
+    },
+  });
+
+  const onSubmit = (values: EstimateRatesSchemaType) => {
+    mutate(values);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button
+          disabled={isPending}
+          className="bg-transparent text-dark-orange w-max ml-auto hover:bg-dark-orange/20"
+        >
+          <Pen />
+          <span>Edit</span>
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader className="flex flex-row gap-2 items-center">
+          <div className="rounded-lg flex items-center justify-center shrink-0 p-1 size-12  border border-sidebar-border">
+            <Pen className="text-main-blue size-6" />
+          </div>
+          <div className="flex gap-1 flex-col justify-center">
+            <DialogTitle>Edit Estimate Rates</DialogTitle>
+          </div>
+        </DialogHeader>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex w-full  justify-center  flex-col gap-4"
+          >
+            <fieldset className="border border-gray-300 rounded-lg p-2">
+              <legend className="text-main-blue font-semibold px-2">
+                Discount
+              </legend>
+              <div className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="discountName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel className="text-main-blue text-xs after:ml-[-5px] after:text-red-500 after:content-['*']">
+                        Name
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="Discount"
+                          className="h-11"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />{" "}
+                <FormField
+                  control={form.control}
+                  name="discountRate"
+                  render={({ field }) => (
+                    <FormItem className="w-full ">
+                      <FormLabel className="text-main-blue text-xs after:ml-[-5px] after:text-red-500 after:content-['*']">
+                        Rate
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Rate"
+                          min={0}
+                          step={0.1}
+                          className="h-11"
+                          value={field.value}
+                          onChange={(e) => {
+                            const qty = Number(e.target.value);
+                            field.onChange(qty);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </fieldset>
+            <fieldset className="border border-gray-300 rounded-lg p-2">
+              <legend className="text-main-blue font-semibold px-2">Tax</legend>
+              <div className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="taxName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel className="text-main-blue text-xs after:ml-[-5px] after:text-red-500 after:content-['*']">
+                        Name
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="Tax"
+                          className="h-11"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />{" "}
+                <FormField
+                  control={form.control}
+                  name="taxRate"
+                  render={({ field }) => (
+                    <FormItem className="w-full ">
+                      <FormLabel className="text-main-blue text-xs after:ml-[-5px] after:text-red-500 after:content-['*']">
+                        Rate
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Rate"
+                          min={0}
+                          step={0.1}
+                          className="h-11"
+                          value={field.value}
+                          onChange={(e) => {
+                            const qty = Number(e.target.value);
+                            field.onChange(qty);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </fieldset>
             <DialogFooter className="grid grid-cols-1 items-center gap-4 sm:grid-cols-2">
               <Button
                 type="button"

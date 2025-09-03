@@ -1,6 +1,6 @@
 "use client";
 
-import { StarIcon } from "@/components/global/Icons";
+import { PromptStarIcon, StarIcon } from "@/components/global/Icons";
 import { Badge } from "../ui/badge";
 import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
 import {
@@ -20,8 +20,9 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useAudioRecorder } from "@/hooks/use-audio-recorder";
 import { samplePrompts } from "@/utils/options";
-import { initiateProjectServer } from "@/lib/actions";
 import DisplayRecording from "../chat/DisplayRecording";
+import { initiateProject } from "@/services/project";
+import { useRouter } from "nextjs-toploader/app";
 
 type Props = {
   name: string;
@@ -29,6 +30,7 @@ type Props = {
 };
 
 function InitProject({ name, userId }: Props) {
+  const { replace } = useRouter();
   const [prompt, setPrompt] = useState("");
   const [projectTitle, setProjectTitle] = useState("");
   const [promptMode, setPromptMode] = useState<"text" | "audio">("text");
@@ -45,7 +47,10 @@ function InitProject({ name, userId }: Props) {
 
   const { mutate, isPending: isSendLoading } = useMutation({
     mutationFn: async (data: { prompt: string; projectTitle: string }) => {
-      return initiateProjectServer(data);
+      return initiateProject(data);
+    },
+    onSuccess(data) {
+      replace(`/dashboard/c/${data}`);
     },
     onError: (error) => {
       const msg = renderAxiosOrAuthError(error);
@@ -88,12 +93,15 @@ function InitProject({ name, userId }: Props) {
               <Suggestion
                 key={prompt.text}
                 suggestion={prompt.text}
-                className="text-dark-orange bg-main-blue/10"
+                className="text-dark-orange text-xs bg-main-blue/10"
                 onClick={() => {
                   setPrompt(prompt.text);
                   setProjectTitle(prompt.projectTitle);
                 }}
-              />
+              >
+                <PromptStarIcon />
+                <span>{prompt.text}</span>
+              </Suggestion>
             ))}
           </Suggestions>
         </div>

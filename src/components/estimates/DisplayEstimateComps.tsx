@@ -25,7 +25,10 @@ import { formatEstimateId } from "@/utils/funcs";
 import SavedToProjectDropdownMenu from "./SavedToProjectDropdownMenu";
 import { FolderEdit, Pen } from "lucide-react";
 import Link from "next/link";
-import { AddLineItemDialog } from "./EstimateDialogs";
+import {
+  AddLineItemDialog,
+  UpdateEstimateCalculationsDialog,
+} from "./EstimateDialogs";
 
 type Props = {
   estimate: Estimate;
@@ -64,7 +67,8 @@ export function DisplayEstimateTotal({ estimate }: Props) {
           </div>{" "}
           <div className="flex  justify-between items-center">
             <span className="text-main-blue text-xs">
-              Discount ({estimate.estimateDiscount.rate}%)
+              {estimate.estimateDiscount.name} ({estimate.estimateDiscount.rate}
+              %)
             </span>
             <span className="text-sm font-semibold">
               - {formatCurrency(estimate.calculations.discountValue)}
@@ -296,10 +300,7 @@ export function DisplayEstimatePageTotal({ estimate }: Props) {
     <div className="pr-4 py-4 ">
       <div className="p-2 grid-cols-1 grid gap-1 bg-main-blue/5 rounded-md">
         {estimate.projectId && (
-          <Button className="bg-transparent text-dark-orange w-max ml-auto hover:bg-dark-orange/20">
-            <Pen />
-            <span>Edit</span>
-          </Button>
+          <UpdateEstimateCalculationsDialog estimate={estimate} />
         )}
         {/* //Subtotal */}
         <div className="flex  justify-between items-center">
@@ -320,7 +321,8 @@ export function DisplayEstimatePageTotal({ estimate }: Props) {
           </div>{" "}
           <div className="flex  justify-between items-center">
             <span className="text-main-blue text-xs">
-              Discount ({estimate.estimateDiscount.rate}%)
+              {estimate.estimateDiscount.name} ({estimate.estimateDiscount.rate}
+              %)
             </span>
             <span className="text-sm font-semibold">
               - {formatCurrency(estimate.calculations.discountValue)}
@@ -328,7 +330,7 @@ export function DisplayEstimatePageTotal({ estimate }: Props) {
           </div>
           <div className="flex  justify-between items-center">
             <span className="text-main-blue text-xs">
-              Tax ({estimate.estimateTax.rate}%)
+              {estimate.estimateTax.name} ({estimate.estimateTax.rate}%)
             </span>
             <span className="text-sm font-semibold">
               {formatCurrency(estimate.calculations.taxValue)}
@@ -628,11 +630,15 @@ export function EstimatePreviewLineItems({
           <span className="text-sm">{formatCurrency(estimate.subTotal)}</span>
         </div>
         <div className="flex  justify-between items-center">
-          <span className="text-main-blue text-xs">Discount</span>
+          <span className="text-main-blue text-xs">
+            {estimate.estimateDiscount.name}
+          </span>
           <span className="text-sm">{estimate.estimateDiscount.rate}%</span>
         </div>
         <div className="flex  justify-between items-center">
-          <span className="text-main-blue text-xs">Tax</span>
+          <span className="text-main-blue text-xs">
+            {estimate.estimateTax.name}
+          </span>
           <span className="text-sm ">{estimate.estimateTax.rate}%</span>
         </div>
         <div className="flex  justify-between items-center">

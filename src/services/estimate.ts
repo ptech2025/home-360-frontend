@@ -4,6 +4,7 @@ import axios from "axios";
 import { Estimate } from "@/types/estimate";
 import {
   CreateEstimateLineItemType,
+  EstimateRatesSchemaType,
   EstimateSchemaType,
 } from "@/types/zod-schemas";
 
@@ -125,6 +126,19 @@ export const deleteLineItem = async (
 ) => {
   return await axios.delete(
     `${API_URL}/api/estimate/${estimateId}/line-items/${lineItemId}`,
+    {
+      withCredentials: true,
+    }
+  );
+};
+
+export const updateEstimateRates = async (
+  estimateId: string,
+  data: EstimateRatesSchemaType
+) => {
+  return await axios.patch(
+    `${API_URL}/api/estimate/${estimateId}/estimate-rates`,
+    data,
     {
       withCredentials: true,
     }

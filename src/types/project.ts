@@ -44,6 +44,7 @@ export interface FetchAllProjectsResponse {
 export interface FetchSingleProjectResponse {
   project: Project;
   projectTotalValue: number;
+  numberOfEstimates: number;
 }
 
 export interface FetchProjectEstimateResponse {

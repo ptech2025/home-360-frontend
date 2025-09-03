@@ -30,7 +30,7 @@ function ChatWrapper({ sessionId, estimateId }: Props) {
         onOpenChange={setIsChatPanelOpen}
         className="h-full relative data-[state=closed]:hidden"
       >
-        <CollapsibleContent className="h-full absolute left-0 top-0 pb-1">
+        <CollapsibleContent className="h-full w-full absolute left-0 top-0 pb-1">
           <ChatPanel sessionId={sessionId} />
         </CollapsibleContent>
       </Collapsible>
