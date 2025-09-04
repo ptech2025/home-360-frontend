@@ -23,6 +23,7 @@ import { Client } from "@/types/client";
 import DisplayPhoneNumber from "../global/DisplayPhoneNumber";
 import { MapPin, PhoneIcon } from "lucide-react";
 import { ClientsActions } from "./ClientsDialogs";
+import Link from "next/link";
 
 type Props = {
   clients: Client[];
@@ -35,9 +36,9 @@ export default function ClientsTable({ clients }: Props) {
       accessorKey: "name",
       cell: ({ row }) => {
         return (
-          <span className="text-sm text-main-blue font-medium  capitalize">
+          <Link href={`/dashboard/clients/${row.original.id}`} className="text-sm hover:underline text-main-blue font-medium  capitalize">
             {row.original.name}
-          </span>
+          </Link>
         );
       },
     },

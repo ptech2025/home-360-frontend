@@ -13,7 +13,8 @@ import { Tabs, TabsContent } from "../ui/tabs";
 import EstimatePreview from "./EstimatePreview";
 import { useEstimatePanelStore } from "@/store/estimateStore";
 import { ProfileType } from "@/types";
-
+import RedirectOrToggleSidebar from "../chat/RedirectOrToggleSidebar";
+import { SingleEstimateSkeleton } from "../global/Skeletons";
 type Props = {
   estimateId: string;
   profile: ProfileType;
@@ -29,7 +30,7 @@ function SingleEstimateWrapper({ estimateId, profile, userEmail }: Props) {
   });
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return <SingleEstimateSkeleton />;
   }
 
   if (!data) {
@@ -39,30 +40,40 @@ function SingleEstimateWrapper({ estimateId, profile, userEmail }: Props) {
   }
 
   return (
-    <Tabs
-      value={estimateMode}
-      onValueChange={(val) => setEstimateMode(val as "edit" | "preview")}
-      className="w-full"
-    >
-      <TabsContent value={"edit"}>
-        <div className="bg-sidebar overflow-y-hidden grid grid-cols-1 grid-rows-[auto_1fr_auto] gap-0 p-4 pr-0  rounded-lg  shadow-sm border border-sidebar-border h-full">
-          <DisplayEstimatePageHeader estimate={data} />
-          <DisplayEstimatePageLineItems
-            lineItems={data.lineItems}
-            projectId={data.projectId}
-            estimateId={data.id}
+    <section className="w-full h-full py-4  flex-col flex gap-4">
+      <RedirectOrToggleSidebar
+        url={
+          data.projectId
+            ? `/dashboard/project/${data.projectId}`
+            : `/dashboard/projects`
+        }
+        showRedirect={true}
+      />{" "}
+      <Tabs
+        value={estimateMode}
+        onValueChange={(val) => setEstimateMode(val as "edit" | "preview")}
+        className="w-full"
+      >
+        <TabsContent value={"edit"}>
+          <div className="bg-sidebar overflow-y-hidden grid grid-cols-1 grid-rows-[auto_1fr_auto] gap-0 p-4 pr-0  rounded-lg  shadow-sm border border-sidebar-border h-full">
+            <DisplayEstimatePageHeader estimate={data} />
+            <DisplayEstimatePageLineItems
+              lineItems={data.lineItems}
+              projectId={data.projectId}
+              estimateId={data.id}
+            />
+            <DisplayEstimatePageTotal estimate={data} />
+          </div>
+        </TabsContent>
+        <TabsContent value="preview">
+          <EstimatePreview
+            estimate={data}
+            profile={profile}
+            userEmail={userEmail}
           />
-          <DisplayEstimatePageTotal estimate={data} />
-        </div>
-      </TabsContent>
-      <TabsContent value="preview">
-        <EstimatePreview
-          estimate={data}
-          profile={profile}
-          userEmail={userEmail}
-        />
-      </TabsContent>
-    </Tabs>
+        </TabsContent>
+      </Tabs>
+    </section>
   );
 }
 export default SingleEstimateWrapper;

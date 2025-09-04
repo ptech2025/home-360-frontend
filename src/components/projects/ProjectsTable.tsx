@@ -26,6 +26,7 @@ import {
 } from "@/components/clients/ClientProjectDropdownMenus";
 import DisplayProjectStatus from "./DisplayProjectStatus";
 import { ProjectsActions } from "./ProjectsDialogs";
+import Link from "next/link";
 
 type Props = {
   projects: Project[];
@@ -38,9 +39,9 @@ export default function ProjectsTable({ projects }: Props) {
       accessorKey: "title",
       cell: ({ row }) => {
         return (
-          <span className="text-sm text-main-blue font-medium  capitalize">
+          <Link href={`/dashboard/projects/${row.original.id}`} className="text-sm hover:underline text-main-blue font-medium  capitalize">
             {row.original.title}
-          </span>
+          </Link>
         );
       },
     },

@@ -23,6 +23,7 @@ import { Estimate } from "@/types/estimate";
 import { formatCurrency, formatEstimateId } from "@/utils/funcs";
 import { format } from "date-fns";
 import { ProjectEstimatesActions } from "./ProjectEstimatesDialogs";
+import Link from "next/link";
 
 type Props = {
   estimates: Estimate[];
@@ -35,14 +36,17 @@ export default function ProjectEstimatesTable({ estimates }: Props) {
       accessorKey: "title",
       cell: ({ row }) => {
         return (
-          <div className="flex flex-col">
+          <Link
+            href={`/dashboard/estimates/${row.original.id}`}
+            className="flex flex-col"
+          >
             <span className="text-xs text-main-blue  capitalize">
               {formatEstimateId(row.original.id)}
             </span>
             <span className="text-sm text-main-blue font-medium  capitalize">
               {row.original.title}
             </span>
-          </div>
+          </Link>
         );
       },
     },

@@ -1,4 +1,3 @@
-import RedirectOrToggleSidebar from "@/components/chat/RedirectOrToggleSidebar";
 import {
   HydrationBoundary,
   dehydrate,
@@ -32,17 +31,12 @@ async function SingleEstimatePage({
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <section className="w-full h-full py-4  flex-col flex gap-4">
-        <RedirectOrToggleSidebar
-          url="/dashboard/projects"
-          showRedirect={true}
-        />{" "}
         <SingleEstimateWrapper
           estimateId={estimateId}
           profile={user.profile!}
           userEmail={user.email}
         />
-      </section>
+   
     </HydrationBoundary>
   );
 }

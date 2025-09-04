@@ -52,7 +52,7 @@ function EstimatePreview({
           Estimate Preview
         </h4>
 
-        {projectId && (
+        {projectId && client && (
           <div className="flex items-center gap-2">
             <Button
               onClick={() => mutate(projectId)}

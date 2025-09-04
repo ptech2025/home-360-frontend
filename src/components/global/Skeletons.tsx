@@ -51,10 +51,7 @@ export function ChatPageSkeleton() {
         )}
       >
         <div
-          className={cn(
-            "h-full pb-1",
-            isChatPanelOpen ? "block" : "hidden"
-          )}
+          className={cn("h-full pb-1", isChatPanelOpen ? "block" : "hidden")}
         >
           <Skeleton className="min-h-full w-full" />
         </div>
@@ -137,6 +134,18 @@ export function SingleProjectPageSkeleton() {
           <Skeleton className="w-full" />
         </div>
       </div>
+    </section>
+  );
+}
+
+export function SingleEstimateSkeleton() {
+  return (
+    <section className="w-full h-full py-4  flex-col flex gap-4">
+      <div>
+        <Skeleton className="h-10 w-14 rounded-full" />
+      </div>
+
+      <Skeleton className="min-h-full w-full" />
     </section>
   );
 }
