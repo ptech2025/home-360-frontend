@@ -185,7 +185,7 @@ export function UpdatePassword() {
           <Button
             type="submit"
             disabled={isPending || isSigningOut}
-            className="h-11 ml-auto hover:ring-[3px]  ring-main-blue/50  transition-all duration-200 py-1 px-4  w-full md:w-max rounded-md md:rounded-4xl bg-main-blue text-white flex gap-1 items-center text-sm border hover:border-main hover:bg-transparent hover:text-main-blue"
+            className="h-11 ml-auto hover:ring-[3px]  ring-main-blue/50  transition-all duration-200 py-1 px-4  w-full md:w-max rounded-md md:rounded-4xl bg-main-blue text-white flex gap-1 items-center text-sm border hover:border-main-blue hover:bg-transparent hover:text-main-blue"
           >
             <span>{isPending ? "Saving..." : "Save Changes"}</span>
           </Button>

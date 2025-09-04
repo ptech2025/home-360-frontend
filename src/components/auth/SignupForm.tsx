@@ -253,7 +253,7 @@ function SignUpForm() {
             Terms of use{" "}
           </Link>
           &
-          <Link href="/terms" className="hover:underline text-main-blue">
+          <Link href="/privacy-policy" className="hover:underline text-main-blue">
             {" "}
             Privacy Policy.
           </Link>
