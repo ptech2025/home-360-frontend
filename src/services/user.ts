@@ -81,17 +81,15 @@ export const savePricingOnboardingInfo = async (data: PricingSchemaType) => {
 
 export const fetchPlaces = async ({
   query,
-  usOnly,
-  citiesOnly = false,
+  usOnly = true,
 }: {
   query: string;
-  usOnly: boolean;
-  citiesOnly?: boolean;
+  usOnly?: boolean;
 }): Promise<PlaceSuggestion[]> => {
   const res: { data: { suggestions: PlaceSuggestion[] } } = await axios.get(
     `${API_URL}/api/user/places`,
     {
-      params: { query, usOnly, citiesOnly },
+      params: { query, usOnly },
       withCredentials: true,
     }
   );

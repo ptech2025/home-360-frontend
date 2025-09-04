@@ -30,6 +30,7 @@ export const fetchUserServer = async () => {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
 
+
   try {
     const res = await axios.get(`${API_URL}/api/user/details`, {
       headers: { Cookie: cookieHeader },
@@ -168,7 +169,7 @@ export const initiateProjectServer = async ({
     return null;
   }
 
-  console.log(redirectUrl)
+  console.log(redirectUrl);
 
   // if (redirectUrl) {
   //   redirect(redirectUrl);

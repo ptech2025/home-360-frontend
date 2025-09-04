@@ -26,7 +26,6 @@ type LocationCommandProps = {
   handleClose: (value: string) => void;
   currentAddress: string | undefined;
   usOnly: boolean;
-  citiesOnly: boolean;
 };
 
 function AddressItem({ address, handleClose, matched }: AddressItemProps) {
@@ -50,7 +49,6 @@ function LocationCommand({
   handleClose,
   currentAddress,
   usOnly,
-  citiesOnly,
 }: LocationCommandProps) {
   const [searchVal, setSearchVal] = useState("");
   const [debouncedSearchVal] = useDebounce(searchVal, 300);
@@ -62,7 +60,6 @@ function LocationCommand({
     queryFn: () => fetchPlaces({
       query: debouncedSearchVal,
       usOnly,
-      citiesOnly,
     }),
   });
 

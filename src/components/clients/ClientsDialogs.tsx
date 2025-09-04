@@ -205,9 +205,7 @@ export function AddClientDialog({ children }: { children: React.ReactNode }) {
                         <LocationCommand
                           currentAddress={field.value}
                           handleClose={handleSetLocation}
-                          usOnly={false}
-                          citiesOnly={false}
-                        />
+                          usOnly={false}                        />
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </FormControl>
@@ -472,7 +470,6 @@ export function UpdateClientDialog({
                           currentAddress={field.value}
                           handleClose={handleSetLocation}
                           usOnly={false}
-                          citiesOnly={false}
                         />
                       </DropdownMenuContent>
                     </DropdownMenu>

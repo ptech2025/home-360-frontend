@@ -21,9 +21,10 @@ import { signInSchema, SignInSchemaType } from "@/types/zod-schemas";
 import { Input } from "../ui/input";
 import { GoogleIcon } from "../global/Icons";
 import EmailVerificationSent from "./EmailVerificationSent";
+// import { useRouter } from "nextjs-toploader/app";
 
 function SignInForm() {
-
+  // const { push } = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -72,6 +73,7 @@ function SignInForm() {
           setIsLoading(true);
         },
         onSuccess: async () => {
+          // push("/onboarding");
           toast.success("Signed in successfully.");
         },
         onError: (ctx) => {

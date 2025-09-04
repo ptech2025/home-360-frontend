@@ -54,9 +54,8 @@ function InitProject({ name, userId }: Props) {
     },
     onError: (error) => {
       const msg = renderAxiosOrAuthError(error);
-      if (msg !== "NEXT_REDIRECT") {
-        toast.error(msg);
-      }
+
+      toast.error(msg);
     },
   });
 
