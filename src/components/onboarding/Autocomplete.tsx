@@ -79,9 +79,7 @@ export default function Autocomplete({
     queryFn: () =>
       fetchPlaces({
         query: debouncedQuery,
-        usOnly: true,
-        citiesOnly: true,
-      }),
+        usOnly: true,      }),
     enabled: Boolean(debouncedQuery.trim()) && isFocused, // only run if query is not empty & input is focused
     staleTime: 1000 * 60, // cache suggestions for 1 minute
     gcTime: 1000 * 60 * 5, // keep in memory for 5 minutes
