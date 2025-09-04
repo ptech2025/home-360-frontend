@@ -23,7 +23,7 @@ import {
 import { Button } from "../ui/button";
 import { formatEstimateId } from "@/utils/funcs";
 import SavedToProjectDropdownMenu from "./SavedToProjectDropdownMenu";
-import { FolderEdit, Pen } from "lucide-react";
+import { FolderEdit } from "lucide-react";
 import Link from "next/link";
 import {
   AddLineItemDialog,

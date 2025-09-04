@@ -144,7 +144,7 @@ function SavedToProjectDropdownMenu({ estimateId }: { estimateId: string }) {
                 ))}
               </CommandGroup>
             )}
-            <CommandGroup className="items-center justify-center flex my-2">
+            <CommandGroup className="items-center border-t justify-center flex my-2">
               <AddNewProjectDialog />
             </CommandGroup>
           </CommandList>

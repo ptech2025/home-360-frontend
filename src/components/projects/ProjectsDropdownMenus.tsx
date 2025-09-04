@@ -184,7 +184,11 @@ export function NoAddressProjectDropdownMenu({
   // fetch clients with debounced value
   const { data, isLoading } = useQuery({
     queryKey: ["placeSuggestions", debouncedSearchVal],
-    queryFn: () => fetchPlaces(debouncedSearchVal),
+    queryFn: () =>
+      fetchPlaces({
+        query: debouncedSearchVal,
+        usOnly: true,
+      }),
   });
 
   const handleClose = () => {
@@ -236,7 +240,11 @@ export function AddressProjectDropdownMenu({
   // fetch clients with debounced value
   const { data, isLoading } = useQuery({
     queryKey: ["placeSuggestions", debouncedSearchVal],
-    queryFn: () => fetchPlaces(debouncedSearchVal),
+    queryFn: () =>
+      fetchPlaces({
+        query: debouncedSearchVal,
+        usOnly: true,
+      }),
   });
 
   const handleClose = () => {

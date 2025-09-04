@@ -36,6 +36,12 @@ import {
 import { createClient, deleteClient, updateClient } from "@/services/client";
 import PhoneInput from "../global/PhoneInput";
 import { Client } from "@/types/client";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+} from "../ui/dropdown-menu";
+import LocationCommand from "@/components/global/LocationCommand";
 
 import {
   Popover,
@@ -47,6 +53,7 @@ import { useRouter } from "nextjs-toploader/app";
 export function AddClientDialog({ children }: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
+  const [addressOpen, setAddressOpen] = useState(false);
 
   const form = useForm<CreateClientSchemaType>({
     resolver: zodResolver(createClientSchema),
@@ -58,6 +65,14 @@ export function AddClientDialog({ children }: { children: React.ReactNode }) {
       address: "",
     },
   });
+
+  const handleSetLocation = (newAddress: string) => {
+    form.setValue("address", newAddress, {
+      shouldValidate: true,
+    });
+
+    setAddressOpen(false);
+  };
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: CreateClientSchemaType) => {
@@ -170,11 +185,31 @@ export function AddClientDialog({ children }: { children: React.ReactNode }) {
                 <FormItem className="w-full">
                   <FormLabel className="text-main-blue">Address</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Client Address"
-                      className="h-11"
-                      {...field}
-                    />
+                    <DropdownMenu
+                      onOpenChange={setAddressOpen}
+                      open={addressOpen}
+                    >
+                      <DropdownMenuTrigger asChild>
+                        <Input
+                          value={field.value}
+                          placeholder="Client Address"
+                          readOnly
+                          className="h-11 text-start"
+                        />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent
+                        align={"start"}
+                        side="bottom"
+                        className="min-w-[15rem]"
+                      >
+                        <LocationCommand
+                          currentAddress={field.value}
+                          handleClose={handleSetLocation}
+                          usOnly={false}
+                          citiesOnly={false}
+                        />
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
@@ -280,6 +315,7 @@ export function UpdateClientDialog({
 }) {
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
+  const [addressOpen, setAddressOpen] = useState(false);
 
   const form = useForm<CreateClientSchemaType>({
     resolver: zodResolver(createClientSchema),
@@ -292,6 +328,14 @@ export function UpdateClientDialog({
     },
   });
   const clientId = client.id;
+
+  const handleSetLocation = (newAddress: string) => {
+    form.setValue("address", newAddress, {
+      shouldValidate: true,
+    });
+
+    setAddressOpen(false);
+  };
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: CreateClientSchemaType) => {
@@ -407,11 +451,31 @@ export function UpdateClientDialog({
                 <FormItem className="w-full">
                   <FormLabel className="text-main-blue">Address</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Client Address"
-                      className="h-11"
-                      {...field}
-                    />
+                    <DropdownMenu
+                      onOpenChange={setAddressOpen}
+                      open={addressOpen}
+                    >
+                      <DropdownMenuTrigger asChild>
+                        <Input
+                          value={field.value}
+                          placeholder="Client Address"
+                          readOnly
+                          className="h-11 text-start"
+                        />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent
+                        align={"start"}
+                        side="bottom"
+                        className="min-w-[15rem]"
+                      >
+                        <LocationCommand
+                          currentAddress={field.value}
+                          handleClose={handleSetLocation}
+                          usOnly={false}
+                          citiesOnly={false}
+                        />
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>

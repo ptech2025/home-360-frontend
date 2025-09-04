@@ -34,7 +34,7 @@ async function SessionChatPage({
       <section className="w-full h-full py-4  flex-col flex gap-4">
         <RedirectOrToggleSidebar
           url="/dashboard/projects"
-          showRedirect={true}
+          showRedirect={false}
         />
         <ChatWrapper sessionId={sessionId} estimateId={estimateId} />
       </section>

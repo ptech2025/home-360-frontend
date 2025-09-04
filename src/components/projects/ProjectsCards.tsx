@@ -12,8 +12,7 @@ import { toast } from "sonner";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import { createSession } from "@/services/chat-session";
 import { formatDate } from "date-fns";
-import { Badge } from "../ui/badge";
-import { renderStatusIcon, renderStatusStyle } from "./DisplayProjectStatus";
+import { renderStatusIcon } from "./DisplayProjectStatus";
 import { ProjectStatus } from "@/types/project";
 
 export function TotalProjectValueCard({

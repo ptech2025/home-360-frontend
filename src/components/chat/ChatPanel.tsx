@@ -60,7 +60,7 @@ export default function ChatPanel({ sessionId }: ChatPanelProps) {
   }, [isFetchLoading, sessionId, replace, messages]);
 
   return (
-    <div className="bg-sidebar grid grid-cols-1 grid-rows-[auto_1fr_auto] gap-0 p-4 pr-0 rounded-lg  shadow-sm border border-sidebar-border h-full">
+    <div className="bg-sidebar grid grid-cols-1 grid-rows-[auto_1fr_auto] gap-0 p-4 pr-0 rounded-t-lg rounded-b-4xl  border border-sidebar-border h-full">
       <ChatPanelHeader firstMessage={messages?.[0] ?? null} />
       <div
         ref={scrollContainerRef}

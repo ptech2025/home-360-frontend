@@ -100,7 +100,7 @@ function ClientItem({
           {client.name}
         </span>
         <span className="text-xs text-main-blue/80 truncate">
-          {client.addresss ? client.address : "No address"}
+          {client.address ? client.address : "No address"}
         </span>
       </div>
       {matched && <Check className="text-green-500 size-4 shrink-0" />}

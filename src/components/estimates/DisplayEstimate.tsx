@@ -43,7 +43,7 @@ function DisplayEstimate({ estimateId }: Props) {
   }
 
   return (
-    <div className="bg-sidebar overflow-y-hidden grid grid-cols-1 grid-rows-[auto_1fr_auto] gap-0 p-4 pr-0  rounded-lg  shadow-sm border border-sidebar-border h-full">
+    <div className="bg-sidebar overflow-y-hidden grid grid-cols-1 grid-rows-[auto_1fr_auto] gap-0 p-4 pr-0  rounded-lg  border border-sidebar-border h-full">
       <DisplayEstimateHeader estimate={data} />
       <DisplayEstimateLineItems
         lineItems={data.lineItems}

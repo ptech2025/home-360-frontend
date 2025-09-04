@@ -27,7 +27,6 @@ import { Input } from "@/components/ui/input";
 import {
   AutoLocationSelectionInput,
   ManualLocationSelectionInput,
-  MarkupPercentInput,
   UploadCompanyLogoInput,
 } from "./OnboardingInputs";
 import PhoneInput from "../global/PhoneInput";
@@ -207,7 +206,7 @@ export function OrgOnboardingForm() {
           <Button
             size={"lg"}
             disabled={isLoading}
-            className="gap-2 group text-white h-12 w-full font-medium font-dms text-base bg-dark-orange hover:bg-main-blue"
+            className="gap-2 group text-white h-12 w-full font-medium font-dm rounded-4xl text-base bg-dark-orange hover:bg-main-blue"
           >
             {isLoading ? (
               <Loader2 className="size-5 animate-spin" />
@@ -356,7 +355,7 @@ export function TradeOnboardingForm() {
           <Button
             size={"lg"}
             disabled={isLoading}
-            className="gap-2 group text-white h-12 w-full font-medium font-dms text-base bg-dark-orange hover:bg-main-blue"
+            className="gap-2 group text-white h-12 w-full font-medium font-dm rounded-4xl text-base bg-dark-orange hover:bg-main-blue"
           >
             {isLoading ? (
               <Loader2 className="size-5 animate-spin" />
@@ -415,9 +414,6 @@ export function PricingOnboardingForm() {
     setLocationSelectionMode(mode);
   };
 
-  const handleMarkupChange = (value: number) => {
-    form.setValue("markupPercentage", value, { shouldValidate: true });
-  };
 
   const onSubmit = (values: PricingSchemaType) => {
     mutate(values);
@@ -483,7 +479,7 @@ export function PricingOnboardingForm() {
               <Button
                 size={"lg"}
                 disabled={isLoading}
-                className="gap-2 group text-white h-12 w-full font-medium font-dms text-base bg-dark-orange hover:bg-main-blue"
+                className="gap-2 group rounded-4xl text-white h-12 w-full font-medium font-dms text-base bg-dark-orange hover:bg-main-blue"
               >
                 {isLoading ? (
                   <Loader2 className="size-5 animate-spin" />

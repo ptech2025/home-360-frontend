@@ -1,4 +1,3 @@
-// utils/fetchPlaces.ts
 
 import { MyUIMessage } from "@/types/message-schema";
 import { createIdGenerator } from "ai";

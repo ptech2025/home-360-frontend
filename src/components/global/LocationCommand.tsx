@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { CommandLoading } from "cmdk";
-import { MapPin, Map, Ban, Loader2, } from "lucide-react";
+import { MapPin, Map, Ban, Loader2 } from "lucide-react";
 
 import { fetchPlaces } from "@/services/user";
 import { PlaceSuggestion } from "@/types";
@@ -25,6 +25,8 @@ type AddressItemProps = {
 type LocationCommandProps = {
   handleClose: (value: string) => void;
   currentAddress: string | undefined;
+  usOnly: boolean;
+  citiesOnly: boolean;
 };
 
 function AddressItem({ address, handleClose, matched }: AddressItemProps) {
@@ -47,6 +49,8 @@ function AddressItem({ address, handleClose, matched }: AddressItemProps) {
 function LocationCommand({
   handleClose,
   currentAddress,
+  usOnly,
+  citiesOnly,
 }: LocationCommandProps) {
   const [searchVal, setSearchVal] = useState("");
   const [debouncedSearchVal] = useDebounce(searchVal, 300);
@@ -55,7 +59,11 @@ function LocationCommand({
   // fetch clients with debounced value
   const { data, isLoading } = useQuery({
     queryKey: ["placeSuggestions", debouncedSearchVal],
-    queryFn: () => fetchPlaces(debouncedSearchVal),
+    queryFn: () => fetchPlaces({
+      query: debouncedSearchVal,
+      usOnly,
+      citiesOnly,
+    }),
   });
 
   useEffect(() => {

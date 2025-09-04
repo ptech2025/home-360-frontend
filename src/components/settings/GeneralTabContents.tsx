@@ -29,7 +29,6 @@ import { DropdownMenu, DropdownMenuContent } from "../ui/dropdown-menu";
 import LocationCommand from "../global/LocationCommand";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { TagsInput } from "../ui/tags-input";
-import { Slider } from "../ui/slider";
 import { useMutation } from "@tanstack/react-query";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import {
@@ -407,6 +406,8 @@ export function CompanyInfo({ profile }: CompanyInfoProps) {
                         <LocationCommand
                           currentAddress={field.value}
                           handleClose={handleSetLocation}
+                          usOnly={true}
+                          citiesOnly={true}
                         />
                       </DropdownMenuContent>
                     </DropdownMenu>

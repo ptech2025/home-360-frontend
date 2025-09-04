@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import { Button } from "../ui/button";
 
 import { RemoveEstimateFromProjectDialog } from "../projects/ProjectEstimatesDialogs";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Estimate, EstimateLineItem } from "@/types/estimate";
 import { useEstimatePanelStore } from "@/store/estimateStore";
 import { deleteLineItem, fetchEstimatePdf } from "@/services/estimate";

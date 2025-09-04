@@ -8,7 +8,7 @@ function OrgOnboarding() {
         <OnboardingSteps currentStep={1} />
         <div className="w-full pt-4 border-t border-main-blue/10 lg:pt-0 lg:border-t-0 max-w-[38rem] flex flex-col gap-6 items-center">
           <div className="flex flex-col items-center gap-2">
-            <h1 className="text-2xl text-centers md:text-3xl lg:md:text-4xl font-dm text-main-blue font-bold">
+            <h1 className="text-2xl text-centers md:text-3xl lg:md:text-4xl font-broke-bold text-main-blue font-bold">
               Create Your Organization
             </h1>
             <p className="text-base md:text-lg lg:text-xl font-dm text-main-blue/80 font-medium text-center">
