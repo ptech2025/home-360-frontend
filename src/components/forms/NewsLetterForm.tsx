@@ -18,7 +18,7 @@ import { Input } from "../ui/input";
 import { useMutation } from "@tanstack/react-query";
 import { saveToNewsLetter } from "@/services/waitlist";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
-import Link from "next/link"
+import Link from "next/link";
 
 function NewsLetterForm() {
   const form = useForm<WaitListSchemaType>({
@@ -75,13 +75,15 @@ function NewsLetterForm() {
           />{" "}
           <span className="text-xs text-main-blue">
             We protect your data in our{" "}
-            <Link href={`/privacy-policy`} className="italic underline">privacy policy</Link>
+            <Link href={`/privacy-policy`} className="italic underline">
+              privacy policy
+            </Link>
           </span>
         </div>
         <Button
           size={"lg"}
           disabled={isLoading}
-          className="gap-2 group   border hover:border-main-blue hover:bg-transparent hover:text-main-blue bg-main-blue transition-colors rounded-4xl text-white  w-full font-bold text-xl "
+          className="gap-2 group h-10   border hover:border-main-blue hover:bg-transparent hover:text-main-blue bg-main-blue transition-colors rounded-4xl text-white  w-full font-bold text-base"
         >
           {isLoading ? (
             <Loader2 className="size-5 animate-spin" />

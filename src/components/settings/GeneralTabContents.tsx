@@ -407,7 +407,6 @@ export function CompanyInfo({ profile }: CompanyInfoProps) {
                           currentAddress={field.value}
                           handleClose={handleSetLocation}
                           usOnly={true}
-                          citiesOnly={true}
                         />
                       </DropdownMenuContent>
                     </DropdownMenu>
