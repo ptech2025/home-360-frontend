@@ -33,3 +33,15 @@ export interface DashboardLink {
     url: string;
   }[];
 }
+
+export interface Subscription {
+  id: string;
+  name: string;
+  price: number;
+  active: boolean;
+  benefits: {
+    id: string;
+    planId: string;
+    benefit: string;
+  }[];
+}

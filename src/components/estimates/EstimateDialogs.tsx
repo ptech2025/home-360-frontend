@@ -726,7 +726,7 @@ export function UpdateEstimateTaxDialog({ estimate }: { estimate: Estimate }) {
                 render={({ field }) => (
                   <FormItem className="w-full ">
                     <FormLabel className="text-main-blue text-xs after:ml-[-5px] after:text-red-500 after:content-['*']">
-                      Rate
+                      Rate (%)
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -871,7 +871,7 @@ export function UpdateEstimateDiscountDialog({
                 render={({ field }) => (
                   <FormItem className="w-full ">
                     <FormLabel className="text-main-blue text-xs after:ml-[-5px] after:text-red-500 after:content-['*']">
-                      Rate
+                      Rate (%)
                     </FormLabel>
                     <FormControl>
                       <Input

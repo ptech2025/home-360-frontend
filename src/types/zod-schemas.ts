@@ -58,7 +58,6 @@ export const contactFormSchema = z.object({
   email: z
     .email({ message: "Invalid email address" })
     .min(1, { message: "Email is required" }),
-  subject: z.string().min(1, { message: "Subject is required" }),
   message: z
     .string()
     .min(5, { message: "Message must be at least 5 characters long" }),

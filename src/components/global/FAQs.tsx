@@ -1,0 +1,119 @@
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
+const faqsArr = [
+  {
+    question: "What is Quick Estimate",
+    answer:
+      "Palm UI is a comprehensive library of website sections and layouts designed with a minimal and modern approach. It provides essential building blocks for creating stunning websites, including typography, colors, spacing, shadows, icons, buttons, and more. ",
+  },
+  {
+    question: "What is Quick Estimate",
+    answer:
+      "Palm UI is a comprehensive library of website sections and layouts designed with a minimal and modern approach. It provides essential building blocks for creating stunning websites, including typography, colors, spacing, shadows, icons, buttons, and more. ",
+  },
+  {
+    question: "What is Quick Estimate",
+    answer:
+      "Palm UI is a comprehensive library of website sections and layouts designed with a minimal and modern approach. It provides essential building blocks for creating stunning websites, including typography, colors, spacing, shadows, icons, buttons, and more. ",
+  },
+  {
+    question: "What is Quick Estimate",
+    answer:
+      "Palm UI is a comprehensive library of website sections and layouts designed with a minimal and modern approach. It provides essential building blocks for creating stunning websites, including typography, colors, spacing, shadows, icons, buttons, and more. ",
+  },
+];
+
+function FAQs({ isHome }: { isHome: boolean }) {
+  return (
+    <div className="custom-container bg-main-blue md:bg-transparent">
+      <div
+        className={cn(
+          " md:rounded-4xl w-full flex-col flex gap-10 justify-between items-center p-6  md:p-8 lg:p-12 ",
+          isHome ? "bg-transparent" : "bg-main-blue"
+        )}
+      >
+        <div className="w-full max-w-[770px] flex flex-col gap-8">
+          <div
+            className={cn(
+              "flex flex-col items-center gap-1",
+              isHome ? "text-black [&_span]:text-[#808080]" : "text-white"
+            )}
+          >
+            <h4 className="text-3xl font-broke-bold font-bold text-center md:text-4xl lg:text-[2.5rem]">
+              Your Questions. Answered.
+            </h4>
+            <span className="text-sm text-center ">
+              Answers to all your questions, quickly and clearly
+            </span>
+          </div>
+          <Accordion type="single" collapsible className="w-full ">
+            {faqsArr.map((item, index) => (
+              <AccordionItem
+                value={`item-${index}`}
+                key={`accordion-${item.question}`}
+                className="mb-4 last:mb-0 border-none"
+              >
+                <AccordionTrigger
+                  className={cn(
+                    "rounded-xl justify-start text-black text-sm font-bold font-dm px-6 py-5.5 border-none data-[state=open]:rounded-b-none",
+                    isHome ? "bg-[#FAFAFA]" : "bg-white "
+                  )}
+                >
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent
+                  className={cn(
+                    "px-6 py-4 font-medium rounded-b-xl text-[#5E5E5E]",
+                    isHome ? "bg-[#FAFAFA]" : "bg-white "
+                  )}
+                >
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+        <div
+          className={cn(
+            "rounded-xl flex  p-5.5  items-center border gap-4 justify-between w-full max-w-[770px]",
+            isHome ? "text-black border-[#808080]" : "text-white border-white"
+          )}
+        >
+          <div className="flex flex-col">
+            <h5 className="text-sm font-bold">
+              Still have a question in mind?
+            </h5>
+
+            <span
+              className={cn(
+                "text-sm",
+                isHome ? "text-[#808080]" : "text-white"
+              )}
+            >
+              Contact us if you have any other questions.
+            </span>
+          </div>
+          <Link
+            href="/contact"
+            className={cn(
+              "px-5 py-3  hover:shadow-main-blue hover:shadow h-10 items-center justify-center  flex rounded-4xl border border-transparent cursor-pointer text-base font-bold",
+              isHome
+                ? "bg-main-blue text-white hover:border-main-blue hover:text-main-blue hover:bg-transparent"
+                : "bg-white text-main-blue hover:border-white hover:text-white hover:bg-transparent"
+            )}
+          >
+            <span>Contact</span>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+export default FAQs;

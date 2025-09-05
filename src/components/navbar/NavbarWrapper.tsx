@@ -1,8 +1,9 @@
 import Link from "next/link";
 
 import { LogoWithText } from "@/components/global/Logo";
-import { TiSocialFacebook } from "react-icons/ti";
-import { PiInstagramLogoLight } from "react-icons/pi";
+import NavLinksDesktop from "./NavLinksDesktop";
+import DesktopNavDropdown from "./DesktopNavDropdown";
+import MobileMenu from "./MobileMenu";
 
 function NavbarWrapper() {
   return (
@@ -11,20 +12,9 @@ function NavbarWrapper() {
         <Link href={"/"}>
           <LogoWithText />
         </Link>
-        <div className="flex gap-3 items-center">
-          <a
-            href="https://m.facebook.com/quickestimateai/"
-            className="rounded-full hover:shadow hover:shadow-[#061C3D0D] hover:bg-dark-orange text-main-blue transition-all hover:text-white hover:border-white border border-main-blue grid place-items-center p-2"
-          >
-            <TiSocialFacebook className=" size-5" />
-          </a>{" "}
-          <a
-            href="https://www.instagram.com/quickestimate/"
-            className="rounded-full hover:shadow hover:shadow-[#061C3D0D] hover:bg-dark-orange text-main-blue transition-all hover:text-white hover:border-white border border-main-blue grid place-items-center p-2"
-          >
-            <PiInstagramLogoLight className="size-5" />
-          </a>
-        </div>
+        <NavLinksDesktop />
+        <DesktopNavDropdown />
+        <MobileMenu />
       </div>
     </nav>
   );

@@ -1,5 +1,5 @@
 "use server";
-import { AuthUserType } from "@/types";
+import { AuthUserType, Subscription } from "@/types";
 import { ChatSession } from "@/types/chat";
 import {
   FetchAllClientRequestSearchParams,
@@ -29,7 +29,6 @@ import { redirect } from "next/navigation";
 export const fetchUserServer = async () => {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
-
 
   try {
     const res = await axios.get(`${API_URL}/api/user/details`, {
@@ -351,5 +350,23 @@ export const fetchProjectEstimatesServer = async (projectId: string) => {
   } catch (error) {
     console.error(error);
     return null;
+  }
+};
+
+export const fetchSubscriptionsServer = async (): Promise<Subscription[]> => {
+  try {
+    const cookieStore = await cookies();
+    const cookieHeader = cookieStore.toString();
+    const res: { data: Subscription[] } = await axios.get(
+      `${API_URL}/api/subscription`,
+      {
+        headers: { Cookie: cookieHeader },
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    return [];
   }
 };

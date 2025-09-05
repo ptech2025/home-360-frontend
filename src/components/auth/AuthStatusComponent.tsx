@@ -1,6 +1,6 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
-async function SignedOut({ children }: { children: React.ReactNode }) {
+function SignedOut({ children }: { children: React.ReactNode }) {
   const { data } = authClient.useSession();
 
   if (data) {
@@ -9,7 +9,7 @@ async function SignedOut({ children }: { children: React.ReactNode }) {
 
   return <>{children}</>;
 }
-async function SignedIn({ children }: { children: React.ReactNode }) {
+function SignedIn({ children }: { children: React.ReactNode }) {
   const { data } = authClient.useSession();
 
   if (!data) {

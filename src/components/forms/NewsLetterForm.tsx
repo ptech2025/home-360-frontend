@@ -83,7 +83,7 @@ function NewsLetterForm() {
         <Button
           size={"lg"}
           disabled={isLoading}
-          className="gap-2 group h-10   border hover:border-main-blue hover:bg-transparent hover:text-main-blue bg-main-blue transition-colors rounded-4xl text-white  w-full font-bold text-base"
+          className="gap-2 group h-10   border hover:border-main-blue hover:bg-transparent hover:text-main-blue bg-main-blue transition-colors rounded-4xl text-white  w-full font-bold text-sm"
         >
           {isLoading ? (
             <Loader2 className="size-5 animate-spin" />

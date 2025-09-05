@@ -87,6 +87,7 @@
   --font-broke-medium: "Brico-Medium";
   --font-broke-semi: "Brico-SemiBold";
   --font-broke-bold: "Brico-Bold";
+  --font-mon: "DM Mono", san-serif;
 }
 
 :root {

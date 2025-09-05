@@ -1,6 +1,24 @@
-function PricingPage() {
+import FAQs from "@/components/global/FAQs";
+import PricingPageWrapper from "@/components/pricing/PricingPageWrapper";
+import { fetchSubscriptionsServer } from "@/lib/actions";
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
+async function PricingPage() {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ["subscriptions"],
+    queryFn: () => fetchSubscriptionsServer(),
+  });
+
   return (
-    <div>PricingPage</div>
-  )
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <PricingPageWrapper />
+      <FAQs isHome={false} />
+    </HydrationBoundary>
+  );
 }
-export default PricingPage
+export default PricingPage;

@@ -37,3 +37,4 @@ export interface FetchClientResponse {
   projects: Project[];
   pagination: ClientPagination;
 }
+

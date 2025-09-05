@@ -5,7 +5,7 @@ import {
   PricingSchemaType,
 } from "@/types/zod-schemas";
 import axios from "axios";
-import { AuthUserType, PlaceSuggestion } from "@/types";
+import { AuthUserType, PlaceSuggestion, Subscription } from "@/types";
 
 export const fetchUserClient = async () => {
   try {
@@ -100,4 +100,19 @@ export const fetchPlaces = async ({
     description: s.description.trim(),
     placeId: s.placeId,
   }));
+};
+
+export const fetchSubscriptions = async (): Promise<Subscription[]> => {
+  try {
+    const res: { data: Subscription[] } = await axios.get(
+      `${API_URL}/api/subscription`,
+      {
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 };

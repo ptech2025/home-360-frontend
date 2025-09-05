@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { DM_Sans, DM_Mono } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "sonner";
 import "./globals.css";
 import Providers from "./providers";
 const dmSans = DM_Sans({
   variable: "--font-dm",
+  subsets: ["latin"],
+});
+const dmMono = DM_Mono({
+  variable: "--font-mon",
+  weight: "400",
   subsets: ["latin"],
 });
 
@@ -52,8 +57,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-   
-      <body className={`${dmSans.variable} antialiased font-dm`}>
+      <body
+        className={`${dmSans.variable} ${dmMono.variable} antialiased font-dm`}
+      >
         <Providers>
           <NextTopLoader color="#E48B59" showSpinner={false} />
           {children}

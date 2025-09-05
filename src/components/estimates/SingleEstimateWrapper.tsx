@@ -44,7 +44,7 @@ function SingleEstimateWrapper({ estimateId, profile, userEmail }: Props) {
       <RedirectOrToggleSidebar
         url={
           data.projectId
-            ? `/dashboard/project/${data.projectId}`
+            ? `/dashboard/projects/${data.projectId}`
             : `/dashboard/projects`
         }
         showRedirect={true}

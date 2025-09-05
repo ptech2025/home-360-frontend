@@ -304,25 +304,27 @@ export function DisplayEstimatePageTotal({ estimate }: Props) {
               {estimate.estimateDiscount.name} ({estimate.estimateDiscount.rate}
               %)
             </span>
-            <span className="text-sm font-semibold">
-              {estimate.projectId ? (
-                <UpdateEstimateDiscountDialog estimate={estimate} />
-              ) : (
-                -formatCurrency(estimate.calculations.discountValue)
-              )}
-            </span>
+
+            {estimate.projectId ? (
+              <UpdateEstimateDiscountDialog estimate={estimate} />
+            ) : (
+              <span className="text-sm font-semibold">
+                - {formatCurrency(estimate.calculations.discountValue)}
+              </span>
+            )}
           </div>
           <div className="flex  justify-between items-center">
             <span className="text-main-blue text-xs">
               {estimate.estimateTax.name} ({estimate.estimateTax.rate}%)
             </span>
-            <span className="text-sm font-semibold">
-              {estimate.projectId ? (
-                <UpdateEstimateTaxDialog estimate={estimate} />
-              ) : (
+
+            {estimate.projectId ? (
+              <UpdateEstimateTaxDialog estimate={estimate} />
+            ) : (
+              <span className="text-sm font-semibold">
                 formatCurrency(estimate.calculations.taxValue)
-              )}
-            </span>
+              </span>
+            )}
           </div>
         </div>
         {/* //Overall Total */}
