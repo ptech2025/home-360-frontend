@@ -18,8 +18,11 @@ import { useForm } from "react-hook-form";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
+import { useState } from "react";
+import { contactAdmin } from "@/services/user";
 
 function ContactForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm<ContactFormSchemaType>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
@@ -29,14 +32,12 @@ function ContactForm() {
     },
   });
 
-  const {
-    formState: { isSubmitting },
-    reset,
-  } = form;
+  const { reset } = form;
 
   const onSubmit = async (data: ContactFormSchemaType) => {
     try {
-      console.log(data);
+      setIsSubmitting(true);
+      await contactAdmin(data);
       toast.success("Message sent successfully, we will get back to you soon.");
       reset({
         email: "",
@@ -46,6 +47,8 @@ function ContactForm() {
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong, try again later.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
   return (

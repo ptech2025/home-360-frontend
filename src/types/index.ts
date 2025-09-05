@@ -14,6 +14,16 @@ export type ProfileType = {
 
 export type AuthUserType = SessionType["user"] & {
   profile: ProfileType | null;
+  subscription: UserSubscription | null;
+};
+
+export type UserSubscription = {
+  status: "active" | "trailing" | "canceled" | "expired";
+  plan: {
+    name: string;
+    active: boolean;
+    price: number;
+  };
 };
 
 export type PlaceSuggestion = {
@@ -38,6 +48,7 @@ export interface Subscription {
   id: string;
   name: string;
   price: number;
+  interval: "monthly" | "yearly";
   active: boolean;
   benefits: {
     id: string;

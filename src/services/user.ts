@@ -1,6 +1,7 @@
 import { API_URL } from "@/utils/constants";
 import {
   CompanyTradeSchemaType,
+  ContactFormSchemaType,
   OrgInfoSchemaType,
   PricingSchemaType,
 } from "@/types/zod-schemas";
@@ -115,4 +116,21 @@ export const fetchSubscriptions = async (): Promise<Subscription[]> => {
     console.error(error);
     return [];
   }
+};
+
+export const subscribeToPlan = async (planId: string) => {
+  const res = await axios.post(
+    `${API_URL}/api/subscription/checkout`,
+    { planId },
+    {
+      withCredentials: true,
+    }
+  );
+  return res.data.url as string;
+};
+
+export const contactAdmin = async (data: ContactFormSchemaType) => {
+  return await axios.post(`${API_URL}/api/user/contact-admin`, data, {
+    withCredentials: true,
+  });
 };
