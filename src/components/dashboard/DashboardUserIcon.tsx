@@ -14,7 +14,7 @@ function DashboardUserIcon({ user }: { user: AuthUserType }) {
     <SidebarMenuItem>
       <SidebarMenuButton
         className={
-          "group flex h-10 w-full [&>svg]:size-5   group-data-[collapsible=icon]:!pl-1.5   items-center gap-2 text-sm font-medium  transition-all "
+          "group flex h-10 w-full [&>svg]:size-5   group-data-[collapsible=icon]:!p-0   items-center gap-2 text-sm font-medium  transition-all "
         }
       >
         <Image
@@ -23,9 +23,9 @@ function DashboardUserIcon({ user }: { user: AuthUserType }) {
           width={28}
           height={28}
           priority
-          className="w-8 h-8 rounded-full object-cover"
+          className="w-8 h-8 shrink-0 rounded-full object-cover"
         />
-        <div className="flex flex-col ">
+        <div className="flex flex-col overflow-hidden flex-1 ">
           <span className="font-medium truncate text-main-blue text-sm font-broke-medium">
             {userName}
           </span>

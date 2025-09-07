@@ -41,7 +41,7 @@ function ForgotPasswordForm() {
     await authClient.requestPasswordReset(
       {
         email: values.email,
-        redirectTo: "/reset-password",
+        redirectTo: `${process.env.NEXT_PUBLIC_URL}/reset-password`,
       },
       {
         onRequest: () => {
