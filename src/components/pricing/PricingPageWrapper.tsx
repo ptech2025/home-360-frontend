@@ -168,7 +168,7 @@ function PricingPageWrapper({ user }: Props) {
       <section className="grid max-w-[60rem] grid-cols-1 md:grid-cols-2 gap-10 w-full md:min-h-[580px]">
         {data
           .filter((item) => item.interval === pricingModel)
-          .map((plan, i) => (
+          .map((plan) => (
             <PlanCard key={plan.id} plan={plan} user={user} />
           ))}{" "}
       </section>
