@@ -2,6 +2,194 @@ interface IconProps {
   className?: string;
 }
 
+export const TextLineIcon = ({ className }: IconProps) => {
+  return (
+    <svg
+      width="127"
+      height="22"
+      className={className}
+      viewBox="0 0 127 22"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        opacity="0.18"
+        d="M1 1.81205C29.354 1.19926 91.9677 0.341353 115.59 1.81205C145.118 3.65041 107.463 3.65042 57.3469 9.39531C7.23066 15.1402 74.6844 13.1869 87.6875 21"
+        stroke="#112358"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+};
+
+export const FeatureShapeIcon = ({ className }: IconProps) => {
+  return (
+    <svg
+      width="385"
+      height="360"
+      className={className}
+      viewBox="0 0 385 360"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g opacity="0.31">
+        <circle
+          cx="192.747"
+          cy="95.247"
+          r="263.421"
+          transform="rotate(-0.179901 192.747 95.247)"
+          stroke="#C76A3B"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeDasharray="2 3"
+        />
+        <circle
+          cx="192.747"
+          cy="95.2467"
+          r="210.551"
+          transform="rotate(-0.179901 192.747 95.2467)"
+          fill="#CCD6E1"
+          fillOpacity="0.05"
+          stroke="#C76A3B"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeDasharray="2 3"
+        />
+        <circle
+          cx="192.747"
+          cy="95.2468"
+          r="160.464"
+          transform="rotate(-0.179901 192.747 95.2468)"
+          fill="#53708F"
+          fillOpacity="0.1"
+        />
+        <circle
+          cx="192.747"
+          cy="95.2474"
+          r="107.595"
+          transform="rotate(-0.179901 192.747 95.2474)"
+          fill="#324456"
+          fillOpacity="0.12"
+        />
+      </g>
+    </svg>
+  );
+};
+
+export const HeroEllipseIcon = ({ className }: IconProps) => {
+  return (
+    <svg
+      width="1417"
+      height="403"
+      className={className}
+      viewBox="0 0 1417 403"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g opacity="0.5" filter="url(#filter0_f_3001_24077)">
+        <ellipse cx="679.5" cy="466" rx="437.5" ry="166" fill="#E48B59" />
+      </g>
+      <defs>
+        <filter
+          id="filter0_f_3001_24077"
+          x="-58"
+          y="0"
+          width="1475"
+          height="932"
+          filterUnits="userSpaceOnUse"
+          colorInterpolationFilters="sRGB"
+        >
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
+          <feBlend
+            mode="normal"
+            in="SourceGraphic"
+            in2="BackgroundImageFix"
+            result="shape"
+          />
+          <feGaussianBlur
+            stdDeviation="150"
+            result="effect1_foregroundBlur_3001_24077"
+          />
+        </filter>
+      </defs>
+    </svg>
+  );
+};
+
+export const FailureCrossIcon = ({ className }: IconProps) => {
+  return (
+    <svg
+      width="100"
+      height="100"
+      className={className}
+      viewBox="0 0 100 100"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M50 0C77.595 0 100 22.405 100 50C100 77.595 77.595 100 50 100C22.405 100 0 77.595 0 50C0 22.405 22.405 0 50 0Z"
+        fill="#EF1D3B"
+      />
+      <path d="M66.1 66.1988L33.7 33.7988L66.1 66.1988Z" fill="#0A1AED" />
+      <path
+        d="M66.1 66.1988L33.7 33.7988"
+        stroke="#FFB3B3"
+        strokeWidth="14.58"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M33.7 66.1988L66.1 33.7988L33.7 66.1988Z" fill="#0A1AED" />
+      <path
+        d="M33.7 66.1988L66.1 33.7988"
+        stroke="#FFB3B3"
+        strokeWidth="14.58"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M66.1 66.1988L33.7 33.7988L66.1 66.1988Z" fill="#0A1AED" />
+      <path
+        d="M66.1 66.1988L33.7 33.7988"
+        stroke="white"
+        strokeWidth="6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M33.7 66.1988L66.1 33.7988L33.7 66.1988Z" fill="#0A1AED" />
+      <path
+        d="M33.7 66.1988L66.1 33.7988"
+        stroke="white"
+        strokeWidth="6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const SuccessCheckIcon = ({ className }: IconProps) => {
+  return (
+    <svg
+      width="136"
+      height="136"
+      className={className}
+      viewBox="0 0 136 136"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M38.5711 106.049C17.6918 89.8073 13.9267 59.6677 30.1687 38.7884C46.4107 17.909 76.5503 14.1439 97.4296 30.3859C118.309 46.6279 122.074 76.7675 105.832 97.6468C89.7201 118.359 59.9304 122.23 39.0732 106.434"
+        stroke="#17D578"
+        strokeWidth="4"
+      />
+      <path
+        d="M51.0938 76.9401C54.7961 80.5351 59.9991 85.5876 59.9991 85.5876L94.6311 50.9102C94.6311 50.9102 94.9261 50.6535 95.3682 50.1621"
+        stroke="#17D578"
+        strokeWidth="4.15"
+      />
+    </svg>
+  );
+};
+
 export const PromptStarIcon = ({ className }: IconProps) => {
   return (
     <svg
@@ -46,7 +234,7 @@ export const StarIcon = ({ className }: IconProps) => {
     >
       <path
         d="M6.49935 29.8334V23.1667M6.49935 9.83335V3.16669M3.16602 6.50002H9.83268M3.16602 26.5H9.83268M17.8327 4.50002L15.5204 10.5118C15.1444 11.4895 14.9564 11.9783 14.6641 12.3895C14.4049 12.7539 14.0865 13.0723 13.7221 13.3314C13.311 13.6238 12.8221 13.8118 11.8445 14.1878L5.83268 16.5L11.8445 18.8123C12.8221 19.1883 13.311 19.3763 13.7221 19.6686C14.0865 19.9278 14.4049 20.2462 14.6641 20.6106C14.9564 21.0217 15.1444 21.5106 15.5204 22.4882L17.8327 28.5L20.1449 22.4882C20.5209 21.5106 20.7089 21.0217 21.0013 20.6106C21.2604 20.2462 21.5788 19.9278 21.9432 19.6686C22.3544 19.3763 22.8432 19.1883 23.8209 18.8123L29.8327 16.5L23.8209 14.1878C22.8432 13.8118 22.3544 13.6238 21.9432 13.3314C21.5788 13.0723 21.2604 12.7539 21.0013 12.3895C20.7089 11.9783 20.5209 11.4895 20.1449 10.5118L17.8327 4.50002Z"
-        stroke="#C76A3B"
+        stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"

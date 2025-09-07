@@ -73,7 +73,9 @@ function ConversationWrapper({
           </Message>
         ))}
       </ConversationContent>
-      {isGenerating && <StarIcon className="w-6 h-6 animate-bounce" />}
+      {isGenerating && (
+        <StarIcon className="w-6 h-6 animate-bounce text-dark-orange" />
+      )}
     </Conversation>
   );
 }

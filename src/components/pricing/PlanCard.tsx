@@ -1,4 +1,4 @@
-import { CircleCheck, Loader2 } from "lucide-react";
+import { CircleCheck, Flame, Loader2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { AuthUserType, Subscription } from "@/types";
 import Link from "next/link";
@@ -6,6 +6,7 @@ import { subscribeToPlan } from "@/services/user";
 import { useMutation } from "@tanstack/react-query";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 type Props = {
   plan: Subscription;
@@ -37,7 +38,17 @@ function PlanCard({ plan, user }: Props) {
   console.log(user);
 
   return (
-    <article className="w-full rounded-[20px] bg-[#FAFAFB] min-h-[500px] px-5 py-6 flex flex-col  justify-between items-start gap-6 h-full">
+    <article
+      className={cn(
+        "w-full relative rounded-[20px] bg-[#FAFAFB] min-h-[500px] px-5 py-6 flex flex-col  justify-between items-start gap-6 h-full"
+      )}
+    >
+      {plan.name === "Starter Plan" && (
+        <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-sm text-white w-[150px] h-[30px] rounded-4xl  bg-main-blue gap-1 flex items-center justify-center">
+          <Flame className="size-4" />
+          <span>Popular</span>
+        </div>
+      )}
       <div className="w-full flex items-center justify-between">
         <h3 className="text-2xl font-medium font-dm text-main-blue">
           {plan.name}
@@ -51,7 +62,7 @@ function PlanCard({ plan, user }: Props) {
           All core benefits in one unified platform
         </h5>
         <ul className="flex min-h-[160px] flex-col w-full gap-5">
-          {plan.benefits.map((benefit, index) => (
+          {plan.benefits.map((benefit) => (
             <li key={benefit.id} className="flex capitalize items-center gap-2">
               <CircleCheck className="text-white fill-black" />
               <span className="text-base text-[#7C7C7C]">

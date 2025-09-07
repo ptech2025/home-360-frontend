@@ -39,7 +39,7 @@ function AskAIBtn() {
           "group flex h-10 w-full [&>svg]:size-5   group-data-[collapsible=icon]:!pl-1.5   items-center gap-2 text-sm font-medium text-main-blue transition-all data-[active=true]:bg-dark-orange/20 "
         }
       >
-        <StarIcon />
+        <StarIcon className="text-dark-orange" />
         <span>Ask AI</span>
       </SidebarMenuButton>
     </SidebarMenuItem>

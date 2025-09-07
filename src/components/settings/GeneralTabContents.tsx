@@ -50,7 +50,7 @@ export function PersonalInfo({ name, email, image }: PersonalInfoProps) {
   const lastName = name.split(" ")[1];
   const defaultImage = image
     ? image
-    : `https://ui-avatars.com/api/?size=60&background=d1d6dc&color=000&rounded=true&name=${firstName}+${lastName}`;
+    : `https://ui-avatars.com/api/?size=60&background=112358&color=fff&rounded=true&name=${firstName}+${lastName}`;
 
   const form = useForm<PersonalInfoSchemaType>({
     resolver: zodResolver(personalInfoSchema),

@@ -11,7 +11,7 @@ import {
   SidebarTrigger,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { DashboardLink } from "@/types";
+import { AuthUserType, DashboardLink } from "@/types";
 import { Settings } from "lucide-react";
 import { PiToolbox, PiUsers } from "react-icons/pi";
 import SidebarLink from "./SidebarLink";
@@ -20,6 +20,7 @@ import { LogoSvg } from "@/components/global/Logo";
 import Link from "next/link";
 import AskAIBtn from "./AskAIBtn";
 import LogOutBtn from "./LogOutBtn";
+import DashboardUserIcon from "./DashboardUserIcon";
 
 const sidebarLinks: DashboardLink[] = [
   {
@@ -44,10 +45,11 @@ const sidebarLinks: DashboardLink[] = [
 // const footerLinks: DashboardLink[] = [];
 
 type Props = {
-  userRole: string;
+  user: AuthUserType;
 };
 
-function DashboardSidebar({ userRole }: Props) {
+function DashboardSidebar({ user }: Props) {
+  const userRole = user.role;
   return (
     <Sidebar collapsible="icon" className="border-main-blue/50 bg-white!">
       <SidebarHeader className="px-0 py-2">
@@ -115,6 +117,9 @@ function DashboardSidebar({ userRole }: Props) {
             </SidebarMenu>
             <SidebarMenu>
               <LogOutBtn />
+            </SidebarMenu>
+            <SidebarMenu className="mt-2 border-t pt-2 ">
+              <DashboardUserIcon user={user} />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

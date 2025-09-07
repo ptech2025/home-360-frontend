@@ -171,11 +171,14 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    @apply scroll-smooth;
+  }
   body {
     @apply bg-background text-foreground font-dm;
   }
   .custom-container {
-    @apply max-w-[1800px] w-full mx-auto p-6  md:p-10 lg:p-14;
+    @apply max-w-[1800px] w-full mx-auto p-4 sm:p-6  md:p-10 lg:p-14;
   }
   a,
   button {

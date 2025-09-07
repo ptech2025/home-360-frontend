@@ -66,7 +66,7 @@ function SignUpForm() {
         email: values.email,
         name: `${values.firstName} ${values.lastName}`,
         password: values.password,
-        image: `https://ui-avatars.com/api/?size=60&background=d1d6dc&color=000&rounded=true&name=${values.firstName}+${values.lastName}`,
+        image: `https://ui-avatars.com/api/?size=60&background=112358&color=fff&rounded=true&name=${values.firstName}+${values.lastName}`,
       },
       {
         onRequest: () => {

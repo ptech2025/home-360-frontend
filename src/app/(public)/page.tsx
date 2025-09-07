@@ -1,9 +1,13 @@
 import FAQs from "@/components/global/FAQs";
-import WaitListPage from "@/components/global/WaitListPage";
+import FeaturesSection from "@/components/home/FeaturesSection";
+import HeroSection from "@/components/home/HeroSection";
+import WhySection from "@/components/home/WhySection";
 function HomePage() {
   return (
     <>
-      <WaitListPage />
+      <HeroSection />
+      <WhySection />
+      <FeaturesSection />
       <FAQs isHome={true} />
     </>
   );

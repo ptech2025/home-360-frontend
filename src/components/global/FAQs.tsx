@@ -32,7 +32,12 @@ const faqsArr = [
 
 function FAQs({ isHome }: { isHome: boolean }) {
   return (
-    <div className="custom-container bg-main-blue md:bg-transparent">
+    <div
+      className={cn(
+        "custom-container  md:bg-transparent",
+        isHome ? "bg-white" : "bg-main-blue"
+      )}
+    >
       <div
         className={cn(
           " md:rounded-4xl w-full flex-col flex gap-10 justify-between items-center p-6  md:p-8 lg:p-12 ",
