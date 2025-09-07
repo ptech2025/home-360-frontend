@@ -1,4 +1,4 @@
-
+import { AuthUserType, Subscription } from "@/types";
 import { MyUIMessage } from "@/types/message-schema";
 import { createIdGenerator } from "ai";
 
@@ -118,3 +118,17 @@ export function formatNameWithDot(name: string): string {
 
   return lastName ? `${firstInitial}.${lastName}` : firstInitial;
 }
+
+export const getPlanLabel = (plan: Subscription, user: AuthUserType) => {
+  const label = user.subscription
+    ? user.subscription.plan.id === plan.id
+      ? "Current Plan"
+      : `Change to ${plan.name}`
+    : `Upgrade to ${plan.name}`;
+  return label;
+};
+
+export const isCurrentPlan = (plan: Subscription, user: AuthUserType) => {
+  if (!user.subscription) return false;
+  return user.subscription.plan.id === plan.id;
+};

@@ -18,6 +18,14 @@ export const authClient = createAuthClient({
           type: "boolean",
           input: false,
         },
+        trialStart: {
+          type: "date",
+          input: false,
+        },
+        trialEnd: {
+          type: "date",
+          input: false,
+        },
       },
     }),
     adminClient(),

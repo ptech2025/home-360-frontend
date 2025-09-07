@@ -41,8 +41,10 @@ export const fetchSession = async (
   }
 };
 
-export const protectDashboard = async (req: NextRequest) => {
-  const session = await fetchSession(req);
+export const protectDashboard = async (
+  req: NextRequest,
+  session: SessionType | null
+) => {
   if (!session) {
     return NextResponse.redirect(new URL("/sign-in", req.url));
   } else if (
@@ -54,8 +56,10 @@ export const protectDashboard = async (req: NextRequest) => {
   return NextResponse.next();
 };
 
-export const protectAdmin = async (req: NextRequest) => {
-  const session = await fetchSession(req);
+export const protectAdmin = async (
+  req: NextRequest,
+  session: SessionType | null
+) => {
   if (session && session.user.role !== "admin") {
     return NextResponse.redirect(new URL("/dashboard/projects", req.url));
   }
@@ -63,9 +67,10 @@ export const protectAdmin = async (req: NextRequest) => {
   return NextResponse.next();
 };
 
-export const redirectAuthUser = async (req: NextRequest) => {
-  const session = await fetchSession(req);
-
+export const redirectAuthUser = async (
+  req: NextRequest,
+  session: SessionType | null
+) => {
   if (session) {
     const isOnboarded = session.user.isOnboarded;
     const currentPath = req.nextUrl.pathname;

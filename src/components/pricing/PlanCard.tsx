@@ -7,20 +7,13 @@ import { useMutation } from "@tanstack/react-query";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { getPlanLabel, isCurrentPlan } from "@/utils/funcs";
 
 type Props = {
   plan: Subscription;
   user: AuthUserType | null;
 };
 
-const getPlanLabel = (plan: Subscription, user: AuthUserType) => {
-  const label = user.subscription
-    ? user.subscription.plan.name === plan.name
-      ? "Current Plan"
-      : `Change to ${plan.name}`
-    : `Upgrade to ${plan.name}`;
-  return label;
-};
 function PlanCard({ plan, user }: Props) {
   const { mutate, isPending } = useMutation({
     mutationFn: () => {
@@ -34,8 +27,6 @@ function PlanCard({ plan, user }: Props) {
       toast.error(msg);
     },
   });
-
-  console.log(user);
 
   return (
     <article
@@ -74,7 +65,7 @@ function PlanCard({ plan, user }: Props) {
       </div>
       {user ? (
         <Button
-          disabled={isPending}
+          disabled={isPending || isCurrentPlan(plan, user)}
           onClick={() => mutate()}
           className="rounded-4xl h-11 w-full bg-main-blue border font-dm font-medium border-transparent text-white hover:border-main-blue hover:bg-transparent hover:text-main-blue"
         >

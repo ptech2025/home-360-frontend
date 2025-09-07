@@ -20,9 +20,11 @@ export type AuthUserType = SessionType["user"] & {
 export type UserSubscription = {
   status: "active" | "trailing" | "canceled" | "expired";
   plan: {
+    id: string;
     name: string;
     active: boolean;
     price: number;
+    interval: "monthly" | "yearly";
   };
 };
 

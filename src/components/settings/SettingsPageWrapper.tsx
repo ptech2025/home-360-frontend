@@ -3,6 +3,7 @@ import { CompanyInfo, PersonalInfo } from "./GeneralTabContents";
 import RedirectOrToggleSidebar from "../chat/RedirectOrToggleSidebar";
 import { AuthUserType } from "@/types";
 import { UpdatePassword } from "./SecurityTabContents";
+import { DisplayCurrentPlan } from "./PricingTabContents";
 
 const tabsOptions = [
   {
@@ -52,7 +53,9 @@ function SettingsPageWrapper({ user }: { user: AuthUserType }) {
         <TabsContent value="security">
           <UpdatePassword />
         </TabsContent>
-        <TabsContent value="billing"></TabsContent>
+        <TabsContent value="billing">
+          <DisplayCurrentPlan user={user} />
+        </TabsContent>
       </Tabs>
     </section>
   );
