@@ -145,7 +145,7 @@ export function UpdateProjectTitleDialog({
 
     onSuccess() {
       queryClient.invalidateQueries({
-        queryKey: ["projects", { page: 1, title: "" }],
+        queryKey: ["projects", { page: 1 }],
       });
       queryClient.invalidateQueries({
         queryKey: ["single_project", { projectId }],
