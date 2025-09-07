@@ -52,8 +52,8 @@ function EstimatePreview({
           Estimate Preview
         </h4>
 
-        {projectId && client && (
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2">
+          {projectId && client && (
             <Button
               onClick={() => mutate(projectId)}
               disabled={isPending}
@@ -61,9 +61,9 @@ function EstimatePreview({
             >
               {isPending ? <span>Sending...</span> : <span>Send Now</span>}
             </Button>
-            <EstimateAction estimate={estimate} />
-          </div>
-        )}
+          )}
+          <EstimateAction estimate={estimate} />
+        </div>
       </div>
       <div className="p-2 md:p-4 grid-cols-1 sm:grid-cols-2 grid gap-4 bg-main-blue/5 rounded-md">
         <div className="flex flex-col gap-4 justify-between items-start">
