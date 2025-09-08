@@ -21,15 +21,14 @@ import { signInSchema, SignInSchemaType } from "@/types/zod-schemas";
 import { Input } from "../ui/input";
 import { GoogleIcon } from "../global/Icons";
 import EmailVerificationSent from "./EmailVerificationSent";
-// import { useRouter } from "nextjs-toploader/app";
 
 function SignInForm() {
-  // const { push } = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showVerifyEmail, setShowVerifyEmail] = useState(false);
   const lastMethod = authClient.getLastUsedLoginMethod();
+  
 
   const form = useForm<SignInSchemaType>({
     resolver: zodResolver(signInSchema),
