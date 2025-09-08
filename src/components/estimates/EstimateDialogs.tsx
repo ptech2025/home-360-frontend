@@ -731,15 +731,17 @@ export function UpdateEstimateTaxDialog({ estimate }: { estimate: Estimate }) {
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Rate"
                         min={0}
                         step={0.1}
+                        max={100}
                         className="h-11"
+                        placeholder="1.5"
                         value={field.value}
                         onChange={(e) => {
                           const qty = Number(e.target.value);
                           field.onChange(qty);
                         }}
+                        onFocus={(e) => e.target.select()}
                       />
                     </FormControl>
                     <FormMessage className="text-xs" />
@@ -876,15 +878,17 @@ export function UpdateEstimateDiscountDialog({
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Rate"
+                        placeholder="1.5"
                         min={0}
                         step={0.1}
+                        max={100}
                         className="h-11"
                         value={field.value}
                         onChange={(e) => {
                           const qty = Number(e.target.value);
                           field.onChange(qty);
                         }}
+                        onFocus={(e) => e.target.select()}
                       />
                     </FormControl>
                     <FormMessage className="text-xs" />

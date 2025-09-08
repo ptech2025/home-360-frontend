@@ -261,7 +261,7 @@ export function DeleteProjectDialog({
         <DialogHeader>
           <DialogTitle>Delete This Project</DialogTitle>
           <DialogDescription>
-            you cannot undo this action, are you sure you want to delete this
+            You cannot undo this action, Are you sure you want to delete this
             project?
           </DialogDescription>
         </DialogHeader>

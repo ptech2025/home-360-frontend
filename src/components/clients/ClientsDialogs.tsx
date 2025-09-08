@@ -277,7 +277,7 @@ export function DeleteClientDialog({
         <DialogHeader>
           <DialogTitle>Delete This Client</DialogTitle>
           <DialogDescription>
-            you cannot undo this action, are you sure you want to delete this
+            You cannot undo this action, Are you sure you want to delete this
             client?
           </DialogDescription>
         </DialogHeader>
