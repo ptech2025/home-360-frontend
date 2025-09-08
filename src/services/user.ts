@@ -130,7 +130,7 @@ export const subscribeToPlan = async (planId: string) => {
 };
 
 export const contactAdmin = async (data: ContactFormSchemaType) => {
-  return await axios.post(`${API_URL}/api/user/contact-admin`, data, {
+  return await axios.post(`${API_URL}/api/contact`, data, {
     withCredentials: true,
   });
 };

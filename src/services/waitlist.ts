@@ -24,5 +24,5 @@ export const unsubscribeFromWaitList = async (data: { email: string }) => {
 };
 
 export const saveToNewsLetter = async (data: { email: string }) => {
-  await axios.post(`${API_URL}/api/waitlist`, data);
+  await axios.post(`${API_URL}/api/newsletter/subscribe`, data);
 };

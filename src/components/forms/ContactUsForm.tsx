@@ -27,7 +27,7 @@ function ContactForm() {
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
       email: "",
-      fullName: "",
+      name: "",
       message: "",
     },
   });
@@ -41,7 +41,7 @@ function ContactForm() {
       toast.success("Message sent successfully, we will get back to you soon.");
       reset({
         email: "",
-        fullName: "",
+        name: "",
         message: "",
       });
     } catch (error) {
@@ -67,7 +67,7 @@ function ContactForm() {
       >
         <FormField
           control={form.control}
-          name="fullName"
+          name="name"
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel className="after:-ml-1 after:text-red-500 after:content-['*'] relative ">

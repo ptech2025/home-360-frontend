@@ -29,6 +29,7 @@ function SignInForm() {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showVerifyEmail, setShowVerifyEmail] = useState(false);
+  const lastMethod = authClient.getLastUsedLoginMethod();
 
   const form = useForm<SignInSchemaType>({
     resolver: zodResolver(signInSchema),
@@ -147,7 +148,7 @@ function SignInForm() {
           type: "spring",
           stiffness: 100,
         }}
-        className="w-full max-w-[500px] flex items-center justify-center gap-8 flex-col"
+        className="w-full max-w-[500px] flex items-center justify-center pb-8 gap-8 flex-col"
       >
         <Form {...form}>
           <form
@@ -158,7 +159,7 @@ function SignInForm() {
               control={form.control}
               name="email"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full relative">
                   <FormLabel className="text-main-blue">Email</FormLabel>
                   <FormControl>
                     <Input
@@ -168,6 +169,11 @@ function SignInForm() {
                     />
                   </FormControl>
                   <FormMessage className="text-xs" />
+                  {lastMethod && lastMethod === "email" && (
+                    <div className="bg-main-blue  text-white text-center rounded-b-xs text-xs px-2 py-1 absolute -bottom-6 right-0">
+                      Last used
+                    </div>
+                  )}
                 </FormItem>
               )}
             />
@@ -175,7 +181,7 @@ function SignInForm() {
               control={form.control}
               name="password"
               render={({ field }) => (
-                <FormItem className="flex flex-col items-start justify-start w-full gap-2">
+                <FormItem className="flex  flex-col items-start justify-start w-full gap-2">
                   <FormLabel className="text-main-blue">Password</FormLabel>
                   <FormControl>
                     <div className="w-full m-0! aria-invalid:border-destructive focus-within:ring-[3px] focus-within:ring-ring/50 focus-within:border-ring aria-invalid:ring-destructive/20 flex items-center justify-between   rounded-md h-11 px-3 py-1  outline-0 border border-input ">
@@ -234,7 +240,7 @@ function SignInForm() {
               size={"lg"}
               onClick={signInWithGoogle}
               disabled={isLoading || isGoogleLoading}
-              className="gap-2 group text-black h-12 w-full font-medium font-dm text-base bg-white hover:bg-main-blue/20 border border-main-blues"
+              className="gap-2 group relative text-black h-12 w-full font-medium font-dm text-base bg-white hover:bg-main-blue/20 border border-main-blues"
             >
               {isGoogleLoading ? (
                 <Loader2 className="size-5 animate-spin" />
@@ -243,6 +249,12 @@ function SignInForm() {
                   <GoogleIcon className="size-5" />
                   <span>Continue with Google</span>
                 </>
+              )}
+
+              {lastMethod && lastMethod === "google" && (
+                <div className="bg-main-blue  text-white text-center rounded-b-xs text-xs px-2 py-1 absolute -bottom-6 right-0">
+                  Last used
+                </div>
               )}
             </Button>
           </form>

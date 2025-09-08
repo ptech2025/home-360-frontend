@@ -54,7 +54,7 @@ export const forgotPasswordSchema = z.object({
 });
 
 export const contactFormSchema = z.object({
-  fullName: z.string().min(1, { message: "Full Name is required" }),
+  name: z.string().min(1, { message: "Full Name is required" }),
   email: z
     .email({ message: "Invalid email address" })
     .min(1, { message: "Email is required" }),
