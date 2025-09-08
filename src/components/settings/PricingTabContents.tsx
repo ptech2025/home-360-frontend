@@ -1,9 +1,28 @@
+"use client";
+
 import { AuthUserType } from "@/types";
 import { format, isBefore } from "date-fns";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { cancelSubscription } from "@/services/subscription";
+import { useMutation } from "@tanstack/react-query";
+import { renderAxiosOrAuthError } from "@/lib/axios-client";
+import { toast } from "sonner";
 
 export const DisplayCurrentPlan = ({ user }: { user: AuthUserType }) => {
+  const { subscription } = user;
+  const { mutate, isPending } = useMutation({
+    mutationFn: (planId: string) => {
+      return cancelSubscription(planId);
+    },
+    onSuccess() {
+      toast.success("Subscription cancelled successfully.");
+    },
+    onError: (error) => {
+      const msg = renderAxiosOrAuthError(error);
+      toast.error(msg);
+    },
+  });
   return (
     <div className="rounded-[1.75rem] bg-[#FAFAFB]  p-3 pt-4 flex-col flex gap-3">
       <h3 className=" pl-2 text-base font-medium font-broke-medium text-main-blue">
@@ -33,9 +52,9 @@ export const DisplayCurrentPlan = ({ user }: { user: AuthUserType }) => {
           </Button>
         </div>
         <h5 className="font-semibold font-broke-semi text-dark-orange text-xl md:text-2xl">
-          {user.subscription ? (
+          {subscription ? (
             <>
-              ${user.subscription.plan.price}/{user.subscription.plan.interval}
+              ${subscription.plan.price}/{subscription.plan.interval}
             </>
           ) : isBefore(new Date(), new Date(user.trialEnd)) ? (
             // still within trial
@@ -47,6 +66,15 @@ export const DisplayCurrentPlan = ({ user }: { user: AuthUserType }) => {
             <>Your free trial has expired</>
           )}
         </h5>
+        {subscription && (
+          <Button
+            disabled={isPending}
+            onClick={() => mutate(subscription.plan.id)}
+            className="h-11 ml-auto hover:ring-[3px]  ring-destructive/50 min-w-[166px]  transition-all duration-200 py-1 px-4  w-full  md:w-max rounded-md md:rounded-4xl bg-destructive text-white flex gap-1 items-center text-sm border hover:border-destructive hover:bg-transparent hover:text-destructive"
+          >
+            <span>{isPending ? "Cancelling..." : "Cancel Subscription"}</span>
+          </Button>
+        )}
       </div>
     </div>
   );

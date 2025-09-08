@@ -5,7 +5,7 @@ import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
 import PlanCard from "./PlanCard";
 import { useQuery } from "@tanstack/react-query";
-import { fetchSubscriptions } from "@/services/user";
+import { fetchSubscriptions } from "@/services/subscription";
 import { Skeleton } from "../ui/skeleton";
 import { AuthUserType } from "@/types";
 

@@ -28,7 +28,6 @@ function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showVerifyEmail, setShowVerifyEmail] = useState(false);
   const lastMethod = authClient.getLastUsedLoginMethod();
-  
 
   const form = useForm<SignInSchemaType>({
     resolver: zodResolver(signInSchema),
@@ -73,7 +72,6 @@ function SignInForm() {
           setIsLoading(true);
         },
         onSuccess: async () => {
-          // push("/onboarding");
           toast.success("Signed in successfully.");
         },
         onError: (ctx) => {

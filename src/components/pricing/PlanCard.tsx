@@ -2,7 +2,7 @@ import { CircleCheck, Flame, Loader2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { AuthUserType, Subscription } from "@/types";
 import Link from "next/link";
-import { subscribeToPlan } from "@/services/user";
+import { changePlan, subscribeToPlan } from "@/services/subscription";
 import { useMutation } from "@tanstack/react-query";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import { toast } from "sonner";
@@ -15,7 +15,7 @@ type Props = {
 };
 
 function PlanCard({ plan, user }: Props) {
-  const { mutate, isPending } = useMutation({
+  const { mutate: subscribe, isPending: isSubscribing } = useMutation({
     mutationFn: () => {
       return subscribeToPlan(plan.id);
     },
@@ -27,6 +27,28 @@ function PlanCard({ plan, user }: Props) {
       toast.error(msg);
     },
   });
+  const { mutate: upgradeOrChangePlan, isPending: isUpgrading } = useMutation({
+    mutationFn: () => {
+      return changePlan(plan.id);
+    },
+    onSuccess() {
+      toast.success("Plan updated successfully.");
+    },
+    onError: (error) => {
+      const msg = renderAxiosOrAuthError(error);
+      toast.error(msg);
+    },
+  });
+
+  const handlePlan = () => {
+    if (!user) return;
+    if (isCurrentPlan(plan, user)) return;
+    if (user.subscription) {
+      upgradeOrChangePlan();
+    } else {
+      subscribe();
+    }
+  };
 
   return (
     <article
@@ -65,11 +87,11 @@ function PlanCard({ plan, user }: Props) {
       </div>
       {user ? (
         <Button
-          disabled={isPending || isCurrentPlan(plan, user)}
-          onClick={() => mutate()}
+          disabled={isSubscribing || isUpgrading || isCurrentPlan(plan, user)}
+          onClick={handlePlan}
           className="rounded-4xl h-11 w-full bg-main-blue border font-dm font-medium border-transparent text-white hover:border-main-blue hover:bg-transparent hover:text-main-blue"
         >
-          {isPending ? (
+          {isSubscribing || isUpgrading ? (
             <Loader2 className="animate-spin" />
           ) : (
             <span> {getPlanLabel(plan, user)}</span>

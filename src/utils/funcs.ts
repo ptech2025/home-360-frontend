@@ -123,7 +123,9 @@ export const getPlanLabel = (plan: Subscription, user: AuthUserType) => {
   const label = user.subscription
     ? user.subscription.plan.id === plan.id
       ? "Current Plan"
-      : `Change to ${plan.name}`
+      : `${plan.name.toLowerCase() === "pro plan" ? "Upgrade" : "Change"} to ${
+          plan.name
+        }`
     : `Upgrade to ${plan.name}`;
   return label;
 };
