@@ -9,21 +9,21 @@ export default async function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await fetchUserServer();
-  const sessions = await fetchUserSessionsServer();
+  // const user = await fetchUserServer();
+  // const sessions = await fetchUserSessionsServer();
 
-  if (!user) {
-    redirect("/sign-in");
-  }
-  if (!user.isOnboarded || !user.hasProjects) {
-    redirect("/onboarding");
-  }
+  // if (!user) {
+  //   redirect("/sign-in");
+  // }
+  // if (!user.isOnboarded || !user.hasProjects) {
+  //   redirect("/onboarding");
+  // }
 
   return (
     <SidebarProvider>
-      <DashboardSidebar user={user} />
+      {/* <DashboardSidebar user={user} />
       <AllChatSessionsSheet sessions={sessions} />
-      <main className="px-2  w-full bg-white">{children}</main>
+      <main className="px-2  w-full bg-white">{children}</main> */}
     </SidebarProvider>
   );
 }
