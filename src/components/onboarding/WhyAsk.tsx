@@ -1,7 +1,7 @@
 function WhyAsk() {
   return (
     <div className="flex max-w-[208px] flex-col gap-1 items-start">
-      <h4 className="text-sm font-dm font-semibold text-main-blue">
+      <h4 className="text-sm font-circular font-semibold text-main-blue">
         Why we ask this?
       </h4>
       <p className="text-sm text-main-blue/80">

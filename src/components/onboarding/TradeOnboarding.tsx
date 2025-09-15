@@ -12,7 +12,7 @@ function TradeOnboarding() {
             <h1 className="text-2xl  text-centers md:text-3xl lg:md:text-4xl font-broke-bold text-main-blue font-bold">
               Select Your Trade
             </h1>
-            <p className="text-base md:text-lg lg:text-xl font-dm text-main-blue/80 font-medium text-center">
+            <p className="text-base md:text-lg lg:text-xl font-circular text-main-blue/80 font-medium text-center">
               Choose all that apply to get estimates, pricing, and
               recommendations tailored to your trade.
             </p>

@@ -130,7 +130,7 @@ function ContactForm() {
         />
         <Button
           type="submit"
-          className="rounded-4xl h-11 w-full bg-main-blue border font-dm font-medium border-transparent text-white hover:border-main-blue hover:bg-transparent hover:text-main-blue"
+          className="rounded-4xl h-11 w-full bg-main-blue border font-circular font-medium border-transparent text-white hover:border-main-blue hover:bg-transparent hover:text-main-blue"
           disabled={isSubmitting}
         >
           {isSubmitting ? (

@@ -1,5 +1,5 @@
 import AllChatSessionsSheet from "@/components/chat/AllChatSessionsSheet";
-import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { fetchUserSessionsServer, fetchUserServer } from "@/lib/actions";
 import { redirect } from "next/navigation";
@@ -20,10 +20,9 @@ export default async function DashboardLayout({
   // }
 
   return (
-    <SidebarProvider>
-      {/* <DashboardSidebar user={user} />
-      <AllChatSessionsSheet sessions={sessions} />
-      <main className="px-2  w-full bg-white">{children}</main> */}
-    </SidebarProvider>
+    <>
+      <DashboardNavbar />
+      <main className="min-h-dvh  p-6  w-full">{children}</main>;
+    </>
   );
 }

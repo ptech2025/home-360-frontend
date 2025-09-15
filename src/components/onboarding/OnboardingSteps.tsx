@@ -15,7 +15,6 @@ const steps = [
     label: "Location",
     number: 3,
   },
-
 ];
 
 function OnboardingSteps({ currentStep }: { currentStep: number }) {
@@ -66,7 +65,7 @@ function OnboardingSteps({ currentStep }: { currentStep: number }) {
           return (
             <div
               data-state={getStatus(step.number)}
-              className="flex before:content-[''] before:z-10  before:absolute data-[state=pending]:before:-left-1 data-[state=complete]:before:-left-1.5 before:top-1/2 before:-translate-y-1/2 data-[state=pending]:before:size-2 data-[state=complete]:before:size-3  data-[state=complete]:before:bg-dark-orange data-[state=pending]:before:bg-main-blue before:rounded-full pl-3 relative border-l data-[state=pending]:border-main-blue/80 data-[state=complete]:border-dark-orange h-15 w-full font-dm justify-between gap-2 items-center"
+              className="flex before:content-[''] before:z-10  before:absolute data-[state=pending]:before:-left-1 data-[state=complete]:before:-left-1.5 before:top-1/2 before:-translate-y-1/2 data-[state=pending]:before:size-2 data-[state=complete]:before:size-3  data-[state=complete]:before:bg-dark-orange data-[state=pending]:before:bg-main-blue before:rounded-full pl-3 relative border-l data-[state=pending]:border-main-blue/80 data-[state=complete]:border-dark-orange h-15 w-full font-circular justify-between gap-2 items-center"
               key={index}
             >
               <span

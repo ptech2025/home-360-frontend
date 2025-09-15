@@ -29,7 +29,7 @@ function DashboardUserIcon({ user }: { user: AuthUserType }) {
           <span className="font-medium truncate text-main-blue text-sm font-broke-medium">
             {userName}
           </span>
-          <span className="text-xs text-main-blue/80 truncate font-dm">
+          <span className="text-xs text-main-blue/80 truncate font-circular">
             {user.email}
           </span>
         </div>

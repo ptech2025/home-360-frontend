@@ -19,7 +19,7 @@ function DesktopNavDropdown() {
         <div className="flex items-center gap-3">
           <Button
             asChild
-            className="font-medium font-dm text-base h-11 rounded-4xl text-main-blue lg:flex hidden px-4 bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+            className="font-medium font-circular text-base h-11 rounded-4xl text-main-blue lg:flex hidden px-4 bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
           >
             <Link prefetch={true} href={"/sign-in"}>
               <span>Sign in</span>
@@ -27,7 +27,7 @@ function DesktopNavDropdown() {
           </Button>{" "}
           <Button
             asChild
-            className="font-medium font-dm text-base text-white h-11 rounded-4xl lg:flex hidden px-4! bg-main-blue hover:border-main-blue border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+            className="font-medium font-circular text-base text-white h-11 rounded-4xl lg:flex hidden px-4! bg-main-blue hover:border-main-blue border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
           >
             <Link prefetch={true} href={"/sign-up"}>
               <span>Get started</span>

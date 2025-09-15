@@ -14,12 +14,12 @@ function PaymentCancelPage() {
             <h1 className="text-2xl md:text-3xl text-center font-bold font-broke-bold text-destructive">
               Oops! Something went wrong.
             </h1>
-            <p className="text-sm max-w-xs md:text-base font-dm text-main-blue/80 font-medium text-center">
+            <p className="text-sm max-w-xs md:text-base font-circular text-main-blue/80 font-medium text-center">
               There was an error processing your payment.
             </p>
             <Button
               asChild
-              className="font-medium font-dm text-base h-11 rounded-4xl text-main-blue w-full max-w-md  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+              className="font-medium font-circular text-base h-11 rounded-4xl text-main-blue w-full max-w-md  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
             >
               <Link prefetch={true} href={"/pricing"}>
                 <span>Try again</span>

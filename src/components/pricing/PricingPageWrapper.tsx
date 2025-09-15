@@ -27,7 +27,7 @@ function PricingPageWrapper({ user }: Props) {
     return (
       <div className="custom-container flex justify-center items-center flex-col gap-10">
         <div className="flex flex-col items-center gap-4">
-          <h1 className="text-sm text-center uppercase text-[#9E9E9E] font-mon">
+          <h1 className="text-sm text-center uppercase text-[#9E9E9E] font-circular">
             Pricing
           </h1>
           <h2 className="text-3xl text-center md:text-[2.5rem] font-bold font-broke-bold text-main-blue">
@@ -79,7 +79,7 @@ function PricingPageWrapper({ user }: Props) {
     return (
       <div className="custom-container flex justify-center items-center flex-col gap-10">
         <div className="flex flex-col items-center gap-4">
-          <h1 className="text-sm text-center uppercase text-[#9E9E9E] font-mon">
+          <h1 className="text-sm text-center uppercase text-[#9E9E9E] font-circular">
             Pricing
           </h1>
           <h2 className="text-3xl text-center md:text-[2.5rem] font-bold font-broke-bold text-main-blue">
@@ -126,7 +126,7 @@ function PricingPageWrapper({ user }: Props) {
   return (
     <div className="custom-container flex justify-center items-center flex-col gap-10">
       <div className="flex flex-col items-center gap-4">
-        <h1 className="text-sm text-center uppercase text-[#9E9E9E] font-mon">
+        <h1 className="text-sm text-center uppercase text-[#9E9E9E] font-circular">
           Pricing
         </h1>
         <h2 className="text-3xl text-center md:text-[2.5rem] font-bold font-broke-bold text-main-blue">

@@ -7,7 +7,7 @@ function LayoutScreen() {
           <h1 className="text-white text-center  font-bold font-broke-bold text-[1.2rem] leading-12 md:text-[1.5rem] lg:text-[2rem]">
             Welcome to QuickEstimate.ai
           </h1>
-          <span className="text-white text-center text-lg lg:text-lg font-dm ">
+          <span className="text-white text-center text-lg lg:text-lg font-circular ">
             Your Fast Track to Winning More Jobs.
           </span>
         </div>{" "}
@@ -16,10 +16,10 @@ function LayoutScreen() {
             Generate Estimates Quickly
           </h2>
           <div className="flex flex-col gap-1 items-center">
-            <span className="text-white text-center text-lg lg:text-lg font-dm ">
+            <span className="text-white text-center text-lg lg:text-lg font-circular ">
               Talk your bid.
             </span>{" "}
-            <span className="text-white text-center text-lg lg:text-lg font-dm ">
+            <span className="text-white text-center text-lg lg:text-lg font-circular ">
               Close the job.
             </span>
           </div>

@@ -91,24 +91,15 @@ function SignUpForm() {
     return <EmailVerificationSent setShowVerifyEmail={setShowVerifyEmail} />;
 
   return (
-    <div className="flex flex-col w-full items-center justify-center gap-6">
-      <div className="w-full grid grid-cols-2 max-w-[360px] h-11  items-center justify-center bg-main-blue/20 p-1 rounded-md">
-        <Button
-          type="button"
-          data-state="active"
-          asChild
-          className="h-full w-full data-[state=inactive]:border-0 data-[state=inactive]:shadow-none data-[state=inactive]:bg-transparent data-[state=inactive]:text-main-blue/80 data-[state=active]:bg-main-blue data-[state=active]:text-white"
-        >
-          <Link href={"/sign-up"}>Create an Account</Link>
-        </Button>{" "}
-        <Button
-          type="button"
-          data-state="inactive"
-          asChild
-          className="h-full w-full data-[state=inactive]:border-0 data-[state=inactive]:shadow-none data-[state=inactive]:bg-transparent data-[state=inactive]:text-main-blue/80 data-[state=active]:bg-main-blue data-[state=active]:text-white"
-        >
-          <Link href={"/sign-in"}>Sign in</Link>
-        </Button>
+    <div className="flex flex-col max-w-[500px] w-full items-center justify-center gap-6">
+      <div className="flex flex-col gap-3 w-full">
+        <h1 className="text-black font-circular text-2xl font-bold">
+          Create an Account
+        </h1>
+        <p className="text-base md:text-lg font-circular-regular font-normal text-light-gray">
+          Start exploring and utilizing all the resources that will help you
+          manage your home.
+        </p>
       </div>
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
@@ -119,7 +110,7 @@ function SignUpForm() {
           type: "spring",
           stiffness: 100,
         }}
-        className="w-full max-w-[500px] flex gap-8 flex-col items-center  justify-center"
+        className="w-full  flex gap-8 flex-col items-center  justify-center"
       >
         <Form {...form}>
           <form
@@ -132,7 +123,7 @@ function SignUpForm() {
                 name="firstName"
                 render={({ field }) => (
                   <FormItem className="w-full lg:w-1/2">
-                    <FormLabel className="text-main-blue">First Name</FormLabel>
+                    <FormLabel className="text-black">First Name</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="First Name"
@@ -149,7 +140,7 @@ function SignUpForm() {
                 name="lastName"
                 render={({ field }) => (
                   <FormItem className="w-full lg:w-1/2">
-                    <FormLabel className="text-main-blue">Last Name</FormLabel>
+                    <FormLabel className="text-black">Last Name</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Last Name"
@@ -167,7 +158,7 @@ function SignUpForm() {
               name="email"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel className="text-main-blue">Email</FormLabel>
+                  <FormLabel className="text-black">Email</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Email Address"
@@ -184,14 +175,14 @@ function SignUpForm() {
               name="password"
               render={({ field }) => (
                 <FormItem className="flex flex-col items-start justify-start w-full gap-2">
-                  <FormLabel className="text-main-blue">Password</FormLabel>
+                  <FormLabel className="text-black">Password</FormLabel>
                   <FormControl>
                     <div className="w-full m-0! aria-invalid:border-destructive focus-within:ring-[3px] focus-within:ring-ring/50 focus-within:border-ring aria-invalid:ring-destructive/20 flex items-center justify-between   rounded-md h-11 px-3 py-1  outline-0 border border-input ">
                       <input
                         placeholder="Password"
                         type={showPassword ? "text" : "password"}
                         {...field}
-                        className="flex-grow focus-visible:outline-offset-none border-none focus-visible:ring-none  shadow-none outline-none rounded-none focus-visible:ring-0 pl-0 py-0 placeholder:text-sm  text-sm  outline-0 border-0  h-full"
+                        className="flex-grow focus-visible:outline-offset-none border-none focus-visible:ring-none  shadow-none outline-none rounded-none focus-visible:ring-0 pl-0 py-0  text-base md:text-sm  outline-0 border-0  h-full"
                       />
                       <button
                         type="button"
@@ -199,9 +190,40 @@ function SignUpForm() {
                         className="shrink-0 flex items-center justify-center"
                       >
                         {showPassword ? (
-                          <EyeOff className="size-[1rem] text-main-blue" />
+                          <EyeOff className="size-[1rem] text-black" />
                         ) : (
-                          <Eye className="size-[1rem] text-main-blue" />
+                          <Eye className="size-[1rem] text-black" />
+                        )}
+                      </button>
+                    </div>
+                  </FormControl>
+                  <FormMessage className="text-xs " />
+                </FormItem>
+              )}
+            />{" "}
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem className="flex flex-col items-start justify-start w-full gap-2">
+                  <FormLabel className="text-black">Re-type Password</FormLabel>
+                  <FormControl>
+                    <div className="w-full m-0! aria-invalid:border-destructive focus-within:ring-[3px] focus-within:ring-ring/50 focus-within:border-ring aria-invalid:ring-destructive/20 flex items-center justify-between   rounded-md h-11 px-3 py-1  outline-0 border border-input ">
+                      <input
+                        placeholder="Re-type Password"
+                        type={showPassword ? "text" : "password"}
+                        {...field}
+                        className="flex-grow focus-visible:outline-offset-none border-none focus-visible:ring-none  shadow-none outline-none rounded-none focus-visible:ring-0 pl-0 py-0  text-base md:text-sm  outline-0 border-0  h-full"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="shrink-0 flex items-center justify-center"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="size-[1rem] text-black" />
+                        ) : (
+                          <Eye className="size-[1rem] text-black" />
                         )}
                       </button>
                     </div>
@@ -210,11 +232,10 @@ function SignUpForm() {
                 </FormItem>
               )}
             />
-
             <Button
               size={"lg"}
               disabled={isLoading || isGoogleLoading}
-              className="gap-2 group text-white h-12 w-full font-medium font-dm rounded-4xl text-base bg-dark-orange hover:bg-main-blue"
+              className="gap-2 group text-white h-12 w-full font-medium font-circular  text-base bg-main-green border border-transparent hover:border-main-green hover:bg-transparent hover:text-main-green "
             >
               {isLoading ? (
                 <Loader2 className="size-5 animate-spin" />
@@ -224,38 +245,34 @@ function SignUpForm() {
                 </>
               )}
             </Button>
-            <div className="flex items-center gap-4 justify-between w-full text-main-blue/80 text-base">
-              <span className="h-px bg-main-blue/50 flex-grow"></span>
+            <div className="flex items-center gap-4 justify-between w-full text-black/80 text-base">
+              <span className="h-px bg-light-gray flex-grow"></span>
               <span>OR</span>
-              <span className="h-px bg-main-blue/50 flex-grow"></span>
+              <span className="h-px bg-light-gray flex-grow"></span>
             </div>
             <Button
               type="button"
               size={"lg"}
               onClick={signInWithGoogle}
               disabled={isLoading || isGoogleLoading}
-              className="gap-2 group text-black h-12 w-full font-medium font-dm text-base bg-white hover:bg-main-blue/20 border border-main-blues"
+              className="gap-2 group text-black hover:bg-transparent h-12 w-full font-medium font-circular-regular text-base border border-light-gray bg-white hover:shadow-sm "
             >
               {isGoogleLoading ? (
                 <Loader2 className="size-5 animate-spin" />
               ) : (
                 <>
-                  <GoogleIcon className="size-5" />
                   <span>Continue with Google</span>
+                  <GoogleIcon className="size-5" />
                 </>
               )}
             </Button>
           </form>
         </Form>
-        <p className="text-xs max-w-[300px] text-center text-balance text-main-blue/80">
-          By signing up to create an account I accept Company’s{" "}
-          <Link href="/terms" className="hover:underline text-main-blue">
-            Terms of use{" "}
-          </Link>
-          &
-          <Link href="/privacy-policy" className="hover:underline text-main-blue">
+        <p className="text-xs max-w-[300px] text-center text-balance text-light-gray">
+          Already have an account?
+          <Link href="/sign-in" className="underline text-main-green">
             {" "}
-            Privacy Policy.
+            Sign in
           </Link>
         </p>
       </motion.div>

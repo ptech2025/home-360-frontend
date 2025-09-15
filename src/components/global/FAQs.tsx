@@ -72,7 +72,7 @@ function FAQs({ isHome }: { isHome: boolean }) {
               >
                 <AccordionTrigger
                   className={cn(
-                    "rounded-xl justify-start text-black text-sm font-bold font-dm px-6 py-5.5 border-none data-[state=open]:rounded-b-none",
+                    "rounded-xl justify-start text-black text-sm font-bold font-circular px-6 py-5.5 border-none data-[state=open]:rounded-b-none",
                     isHome ? "bg-[#FAFAFA]" : "bg-white "
                   )}
                 >

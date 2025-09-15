@@ -34,14 +34,14 @@ function HeroSection() {
             Close the Job.
           </h2>
         </div>
-        <p className="text-base text-center lg:text-start lg:text-lg font-dm text-main-blue">
+        <p className="text-base text-center lg:text-start lg:text-lg font-circular text-main-blue">
           QuickEstimate turns your voice notes into professional job proposals
           in seconds. Save time, win more jobs, and get paid faster.
         </p>
         <div className="flex flex-col sm:flex-row w-full lg:justify-start justify-center items-center gap-2">
           <Button
             asChild
-            className="font-medium font-dm text-base text-white h-11 rounded-4xl px-6 w-max bg-main-blue hover:border-main-blue border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+            className="font-medium font-circular text-base text-white h-11 rounded-4xl px-6 w-max bg-main-blue hover:border-main-blue border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
           >
             <Link prefetch={true} href={"/sign-up"}>
               <span>Start Free Today</span>
@@ -49,7 +49,7 @@ function HeroSection() {
           </Button>
           <Button
             asChild
-            className="font-medium font-dm text-base h-11 rounded-4xl text-main-blue w-max  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+            className="font-medium font-circular text-base h-11 rounded-4xl text-main-blue w-max  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
           >
             <Link prefetch={true} href={"/#features"}>
               <span>See how it works</span>

@@ -17,7 +17,7 @@ function ExpiredLink() {
       <div className="flex flex-col justify-center items-center gap-2">
         <TriangleAlert className="size-14 text-red-500" />
 
-        <h1 className="text-center text-black font-dm text-2xl font-bold">
+        <h1 className="text-center text-black font-circular text-2xl font-bold">
           Link Expired or Invalid
         </h1>
       </div>
