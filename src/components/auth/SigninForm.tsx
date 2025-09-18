@@ -42,8 +42,8 @@ function SignInForm() {
     await authClient.signIn.social(
       {
         provider: "google",
-        newUserCallbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
-        callbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
+        newUserCallbackURL: `${process.env.NEXT_PUBLIC_URL}/dashboard`,
+        callbackURL: `${process.env.NEXT_PUBLIC_URL}/dashboard`,
       },
       {
         onRequest: () => {
@@ -65,7 +65,7 @@ function SignInForm() {
       {
         email: values.email,
         password: values.password,
-        callbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
+        callbackURL: `${process.env.NEXT_PUBLIC_URL}/dashboard`,
       },
       {
         onRequest: () => {
@@ -119,11 +119,11 @@ function SignInForm() {
   return (
     <div className="flex flex-col max-w-[500px]  w-full items-center justify-center gap-6">
       <div className="flex flex-col gap-3 w-full">
-        <h1 className="text-black font-circular text-2xl font-bold">
-          Welcome Back!
+        <h1 className="text-black font-circular-medium text-2xl font-bold">
+          Welcome Back to HOME360
         </h1>
         <p className="text-base md:text-lg font-circular-regular font-normal text-light-gray">
-          Continue with your home maintenance
+          Access your homes, documents, and reminders anytime, anywhere.
         </p>
       </div>
       <motion.div
@@ -207,7 +207,7 @@ function SignInForm() {
             <Button
               size={"lg"}
               disabled={isLoading || isGoogleLoading}
-              className="gap-2 group text-white h-12 w-full font-medium font-circular  text-base bg-main-green border border-transparent hover:border-main-green hover:bg-transparent hover:text-main-green "
+              className="gap-2 group text-white h-12 w-full font-medium font-circular-medium  text-base bg-main-green border border-transparent hover:border-main-green hover:bg-transparent hover:text-main-green "
             >
               {isLoading ? (
                 <Loader2 className="size-5 animate-spin" />
@@ -227,7 +227,7 @@ function SignInForm() {
               size={"lg"}
               onClick={signInWithGoogle}
               disabled={isLoading || isGoogleLoading}
-              className="gap-2 group text-black hover:bg-transparent h-12 w-full font-medium font-circular-regular text-base border border-light-gray bg-white hover:shadow-sm "
+              className="gap-2 relative group text-black hover:bg-transparent h-12 w-full font-medium font-circular-medium text-base border border-light-gray bg-white hover:shadow-sm "
             >
               {isGoogleLoading ? (
                 <Loader2 className="size-5 animate-spin" />

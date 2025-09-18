@@ -28,7 +28,7 @@ export function SignedOutMobileNavLinks() {
       <DropdownMenuItem className="p-4 rounded-none hover:bg-transparent">
         <Button
           asChild
-          className="font-medium w-full font-circular text-base h-11 rounded-4xl text-main-blue flex  px-8 bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+          className="font-medium w-full font-circular-medium text-base h-11 rounded-4xl text-main-blue flex  px-8 bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
         >
           <Link prefetch={true} href={"/sign-in"}>
             <span>Sign in</span>
@@ -38,7 +38,7 @@ export function SignedOutMobileNavLinks() {
       <DropdownMenuItem className="p-4 rounded-none  hover:bg-transparent">
         <Button
           asChild
-          className="font-medium w-full font-circular text-base text-white h-11 rounded-4xl flex  px-8 bg-main-blue hover:border-main-blue border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+          className="font-medium w-full font-circular-medium text-base text-white h-11 rounded-4xl flex  px-8 bg-main-blue hover:border-main-blue border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
         >
           <Link prefetch={true} href={"/sign-up"}>
             <span>Get started</span>

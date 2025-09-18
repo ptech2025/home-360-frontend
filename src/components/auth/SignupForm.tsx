@@ -42,8 +42,8 @@ function SignUpForm() {
     await authClient.signIn.social(
       {
         provider: "google",
-        newUserCallbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
-        callbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
+        newUserCallbackURL: `${process.env.NEXT_PUBLIC_URL}/dashboard`,
+        callbackURL: `${process.env.NEXT_PUBLIC_URL}/dashboard`,
       },
       {
         onRequest: () => {
@@ -66,7 +66,7 @@ function SignUpForm() {
         email: values.email,
         name: `${values.firstName} ${values.lastName}`,
         password: values.password,
-        image: `https://ui-avatars.com/api/?size=60&background=112358&color=fff&rounded=true&name=${values.firstName}+${values.lastName}`,
+        image: `https://ui-avatars.com/api/?size=60&background=2d6a4f&color=fff&rounded=true&name=${values.firstName}+${values.lastName}`,
       },
       {
         onRequest: () => {
@@ -93,12 +93,12 @@ function SignUpForm() {
   return (
     <div className="flex flex-col max-w-[500px] w-full items-center justify-center gap-6">
       <div className="flex flex-col gap-3 w-full">
-        <h1 className="text-black font-circular text-2xl font-bold">
-          Create an Account
+        <h1 className="text-black font-circular-medium text-2xl font-bold">
+          Create Your HOME360 Account
         </h1>
-        <p className="text-base md:text-lg font-circular-regular font-normal text-light-gray">
-          Start exploring and utilizing all the resources that will help you
-          manage your home.
+        <p className="text-base md:text-lg font-circular-light font-normal text-light-gray">
+          All your home documents, bills, and reminders — organized in one
+          secure place.
         </p>
       </div>
       <motion.div
@@ -235,7 +235,7 @@ function SignUpForm() {
             <Button
               size={"lg"}
               disabled={isLoading || isGoogleLoading}
-              className="gap-2 group text-white h-12 w-full font-medium font-circular  text-base bg-main-green border border-transparent hover:border-main-green hover:bg-transparent hover:text-main-green "
+              className="gap-2 group text-white h-12 w-full font-medium font-circular-medium  text-base bg-main-green border border-transparent hover:border-main-green hover:bg-transparent hover:text-main-green "
             >
               {isLoading ? (
                 <Loader2 className="size-5 animate-spin" />

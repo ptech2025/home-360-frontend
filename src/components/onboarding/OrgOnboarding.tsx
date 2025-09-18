@@ -11,7 +11,7 @@ function OrgOnboarding() {
             <h1 className="text-2xl text-centers md:text-3xl lg:md:text-4xl font-broke-bold text-main-blue font-bold">
               Create Your Organization
             </h1>
-            <p className="text-base md:text-lg lg:text-xl font-circular text-main-blue/80 font-medium text-center">
+            <p className="text-base md:text-lg lg:text-xl font-circular-medium text-main-blue/80 font-medium text-center">
               Display your organization on every estimate, invoice, and proposal
               you send.
             </p>

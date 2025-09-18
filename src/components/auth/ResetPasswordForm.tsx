@@ -83,7 +83,7 @@ function ResetPasswordForm({ token }: { token: string }) {
       className="w-full max-w-[500px] flex gap-8 flex-col rounded-[1.25rem]  bg-white "
     >
       <div className="flex w-full flex-col gap-2">
-        <h1 className="text-black font-circular font-bold text-2xl">
+        <h1 className="text-black font-circular-bold font-bold text-2xl">
           {" "}
           Reset Password
         </h1>
@@ -164,7 +164,7 @@ function ResetPasswordForm({ token }: { token: string }) {
           <Button
             size={"lg"}
             disabled={isLoading}
-            className="gap-2 group text-white h-12 w-full font-medium font-circular  text-base bg-main-green border border-transparent hover:border-main-green hover:bg-transparent hover:text-main-green "
+            className="gap-2 group text-white h-12 w-full font-medium font-circular-medium  text-base bg-main-green border border-transparent hover:border-main-green hover:bg-transparent hover:text-main-green "
           >
             {isLoading ? (
               <Loader2 className="size-5 animate-spin" />

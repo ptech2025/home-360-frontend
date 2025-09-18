@@ -40,7 +40,7 @@ export function LogoWithText() {
   return (
     <div className="inline-flex relative gap-2 items-center">
       <LogoSvg />
-      <p className="text-lg font-bold font-circular text-black">Home360</p>
+      <p className="text-lg font-bold font-circular-bold text-black">Home360</p>
       <svg
         width="9"
         height="9"

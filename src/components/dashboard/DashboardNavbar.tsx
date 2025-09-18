@@ -1,54 +1,35 @@
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarFooter,
-  SidebarTrigger,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import { AuthUserType, DashboardLink } from "@/types";
-import { Settings } from "lucide-react";
-import { PiToolbox, PiUsers } from "react-icons/pi";
-import SidebarLink from "./SidebarLink";
-import { LogoSvg } from "@/components/global/Logo";
+import { AuthUserType, UserRole } from "@/types";
+
+import { LogoWithText } from "@/components/global/Logo";
 
 import Link from "next/link";
-import AskAIBtn from "./AskAIBtn";
-import LogOutBtn from "./LogOutBtn";
-import DashboardUserIcon from "./DashboardUserIcon";
 
-const sidebarLinks: DashboardLink[] = [
-  {
-    icon: <PiToolbox />,
-    title: "Projects",
-    url: "/dashboard/projects",
-    access: ["user", "admin"],
-  },
-  {
-    icon: <PiUsers />,
-    title: "Clients",
-    url: "/dashboard/clients",
-    access: ["user", "admin"],
-  },
-  {
-    icon: <Settings />,
-    title: "Settings",
-    url: "/dashboard/settings",
-    access: ["user", "admin"],
-  },
-];
-// const footerLinks: DashboardLink[] = [];
+import DashboardUserIcon from "./DashboardUserIcon";
+import { DesktopDashboardNavLinks, IconNavLinks } from "./DashboardNavLinks";
+import {
+  DesktopDashboardDropdown,
+  MobileDashboardDropdown,
+} from "./DashboardDropdown";
 
 type Props = {
-  user: AuthUserType;
+  user: AuthUserType | null;
 };
 
-function DashboardNavbar() {
-  return <nav>DashboardNavbar</nav>;
+function DashboardNavbar({ user }: Props) {
+  // const userRole = user.role as UserRole;
+  const userRole = "admin";
+  return (
+    <nav className="w-full max-w-[1800px] mx-auto px-4 md:px-6 lg:px-8 py-4 flex justify-between items-center gap-6">
+      <Link href="/">
+        <LogoWithText />
+      </Link>
+      <DesktopDashboardNavLinks userRole={userRole} />
+      <div className="flex gap-6 items-center">
+        <IconNavLinks userRole={userRole} />
+        <DesktopDashboardDropdown userRole={userRole} />
+        <MobileDashboardDropdown userRole={userRole} />
+      </div>
+    </nav>
+  );
 }
 export default DashboardNavbar;

@@ -34,7 +34,7 @@ export const fetchUserServer = async () => {
     const res = await axios.get(`${API_URL}/api/user/details`, {
       headers: { Cookie: cookieHeader },
     });
-    const data: AuthUserType & { hasProjects: boolean } = res.data;
+    const data: AuthUserType = res.data;
 
     return data;
   } catch (error) {

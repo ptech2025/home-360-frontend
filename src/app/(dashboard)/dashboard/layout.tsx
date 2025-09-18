@@ -1,7 +1,5 @@
-import AllChatSessionsSheet from "@/components/chat/AllChatSessionsSheet";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { fetchUserSessionsServer, fetchUserServer } from "@/lib/actions";
+import { fetchUserServer } from "@/lib/actions";
 import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
@@ -10,10 +8,10 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }>) {
   // const user = await fetchUserServer();
-  // const sessions = await fetchUserSessionsServer();
 
   // if (!user) {
-  //   redirect("/sign-in");
+  //   return null;
+  //   // redirect("/sign-in");
   // }
   // if (!user.isOnboarded || !user.hasProjects) {
   //   redirect("/onboarding");
@@ -21,8 +19,8 @@ export default async function DashboardLayout({
 
   return (
     <>
-      <DashboardNavbar />
-      <main className="min-h-dvh  p-6  w-full">{children}</main>;
+      <DashboardNavbar user={null} />
+      <main className="min-h-svh max-w-[1800px] mx-auto px-4 md:px-6 lg:px-8 py-4  w-full">{children}</main>;
     </>
   );
 }

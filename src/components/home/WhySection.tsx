@@ -29,7 +29,7 @@ function WhySection() {
           />
         </article>
         <article className="flex max-md:order-1 flex-col items-start gap-5">
-          <h3 className="text-sm text-start uppercase text-[#9E9E9E] font-circular">
+          <h3 className="text-sm text-start uppercase text-[#9E9E9E] font-circular-medium">
             Speed — Proposals in 30 Seconds
           </h3>
           <h4 className="text-3xl text-start md:text-[2.5rem] font-bold font-broke-bold text-main-blue">
@@ -43,7 +43,7 @@ function WhySection() {
           <div className="flex items-center gap-2">
             <Button
               asChild
-              className="font-medium font-circular text-sm sm:text-base text-white h-11 rounded-4xl px-6 w-max bg-main-blue hover:border-main-blue border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+              className="font-medium font-circular-medium text-sm sm:text-base text-white h-11 rounded-4xl px-6 w-max bg-main-blue hover:border-main-blue border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
             >
               <Link prefetch={true} href={"/sign-up"}>
                 <span>Get started</span>
@@ -51,7 +51,7 @@ function WhySection() {
             </Button>
             <Button
               asChild
-              className="font-medium font-circular text-sm sm:text-base h-11 rounded-4xl text-main-blue w-max  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+              className="font-medium font-circular-medium text-sm sm:text-base h-11 rounded-4xl text-main-blue w-max  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
             >
               <Link prefetch={true} href={"/#features"}>
                 <span>Learn more</span>
@@ -62,7 +62,7 @@ function WhySection() {
         </article>
         {/* //second card */}
         <article className="flex max-md:order-3 flex-col items-start gap-4">
-          <h3 className="text-sm text-start uppercase text-[#9E9E9E] font-circular">
+          <h3 className="text-sm text-start uppercase text-[#9E9E9E] font-circular-medium">
             Professionalism — Win More Jobs
           </h3>
           <h4 className="text-3xl text-start md:text-[2.5rem] font-bold font-broke-bold text-main-blue">
@@ -77,7 +77,7 @@ function WhySection() {
           <div className="flex items-center gap-2">
             <Button
               asChild
-              className="font-medium font-circular text-sm sm:text-base text-white h-11 rounded-4xl px-6 w-max bg-main-blue hover:border-main-blue border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+              className="font-medium font-circular-medium text-sm sm:text-base text-white h-11 rounded-4xl px-6 w-max bg-main-blue hover:border-main-blue border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
             >
               <Link prefetch={true} href={"/sign-up"}>
                 <span>Get started</span>
@@ -85,7 +85,7 @@ function WhySection() {
             </Button>
             <Button
               asChild
-              className="font-medium font-circular text-sm sm:text-base h-11 rounded-4xl text-main-blue w-max  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+              className="font-medium font-circular-medium text-sm sm:text-base h-11 rounded-4xl text-main-blue w-max  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
             >
               <Link prefetch={true} href={"/#features"}>
                 <span>Learn more</span>
@@ -115,7 +115,7 @@ function WhySection() {
           />
         </article>
         <article className="flex  max-md:order-5 flex-col items-start gap-4">
-          <h3 className="text-sm text-start uppercase text-[#9E9E9E] font-circular">
+          <h3 className="text-sm text-start uppercase text-[#9E9E9E] font-circular-medium">
             Accuracy — Local Pricing Built In
           </h3>
           <h4 className="text-3xl text-start md:text-[2.5rem] font-bold font-broke-bold text-main-blue">
@@ -131,7 +131,7 @@ function WhySection() {
           <div className="flex items-center gap-2">
             <Button
               asChild
-              className="font-medium font-circular text-sm sm:text-base text-white h-11 rounded-4xl px-6 w-max bg-main-blue hover:border-main-blue border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+              className="font-medium font-circular-medium text-sm sm:text-base text-white h-11 rounded-4xl px-6 w-max bg-main-blue hover:border-main-blue border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
             >
               <Link prefetch={true} href={"/sign-up"}>
                 <span>Get started</span>
@@ -139,7 +139,7 @@ function WhySection() {
             </Button>
             <Button
               asChild
-              className="font-medium font-circular text-sm sm:text-base h-11 rounded-4xl text-main-blue w-max  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+              className="font-medium font-circular-medium text-sm sm:text-base h-11 rounded-4xl text-main-blue w-max  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
             >
               <Link prefetch={true} href={"/#features"}>
                 <span>Learn more</span>

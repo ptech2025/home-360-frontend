@@ -46,7 +46,7 @@ export const CodeBlock = ({
         <SyntaxHighlighter
           className="overflow-hidden dark:hidden"
           codeTagProps={{
-            className: "font-circularo text-sm",
+            className: "font-circular-mediumo text-sm",
           }}
           customStyle={{
             margin: 0,
@@ -69,7 +69,7 @@ export const CodeBlock = ({
         <SyntaxHighlighter
           className="hidden overflow-hidden dark:block"
           codeTagProps={{
-            className: "font-circularo text-sm",
+            className: "font-circular-mediumo text-sm",
           }}
           customStyle={{
             margin: 0,

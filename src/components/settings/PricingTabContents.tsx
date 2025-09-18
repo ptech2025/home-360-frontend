@@ -32,10 +32,10 @@ export const DisplayCurrentPlan = ({ user }: { user: AuthUserType }) => {
       <div className="bg-white shadow-xs grid-cols-1 grid gap-6 rounded-2xl p-4 lg:p-6 xl:p-8">
         <div className="flex items-start justify-between gap-4">
           <div className="flex flex-col gap-0.5 ">
-            <span className="text-sm text-main-blue font-medium font-circular">
+            <span className="text-sm text-main-blue font-medium font-circular-medium">
               Current Plan
             </span>
-            <h4 className="text-xl md:text-2xl font-semibold font-circular text-dark-orange">
+            <h4 className="text-xl md:text-2xl font-semibold font-circular-medium text-dark-orange">
               {user.subscription ? user.subscription.plan.name : "Free Trial"}
             </h4>
             <p className="text-main-blue/80 text-xs">

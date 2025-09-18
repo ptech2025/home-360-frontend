@@ -23,7 +23,7 @@ function EmailVerificationSent({
       <div className="flex flex-col justify-center items-center gap-2">
         <CheckCircle2 className="size-14 text-green-500" />
 
-        <h1 className="text-center text-main-blue font-circular text-2xl font-bold">
+        <h1 className="text-center text-main-blue font-circular-medium text-2xl font-bold">
           Email Verification Link Sent
         </h1>
       </div>
