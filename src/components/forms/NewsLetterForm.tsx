@@ -75,7 +75,7 @@ function NewsLetterForm() {
           />{" "}
           <span className="text-xs text-main-blue">
             We protect your data in our{" "}
-            <Link href={`/privacy-policy`} className="italic underline">
+            <Link href={`/#`} className="italic underline">
               privacy policy
             </Link>
           </span>

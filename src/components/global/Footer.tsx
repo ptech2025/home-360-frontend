@@ -26,7 +26,7 @@ function Footer() {
   };
   return (
     <footer className="custom-container flex flex-col gap-10">
-      <div className="flex flex-col gap-6 sm:flex-row justify-between items-center">
+      {/* <div className="flex flex-col gap-6 sm:flex-row justify-between items-center">
         <ul className="flex sm:flex-row flex-col items-center gap-6">
           {footerLinks.map((link, index) => {
             return (
@@ -83,7 +83,7 @@ function Footer() {
         >
           Privacy
         </Link>
-      </div>
+      </div> */}
     </footer>
   );
 }

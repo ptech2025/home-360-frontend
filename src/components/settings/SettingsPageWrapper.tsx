@@ -1,6 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CompanyInfo, PersonalInfo } from "./GeneralTabContents";
-import RedirectOrToggleSidebar from "../chat/RedirectOrToggleSidebar";
 import { AuthUserType } from "@/types";
 import { UpdatePassword } from "./SecurityTabContents";
 import { DisplayCurrentPlan } from "./PricingTabContents";
@@ -24,7 +23,6 @@ function SettingsPageWrapper({ user }: { user: AuthUserType }) {
   const profile = user.profile!;
   return (
     <section className="w-full flex-col flex gap-6 py-4  px-10 md:px-20 lg:px-25">
-      <RedirectOrToggleSidebar url={``} showRedirect={false} />
       <h1 className="text-lg md:text-xl lg:text-2xl font-bold font-broke-bold text-main-blue">
         Settings
       </h1>

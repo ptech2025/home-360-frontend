@@ -5,6 +5,7 @@ import { Search } from "lucide-react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useDebounce } from "use-debounce";
 import { useQueryClient } from "@tanstack/react-query";
+import { Route } from "next";
 
 type Props = {
   searchKey: string;
@@ -50,8 +51,9 @@ function SearchBar({ searchKey, placeHolder }: Props) {
     });
 
     const search = new URLSearchParams(queryParams).toString();
-    push(`${pathname}?${search}`, { scroll: false });
+    push(`${pathname}?${search}` as Route, { scroll: false });
 
+    // eslint-disable-next-line
   }, [debouncedSearchVal, pathname, push, searchKey, searchParams]);
 
   return (
