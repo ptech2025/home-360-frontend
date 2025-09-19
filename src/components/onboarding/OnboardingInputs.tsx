@@ -205,7 +205,7 @@ export function AutoLocationSelectionInput({
       </p>
       <Button
         type="button"
-        className="h-12 w-full hover:bg-main-blue bg-dark-orange"
+        className="h-12 w-full hover:bg-main-green bg-dark-orange"
         onClick={handleAutoSelect}
         disabled={isLoading}
         size="lg"
@@ -304,7 +304,7 @@ export function ManualLocationSelectionInput({
         <DialogTrigger asChild>
           <Button
             type="button"
-            className="h-20 group justify-between w-full text-lg font-medium rounded-2xl hover:bg-main-blue/10 bg-transparent  text-main-blue/80 border border-input"
+            className="h-20 group justify-between w-full text-lg font-medium rounded-2xl hover:bg-main-green/10 bg-transparent  text-main-blue/80 border border-input"
             disabled={isLoading}
             size="lg"
           >

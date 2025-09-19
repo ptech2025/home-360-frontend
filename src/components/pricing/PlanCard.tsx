@@ -57,7 +57,7 @@ function PlanCard({ plan, user }: Props) {
       )}
     >
       {plan.name === "Starter Plan" && (
-        <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-sm text-white w-[150px] h-[30px] rounded-4xl  bg-main-blue gap-1 flex items-center justify-center">
+        <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-sm text-white w-[150px] h-[30px] rounded-4xl  bg-main-green gap-1 flex items-center justify-center">
           <Flame className="size-4" />
           <span>Popular</span>
         </div>
@@ -89,7 +89,7 @@ function PlanCard({ plan, user }: Props) {
         <Button
           disabled={isSubscribing || isUpgrading || isCurrentPlan(plan, user)}
           onClick={handlePlan}
-          className="rounded-4xl h-11 w-full bg-main-blue border font-circular-medium font-medium border-transparent text-white hover:border-main-blue hover:bg-transparent hover:text-main-blue"
+          className="rounded-4xl h-11 w-full bg-main-green border font-circular-medium font-medium border-transparent text-white hover:border-main-blue hover:bg-transparent hover:text-main-blue"
         >
           {isSubscribing || isUpgrading ? (
             <Loader2 className="animate-spin" />
@@ -100,7 +100,7 @@ function PlanCard({ plan, user }: Props) {
       ) : (
         <Button
           asChild
-          className="rounded-4xl h-11 w-full bg-main-blue border font-circular-medium font-medium border-transparent text-white hover:border-main-blue hover:bg-transparent hover:text-main-blue"
+          className="rounded-4xl h-11 w-full bg-main-green border font-circular-medium font-medium border-transparent text-white hover:border-main-blue hover:bg-transparent hover:text-main-blue"
         >
           <Link href="/sign-in">Sign in to Subscribe</Link>
         </Button>

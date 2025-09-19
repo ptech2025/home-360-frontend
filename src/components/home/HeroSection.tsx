@@ -41,7 +41,7 @@ function HeroSection() {
         <div className="flex flex-col sm:flex-row w-full lg:justify-start justify-center items-center gap-2">
           <Button
             asChild
-            className="font-medium font-circular-medium text-base text-white h-11 rounded-4xl px-6 w-max bg-main-blue hover:border-main-blue border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+            className="font-medium font-circular-medium text-base text-white h-11 rounded-4xl px-6 w-max bg-main-green hover:border-main-blue border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
           >
             <Link prefetch={true} href={"/sign-up"}>
               <span>Start Free Today</span>

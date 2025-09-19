@@ -35,7 +35,7 @@ function SettingsPageWrapper({ user }: { user: AuthUserType }) {
               <TabsTrigger
                 value={option.value}
                 key={option.value}
-                className="data-[state=active]:text-main-blue data-[state=inactive]:text-main-blue/50 data-[state=active]:bg-main-blue/10"
+                className="data-[state=active]:text-main-blue data-[state=inactive]:text-main-blue/50 data-[state=active]:bg-main-green/10"
               >
                 {option.label}
               </TabsTrigger>

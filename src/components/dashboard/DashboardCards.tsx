@@ -143,7 +143,7 @@ export function MetricsCard({ data }: MetricsCardProps) {
 
 export function OverviewCard() {
   return (
-    <div className="w-full shadow-light-gray/50 shadow-xs lg:max-w-[42.5rem] lg:min-h-[12rem] bg-main-green rounded-md py-6 px-4 flex-col gap-6 lg:gap-8 flex">
+    <div className="w-full shadow-light-gray/50 shadow-xs lg:max-w-[30rem] lg:min-h-[12rem] bg-main-green rounded-md py-6 px-4 flex-col gap-6 lg:gap-8 flex">
       <div className="flex justify-between lg:items-start gap-4 items-center lg:flex-row flex-col">
         <h4 className="text-white font-circular-light text-sm">
           Welcome Mark Edwards
@@ -192,7 +192,7 @@ export function OverviewCard() {
 }
 export function UpcomingEventsCardWrapper() {
   return (
-    <div className="lg:col-span-2 overflow-y-hidden p-2 max-h-[21.5rem] min-h-[21.5rem] flex gap-6 rounded-md shadow-sm shadow-light-gray/50 items-start bg-white">
+    <div className="overflow-y-hidden p-2 max-h-[21.5rem] flex-1 w-full min-h-[21.5rem] flex gap-6 rounded-md shadow-sm shadow-light-gray/50 items-start bg-white">
       <CalendarCard />
       <EventsCard />
     </div>
@@ -200,7 +200,7 @@ export function UpcomingEventsCardWrapper() {
 }
 export function MetricsCardWrapper() {
   return (
-    <div className="grid  grid-cols-1 lg:grid-cols-3 w-full gap-4 items-center lg:flex-row flex-col lg:col-span-3 lg:row-start-2">
+    <div className="grid  grid-cols-1 lg:grid-cols-3 w-full gap-4 items-center lg:flex-row flex-col lg:col-span-2 lg:row-start-2">
       {metrics.map((data, index) => (
         <MetricsCard key={index} data={data} />
       ))}

@@ -206,7 +206,7 @@ export function OrgOnboardingForm() {
           <Button
             size={"lg"}
             disabled={isLoading}
-            className="gap-2 group text-white h-12 w-full font-medium font-circular-medium rounded-4xl text-base bg-dark-orange hover:bg-main-blue"
+            className="gap-2 group text-white h-12 w-full font-medium font-circular-medium rounded-4xl text-base bg-dark-orange hover:bg-main-green"
           >
             {isLoading ? (
               <Loader2 className="size-5 animate-spin" />
@@ -292,7 +292,7 @@ export function TradeOnboardingForm() {
                     <label
                       htmlFor={trade.id}
                       key={trade.id}
-                      className="w-full has-checked:bg-main-blue/10 has-checked:border-main-blue border border-input shadow-input cursor-pointer hover:shadow-sm p-4 rounded-xl flex items-center gap-4 "
+                      className="w-full has-checked:bg-main-green/10 has-checked:border-main-blue border border-input shadow-input cursor-pointer hover:shadow-sm p-4 rounded-xl flex items-center gap-4 "
                     >
                       <Checkbox
                         id={trade.id}
@@ -355,7 +355,7 @@ export function TradeOnboardingForm() {
           <Button
             size={"lg"}
             disabled={isLoading}
-            className="gap-2 group text-white h-12 w-full font-medium font-circular-medium rounded-4xl text-base bg-dark-orange hover:bg-main-blue"
+            className="gap-2 group text-white h-12 w-full font-medium font-circular-medium rounded-4xl text-base bg-dark-orange hover:bg-main-green"
           >
             {isLoading ? (
               <Loader2 className="size-5 animate-spin" />
@@ -478,7 +478,7 @@ export function PricingOnboardingForm() {
               <Button
                 size={"lg"}
                 disabled={isLoading}
-                className="gap-2 group rounded-4xl text-white h-12 w-full font-medium font-circular-mediums text-base bg-dark-orange hover:bg-main-blue"
+                className="gap-2 group rounded-4xl text-white h-12 w-full font-medium font-circular-mediums text-base bg-dark-orange hover:bg-main-green"
               >
                 {isLoading ? (
                   <Loader2 className="size-5 animate-spin" />

@@ -12,7 +12,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { UserRole } from "@/types";
+import { UserRole, AuthUserType } from "@/types";
 import { AlignRight, ChevronDown } from "lucide-react";
 import NavbarLink from "./NavbarLink";
 import LogOutBtn from "./LogOutBtn";
@@ -20,11 +20,16 @@ import DashboardUserIcon from "./DashboardUserIcon";
 import { Button } from "../ui/button";
 import { dropdownLinks, iconLinks, dashboardLinks } from "./DashboardNavLinks";
 
-export function DesktopDashboardDropdown({ userRole }: { userRole: UserRole }) {
+type Props = {
+  user: AuthUserType;
+  userRole: UserRole;
+};
+
+export function DesktopDashboardDropdown({ userRole, user }: Props) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="hidden md:flex items-center gap-6 group">
-        {/* <DashboardUserIcon /> */}
+      <DropdownMenuTrigger className="hidden md:flex items-center gap-4 group">
+        <DashboardUserIcon user={user} />
         <ChevronDown className="size-4 text-black group-hover:rotate-180 transition-transform duration-300" />
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -48,14 +53,15 @@ export function DesktopDashboardDropdown({ userRole }: { userRole: UserRole }) {
   );
 }
 
-export function MobileDashboardDropdown({ userRole }: { userRole: UserRole }) {
+export function MobileDashboardDropdown({ userRole, user }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="md:hidden" asChild>
         <Button
-          className="bg-white text-black shadow-none hover:bg-lighter-grey gap-2 items-center"
+          className="bg-white text-black shadow-none hover:bg-lighter-grey gap-2 w-max items-center"
           size="icon"
         >
+          <DashboardUserIcon user={user} />
           <AlignRight className="size-6" />
         </Button>
       </DropdownMenuTrigger>
@@ -69,11 +75,13 @@ export function MobileDashboardDropdown({ userRole }: { userRole: UserRole }) {
             <DropdownMenuItem key={link.title}>
               <NavbarLink link={link} userRole={userRole} />
             </DropdownMenuItem>
-          ))}   {iconLinks.map((link) => (
+          ))}{" "}
+          {iconLinks.map((link) => (
             <DropdownMenuItem key={link.title}>
               <NavbarLink link={link} userRole={userRole} />
             </DropdownMenuItem>
-          ))}   {dropdownLinks.map((link) => (
+          ))}{" "}
+          {dropdownLinks.map((link) => (
             <DropdownMenuItem key={link.title}>
               <NavbarLink link={link} userRole={userRole} />
             </DropdownMenuItem>

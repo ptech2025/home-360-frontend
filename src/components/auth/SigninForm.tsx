@@ -50,7 +50,6 @@ function SignInForm() {
           setIsGoogleLoading(true);
         },
         onError: (ctx) => {
-          console.log(ctx);
           toast.error(
             ctx.error.message ?? "Something went wrong, try again later."
           );
@@ -71,11 +70,12 @@ function SignInForm() {
         onRequest: () => {
           setIsLoading(true);
         },
-        onSuccess: async () => {
+
+        onSuccess: async (ctx) => {
+          console.log(ctx);
           toast.success("Signed in successfully.");
         },
         onError: (ctx) => {
-          console.log(ctx);
           if (ctx.error.code === "EMAIL_NOT_VERIFIED") {
             handleManualVerifyEmailSend(values.email);
           } else {

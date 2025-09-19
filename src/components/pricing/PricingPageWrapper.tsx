@@ -51,7 +51,7 @@ function PricingPageWrapper({ user }: Props) {
             onCheckedChange={(state) =>
               setPricingModel(state ? "yearly" : "monthly")
             }
-            className="data-[state=checked]:bg-main-blue"
+            className="data-[state=checked]:bg-main-green"
           />
           <span
             data-state={pricingModel}
@@ -103,7 +103,7 @@ function PricingPageWrapper({ user }: Props) {
             onCheckedChange={(state) =>
               setPricingModel(state ? "yearly" : "monthly")
             }
-            className="data-[state=checked]:bg-main-blue"
+            className="data-[state=checked]:bg-main-green"
           />
           <span
             data-state={pricingModel}
@@ -150,7 +150,7 @@ function PricingPageWrapper({ user }: Props) {
           onCheckedChange={(state) =>
             setPricingModel(state ? "yearly" : "monthly")
           }
-          className="data-[state=checked]:bg-main-blue"
+          className="data-[state=checked]:bg-main-green"
         />
         <span
           data-state={pricingModel}

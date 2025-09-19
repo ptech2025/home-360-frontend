@@ -120,7 +120,7 @@ export function PersonalInfo({ name, email, image }: PersonalInfoProps) {
                       </span>
                     </div>
                     <FormLabel
-                      className="bg-main-blue/10 h-11 rounded-3xl px-3 py-1 w-max hover:shadow-sm transition-colors duration-200 flex gap-1 items-center text-main-blue font-medium text-sm"
+                      className="bg-main-green/10 h-11 rounded-3xl px-3 py-1 w-max hover:shadow-sm transition-colors duration-200 flex gap-1 items-center text-main-blue font-medium text-sm"
                       htmlFor="image"
                     >
                       <Input
@@ -203,7 +203,7 @@ export function PersonalInfo({ name, email, image }: PersonalInfoProps) {
           <Button
             type="submit"
             disabled={isPending}
-            className="h-11 ml-auto hover:ring-[3px]  ring-main-blue/50  transition-all duration-200 py-1 px-4  w-full md:w-max rounded-md md:rounded-4xl bg-main-blue text-white flex gap-1 items-center text-sm border hover:border-main-blue hover:bg-transparent hover:text-main-blue"
+            className="h-11 ml-auto hover:ring-[3px]  ring-main-blue/50  transition-all duration-200 py-1 px-4  w-full md:w-max rounded-md md:rounded-4xl bg-main-green text-white flex gap-1 items-center text-sm border hover:border-main-blue hover:bg-transparent hover:text-main-blue"
           >
             <span>{isPending ? "Saving..." : "Save Changes"}</span>
           </Button>
@@ -305,7 +305,7 @@ export function CompanyInfo({ profile }: CompanyInfoProps) {
                       </span>
                     </div>
                     <FormLabel
-                      className="bg-main-blue/10 h-11 rounded-3xl px-3 py-1 w-max hover:shadow-sm transition-colors duration-200 flex gap-1 items-center text-main-blue font-medium text-sm"
+                      className="bg-main-green/10 h-11 rounded-3xl px-3 py-1 w-max hover:shadow-sm transition-colors duration-200 flex gap-1 items-center text-main-blue font-medium text-sm"
                       htmlFor="logo"
                     >
                       <Input
@@ -460,7 +460,7 @@ export function CompanyInfo({ profile }: CompanyInfoProps) {
           <Button
             type="submit"
             disabled={isPending}
-            className="h-11 ml-auto hover:ring-[3px]  ring-main-blue/50  transition-all duration-200 py-1 px-4  w-full md:w-max rounded-md md:rounded-4xl bg-main-blue text-white flex gap-1 items-center text-sm border hover:border-main-blue hover:bg-transparent hover:text-main-blue"
+            className="h-11 ml-auto hover:ring-[3px]  ring-main-blue/50  transition-all duration-200 py-1 px-4  w-full md:w-max rounded-md md:rounded-4xl bg-main-green text-white flex gap-1 items-center text-sm border hover:border-main-blue hover:bg-transparent hover:text-main-blue"
           >
             <span>{isPending ? "Saving..." : "Save Changes"}</span>
           </Button>

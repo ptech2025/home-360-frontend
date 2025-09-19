@@ -33,8 +33,8 @@ function AddressItem({ address, handleClose, matched }: AddressItemProps) {
     <CommandItem
       value={address}
       onSelect={() => handleClose(address)}
-      className={`cursor-pointer hover:bg-main-blue/20 flex text-sm items-center gap-2 ${
-        matched ? "bg-main-blue/20" : "bg-transparent"
+      className={`cursor-pointer hover:bg-main-green/20 flex text-sm items-center gap-2 ${
+        matched ? "bg-main-green/20" : "bg-transparent"
       }`}
     >
       <div className="size-8 flex items-center justify-center shrink-0  bg-input rounded-full p-2">
@@ -57,10 +57,11 @@ function LocationCommand({
   // fetch clients with debounced value
   const { data, isLoading } = useQuery({
     queryKey: ["placeSuggestions", debouncedSearchVal],
-    queryFn: () => fetchPlaces({
-      query: debouncedSearchVal,
-      usOnly,
-    }),
+    queryFn: () =>
+      fetchPlaces({
+        query: debouncedSearchVal,
+        usOnly,
+      }),
   });
 
   useEffect(() => {

@@ -7,19 +7,20 @@ export default async function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const user = await fetchUserServer();
+  const user = await fetchUserServer();
 
-  // if (!user) {
-  //   return null;
-  //   // redirect("/sign-in");
-  // }
+
+
+  if (!user) {
+    redirect("/sign-in");
+  }
   // if (!user.isOnboarded || !user.hasProjects) {
   //   redirect("/onboarding");
   // }
 
   return (
     <>
-      <DashboardNavbar user={null} />
+      <DashboardNavbar user={user} />
       <main className="min-h-svh max-w-[1800px] mx-auto px-4 md:px-6 lg:px-8 py-4  w-full">{children}</main>;
     </>
   );

@@ -1,6 +1,5 @@
 "use client";
 import { LogOut } from "lucide-react";
-import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "nextjs-toploader/app";
 import { Button } from "../ui/button";

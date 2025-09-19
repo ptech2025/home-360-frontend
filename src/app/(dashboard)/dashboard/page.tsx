@@ -4,14 +4,20 @@ import {
   MetricsCardWrapper,
   ServicesCard,
 } from "@/components/dashboard/DashboardCards";
+import { RecentTasksTable } from "@/components/dashboard/DashboardTables";
 
 function DashboardPage() {
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-[auto_auto_auto] gap-4">
-      <OverviewCard />
-      <UpcomingEventsCardWrapper />
+    <section className="flex flex-col gap-4">
+      <div className="lg:flex-row flex flex-col gap-4">
+        <OverviewCard />
+        <UpcomingEventsCardWrapper />
+      </div>{" "}
       <MetricsCardWrapper />
-      <ServicesCard />
+      <div className="lg:flex-row flex flex-col gap-4">
+        <RecentTasksTable />
+        <ServicesCard />
+      </div>
     </section>
   );
 }
