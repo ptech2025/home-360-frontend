@@ -1,11 +1,5 @@
 import { AuthUserType, Subscription } from "@/types";
-import { MyUIMessage } from "@/types/message-schema";
-import { createIdGenerator } from "ai";
 
-const messageId = createIdGenerator({
-  prefix: "msgc",
-  size: 16,
-});
 export const getCurrentLocation = (): Promise<GeolocationPosition> => {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
@@ -19,19 +13,6 @@ export const getCurrentLocation = (): Promise<GeolocationPosition> => {
       maximumAge: 0,
     });
   });
-};
-
-export const getChatHeading = (
-  firstMessage: MyUIMessage | null,
-  inPanel: boolean
-): string => {
-  if (firstMessage) {
-    const firstPart = firstMessage.parts[0];
-    if (firstPart.type === "text") {
-      return firstPart.text;
-    }
-  }
-  return inPanel ? "New Chat" : "Untitled Chat";
 };
 
 export function formatCurrencyWithSuffix(number: number): string {
@@ -89,23 +70,6 @@ export function formatTimer(seconds: number): string {
   const minutes = Math.floor(seconds / 60);
   const secs = seconds % 60;
   return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
-}
-
-export function generateUserTempMessage(
-  prompt: string,
-  sessionId: string
-): MyUIMessage {
-  const temporaryMessage: MyUIMessage = {
-    id: messageId(),
-    role: "user",
-    parts: [{ type: "text", text: prompt }],
-    metadata: {
-      sessionId,
-      createdAt: new Date(),
-      confidence: "medium",
-    },
-  };
-  return temporaryMessage;
 }
 
 export function formatNameWithDot(name: string): string {

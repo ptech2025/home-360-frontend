@@ -6,7 +6,6 @@ import { AuthUserType } from "@/types";
 import { useEffect } from "react";
 import PricingOnboarding from "./PricingOnboarding";
 import TradeOnboarding from "./TradeOnboarding";
-import InitProject from "./InitProject";
 
 type Props = {
   profile: AuthUserType["profile"];
@@ -31,7 +30,6 @@ function OnboardingWrapper({ profile, name, userId }: Props) {
       {currentPage === 1 && <OrgOnboarding />}
       {currentPage === 2 && <TradeOnboarding />}
       {currentPage === 3 && <PricingOnboarding />}
-      {currentPage === 4 && <InitProject name={name} userId={userId} />}
     </section>
   );
 }
