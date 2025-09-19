@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ArrowRight, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import {
   resetPasswordSchema,
   ResetPasswordSchemaType,
