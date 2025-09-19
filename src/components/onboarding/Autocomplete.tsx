@@ -79,7 +79,8 @@ export default function Autocomplete({
     queryFn: () =>
       fetchPlaces({
         query: debouncedQuery,
-        usOnly: true,      }),
+        usOnly: true,
+      }),
     enabled: Boolean(debouncedQuery.trim()) && isFocused, // only run if query is not empty & input is focused
     staleTime: 1000 * 60, // cache suggestions for 1 minute
     gcTime: 1000 * 60 * 5, // keep in memory for 5 minutes
@@ -165,7 +166,7 @@ export default function Autocomplete({
             </p>
             <Button
               type="button"
-              className="h-12 w-full hover:bg-main-blue bg-dark-orange rounded-4xl max-w-[12rem]"
+              className="h-12 w-full hover:bg-main-green bg-dark-orange rounded-4xl max-w-[12rem]"
               onClick={handleAutoSelect}
               disabled={isAllowAccessLoading}
               size="lg"

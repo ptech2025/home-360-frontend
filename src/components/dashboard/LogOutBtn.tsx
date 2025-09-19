@@ -1,8 +1,8 @@
 "use client";
 import { LogOut } from "lucide-react";
-import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "nextjs-toploader/app";
+import { Button } from "../ui/button";
 
 function LogOutBtn() {
   const router = useRouter();
@@ -16,20 +16,13 @@ function LogOutBtn() {
     });
   };
   return (
-    <SidebarMenuItem>
-      <SidebarMenuButton
-        onClick={handleLogout}
-        tooltip={{
-          children: "Sign Out",
-        }}
-        className={
-          "group flex h-10 w-full [&>svg]:size-5 hover:bg-destructive/20 hover:text-destructive   group-data-[collapsible=icon]:!pl-1.5   items-center gap-2 text-sm font-medium text-destructive transition-all data-[active=true]:bg-destructive/20 "
-        }
-      >
-        <LogOut />
-        <span>Sign Out</span>
-      </SidebarMenuButton>
-    </SidebarMenuItem>
+    <Button
+      onClick={handleLogout}
+      className="flex items-center w-full text-destructive bg-transparent justify-start p-0! shadow-none hover:bg-transparent [&_svg]:text-destructive!  [&>svg]:shrink-0 [&>svg]:size-4.5   underline-offset-4 hover:underline text-sm font-circular-medium font-medium gap-2 "
+    >
+      <LogOut />
+      <span>Log Out</span>
+    </Button>
   );
 }
 export default LogOutBtn;

@@ -57,10 +57,10 @@ async function WaitListPage() {
           <BlurShadow className="absolute -top-23 -left-4" />
           <div className="flex relative  items-center  justify-center lg:items-start lg:justify-between z-10 flex-col gap-8">
             <div className="flex w-full max-w-[40rem] gap-4 flex-col items-center  justify-center lg:items-start lg:justify-between">
-              <h1 className="text-[2rem] md:text-[2.8rem]  lg:text-[4rem] lg:leading-20 font-dm text-main-blue font-bold text-center lg:text-start">
+              <h1 className="text-[2rem] md:text-[2.8rem]  lg:text-[4rem] lg:leading-20 font-circular-medium text-main-blue font-bold text-center lg:text-start">
                 Looking to close more deals and stay ahead of the competition?
               </h1>
-              <p className="text-sm md:text-base lg:text-lg max-w-[30rem] text-main-blue font-dm text-center lg:text-start">
+              <p className="text-sm md:text-base lg:text-lg max-w-[30rem] text-main-blue font-circular-medium text-center lg:text-start">
                 QuickEstimate helps contractors, builders, and service
                 professionals create precise, professional estimates in minutes.
               </p>

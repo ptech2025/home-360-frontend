@@ -8,8 +8,8 @@ type Props = {
 async function ResetPassword({ searchParams }: Props) {
   const { token } = await searchParams;
   return (
-    <div className="flex flex-col gap-6 items-center justify-center">
-      <Link href="/">
+    <div className="flex flex-col gap-6 items-center justify-between">
+      <Link href="/" className="self-start">
         <LogoWithText />
       </Link>
 

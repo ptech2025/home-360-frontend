@@ -92,7 +92,7 @@ function InitProject({ name, userId }: Props) {
               <Suggestion
                 key={prompt.text}
                 suggestion={prompt.text}
-                className="text-dark-orange text-xs bg-main-blue/10"
+                className="text-dark-orange text-xs bg-main-green/10"
                 onClick={() => {
                   setPrompt(prompt.text);
                   setProjectTitle(prompt.projectTitle);
@@ -157,7 +157,7 @@ function InitProject({ name, userId }: Props) {
                   isRecording ||
                   isTranscribing
                 }
-                className="absolute bg-main-blue/10 hover:bg-dark-orange/20 text-black right-1 bottom-1"
+                className="absolute bg-main-green/10 hover:bg-dark-orange/20 text-black right-1 bottom-1"
                 status={isSendLoading ? "streaming" : "ready"}
               />
             </PromptInputToolbar>

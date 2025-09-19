@@ -52,7 +52,7 @@ export function UploadCompanyLogoInput({
       className="flex flex-col rounded-md hover:border-ring hover:ring-ring/50 hover:ring-[3px] gap-4 items-center h-[8.5rem] border border-input justify-center w-full cursor-pointer"
     >
       {logo ? (
-        <div className="w-full font-medium font-dm h-full flex items-center justify-center">
+        <div className="w-full font-medium font-circular-medium h-full flex items-center justify-center">
           <Image
             alt="company logo"
             width={100}
@@ -205,7 +205,7 @@ export function AutoLocationSelectionInput({
       </p>
       <Button
         type="button"
-        className="h-12 w-full hover:bg-main-blue bg-dark-orange"
+        className="h-12 w-full hover:bg-main-green bg-dark-orange"
         onClick={handleAutoSelect}
         disabled={isLoading}
         size="lg"
@@ -304,7 +304,7 @@ export function ManualLocationSelectionInput({
         <DialogTrigger asChild>
           <Button
             type="button"
-            className="h-20 group justify-between w-full text-lg font-medium rounded-2xl hover:bg-main-blue/10 bg-transparent  text-main-blue/80 border border-input"
+            className="h-20 group justify-between w-full text-lg font-medium rounded-2xl hover:bg-main-green/10 bg-transparent  text-main-blue/80 border border-input"
             disabled={isLoading}
             size="lg"
           >

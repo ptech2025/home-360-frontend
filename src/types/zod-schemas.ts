@@ -1,28 +1,24 @@
 import { z } from "zod";
 import { fromError } from "zod-validation-error";
-import {
-  EstimateLineItemCategory,
-  EstimateLineItemUnitType,
-} from "./message-schema";
 
-export const unitTypeValues = Object.values(EstimateLineItemUnitType).filter(
-  (v): v is EstimateLineItemUnitType => typeof v === "string"
-);
-
-export const categoryValues = Object.values(EstimateLineItemCategory).filter(
-  (v): v is EstimateLineItemCategory => typeof v === "string"
-);
-
-export const signUpSchema = z.object({
-  firstName: z.string().min(1, { message: "First name is required" }),
-  lastName: z.string().min(1, { message: "Last name is required" }),
-  email: z
-    .email({ message: "Invalid email address" })
-    .min(1, { message: "Email is required" }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters long" }),
-});
+export const signUpSchema = z
+  .object({
+    firstName: z.string().min(1, { message: "First name is required" }),
+    lastName: z.string().min(1, { message: "Last name is required" }),
+    email: z
+      .email({ message: "Invalid email address" })
+      .min(1, { message: "Email is required" }),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long" }),
+    confirmPassword: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 export const signInSchema = z.object({
   email: z
@@ -134,35 +130,6 @@ export const changePasswordSchema = z
     path: ["newPassword"], // highlight the field causing the issue
   });
 
-export const createEstimateLineItemSchema = z.object({
-  title: z.string().min(1, "Item Description is required"),
-
-  quantity: z.number().min(0.5, "Quantity must be 0.5 or greater"),
-
-  cost: z.number().min(1, "Cost must be 1 or greater"),
-
-  unitType: z.enum(EstimateLineItemUnitType, {
-    message: `Unknown Unit Type`,
-  }),
-
-  category: z.enum(EstimateLineItemCategory, {
-    message: `Unknown Category`,
-  }),
-});
-
-export const estimateSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-});
-
-export const estimateDiscountSchema = z.object({
-  name: z.string().min(1, "Discount name is required"),
-  rate: z.number().max(100, "Discount rate must be less than 100"),
-});
-export const estimateTaxSchema = z.object({
-  name: z.string().min(1, "Tax name is required"),
-  rate: z.number().max(100, "Tax rate must be less than 100"),
-});
-
 // Type inference
 
 export function validateImageFiles() {
@@ -236,10 +203,3 @@ export type CompanyTradeSchemaType = z.infer<typeof companyTradeSchema>;
 export type PricingSchemaType = z.infer<typeof pricingSchema>;
 export type CreateClientSchemaType = z.infer<typeof createClientSchema>;
 export type ChangePasswordSchemaType = z.infer<typeof changePasswordSchema>;
-export type CreateEstimateLineItemType = z.infer<
-  typeof createEstimateLineItemSchema
->;
-
-export type EstimateSchemaType = z.infer<typeof estimateSchema>;
-export type EstimateTaxSchemaType = z.infer<typeof estimateTaxSchema>;
-export type EstimateDiscountSchemaType = z.infer<typeof estimateDiscountSchema>;

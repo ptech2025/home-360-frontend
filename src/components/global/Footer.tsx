@@ -65,7 +65,7 @@ function Footer() {
         <span className="text-sm text-main-blue">
           &copy; Copyright {new Date().getFullYear()}
         </span>
-        <span className="size-1 rounded-full bg-main-blue"></span>
+        <span className="size-1 rounded-full bg-main-green"></span>
 
         <Link
           href={`/terms`}
@@ -75,7 +75,7 @@ function Footer() {
           Terms
         </Link>
 
-        <span className="size-1 rounded-full bg-main-blue"></span>
+        <span className="size-1 rounded-full bg-main-green"></span>
         <Link
           href={`/privacy-policy`}
           data-state={isActive("/privacy-policy") ? "active" : "inactive"}

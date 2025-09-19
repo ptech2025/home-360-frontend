@@ -5,10 +5,10 @@ import WhySection from "@/components/home/WhySection";
 function HomePage() {
   return (
     <>
-      <HeroSection />
+      {/* <HeroSection />
       <WhySection />
       <FeaturesSection />
-      <FAQs isHome={true} />
+      <FAQs isHome={true} /> */}
     </>
   );
 }

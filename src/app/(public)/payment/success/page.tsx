@@ -14,15 +14,15 @@ function PaymentSuccessfulPage() {
             <h1 className="text-2xl md:text-3xl text-center font-bold font-broke-bold text-main-blue">
               Payment Successful
             </h1>
-            <p className="text-sm max-w-xs md:text-base font-dm text-main-blue/80 font-medium text-center">
+            <p className="text-sm max-w-xs md:text-base font-circular-medium text-main-blue/80 font-medium text-center">
               Thank you for subscribing. A copy of your invoice receipt has been
               sent to your email.
             </p>
             <Button
               asChild
-              className="font-medium font-dm text-base h-11 rounded-4xl text-main-blue w-full max-w-md  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+              className="font-medium font-circular-medium text-base h-11 rounded-4xl text-main-blue w-full max-w-md  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
             >
-              <Link prefetch={true} href={"/dashboard/projects"}>
+              <Link prefetch={true} href={"/dashboard"}>
                 <span>Go to dashboard</span>
                 <ArrowUpRight className="size-5 group-hover:translate-x-1 transition-transform duration-200" />
               </Link>

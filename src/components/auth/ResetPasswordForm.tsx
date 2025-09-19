@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ArrowRight, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import {
   resetPasswordSchema,
   ResetPasswordSchemaType,
@@ -80,8 +80,19 @@ function ResetPasswordForm({ token }: { token: string }) {
         type: "spring",
         stiffness: 100,
       }}
-      className="w-full max-w-[500px] flex gap-8 flex-col p-6 rounded-[1.25rem] border border-[#E6E8EC80] bg-white shadow-sm shadow-darker-grey/10"
+      className="w-full max-w-[500px] flex gap-8 flex-col rounded-[1.25rem]  bg-white "
     >
+      <div className="flex w-full flex-col gap-2">
+        <h1 className="text-black font-circular-bold font-bold text-2xl">
+          {" "}
+          Reset Password
+        </h1>
+        <p className="text-sm text-light-gray">
+          {" "}
+          Enter your new password and confirm it to reset your password.
+        </p>
+      </div>
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -153,14 +164,13 @@ function ResetPasswordForm({ token }: { token: string }) {
           <Button
             size={"lg"}
             disabled={isLoading}
-            className="gap-2 group text-white h-12 w-full font-bold rounded-4xl text-base bg-dark-orange hover:bg-main-blue"
+            className="gap-2 group text-white h-12 w-full font-medium font-circular-medium  text-base bg-main-green border border-transparent hover:border-main-green hover:bg-transparent hover:text-main-green "
           >
             {isLoading ? (
               <Loader2 className="size-5 animate-spin" />
             ) : (
               <>
                 <span>Reset Password</span>
-                <ArrowRight className="size-5 group-hover:translate-x-4 transition-transform duration-200" />
               </>
             )}
           </Button>

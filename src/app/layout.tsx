@@ -1,41 +1,45 @@
 import type { Metadata } from "next";
-import { DM_Sans, DM_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "sonner";
 import "./globals.css";
 import Providers from "./providers";
-const dmSans = DM_Sans({
-  variable: "--font-dm",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
-});
-const dmMono = DM_Mono({
-  variable: "--font-mon",
-  weight: "400",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
-  title: "Quick Estimate AI - Instant Job Estimates",
+  title: {
+    default: "Home360",
+    template: "%s | Home360",
+  },
   description:
-    "Quick Estimate AI helps US jobbers and construction workers generate fast, accurate project estimates via text or voice. Save time, improve accuracy, and win more jobs.",
-  keywords:
-    "Quick Estimate AI, construction estimate software, jobber estimates, AI estimates, US contractors, quick construction quotes, voice estimates, text estimates, fast job quotes, AI contractor tool",
-  metadataBase: new URL("https://www.quickestimate.ai"),
+    "Home360 helps you manage your homes, documents, appliances, maintenance reminders, and service providers in one place.",
+  keywords: [
+    "home management",
+    "property documents",
+    "appliance maintenance",
+    "home reminders",
+    "service providers",
+  ],
+  metadataBase: new URL("https://myhomethreesixty.com"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Quick Estimate AI - Accurate Job Estimates in Seconds",
+    title: "Home360",
     description:
-      "AI-powered tool for US jobbers and construction workers. Create precise project estimates in seconds using text or voice.",
-    url: "https://www.quickestimate.ai",
-    siteName: "Quick Estimate AI",
+      "Easily manage your property details, documents, appliances, and home maintenance with Home360.",
+    url: "https://myhomethreesixty.com",
+    siteName: "Home360",
     images: [
       {
-        url: "https://www.quickestimate.ai/logo.svg",
+        url: "https://myhomethreesixty.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Quick Estimate AI Logo",
+        alt: "Home360 Preview",
       },
     ],
     locale: "en_US",
@@ -43,10 +47,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Quick Estimate AI - Accurate Job Estimates in Seconds",
+    site: "@myhomethreesixty",
+    title: "Home360",
     description:
-      "Generate fast, accurate estimates via text or voice with Quick Estimate AI — built for US jobbers and construction workers.",
-    images: ["https://www.quickestimate.ai/logo.svg"],
+      "Smart home management made simple — documents, appliances, reminders, and more.",
+    images: ["https://myhomethreesixty.com/og-image.png"],
   },
 };
 
@@ -57,20 +62,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
-      <body
-        className={`${dmSans.variable} ${dmMono.variable} antialiased font-dm`}
-      >
+      <body className={`${poppins.variable} antialiased`}>
         <Providers>
-          <NextTopLoader color="#E48B59" showSpinner={false} />
+          <NextTopLoader color="#2d6a4f" showSpinner={false} />
           {children}
 
-          <Toaster
-            position="top-center"
-            richColors
-            toastOptions={{
-              className: "md:min-w-[500px] justify-center  py-4!",
-            }}
-          />
+          <Toaster position="top-center" richColors />
         </Providers>
       </body>
     </html>

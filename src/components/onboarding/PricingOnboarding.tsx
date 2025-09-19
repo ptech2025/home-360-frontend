@@ -11,7 +11,7 @@ function PricingOnboarding() {
             <h1 className="text-2xl text-centers md:text-3xl lg:md:text-4xl font-bold text-main-blue  font-broke-bold">
               Where do you work?
             </h1>
-            <p className="text-base md:text-lg lg:text-xl font-dm text-main-blue/80 font-medium text-center">
+            <p className="text-base md:text-lg lg:text-xl font-circular-medium text-main-blue/80 font-medium text-center">
               We use your location to automatically adjust your proposal prices
               based on local labor and material rates.
             </p>

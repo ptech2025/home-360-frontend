@@ -83,11 +83,11 @@ function ForgotPasswordForm() {
       className="w-full max-w-[500px] flex gap-8 flex-col "
     >
       <div className="flex w-full flex-col gap-2">
-        <h1 className="text-main-blue font-dm font-bold text-2xl">
+        <h1 className="text-black font-circular-bold font-bold text-2xl">
           {" "}
           Forgot Password
         </h1>
-        <p className="text-sm text-main-blue/80">
+        <p className="text-sm text-light-gray">
           {" "}
           Enter your email address and we will send you a link to reset your
           password
@@ -104,7 +104,7 @@ function ForgotPasswordForm() {
             name="email"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="text-main-blue">Email</FormLabel>
+                <FormLabel className="text-black">Email</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Email Address"
@@ -120,7 +120,7 @@ function ForgotPasswordForm() {
           <Button
             size={"lg"}
             disabled={isLoading}
-            className="gap-2 group text-white h-12 w-full font-medium font-dm rounded-4xl text-base bg-dark-orange hover:bg-main-blue"
+            className="gap-2 group text-white h-12 w-full font-medium font-circular-medium  text-base bg-main-green border border-transparent hover:border-main-green hover:bg-transparent hover:text-main-green "
           >
             {isLoading ? (
               <Loader2 className="size-5 animate-spin" />

@@ -40,13 +40,13 @@ function FAQs({ isHome }: { isHome: boolean }) {
     <div
       className={cn(
         "custom-container  md:bg-transparent",
-        isHome ? "bg-white" : "bg-main-blue"
+        isHome ? "bg-white" : "bg-main-green"
       )}
     >
       <div
         className={cn(
           " md:rounded-4xl w-full flex-col flex gap-10 justify-between items-center p-6  md:p-8 lg:p-12 ",
-          isHome ? "bg-transparent" : "bg-main-blue"
+          isHome ? "bg-transparent" : "bg-main-green"
         )}
       >
         <div className="w-full max-w-[770px] flex flex-col gap-8">
@@ -72,7 +72,7 @@ function FAQs({ isHome }: { isHome: boolean }) {
               >
                 <AccordionTrigger
                   className={cn(
-                    "rounded-xl justify-start text-black text-sm font-bold font-dm px-6 py-5.5 border-none data-[state=open]:rounded-b-none",
+                    "rounded-xl justify-start text-black text-sm font-bold font-circular-medium px-6 py-5.5 border-none data-[state=open]:rounded-b-none",
                     isHome ? "bg-[#FAFAFA]" : "bg-white "
                   )}
                 >
@@ -115,7 +115,7 @@ function FAQs({ isHome }: { isHome: boolean }) {
             className={cn(
               "px-5 py-3  hover:shadow-main-blue hover:shadow h-10 items-center justify-center  flex rounded-4xl border border-transparent cursor-pointer text-base font-bold",
               isHome
-                ? "bg-main-blue text-white hover:border-main-blue hover:text-main-blue hover:bg-transparent"
+                ? "bg-main-green text-white hover:border-main-blue hover:text-main-blue hover:bg-transparent"
                 : "bg-white text-main-blue hover:border-white hover:text-white hover:bg-transparent"
             )}
           >

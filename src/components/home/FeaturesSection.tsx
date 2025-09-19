@@ -10,17 +10,17 @@ function FeaturesSection() {
   return (
     <section
       id="features"
-      className="custom-container bg-main-blue  md:bg-transparent scroll-mt-6"
+      className="custom-container bg-main-green  md:bg-transparent scroll-mt-6"
     >
       <div
         className={
-          " md:rounded-4xl bg-main-blue w-full flex-col flex gap-10 justify-between items-center p-6  md:p-8 lg:p-12 "
+          " md:rounded-4xl bg-main-green w-full flex-col flex gap-10 justify-between items-center p-6  md:p-8 lg:p-12 "
         }
       >
         <div className="flex flex-col items-center gap-4">
           <Button
             asChild
-            className="font-medium  font-dm text-base h-11 rounded-4xl text-main-blue w-max  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+            className="font-medium  font-circular-medium text-base h-11 rounded-4xl text-main-blue w-max  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
           >
             <a href="#features">
               <PlayCircleIcon className="size-5 text-dark-orange" />
