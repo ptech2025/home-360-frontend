@@ -13,7 +13,7 @@ import estimatePreviewSvg from "../../../public/images/estimate-preview.svg";
 function WhySection() {
   return (
     <section className="flex custom-container gap-8 flex-col w-full items-center">
-      <h2 className="text-base font-bold text-dark-orange">
+      <h2 className="text-base font-bold text-main-yellow">
         Why QuickEstimate?
       </h2>
 

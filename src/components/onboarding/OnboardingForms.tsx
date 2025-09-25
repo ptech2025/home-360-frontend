@@ -206,7 +206,7 @@ export function OrgOnboardingForm() {
           <Button
             size={"lg"}
             disabled={isLoading}
-            className="gap-2 group text-white h-12 w-full font-medium font-circular-medium rounded-4xl text-base bg-dark-orange hover:bg-main-green"
+            className="gap-2 group text-white h-12 w-full font-medium font-circular-medium rounded-4xl text-base bg-main-yellow hover:bg-main-green"
           >
             {isLoading ? (
               <Loader2 className="size-5 animate-spin" />
@@ -341,7 +341,7 @@ export function TradeOnboardingForm() {
                   <Button
                     type="button"
                     variant="link"
-                    className="text-dark-orange h-11!"
+                    className="text-main-yellow h-11!"
                     onClick={() => setShowTagsInput(true)}
                   >
                     Other
@@ -355,7 +355,7 @@ export function TradeOnboardingForm() {
           <Button
             size={"lg"}
             disabled={isLoading}
-            className="gap-2 group text-white h-12 w-full font-medium font-circular-medium rounded-4xl text-base bg-dark-orange hover:bg-main-green"
+            className="gap-2 group text-white h-12 w-full font-medium font-circular-medium rounded-4xl text-base bg-main-yellow hover:bg-main-green"
           >
             {isLoading ? (
               <Loader2 className="size-5 animate-spin" />
@@ -478,7 +478,7 @@ export function PricingOnboardingForm() {
               <Button
                 size={"lg"}
                 disabled={isLoading}
-                className="gap-2 group rounded-4xl text-white h-12 w-full font-medium font-circular-mediums text-base bg-dark-orange hover:bg-main-green"
+                className="gap-2 group rounded-4xl text-white h-12 w-full font-medium font-circular-mediums text-base bg-main-yellow hover:bg-main-green"
               >
                 {isLoading ? (
                   <Loader2 className="size-5 animate-spin" />

@@ -42,8 +42,8 @@ function SignUpForm() {
     await authClient.signIn.social(
       {
         provider: "google",
-        newUserCallbackURL: `${process.env.NEXT_PUBLIC_URL}/dashboard`,
-        callbackURL: `${process.env.NEXT_PUBLIC_URL}/dashboard`,
+        newUserCallbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
+        callbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
       },
       {
         onRequest: () => {

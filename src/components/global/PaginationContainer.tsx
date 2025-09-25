@@ -49,7 +49,7 @@ function PaginationContainer({
         size="icon"
         className={`border-sidebar-border transition-all duration-300 ${
           activeClass
-            ? "bg-dark-orange text-white"
+            ? "bg-main-yellow text-white"
             : "text-main-blue bg-transparent"
         }`}
         variant={activeClass ? "default" : "outline"}

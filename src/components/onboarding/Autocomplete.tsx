@@ -123,7 +123,7 @@ export default function Autocomplete({
         {/* Loading */}
         {isLoading && isFocused && (
           <div className="mt-2 p-2 bg-background border rounded-md min-h-35 flex items-center justify-center shadow-sm absolute z-10 w-full">
-            <Loader2 className="animate-spin text-dark-orange" />
+            <Loader2 className="animate-spin text-main-yellow" />
           </div>
         )}
 
@@ -166,7 +166,7 @@ export default function Autocomplete({
             </p>
             <Button
               type="button"
-              className="h-12 w-full hover:bg-main-green bg-dark-orange rounded-4xl max-w-[12rem]"
+              className="h-12 w-full hover:bg-main-green bg-main-yellow rounded-4xl max-w-[12rem]"
               onClick={handleAutoSelect}
               disabled={isAllowAccessLoading}
               size="lg"

@@ -28,7 +28,7 @@ function OnboardingSteps({ currentStep }: { currentStep: number }) {
           return (
             <div
               data-state={getStatus(step.number)}
-              className="flex group  data-[state=pending]:text-main-blue/80 data-[state=complete]:text-dark-orange gap-4 items-center"
+              className="flex group  data-[state=pending]:text-main-blue/80 data-[state=complete]:text-main-yellow gap-4 items-center"
               key={index}
             >
               <div className="flex gap-1 items-center">
@@ -36,7 +36,7 @@ function OnboardingSteps({ currentStep }: { currentStep: number }) {
                   className={cn(
                     "border rounded-full size-5",
                     getStatus(step.number) === "complete"
-                      ? "bg-dark-orange/10 text-dark-orange border-dark-orange/10"
+                      ? "bg-main-yellow/10 text-main-yellow border-main-yellow/10"
                       : "bg-main-green/10 text-main-blue/80 border-main-blue/10"
                   )}
                 >
@@ -47,7 +47,7 @@ function OnboardingSteps({ currentStep }: { currentStep: number }) {
                   className={cn(
                     " text-xs md:text-sm transition-colors duration-200",
                     getStatus(step.number) === "complete"
-                      ? "text-dark-orange font-semibold"
+                      ? "text-main-yellow font-semibold"
                       : "text-main-blue/80 font-medium"
                   )}
                 >
@@ -65,21 +65,21 @@ function OnboardingSteps({ currentStep }: { currentStep: number }) {
           return (
             <div
               data-state={getStatus(step.number)}
-              className="flex before:content-[''] before:z-10  before:absolute data-[state=pending]:before:-left-1 data-[state=complete]:before:-left-1.5 before:top-1/2 before:-translate-y-1/2 data-[state=pending]:before:size-2 data-[state=complete]:before:size-3  data-[state=complete]:before:bg-dark-orange data-[state=pending]:before:bg-main-green before:rounded-full pl-3 relative border-l data-[state=pending]:border-main-blue/80 data-[state=complete]:border-dark-orange h-15 w-full font-circular-medium justify-between gap-2 items-center"
+              className="flex before:content-[''] before:z-10  before:absolute data-[state=pending]:before:-left-1 data-[state=complete]:before:-left-1.5 before:top-1/2 before:-translate-y-1/2 data-[state=pending]:before:size-2 data-[state=complete]:before:size-3  data-[state=complete]:before:bg-main-yellow data-[state=pending]:before:bg-main-green before:rounded-full pl-3 relative border-l data-[state=pending]:border-main-blue/80 data-[state=complete]:border-main-yellow h-15 w-full font-circular-medium justify-between gap-2 items-center"
               key={index}
             >
               <span
                 className={cn(
                   " text-xs md:text-sm transition-colors duration-200",
                   getStatus(step.number) === "complete"
-                    ? "text-dark-orange font-semibold"
+                    ? "text-main-yellow font-semibold"
                     : "text-main-blue/80 font-medium"
                 )}
               >
                 {step.label}
               </span>
               {currentStep === step.number && (
-                <Badge className="text-dark-orange bg-dark-orange/10">
+                <Badge className="text-main-yellow bg-main-yellow/10">
                   {step.number} out of {steps.length}
                 </Badge>
               )}

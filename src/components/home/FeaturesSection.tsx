@@ -23,7 +23,7 @@ function FeaturesSection() {
             className="font-medium  font-circular-medium text-base h-11 rounded-4xl text-main-blue w-max  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
           >
             <a href="#features">
-              <PlayCircleIcon className="size-5 text-dark-orange" />
+              <PlayCircleIcon className="size-5 text-main-yellow" />
 
               <span>Watch Video</span>
             </a>

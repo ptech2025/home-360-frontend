@@ -62,14 +62,14 @@ export function UploadCompanyLogoInput({
           />
         </div>
       ) : isDragging ? (
-        <span className="text-dark-orange text-sm">Drop here</span>
+        <span className="text-main-yellow text-sm">Drop here</span>
       ) : (
         <>
           <div className="rounded-md size-10 p-1 justify-center items-center flex border border-input ">
             <CloudUpload className="size-5 text-main-blue/80" />
           </div>
           <p className="text-main-blue/80 text-sm">
-            <span className="text-dark-orange">Choose file</span>{" "}
+            <span className="text-main-yellow">Choose file</span>{" "}
             <span>Or drag and drop</span>
           </p>
         </>
@@ -131,7 +131,7 @@ export function MarkupPercentInput({
         <Button
           type="button"
           onClick={() => setMarkupPercent(0)}
-          className="text-dark-orange"
+          className="text-main-yellow"
           variant={"link"}
         >
           Use AI’s Suggested Estimate
@@ -205,7 +205,7 @@ export function AutoLocationSelectionInput({
       </p>
       <Button
         type="button"
-        className="h-12 w-full hover:bg-main-green bg-dark-orange"
+        className="h-12 w-full hover:bg-main-green bg-main-yellow"
         onClick={handleAutoSelect}
         disabled={isLoading}
         size="lg"
@@ -221,7 +221,7 @@ export function AutoLocationSelectionInput({
         <DialogTrigger asChild>
           <Button
             type="button"
-            className="h-12 w-full hover:bg-dark-orange/50 bg-dark-orange/10 text-dark-orange border border-dark-orange"
+            className="h-12 w-full hover:bg-main-yellow/50 bg-main-yellow/10 text-main-yellow border border-main-yellow"
             disabled={isLoading}
             size="lg"
           >

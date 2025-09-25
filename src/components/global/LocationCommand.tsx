@@ -87,7 +87,7 @@ function LocationCommand({
         {isLoading && (
           <CommandLoading>
             <div className="p-2 text-sm justify-center items-center flex text-muted-foreground">
-              <Loader2 className="animate-spin text-dark-orange" />
+              <Loader2 className="animate-spin text-main-yellow" />
             </div>
           </CommandLoading>
         )}

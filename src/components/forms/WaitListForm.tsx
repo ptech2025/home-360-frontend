@@ -134,7 +134,7 @@ function WaitListForm() {
           <Button
             size={"lg"}
             disabled={isLoading}
-            className="gap-2 group outline-solid outline-1  outline-offset-5 outline-[#D7E3ED] hover:bg-main-green transition-colors rounded-[4.5rem] text-white h-12 w-full font-bold text-base bg-dark-orange"
+            className="gap-2 group outline-solid outline-1  outline-offset-5 outline-[#D7E3ED] hover:bg-main-green transition-colors rounded-[4.5rem] text-white h-12 w-full font-bold text-base bg-main-yellow"
           >
             {isLoading ? (
               <Loader2 className="size-5 animate-spin" />

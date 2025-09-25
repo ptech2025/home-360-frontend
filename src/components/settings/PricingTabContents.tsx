@@ -35,7 +35,7 @@ export const DisplayCurrentPlan = ({ user }: { user: AuthUserType }) => {
             <span className="text-sm text-main-blue font-medium font-circular-medium">
               Current Plan
             </span>
-            <h4 className="text-xl md:text-2xl font-semibold font-circular-medium text-dark-orange">
+            <h4 className="text-xl md:text-2xl font-semibold font-circular-medium text-main-yellow">
               {user.subscription ? user.subscription.plan.name : "Free Trial"}
             </h4>
             <p className="text-main-blue/80 text-xs">
@@ -51,7 +51,7 @@ export const DisplayCurrentPlan = ({ user }: { user: AuthUserType }) => {
             <Link href="/pricing">Upgrade or Change Plan</Link>
           </Button>
         </div>
-        <h5 className="font-semibold font-broke-semi text-dark-orange text-xl md:text-2xl">
+        <h5 className="font-semibold font-broke-semi text-main-yellow text-xl md:text-2xl">
           {subscription ? (
             <>
               ${subscription.plan.price}/{subscription.plan.interval}

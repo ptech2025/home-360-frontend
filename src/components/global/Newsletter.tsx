@@ -5,7 +5,7 @@ function Newsletter() {
     <div className="flex custom-container flex-col justify-center items-center gap-10 w-full">
       <div className="flex flex-col gap-1 justify-center items-center">
         <h4 className="text-3xl text-center md:text-[2.5rem] font-bold font-broke-bold text-main-blue">
-          QuickEstimate.<span className="text-dark-orange">ai</span>
+          QuickEstimate.<span className="text-main-yellow">ai</span>
         </h4>
         <span className="text-main-blue/80 text-sm text-center">
           Talk your bid. Close your job
