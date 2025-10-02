@@ -67,6 +67,8 @@ function SignUpForm() {
         name: `${values.firstName} ${values.lastName}`,
         password: values.password,
         image: `https://ui-avatars.com/api/?size=60&background=2d6a4f&color=fff&rounded=true&name=${values.firstName}+${values.lastName}`,
+
+        callbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
       },
       {
         onRequest: () => {

@@ -27,9 +27,9 @@ export function LogoSvg({ className }: { className?: string }) {
   );
 }
 
-export function LogoWithText() {
+export function LogoWithText({ className }: { className?: string }) {
   return (
-    <div className="flex relative gap-2 items-end">
+    <div className={`flex relative w-max gap-2 items-end ${className}`}>
       <LogoSvg />
       <p className="text-lg font-black font-circular-black text-main-green">
         <span>Home</span>

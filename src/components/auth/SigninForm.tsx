@@ -93,6 +93,7 @@ function SignInForm() {
     await authClient.sendVerificationEmail(
       {
         email,
+        callbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
       },
       {
         onRequest: () => {

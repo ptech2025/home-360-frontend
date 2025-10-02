@@ -12,7 +12,7 @@ type Props = {
   // name: string;
   // userId: string;
 };
-function OnboardingWrapper({  }: Props) {
+function OnboardingWrapper({}: Props) {
   const { currentPage, setCurrentPage } = useOnboardingStore();
   // useEffect(() => {
   //   if (!profile) {
@@ -25,12 +25,6 @@ function OnboardingWrapper({  }: Props) {
   //     setCurrentPage(4);
   //   }
   // }, [profile]);
-  return (
-    <section className="custom-container min-h-dvh">
-      {currentPage === 1 && <OrgOnboarding />}
-      {currentPage === 2 && <TradeOnboarding />}
-      {currentPage === 3 && <PricingOnboarding />}
-    </section>
-  );
+  return <section className="custom-container min-h-dvh"></section>;
 }
 export default OnboardingWrapper;
