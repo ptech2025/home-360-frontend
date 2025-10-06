@@ -20,6 +20,9 @@ export const userMutations = {
   addToWaitList: mutationResult((variables: { email: string }) =>
     userService.saveToWaitList(variables)
   ),
+  removeFromWaitList: mutationResult((email: string) =>
+    userService.unSubscribeFromWaitList(email)
+  ),
 
   // server-only variant
   withCookies: (cookies: string) => ({}),
