@@ -5,6 +5,7 @@ import { Search } from "lucide-react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useDebounce } from "use-debounce";
 import { useQueryClient } from "@tanstack/react-query";
+import { Route } from "next";
 
 type Props = {
   searchKey: string;
@@ -50,21 +51,22 @@ function SearchBar({ searchKey, placeHolder }: Props) {
     });
 
     const search = new URLSearchParams(queryParams).toString();
-    push(`${pathname}?${search}`, { scroll: false });
+    push(`${pathname}?${search}` as Route, { scroll: false });
 
+    // eslint-disable-next-line
   }, [debouncedSearchVal, pathname, push, searchKey, searchParams]);
 
   return (
     <div className="group transition-colors  duration-200 focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px] border-sidebar-border relative flex h-full flex-1 items-center gap-2 rounded-lg border bg-transparent px-4 py-2.5 ">
       <button type="button" className="flex h-full items-center justify-center">
-        <Search className="size-5 shrink-0 cursor-pointer transition-all text-main-blue " />
+        <Search className="size-5 shrink-0 cursor-pointer transition-all text-black " />
       </button>
       <input
         type="search"
         name={searchKey}
         value={searchVal}
         onChange={handleSearchChange}
-        className="!m-0 w-full flex-grow border-0 text-sm !p-0 outline-none text-main-blue"
+        className="!m-0 w-full flex-grow border-0 text-sm !p-0 outline-none text-black"
         placeholder={placeHolder}
       />
     </div>

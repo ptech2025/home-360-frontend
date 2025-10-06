@@ -1,5 +1,7 @@
 import { SessionType } from "@/lib/auth-client";
+import { Route } from "next";
 import { JSX } from "react";
+import { Home } from "./home";
 export type ProfileType = {
   id: string;
   companyName: string;
@@ -15,6 +17,7 @@ export type ProfileType = {
 export type AuthUserType = SessionType["user"] & {
   profile: ProfileType | null;
   subscription: UserSubscription | null;
+  homes: Home[];
 };
 
 export type UserSubscription = {
@@ -33,17 +36,13 @@ export type PlaceSuggestion = {
   placeId: string;
 };
 
-export type UserRole = "user" | "admin";
+export type UserRole = "single_home_owner" | "multiple_home_owner" | "admin";
 
 export interface DashboardLink {
   icon: JSX.Element;
   title: string;
-  url: string;
+  url: Route;
   access: UserRole[];
-  items?: {
-    title: string;
-    url: string;
-  }[];
 }
 
 export interface Subscription {

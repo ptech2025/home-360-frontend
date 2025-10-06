@@ -1,111 +1,18 @@
-import { API_URL } from "@/utils/constants";
-import {
-  CompanyTradeSchemaType,
-  ContactFormSchemaType,
-  OrgInfoSchemaType,
-  PricingSchemaType,
-} from "@/types/zod-schemas";
-import axios from "axios";
-import { AuthUserType, PlaceSuggestion } from "@/types";
+import { api, withAuthHeaders } from "@/lib/axios-client";
 
-export const fetchUserClient = async () => {
-  try {
-    const res: { data: { user: AuthUserType } } = await axios.get(
-      `${API_URL}/api/auth/get-session`,
-      {
-        withCredentials: true,
-      }
-    );
-
-    const user = res.data.user;
-
-    return user;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-};
-
-export const validateUserLocation = async ({
-  latitude,
-  longitude,
-}: {
-  latitude: number;
-  longitude: number;
-}) => {
-  const res: { data: { address: string; isInUSA: boolean } } = await axios.post(
-    `${API_URL}/api/user/validate-location`,
-    { latitude, longitude },
-    {
-      withCredentials: true,
-    }
-  );
-
-  return res.data;
-};
-
-export const saveOrgOnboardingInfo = async (data: OrgInfoSchemaType) => {
-  const formData = new FormData();
-
-  if (data.companyLogo) {
-    formData.append("file", data.companyLogo);
-  }
-
-  Object.entries(data).forEach(([key, value]) => {
-    if (key !== "companyLogo" && value !== undefined && value !== null) {
-      formData.append(key, String(value));
-    }
-  });
-
-  return await axios.patch(
-    `${API_URL}/api/user/organisation-onboarding`,
-    formData,
-    {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  );
-};
-
-export const saveTradeOnboardingInfo = async (data: CompanyTradeSchemaType) => {
-  return await axios.patch(`${API_URL}/api/user/trading-onboarding`, data, {
-    withCredentials: true,
-  });
-};
-export const savePricingOnboardingInfo = async (data: PricingSchemaType) => {
-  return await axios.patch(`${API_URL}/api/user/complete-onboarding`, data, {
-    withCredentials: true,
-  });
-};
-
-export const fetchPlaces = async ({
-  query,
-  usOnly = true,
-}: {
-  query: string;
-  usOnly?: boolean;
-}): Promise<PlaceSuggestion[]> => {
-  const res: { data: { suggestions: PlaceSuggestion[] } } = await axios.get(
-    `${API_URL}/api/user/places`,
-    {
-      params: { query, usOnly },
-      withCredentials: true,
-    }
-  );
-
-  if (res.data.suggestions.length === 0) return [];
-
-  return res.data.suggestions.map((s) => ({
-    description: s.description.trim(),
-    placeId: s.placeId,
-  }));
-};
-
-
-export const contactAdmin = async (data: ContactFormSchemaType) => {
-  return await axios.post(`${API_URL}/api/contact`, data, {
-    withCredentials: true,
-  });
+export const userService = {
+  getAll: async (cookies?: string) => {
+    const res = await api.get("/users", withAuthHeaders(cookies));
+    return res.data as { id: string; name: string }[];
+  },
+  getById: async (id: string, cookies?: string) => {
+    const res = await api.get(`/users/${id}`, withAuthHeaders(cookies));
+    return res.data as { id: string; name: string };
+  },
+  saveToWaitList: async (data: { email: string }) => {
+    await api.post(`/api/waitlist`, data);
+  },
+  unSubscribeFromWaitList: async (data: { email: string }) => {
+    await api.patch(`/api/waitlist/unsubscribe`, data);
+  },
 };

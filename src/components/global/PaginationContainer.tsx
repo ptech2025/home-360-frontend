@@ -1,6 +1,7 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Route } from "next";
 
 type PaginationContainerProps = {
   currentPage: number;
@@ -38,7 +39,7 @@ function PaginationContainer({
     );
 
     const search = new URLSearchParams(queryParams).toString();
-    push(`${pathname}?${search}`, { scroll: false });
+    push(`${pathname}?${search}` as Route, { scroll: false });
   };
 
   const addPageButton = ({ page, activeClass }: ButtonProps) => {
@@ -48,8 +49,8 @@ function PaginationContainer({
         size="icon"
         className={`border-sidebar-border transition-all duration-300 ${
           activeClass
-            ? "bg-dark-orange text-white"
-            : "text-main-blue bg-transparent"
+            ? "bg-main-yellow text-white"
+            : "text-black bg-transparent"
         }`}
         variant={activeClass ? "default" : "outline"}
         onClick={() => handlePageChange(page)}

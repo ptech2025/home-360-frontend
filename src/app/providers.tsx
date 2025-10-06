@@ -1,19 +1,36 @@
 "use client";
 
+import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import {
   isServer,
   QueryClient,
   QueryClientProvider,
+  QueryCache,
+  MutationCache,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { toast } from "sonner";
 
+const globalErrorHandler = (error: unknown) => {
+  if (typeof window !== "undefined") {
+    const msg = renderAxiosOrAuthError(error);
+    toast.error(msg);
+  }
+};
 function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
         staleTime: 60 * 1000,
+        retry: 1,
       },
     },
+    queryCache: new QueryCache({
+      onError: globalErrorHandler,
+    }),
+    mutationCache: new MutationCache({
+      onError: globalErrorHandler,
+    }),
   });
 }
 

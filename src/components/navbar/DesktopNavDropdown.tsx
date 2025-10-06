@@ -19,7 +19,7 @@ function DesktopNavDropdown() {
         <div className="flex items-center gap-3">
           <Button
             asChild
-            className="font-medium font-dm text-base h-11 rounded-4xl text-main-blue lg:flex hidden px-4 bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+            className="font-medium font-circular-medium text-base h-11 rounded-4xl text-main-green lg:flex hidden px-4 bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-green group"
           >
             <Link prefetch={true} href={"/sign-in"}>
               <span>Sign in</span>
@@ -27,7 +27,7 @@ function DesktopNavDropdown() {
           </Button>{" "}
           <Button
             asChild
-            className="font-medium font-dm text-base text-white h-11 rounded-4xl lg:flex hidden px-4! bg-main-blue hover:border-main-blue border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+            className="font-medium font-circular-medium text-base text-white h-11 rounded-4xl lg:flex hidden px-4! bg-main-green hover:border-black border border-transparent transition-colors hover:bg-white hover:text-main-green group"
           >
             <Link prefetch={true} href={"/sign-up"}>
               <span>Get started</span>
@@ -57,16 +57,16 @@ function DesktopNavDropdown() {
                 prefetch={true}
                 data-state={"inactive"}
                 className={
-                  "inline-block w-full p-4 text-end border-b border-lighter-grey data-[state=active]:text-main-blue hover:data-[state=inactive]:text-main-blue/80 data-[state=inactive]:text-[#838E9E] cursor-pointer justify-center text-base font-medium   transition-colors"
+                  "inline-block w-full p-4 text-end border-b border-lighter-grey data-[state=active]:text-main-green hover:data-[state=inactive]:text-main-green/80 data-[state=inactive]:text-[#838E9E] cursor-pointer justify-center text-base font-medium   transition-colors"
                 }
-                href={"/dashboard/projects"}
+                href={"/dashboard"}
               >
                 Dashboard
               </Link>
             </DropdownMenuItem>
 
             <DropdownMenuItem className="p-0 rounded-none">
-              <SignOutLink className="inline-block w-full p-4 text-end border-b border-lighter-grey text-[#838E9E] hover:text-main-blue/80 cursor-pointer justify-center text-base font-medium   transition-colors" />
+              <SignOutLink className="inline-block w-full p-4 text-end border-b border-lighter-grey text-[#838E9E] hover:text-main-green/80 cursor-pointer justify-center text-base font-medium   transition-colors" />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

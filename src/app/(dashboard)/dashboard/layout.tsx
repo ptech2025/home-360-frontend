@@ -1,7 +1,5 @@
-import AllChatSessionsSheet from "@/components/chat/AllChatSessionsSheet";
-import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { fetchUserSessionsServer, fetchUserServer } from "@/lib/actions";
+import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
+import { fetchUserServer } from "@/lib/actions";
 import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
@@ -9,21 +7,21 @@ export default async function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const user = await fetchUserServer();
-  // const sessions = await fetchUserSessionsServer();
+  const user = await fetchUserServer();
 
-  // if (!user) {
-  //   redirect("/sign-in");
-  // }
+
+
+  if (!user) {
+    redirect("/sign-in");
+  }
   // if (!user.isOnboarded || !user.hasProjects) {
   //   redirect("/onboarding");
   // }
 
   return (
-    <SidebarProvider>
-      {/* <DashboardSidebar user={user} />
-      <AllChatSessionsSheet sessions={sessions} />
-      <main className="px-2  w-full bg-white">{children}</main> */}
-    </SidebarProvider>
+    <>
+      <DashboardNavbar user={user} />
+      <main className="min-h-svh max-w-[1800px] mx-auto px-4 md:px-6 lg:px-8 py-4  w-full">{children}</main>;
+    </>
   );
 }

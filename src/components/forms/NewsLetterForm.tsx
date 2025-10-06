@@ -65,7 +65,7 @@ function NewsLetterForm() {
                 <FormControl>
                   <Input
                     placeholder="Enter your email address"
-                    className="h-11 bg-white border-[#E9EAEB] text-main-blue"
+                    className="h-11 bg-white border-[#E9EAEB] text-black"
                     {...field}
                   />
                 </FormControl>
@@ -73,9 +73,9 @@ function NewsLetterForm() {
               </FormItem>
             )}
           />{" "}
-          <span className="text-xs text-main-blue">
+          <span className="text-xs text-black">
             We protect your data in our{" "}
-            <Link href={`/privacy-policy`} className="italic underline">
+            <Link href={`/#`} className="italic underline">
               privacy policy
             </Link>
           </span>
@@ -83,7 +83,7 @@ function NewsLetterForm() {
         <Button
           size={"lg"}
           disabled={isLoading}
-          className="gap-2 group h-10   border hover:border-main-blue hover:bg-transparent hover:text-main-blue bg-main-blue transition-colors rounded-4xl text-white  w-full font-bold text-sm"
+          className="gap-2 group h-10   border hover:border-black hover:bg-transparent hover:text-black bg-main-green transition-colors rounded-4xl text-white  w-full font-bold text-sm"
         >
           {isLoading ? (
             <Loader2 className="size-5 animate-spin" />

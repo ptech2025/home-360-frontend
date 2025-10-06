@@ -50,7 +50,6 @@ function SignInForm() {
           setIsGoogleLoading(true);
         },
         onError: (ctx) => {
-          console.log(ctx);
           toast.error(
             ctx.error.message ?? "Something went wrong, try again later."
           );
@@ -71,11 +70,12 @@ function SignInForm() {
         onRequest: () => {
           setIsLoading(true);
         },
-        onSuccess: async () => {
+
+        onSuccess: async (ctx) => {
+          console.log(ctx);
           toast.success("Signed in successfully.");
         },
         onError: (ctx) => {
-          console.log(ctx);
           if (ctx.error.code === "EMAIL_NOT_VERIFIED") {
             handleManualVerifyEmailSend(values.email);
           } else {
@@ -93,6 +93,7 @@ function SignInForm() {
     await authClient.sendVerificationEmail(
       {
         email,
+        callbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
       },
       {
         onRequest: () => {
@@ -117,24 +118,14 @@ function SignInForm() {
     return <EmailVerificationSent setShowVerifyEmail={setShowVerifyEmail} />;
 
   return (
-    <div className="flex flex-col w-full items-center justify-center gap-6">
-      <div className="w-full grid grid-cols-2 max-w-[360px] h-12  items-center justify-center bg-main-blue/20 p-1 rounded-md">
-        <Button
-          type="button"
-          data-state="inactive"
-          asChild
-          className="h-full w-full data-[state=inactive]:border-0 data-[state=inactive]:shadow-none data-[state=inactive]:bg-transparent data-[state=inactive]:text-main-blue/80 data-[state=active]:bg-main-blue data-[state=active]:text-white"
-        >
-          <Link href={"/sign-up"}>Create an Account</Link>
-        </Button>{" "}
-        <Button
-          type="button"
-          data-state="active"
-          asChild
-          className="h-full w-full data-[state=inactive]:border-0 data-[state=inactive]:shadow-none data-[state=inactive]:bg-transparent data-[state=inactive]:text-main-blue/80 data-[state=active]:bg-main-blue data-[state=active]:text-white"
-        >
-          <Link href={"/sign-in"}>Sign in</Link>
-        </Button>
+    <div className="flex flex-col max-w-[500px]  w-full items-center justify-center gap-6">
+      <div className="flex flex-col gap-3 w-full">
+        <h1 className="text-black font-circular-medium text-2xl font-bold">
+          Welcome Back to HOME360
+        </h1>
+        <p className="text-base md:text-lg font-circular-regular font-normal text-light-gray">
+          Access your homes, documents, and reminders anytime, anywhere.
+        </p>
       </div>
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
@@ -157,7 +148,7 @@ function SignInForm() {
               name="email"
               render={({ field }) => (
                 <FormItem className="w-full relative">
-                  <FormLabel className="text-main-blue">Email</FormLabel>
+                  <FormLabel className="text-black">Email</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Email Address"
@@ -167,7 +158,7 @@ function SignInForm() {
                   </FormControl>
                   <FormMessage className="text-xs" />
                   {lastMethod && lastMethod === "email" && (
-                    <div className="bg-main-blue  text-white text-center rounded-b-xs text-xs px-2 py-1 absolute -bottom-6 right-0">
+                    <div className="bg-main-green  text-white text-center rounded-b-xs text-xs px-2 py-1 absolute -bottom-6 right-0">
                       Last used
                     </div>
                   )}
@@ -179,7 +170,7 @@ function SignInForm() {
               name="password"
               render={({ field }) => (
                 <FormItem className="flex  flex-col items-start justify-start w-full gap-2">
-                  <FormLabel className="text-main-blue">Password</FormLabel>
+                  <FormLabel className="text-black">Password</FormLabel>
                   <FormControl>
                     <div className="w-full m-0! aria-invalid:border-destructive focus-within:ring-[3px] focus-within:ring-ring/50 focus-within:border-ring aria-invalid:ring-destructive/20 flex items-center justify-between   rounded-md h-11 px-3 py-1  outline-0 border border-input ">
                       <input
@@ -194,9 +185,9 @@ function SignInForm() {
                         className="shrink-0 flex items-center justify-center"
                       >
                         {showPassword ? (
-                          <EyeOff className="size-[1rem] text-main-blue" />
+                          <EyeOff className="size-[1rem] text-black" />
                         ) : (
-                          <Eye className="size-[1rem] text-main-blue" />
+                          <Eye className="size-[1rem] text-black" />
                         )}
                       </button>
                     </div>
@@ -204,7 +195,7 @@ function SignInForm() {
                   <div className="flex justify-between items-center w-full">
                     <FormMessage className="text-xs " />
                     <Link
-                      className=" capitalize ml-auto text-main-blue/80 hover:underline text-xs underline-offset-2"
+                      className=" capitalize ml-auto text-light-gray italic hover:underline text-xs underline-offset-2"
                       href="/forgot-password"
                     >
                       forgot password?
@@ -217,7 +208,7 @@ function SignInForm() {
             <Button
               size={"lg"}
               disabled={isLoading || isGoogleLoading}
-              className="gap-2 group text-white h-12 w-full font-medium font-dm rounded-4xl text-base bg-dark-orange hover:bg-main-blue"
+              className="gap-2 group text-white h-12 w-full font-medium font-circular-medium  text-base bg-main-green border border-transparent hover:border-main-green hover:bg-transparent hover:text-main-green "
             >
               {isLoading ? (
                 <Loader2 className="size-5 animate-spin" />
@@ -227,35 +218,42 @@ function SignInForm() {
                 </>
               )}
             </Button>
-            <div className="flex items-center gap-4 justify-between w-full text-main-blue/80 text-base">
-              <span className="h-px bg-main-blue/50 flex-grow"></span>
+            <div className="flex items-center gap-4 justify-between w-full text-black/80 text-base">
+              <span className="h-px bg-light-gray flex-grow"></span>
               <span>OR</span>
-              <span className="h-px bg-main-blue/50 flex-grow"></span>
+              <span className="h-px bg-light-gray flex-grow"></span>
             </div>
             <Button
               type="button"
               size={"lg"}
               onClick={signInWithGoogle}
               disabled={isLoading || isGoogleLoading}
-              className="gap-2 group relative text-black h-12 w-full font-medium font-dm text-base bg-white hover:bg-main-blue/20 border border-main-blues"
+              className="gap-2 relative group text-black hover:bg-transparent h-12 w-full font-medium font-circular-medium text-base border border-light-gray bg-white hover:shadow-sm "
             >
               {isGoogleLoading ? (
                 <Loader2 className="size-5 animate-spin" />
               ) : (
                 <>
-                  <GoogleIcon className="size-5" />
                   <span>Continue with Google</span>
+                  <GoogleIcon className="size-5" />
                 </>
               )}
 
               {lastMethod && lastMethod === "google" && (
-                <div className="bg-main-blue  text-white text-center rounded-b-xs text-xs px-2 py-1 absolute -bottom-6 right-0">
+                <div className="bg-main-green  text-white text-center rounded-b-xs text-xs px-2 py-1 absolute -bottom-6 right-0">
                   Last used
                 </div>
               )}
             </Button>
           </form>
         </Form>
+        <p className="text-xs max-w-[300px] text-center text-balance text-light-gray">
+          New User?
+          <Link href="/sign-up" className="underline text-main-green">
+            {" "}
+            Create an Account
+          </Link>
+        </p>
       </motion.div>
     </div>
   );

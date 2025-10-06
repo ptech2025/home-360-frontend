@@ -1,28 +1,24 @@
 import { z } from "zod";
 import { fromError } from "zod-validation-error";
-import {
-  EstimateLineItemCategory,
-  EstimateLineItemUnitType,
-} from "./message-schema";
 
-export const unitTypeValues = Object.values(EstimateLineItemUnitType).filter(
-  (v): v is EstimateLineItemUnitType => typeof v === "string"
-);
-
-export const categoryValues = Object.values(EstimateLineItemCategory).filter(
-  (v): v is EstimateLineItemCategory => typeof v === "string"
-);
-
-export const signUpSchema = z.object({
-  firstName: z.string().min(1, { message: "First name is required" }),
-  lastName: z.string().min(1, { message: "Last name is required" }),
-  email: z
-    .email({ message: "Invalid email address" })
-    .min(1, { message: "Email is required" }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters long" }),
-});
+export const signUpSchema = z
+  .object({
+    firstName: z.string().min(1, { message: "First name is required" }),
+    lastName: z.string().min(1, { message: "Last name is required" }),
+    email: z
+      .email({ message: "Invalid email address" })
+      .min(1, { message: "Email is required" }),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long" }),
+    confirmPassword: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 export const signInSchema = z.object({
   email: z
@@ -80,44 +76,6 @@ export const waitListSchema = z.object({
   trade: z.string().optional(),
 });
 
-export const orgInfoSchema = z.object({
-  companyName: z.string().min(1, { message: "Business Name is required" }),
-  phoneNumber: z
-    .string()
-    .min(12, { message: "Please enter a valid US phone number" }),
-  license: z.string().optional(),
-  companyLogo: validateImageFile().optional(),
-});
-
-export const companyTradeSchema = z.object({
-  companyTrade: z
-    .array(z.string())
-    .min(1, { message: "At least one trade is required" }),
-});
-
-export const pricingSchema = z.object({
-  location: z.string().min(5, { message: "Location is required" }),
-});
-
-export const createClientSchema = z.object({
-  name: z.string().min(3, { message: "Client name is required" }),
-  email: z.email({ message: "Invalid email address" }),
-  phone: z.string().optional(),
-  address: z.string().optional(),
-});
-
-export const personalInfoSchema = z.object({
-  firstName: z.string().min(1, { message: "First Name is required" }),
-  lastName: z.string().min(1, { message: "Last Name is required" }),
-  image: validateImageFile().optional(),
-});
-
-export const companyInfoSchema = z.object({
-  ...orgInfoSchema.shape,
-  ...companyTradeSchema.shape,
-  ...pricingSchema.shape,
-});
-
 export const changePasswordSchema = z
   .object({
     ...resetPasswordSchema.shape,
@@ -134,36 +92,17 @@ export const changePasswordSchema = z
     path: ["newPassword"], // highlight the field causing the issue
   });
 
-export const createEstimateLineItemSchema = z.object({
-  title: z.string().min(1, "Item Description is required"),
-
-  quantity: z.number().min(0.5, "Quantity must be 0.5 or greater"),
-
-  cost: z.number().min(1, "Cost must be 1 or greater"),
-
-  unitType: z.enum(EstimateLineItemUnitType, {
-    message: `Unknown Unit Type`,
-  }),
-
-  category: z.enum(EstimateLineItemCategory, {
-    message: `Unknown Category`,
-  }),
+export const personalInfoSchema = z.object({
+  firstName: z.string().min(1, { message: "First Name is required" }),
+  lastName: z.string().min(1, { message: "Last Name is required" }),
+  image: validateImageFile().optional(),
 });
 
-export const estimateSchema = z.object({
-  title: z.string().min(1, "Title is required"),
+export const createHomeSchema = z.object({
+  address: z.string().min(1, { message: "Address is required" }),
+  city: z.string().min(1, { message: "City is required" }),
+  state: z.string().min(3, { message: "State must be atleast 3 characters" }),
 });
-
-export const estimateDiscountSchema = z.object({
-  name: z.string().min(1, "Discount name is required"),
-  rate: z.number().max(100, "Discount rate must be less than 100"),
-});
-export const estimateTaxSchema = z.object({
-  name: z.string().min(1, "Tax name is required"),
-  rate: z.number().max(100, "Tax rate must be less than 100"),
-});
-
-// Type inference
 
 export function validateImageFiles() {
   const maxUploadSize = 2 * 1024 * 1024; // 2MB
@@ -229,17 +168,6 @@ export type ResetPasswordSchemaType = z.infer<typeof resetPasswordSchema>;
 export type ForgotPasswordSchemaType = z.infer<typeof forgotPasswordSchema>;
 export type ContactFormSchemaType = z.infer<typeof contactFormSchema>;
 export type WaitListSchemaType = z.infer<typeof waitListSchema>;
-export type PersonalInfoSchemaType = z.infer<typeof personalInfoSchema>;
-export type CompanyInfoSchemaType = z.infer<typeof companyInfoSchema>;
-export type OrgInfoSchemaType = z.infer<typeof orgInfoSchema>;
-export type CompanyTradeSchemaType = z.infer<typeof companyTradeSchema>;
-export type PricingSchemaType = z.infer<typeof pricingSchema>;
-export type CreateClientSchemaType = z.infer<typeof createClientSchema>;
 export type ChangePasswordSchemaType = z.infer<typeof changePasswordSchema>;
-export type CreateEstimateLineItemType = z.infer<
-  typeof createEstimateLineItemSchema
->;
-
-export type EstimateSchemaType = z.infer<typeof estimateSchema>;
-export type EstimateTaxSchemaType = z.infer<typeof estimateTaxSchema>;
-export type EstimateDiscountSchemaType = z.infer<typeof estimateDiscountSchema>;
+export type CreateHomeSchemaType = z.infer<typeof createHomeSchema>;
+export type PersonalInfoSchemaType = z.infer<typeof personalInfoSchema>;

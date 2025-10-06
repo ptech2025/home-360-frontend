@@ -5,7 +5,6 @@ import { useDebounce } from "use-debounce";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Loader2, Map, MapPin } from "lucide-react";
-import { fetchPlaces } from "@/services/user";
 
 import { PlaceSuggestion } from "@/types";
 import { cn } from "@/lib/utils";
@@ -76,10 +75,7 @@ export default function Autocomplete({
 
   const { isLoading, data } = useQuery({
     queryKey: ["placeSuggestions", debouncedQuery],
-    queryFn: () =>
-      fetchPlaces({
-        query: debouncedQuery,
-        usOnly: true,      }),
+    queryFn: () => {},
     enabled: Boolean(debouncedQuery.trim()) && isFocused, // only run if query is not empty & input is focused
     staleTime: 1000 * 60, // cache suggestions for 1 minute
     gcTime: 1000 * 60 * 5, // keep in memory for 5 minutes
@@ -122,7 +118,7 @@ export default function Autocomplete({
         {/* Loading */}
         {isLoading && isFocused && (
           <div className="mt-2 p-2 bg-background border rounded-md min-h-35 flex items-center justify-center shadow-sm absolute z-10 w-full">
-            <Loader2 className="animate-spin text-dark-orange" />
+            <Loader2 className="animate-spin text-main-yellow" />
           </div>
         )}
 
@@ -145,7 +141,7 @@ export default function Autocomplete({
               >
                 <div className="flex items-center gap-2 justify-start">
                   <div className="size-10 flex items-center justify-center shrink-0  bg-input rounded-full p-2">
-                    <MapPin className="size-5 text-main-blue" />
+                    <MapPin className="size-5 text-black" />
                   </div>
                   <span>{s.description}</span>
                 </div>
@@ -157,15 +153,15 @@ export default function Autocomplete({
         {!isLoading && suggestions.length === 0 && (
           <div className="flex flex-col items-center p-2 gap-2 mt-2">
             <div className="size-10 flex items-center justify-center shrink-0 border border-input rounded-lg p-2">
-              <Map className="size-5 text-main-blue/80" />
+              <Map className="size-5 text-black/80" />
             </div>
-            <p className="text-sm text-main-blue/80 text-center">
+            <p className="text-sm text-black/80 text-center">
               Choose your pricing location or enable location access for
               automatic estimates.{" "}
             </p>
             <Button
               type="button"
-              className="h-12 w-full hover:bg-main-blue bg-dark-orange rounded-4xl max-w-[12rem]"
+              className="h-12 w-full hover:bg-main-green bg-main-yellow rounded-4xl max-w-[12rem]"
               onClick={handleAutoSelect}
               disabled={isAllowAccessLoading}
               size="lg"

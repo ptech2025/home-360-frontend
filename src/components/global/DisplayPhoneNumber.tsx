@@ -23,7 +23,7 @@ function DisplayPhoneNumber({
   }
 
   return (
-    <div className="text-main-blue flex items-center gap-2 max-md:flex-wrap">
+    <div className="text-black flex items-center gap-2 max-md:flex-wrap">
       {countryCode === "ZZ" ? (
         <GlobeIcon className="h-auto w-4 shrink-0" strokeWidth={1.25} />
       ) : (

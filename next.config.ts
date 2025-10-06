@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
+    qualities: [75, 100],
     remotePatterns: [
       {
         protocol: "https",
@@ -24,6 +25,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+
+  typedRoutes: true,
+
   compiler: {
     removeConsole:
       process.env.NODE_ENV === "production" ? { exclude: ["error"] } : false,
