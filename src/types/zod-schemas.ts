@@ -76,44 +76,6 @@ export const waitListSchema = z.object({
   trade: z.string().optional(),
 });
 
-export const orgInfoSchema = z.object({
-  companyName: z.string().min(1, { message: "Business Name is required" }),
-  phoneNumber: z
-    .string()
-    .min(12, { message: "Please enter a valid US phone number" }),
-  license: z.string().optional(),
-  companyLogo: validateImageFile().optional(),
-});
-
-export const companyTradeSchema = z.object({
-  companyTrade: z
-    .array(z.string())
-    .min(1, { message: "At least one trade is required" }),
-});
-
-export const pricingSchema = z.object({
-  location: z.string().min(5, { message: "Location is required" }),
-});
-
-export const createClientSchema = z.object({
-  name: z.string().min(3, { message: "Client name is required" }),
-  email: z.email({ message: "Invalid email address" }),
-  phone: z.string().optional(),
-  address: z.string().optional(),
-});
-
-export const personalInfoSchema = z.object({
-  firstName: z.string().min(1, { message: "First Name is required" }),
-  lastName: z.string().min(1, { message: "Last Name is required" }),
-  image: validateImageFile().optional(),
-});
-
-export const companyInfoSchema = z.object({
-  ...orgInfoSchema.shape,
-  ...companyTradeSchema.shape,
-  ...pricingSchema.shape,
-});
-
 export const changePasswordSchema = z
   .object({
     ...resetPasswordSchema.shape,
@@ -130,7 +92,17 @@ export const changePasswordSchema = z
     path: ["newPassword"], // highlight the field causing the issue
   });
 
-// Type inference
+export const personalInfoSchema = z.object({
+  firstName: z.string().min(1, { message: "First Name is required" }),
+  lastName: z.string().min(1, { message: "Last Name is required" }),
+  image: validateImageFile().optional(),
+});
+
+export const createHomeSchema = z.object({
+  address: z.string().min(1, { message: "Address is required" }),
+  city: z.string().min(1, { message: "City is required" }),
+  state: z.string().min(3, { message: "State must be atleast 3 characters" }),
+});
 
 export function validateImageFiles() {
   const maxUploadSize = 2 * 1024 * 1024; // 2MB
@@ -196,10 +168,6 @@ export type ResetPasswordSchemaType = z.infer<typeof resetPasswordSchema>;
 export type ForgotPasswordSchemaType = z.infer<typeof forgotPasswordSchema>;
 export type ContactFormSchemaType = z.infer<typeof contactFormSchema>;
 export type WaitListSchemaType = z.infer<typeof waitListSchema>;
-export type PersonalInfoSchemaType = z.infer<typeof personalInfoSchema>;
-export type CompanyInfoSchemaType = z.infer<typeof companyInfoSchema>;
-export type OrgInfoSchemaType = z.infer<typeof orgInfoSchema>;
-export type CompanyTradeSchemaType = z.infer<typeof companyTradeSchema>;
-export type PricingSchemaType = z.infer<typeof pricingSchema>;
-export type CreateClientSchemaType = z.infer<typeof createClientSchema>;
 export type ChangePasswordSchemaType = z.infer<typeof changePasswordSchema>;
+export type CreateHomeSchemaType = z.infer<typeof createHomeSchema>;
+export type PersonalInfoSchemaType = z.infer<typeof personalInfoSchema>;

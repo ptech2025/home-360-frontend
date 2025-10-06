@@ -1,15 +1,17 @@
-import FAQs from "@/components/global/FAQs";
-import FeaturesSection from "@/components/home/FeaturesSection";
-import HeroSection from "@/components/home/HeroSection";
+import WaitlistPage from "@/components/home/WaitlistPage";
 import WhySection from "@/components/home/WhySection";
+import {
+  HydrationBoundary,
+  dehydrate,
+  QueryClient,
+} from "@tanstack/react-query";
 function HomePage() {
+  const queryClient = new QueryClient();
+
   return (
-    <>
-      {/* <HeroSection />
-      <WhySection />
-      <FeaturesSection />
-      <FAQs isHome={true} /> */}
-    </>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <WaitlistPage />
+    </HydrationBoundary>
   );
 }
 export default HomePage;

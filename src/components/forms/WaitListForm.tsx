@@ -8,68 +8,36 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { waitListSchema, WaitListSchemaType } from "@/types/zod-schemas";
 import { Input } from "../ui/input";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchWaitListCount, saveToWaitList } from "@/services/waitlist";
+import { useMutation } from "@tanstack/react-query";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
-
-const supportedTrades = [
-  "General Contractor",
-  "Electrician",
-  "Plumber",
-  "HVAC Technician",
-  "Painter",
-  "Carpenter",
-  "Landscaper",
-  "Roofer",
-  "Other",
-];
+import { userMutations } from "@/queries/user";
 
 function WaitListForm() {
-  const queryClient = useQueryClient();
-  const { data: count } = useQuery({
-    queryKey: ["waitListCount"],
-    queryFn: fetchWaitListCount,
-  });
+  // const { data: count } = useQuery({
+  //   queryKey: ["waitListCount"],
+  //   queryFn: fetchWaitListCount,
+  // });
 
   const form = useForm<WaitListSchemaType>({
     resolver: zodResolver(waitListSchema),
     mode: "onChange",
     defaultValues: {
       email: "",
-      trade: "",
     },
   });
 
   const { mutate, isPending: isLoading } = useMutation({
-    mutationFn: async (data: WaitListSchemaType) => {
-      return saveToWaitList({
-        email: data.email,
-        jobTitle: data.trade,
-      });
-    },
+    mutationFn: userMutations.addToWaitList,
     onSuccess: () => {
       form.reset();
       toast.success("Thanks for joining our waitlist!");
-      queryClient.invalidateQueries({ queryKey: ["waitListCount"] });
-    },
-    onError: (error) => {
-      console.log(error);
-      const msg = renderAxiosOrAuthError(error);
-      toast.error(msg);
     },
   });
 
@@ -80,77 +48,52 @@ function WaitListForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full  flex gap-6 flex-col p-8 rounded-t-[1.5rem] bg-white shadow-sm shadow-[#061C3D14]"
+        className="w-full max-w-md relative z-20  flex flex-col gap-2 md:flex-row items-center justify-center"
       >
-        <div className="flex flex-col gap-4 w-full">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel className="text-main-blue/90 after:ml-0.5 after:text-red-500 after:content-['*']">
-                  Email
-                </FormLabel>
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <div className="md:rounded-[4.5rem] md:focus-within:border-ring md:shadow-sm md:focus-within:ring-ring/50 md:focus-within:ring-[3px] md:border md:border-input p-2 pl-3 flex items-center gap-2">
                 <FormControl>
                   <Input
-                    placeholder="Email Address"
-                    className="h-11 text-main-blue"
+                    placeholder="Your email address"
+                    className="h-12 rounded-[4.5rem] md:p-0 md:rounded-none md:border-none md:ring-0 md:shadow-none md:focus-visible:ring-0 text-black"
                     {...field}
                   />
                 </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
-          />{" "}
-          <FormField
-            control={form.control}
-            name="trade"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel className="text-main-blue/90">
-                  Trade (optional)
-                </FormLabel>
-                <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="h-11! w-full text-main-blue">
-                        <SelectValue placeholder="Select your trade" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {supportedTrades.map((trade) => (
-                        <SelectItem key={trade} value={trade}>
-                          {trade}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="flex flex-col items-center gap-4 justify-center">
-          <Button
-            size={"lg"}
-            disabled={isLoading}
-            className="gap-2 group outline-solid outline-1  outline-offset-5 outline-[#D7E3ED] hover:bg-main-green transition-colors rounded-[4.5rem] text-white h-12 w-full font-bold text-base bg-main-yellow"
-          >
-            {isLoading ? (
-              <Loader2 className="size-5 animate-spin" />
-            ) : (
-              <>
-                <span>Join Waitlist</span>
-              </>
-            )}
-          </Button>
-
-          {count !== undefined && count >= 10 && (
-            <p className="text-sm text-main-blue text-center lg:text-start">
-              {count} people are already on the waitlist — don&apos;t miss out!
-            </p>
+                <Button
+                  size={"lg"}
+                  disabled={isLoading}
+                  className="gap-2 shrink-0 hidden md:flex group hover:bg-black transition-colors rounded-[4.5rem] text-white h-12 w-[145px] font-bold text-base bg-main-green"
+                >
+                  {isLoading ? (
+                    <Loader2 className="size-5 animate-spin" />
+                  ) : (
+                    <>
+                      <span>Join Waitlist</span>
+                    </>
+                  )}
+                </Button>
+              </div>
+              <FormMessage className="text-xs" />
+            </FormItem>
           )}
-        </div>
+        />{" "}
+        <Button
+          size={"lg"}
+          disabled={isLoading}
+          className="gap-2 md:hidden group hover:bg-black transition-colors rounded-[4.5rem] text-white h-12 w-full md:w-[145px] font-bold text-base bg-main-green"
+        >
+          {isLoading ? (
+            <Loader2 className="size-5 animate-spin" />
+          ) : (
+            <>
+              <span>Join Waitlist</span>
+            </>
+          )}
+        </Button>
       </form>
     </Form>
   );

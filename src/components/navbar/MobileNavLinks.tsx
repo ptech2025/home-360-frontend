@@ -17,7 +17,7 @@ export function SignedOutMobileNavLinks() {
           <Link
             data-state={isActive(link.href) ? "active" : "inactive"}
             className={cn(
-              "inline-block w-full p-4 text-end border-b border-lighter-grey data-[state=active]:text-main-blue hover:data-[state=inactive]:text-main-blue/80 data-[state=inactive]:text-[#838E9E] cursor-pointer justify-center text-base font-medium   transition-colors"
+              "inline-block w-full p-4 text-end border-b border-lighter-grey data-[state=active]:text-black hover:data-[state=inactive]:text-black/80 data-[state=inactive]:text-[#838E9E] cursor-pointer justify-center text-base font-medium   transition-colors"
             )}
             href={link.href}
           >
@@ -28,7 +28,7 @@ export function SignedOutMobileNavLinks() {
       <DropdownMenuItem className="p-4 rounded-none hover:bg-transparent">
         <Button
           asChild
-          className="font-medium w-full font-circular-medium text-base h-11 rounded-4xl text-main-blue flex  px-8 bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+          className="font-medium w-full font-circular-medium text-base h-11 rounded-4xl text-black flex  px-8 bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-black group"
         >
           <Link prefetch={true} href={"/sign-in"}>
             <span>Sign in</span>
@@ -38,11 +38,11 @@ export function SignedOutMobileNavLinks() {
       <DropdownMenuItem className="p-4 rounded-none  hover:bg-transparent">
         <Button
           asChild
-          className="font-medium w-full font-circular-medium text-base text-white h-11 rounded-4xl flex  px-8 bg-main-green hover:border-main-blue border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+          className="font-medium w-full font-circular-medium text-base text-white h-11 rounded-4xl flex  px-8 bg-main-green hover:border-black border border-transparent transition-colors hover:bg-white hover:text-black group"
         >
           <Link prefetch={true} href={"/sign-up"}>
             <span>Get started</span>
-            <ArrowRight className="size-5 text-white group-hover:text-main-blue group-hover:translate-x-1 transition-transform duration-200" />
+            <ArrowRight className="size-5 text-white group-hover:text-black group-hover:translate-x-1 transition-transform duration-200" />
           </Link>
         </Button>
       </DropdownMenuItem>
@@ -60,7 +60,7 @@ export function SignedInMobileNavLinks() {
             prefetch={true}
             data-state={isActive(link.href) ? "active" : "inactive"}
             className={cn(
-              "inline-block w-full p-4 text-end border-b border-lighter-grey data-[state=active]:text-main-blue hover:data-[state=inactive]:text-main-blue/80 data-[state=inactive]:text-[#838E9E] cursor-pointer justify-center text-base font-medium   transition-colors"
+              "inline-block w-full p-4 text-end border-b border-lighter-grey data-[state=active]:text-black hover:data-[state=inactive]:text-black/80 data-[state=inactive]:text-[#838E9E] cursor-pointer justify-center text-base font-medium   transition-colors"
             )}
             href={link.href}
           >
@@ -73,7 +73,7 @@ export function SignedInMobileNavLinks() {
           prefetch={true}
           data-state={"inactive"}
           className={cn(
-            "inline-block w-full p-4 text-end border-b border-lighter-grey data-[state=active]:text-main-blue hover:data-[state=inactive]:text-main-blue/80 data-[state=inactive]:text-[#838E9E] cursor-pointer justify-center text-base font-medium   transition-colors"
+            "inline-block w-full p-4 text-end border-b border-lighter-grey data-[state=active]:text-black hover:data-[state=inactive]:text-black/80 data-[state=inactive]:text-[#838E9E] cursor-pointer justify-center text-base font-medium   transition-colors"
           )}
           href={"/dashboard"}
         >
@@ -84,7 +84,7 @@ export function SignedInMobileNavLinks() {
       <DropdownMenuItem className="p-0 rounded-none ">
         <SignOutLink
           className={cn(
-            "inline-block w-full p-4 text-end border-b border-lighter-grey  text-[#838E9E] hover:text-main-blue/80 cursor-pointer justify-center text-base font-medium   transition-colors"
+            "inline-block w-full p-4 text-end border-b border-lighter-grey  text-[#838E9E] hover:text-black/80 cursor-pointer justify-center text-base font-medium   transition-colors"
           )}
         />
       </DropdownMenuItem>

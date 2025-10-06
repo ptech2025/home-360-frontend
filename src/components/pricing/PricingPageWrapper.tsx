@@ -30,7 +30,7 @@ function PricingPageWrapper({ user }: Props) {
           <h1 className="text-sm text-center uppercase text-[#9E9E9E] font-circular-medium">
             Pricing
           </h1>
-          <h2 className="text-3xl text-center md:text-[2.5rem] font-bold font-broke-bold text-main-blue">
+          <h2 className="text-3xl text-center md:text-[2.5rem] font-bold font-broke-bold text-black">
             Plans and Pricing
           </h2>
           <span className="text-sm text-center text-[#9E9E9E] ">
@@ -40,9 +40,7 @@ function PricingPageWrapper({ user }: Props) {
         <div className="flex gap-2 items-center">
           <span
             data-state={pricingModel}
-            className={
-              "text-sm data-[state=monthly]:text-main-blue text-[#9E9E9E]"
-            }
+            className={"text-sm data-[state=monthly]:text-black text-[#9E9E9E]"}
           >
             Monthly
           </span>
@@ -55,14 +53,12 @@ function PricingPageWrapper({ user }: Props) {
           />
           <span
             data-state={pricingModel}
-            className={
-              "text-sm data-[state=yearly]:text-main-blue text-[#9E9E9E]"
-            }
+            className={"text-sm data-[state=yearly]:text-black text-[#9E9E9E]"}
           >
             Yearly
           </span>
 
-          <Badge className={cn("bg-light-blue text-black rounded-2xl")}>
+          <Badge className={cn("bg-light-gray text-black rounded-2xl")}>
             Save 20%
           </Badge>
         </div>
@@ -82,7 +78,7 @@ function PricingPageWrapper({ user }: Props) {
           <h1 className="text-sm text-center uppercase text-[#9E9E9E] font-circular-medium">
             Pricing
           </h1>
-          <h2 className="text-3xl text-center md:text-[2.5rem] font-bold font-broke-bold text-main-blue">
+          <h2 className="text-3xl text-center md:text-[2.5rem] font-bold font-broke-bold text-black">
             Plans and Pricing
           </h2>
           <span className="text-sm text-center text-[#9E9E9E] ">
@@ -92,9 +88,7 @@ function PricingPageWrapper({ user }: Props) {
         <div className="flex gap-2 items-center">
           <span
             data-state={pricingModel}
-            className={
-              "text-sm data-[state=monthly]:text-main-blue text-[#9E9E9E]"
-            }
+            className={"text-sm data-[state=monthly]:text-black text-[#9E9E9E]"}
           >
             Monthly
           </span>
@@ -107,14 +101,12 @@ function PricingPageWrapper({ user }: Props) {
           />
           <span
             data-state={pricingModel}
-            className={
-              "text-sm data-[state=yearly]:text-main-blue text-[#9E9E9E]"
-            }
+            className={"text-sm data-[state=yearly]:text-black text-[#9E9E9E]"}
           >
             Yearly
           </span>
 
-          <Badge className={cn("bg-light-blue text-black rounded-2xl")}>
+          <Badge className={cn("bg-light-gray text-black rounded-2xl")}>
             Save 20%
           </Badge>
         </div>
@@ -129,7 +121,7 @@ function PricingPageWrapper({ user }: Props) {
         <h1 className="text-sm text-center uppercase text-[#9E9E9E] font-circular-medium">
           Pricing
         </h1>
-        <h2 className="text-3xl text-center md:text-[2.5rem] font-bold font-broke-bold text-main-blue">
+        <h2 className="text-3xl text-center md:text-[2.5rem] font-bold font-broke-bold text-black">
           Plans and Pricing
         </h2>
         <span className="text-sm text-center text-[#9E9E9E] ">
@@ -139,9 +131,7 @@ function PricingPageWrapper({ user }: Props) {
       <div className="flex gap-2 items-center">
         <span
           data-state={pricingModel}
-          className={
-            "text-sm data-[state=monthly]:text-main-blue text-[#9E9E9E]"
-          }
+          className={"text-sm data-[state=monthly]:text-black text-[#9E9E9E]"}
         >
           Monthly
         </span>
@@ -154,14 +144,12 @@ function PricingPageWrapper({ user }: Props) {
         />
         <span
           data-state={pricingModel}
-          className={
-            "text-sm data-[state=yearly]:text-main-blue text-[#9E9E9E]"
-          }
+          className={"text-sm data-[state=yearly]:text-black text-[#9E9E9E]"}
         >
           Yearly
         </span>
 
-        <Badge className={cn("bg-light-blue text-black rounded-2xl")}>
+        <Badge className={cn("bg-light-gray text-black rounded-2xl")}>
           Save 20%
         </Badge>
       </div>

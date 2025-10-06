@@ -1,5 +1,21 @@
-import axios, { AxiosError } from "axios";
 import type { ErrorContext } from "better-auth/react";
+import axios, { AxiosRequestConfig, AxiosError, AxiosHeaders } from "axios";
+
+
+
+export const api = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL!,
+  withCredentials: true,
+});
+
+export function withAuthHeaders(cookies?: string): AxiosRequestConfig {
+  const headers: Record<string, string> = {};
+  if (cookies) {
+    headers["Cookie"] = cookies;
+  }
+
+  return { headers };
+}
 
 function isErrorContext(error: unknown): error is ErrorContext {
   return (
@@ -9,13 +25,7 @@ function isErrorContext(error: unknown): error is ErrorContext {
     error instanceof Error
   );
 }
-export const createAxios = (cookie?: string) => {
-  return axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
-    withCredentials: true,
-    headers: cookie ? { Cookie: cookie } : {},
-  });
-};
+
 
 export const renderAxiosOrAuthError = (error: unknown): string => {
   console.log(error)

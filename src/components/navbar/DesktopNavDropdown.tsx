@@ -27,7 +27,7 @@ function DesktopNavDropdown() {
           </Button>{" "}
           <Button
             asChild
-            className="font-medium font-circular-medium text-base text-white h-11 rounded-4xl lg:flex hidden px-4! bg-main-green hover:border-main-blue border border-transparent transition-colors hover:bg-white hover:text-main-green group"
+            className="font-medium font-circular-medium text-base text-white h-11 rounded-4xl lg:flex hidden px-4! bg-main-green hover:border-black border border-transparent transition-colors hover:bg-white hover:text-main-green group"
           >
             <Link prefetch={true} href={"/sign-up"}>
               <span>Get started</span>

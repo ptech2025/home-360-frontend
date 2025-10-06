@@ -2,7 +2,6 @@
 import { AuthUserType, Subscription } from "@/types";
 
 import {
-  CompanyInfoSchemaType,
   PersonalInfoSchemaType,
 } from "@/types/zod-schemas";
 import { API_URL } from "@/utils/constants";
@@ -57,37 +56,6 @@ export const updateUserPersonalInfoServer = async (
   revalidatePath("/dashboard/settings", "page");
 };
 
-export const updateUserCompanyInfoServer = async (
-  data: CompanyInfoSchemaType
-) => {
-  const cookieStore = await cookies();
-  const cookieHeader = cookieStore.toString();
-  const formData = new FormData();
-
-  if (data.companyLogo) {
-    formData.append("file", data.companyLogo);
-  }
-
-  Object.entries(data).forEach(([key, value]) => {
-    if (key !== "companyLogo" && value !== undefined && value !== null) {
-      if (typeof value === "object") {
-        formData.append(key, JSON.stringify(value));
-      } else {
-        formData.append(key, String(value));
-      }
-    }
-  });
-
-  try {
-    await axios.patch(`${API_URL}/api/user/update-user-profile`, formData, {
-      headers: { Cookie: cookieHeader, "Content-Type": "multipart/form-data" },
-    });
-  } catch (error) {
-    throw error;
-  }
-  revalidatePath("/dashboard/settings", "page");
-  revalidatePath("/dashboard", "layout");
-};
 
 export const fetchSubscriptionsServer = async (): Promise<Subscription[]> => {
   try {

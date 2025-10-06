@@ -78,7 +78,6 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-main-yellow: var(--main-yellow);
   --color-main-blue: var(--main-blue);
   --color-light-blue: var(--light-blue);
   --color-gray: var(--gray);
@@ -86,6 +85,7 @@
   --color-light-gray: var(--light-gray);
   --color-black: var(--new-black);
   --color-main-yellow: var(--main-yellow);
+  --color-lighter-gray: var(--lighter-gray);
   --font-circular-medium: "CircularStd-Medium", sans-serif;
   --font-circular-bold: "CircularStd-Bold", sans-serif;
   --font-circular-black: "CircularStd-Black", sans-serif;
@@ -124,7 +124,6 @@
   --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
   --sidebar-accent: oklch(0.968 0.007 247.896);
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
   --main-green: #2d6a4f;
@@ -132,6 +131,7 @@
   --new-black: #111827;
   --gray: #737373;
   --main-yellow: #f8be5c;
+  --lighter-gray: #eff0f0;
 }
 
 .dark {

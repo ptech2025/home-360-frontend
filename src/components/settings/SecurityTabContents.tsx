@@ -93,7 +93,7 @@ export function UpdatePassword() {
   };
   return (
     <div className="rounded-[1.75rem] bg-[#FAFAFB]  p-3 pt-4 flex-col flex gap-3">
-      <h3 className=" pl-2 text-base font-medium font-broke-medium text-main-blue">
+      <h3 className=" pl-2 text-base font-medium font-broke-medium text-black">
         Update Password
       </h3>
 
@@ -107,7 +107,7 @@ export function UpdatePassword() {
             name="oldPassword"
             render={({ field }) => (
               <FormItem className="w-full md:w-1/2">
-                <FormLabel className="text-main-blue after:ml-[-5px] after:text-red-500 after:content-['*']">
+                <FormLabel className="text-black after:ml-[-5px] after:text-red-500 after:content-['*']">
                   Old Password
                 </FormLabel>
                 <FormDescription className="text-xs ">
@@ -122,14 +122,14 @@ export function UpdatePassword() {
                 </FormControl>
                 <div className="flex gap-0.5 flex-col">
                   <FormMessage className="text-xs " />
-                  <div className="flex gap-1 items-center text-main-blue/80 text-xs">
+                  <div className="flex gap-1 items-center text-black/80 text-xs">
                     <span>Forgot password? click</span>
                     <Button
                       type="button"
                       variant={"link"}
                       onClick={handleForgotPassword}
                       disabled={isPending || isSigningOut}
-                      className="p-0 text-xs underline italic text-main-blue h-max"
+                      className="p-0 text-xs underline italic text-black h-max"
                     >
                       Here
                     </Button>
@@ -145,7 +145,7 @@ export function UpdatePassword() {
               name="newPassword"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel className="text-main-blue after:ml-[-5px] after:text-red-500 after:content-['*']">
+                  <FormLabel className="text-black after:ml-[-5px] after:text-red-500 after:content-['*']">
                     New Password
                   </FormLabel>
                   <FormDescription className="text-xs ">
@@ -167,7 +167,7 @@ export function UpdatePassword() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel className="text-main-blue after:ml-[-5px] after:text-red-500 after:content-['*']">
+                  <FormLabel className="text-black after:ml-[-5px] after:text-red-500 after:content-['*']">
                     Re-type New Password
                   </FormLabel>
                   <FormDescription className="text-xs ">
@@ -185,7 +185,7 @@ export function UpdatePassword() {
           <Button
             type="submit"
             disabled={isPending || isSigningOut}
-            className="h-11 ml-auto hover:ring-[3px]  ring-main-blue/50  transition-all duration-200 py-1 px-4  w-full md:w-max rounded-md md:rounded-4xl bg-main-green text-white flex gap-1 items-center text-sm border hover:border-main-blue hover:bg-transparent hover:text-main-blue"
+            className="h-11 ml-auto hover:ring-[3px]  ring-black/50  transition-all duration-200 py-1 px-4  w-full md:w-max rounded-md md:rounded-4xl bg-main-green text-white flex gap-1 items-center text-sm border hover:border-black hover:bg-transparent hover:text-black"
           >
             <span>{isPending ? "Saving..." : "Save Changes"}</span>
           </Button>

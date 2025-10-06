@@ -23,7 +23,7 @@ export function TableSkeleton() {
 export function HeaderSkeleton({ heading }: { heading: string }) {
   return (
     <div className="flex items-center justify-between gap-4">
-      <h1 className="md:text-lg lg:text-xl text-base text-main-blue font-semibold">
+      <h1 className="md:text-lg lg:text-xl text-base text-black font-semibold">
         {heading}
       </h1>
       <div className="w-full max-w-[35rem] flex gap-4 items-center h-11">

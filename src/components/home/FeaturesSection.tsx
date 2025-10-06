@@ -20,7 +20,7 @@ function FeaturesSection() {
         <div className="flex flex-col items-center gap-4">
           <Button
             asChild
-            className="font-medium  font-circular-medium text-base h-11 rounded-4xl text-main-blue w-max  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-blue group"
+            className="font-medium  font-circular-medium text-base h-11 rounded-4xl text-black w-max  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-black group"
           >
             <a href="#features">
               <PlayCircleIcon className="size-5 text-main-yellow" />

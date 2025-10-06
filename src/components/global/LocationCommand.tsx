@@ -13,7 +13,6 @@ import { Input } from "../ui/input";
 import { CommandLoading } from "cmdk";
 import { MapPin, Map, Ban, Loader2 } from "lucide-react";
 
-import { fetchPlaces } from "@/services/user";
 import { PlaceSuggestion } from "@/types";
 
 type AddressItemProps = {
@@ -38,7 +37,7 @@ function AddressItem({ address, handleClose, matched }: AddressItemProps) {
       }`}
     >
       <div className="size-8 flex items-center justify-center shrink-0  bg-input rounded-full p-2">
-        <MapPin className="size-4 text-main-blue" />
+        <MapPin className="size-4 text-black" />
       </div>
       <span>{address}</span>
     </CommandItem>
@@ -54,21 +53,22 @@ function LocationCommand({
   const [debouncedSearchVal] = useDebounce(searchVal, 300);
   const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
 
+  const isLoading = false;
   // fetch clients with debounced value
-  const { data, isLoading } = useQuery({
-    queryKey: ["placeSuggestions", debouncedSearchVal],
-    queryFn: () =>
-      fetchPlaces({
-        query: debouncedSearchVal,
-        usOnly,
-      }),
-  });
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ["placeSuggestions", debouncedSearchVal],
+  //   queryFn: () =>
+  //     fetchPlaces({
+  //       query: debouncedSearchVal,
+  //       usOnly,
+  //     }),
+  // });
 
-  useEffect(() => {
-    if (data) {
-      setSuggestions(data);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     setSuggestions(data);
+  //   }
+  // }, [data]);
   return (
     <Command className="w-full">
       {/* 🔹 Replace CommandInput with custom input */}
@@ -93,13 +93,13 @@ function LocationCommand({
         )}
 
         {!isLoading && suggestions.length === 0 && (
-          <CommandEmpty className="flex py-4 text-main-blue flex-col gap-2 items-center justify-center">
+          <CommandEmpty className="flex py-4 text-black flex-col gap-2 items-center justify-center">
             {searchVal.trim().length === 0 ? (
               <Map className={"size-4"} />
             ) : (
               <Ban className={"size-4"} />
             )}
-            <span className="text-xs text-main-blue">
+            <span className="text-xs text-black">
               {searchVal.trim().length === 0
                 ? "Add where the work is happening."
                 : "No results found"}

@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     siteName: "Home360",
     images: [
       {
-        url: "https://myhomethreesixty.com/og-image.png",
+        url: "https://myhomethreesixty.com/logo.png",
         width: 1200,
         height: 630,
         alt: "Home360 Preview",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     title: "Home360",
     description:
       "Smart home management made simple — documents, appliances, reminders, and more.",
-    images: ["https://myhomethreesixty.com/og-image.png"],
+    images: ["https://myhomethreesixty.com/logo.png"],
   },
 };
 

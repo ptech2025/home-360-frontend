@@ -19,7 +19,6 @@ import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { useState } from "react";
-import { contactAdmin } from "@/services/user";
 
 function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,7 +36,6 @@ function ContactForm() {
   const onSubmit = async (data: ContactFormSchemaType) => {
     try {
       setIsSubmitting(true);
-      await contactAdmin(data);
       toast.success("Message sent successfully, we will get back to you soon.");
       reset({
         email: "",
@@ -130,7 +128,7 @@ function ContactForm() {
         />
         <Button
           type="submit"
-          className="rounded-4xl h-11 w-full bg-main-green border font-circular-medium font-medium border-transparent text-white hover:border-main-blue hover:bg-transparent hover:text-main-blue"
+          className="rounded-4xl h-11 w-full bg-main-green border font-circular-medium font-medium border-transparent text-white hover:border-black hover:bg-transparent hover:text-black"
           disabled={isSubmitting}
         >
           {isSubmitting ? (

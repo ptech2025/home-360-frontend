@@ -50,7 +50,7 @@ function PaginationContainer({
         className={`border-sidebar-border transition-all duration-300 ${
           activeClass
             ? "bg-main-yellow text-white"
-            : "text-main-blue bg-transparent"
+            : "text-black bg-transparent"
         }`}
         variant={activeClass ? "default" : "outline"}
         onClick={() => handlePageChange(page)}

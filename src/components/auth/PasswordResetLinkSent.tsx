@@ -20,16 +20,16 @@ function PasswordResetLinkSent({
       <div className="flex flex-col justify-center items-center gap-2">
         <CheckCircle2 className="size-14 text-green-500" />
 
-        <h1 className="text-center text-main-blue font-circular-medium text-2xl font-bold">
+        <h1 className="text-center text-black font-circular-medium text-2xl font-bold">
           Password Reset Link Sent
         </h1>
       </div>
-      <p className="text-main-blue/80 text-center text-base ">
+      <p className="text-black/80 text-center text-base ">
         {" "}
         We&apos;ve sent a password reset link to your inbox. Please check your
         email and click the link to complete your sign-up.
       </p>
-      <div className="text-center text-xs text-main-blue/80">
+      <div className="text-center text-xs text-black/80">
         Didn’t receive the email? Be sure to check your spam or junk folder.
         <br />
         <div className="justify-center items-center gap-4 fle">
@@ -37,7 +37,7 @@ function PasswordResetLinkSent({
             type="button"
             variant={"link"}
             onClick={() => setShowPasswordResetLinkSent(false)}
-            className="text-main-blue underline"
+            className="text-black underline"
           >
             Request New Link
           </Button>{" "}

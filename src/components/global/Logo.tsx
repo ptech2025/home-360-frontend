@@ -31,10 +31,10 @@ export function LogoWithText({ className }: { className?: string }) {
   return (
     <div className={`flex relative w-max gap-2 items-end ${className}`}>
       <LogoSvg />
-      <p className="text-lg font-black font-circular-black text-main-green">
+      <h3 className="text-lg font-black font-circular-black text-main-green">
         <span>Home</span>
         <span className="text-main-yellow">360</span>
-      </p>
+      </h3>
       <svg
         width="9"
         height="9"

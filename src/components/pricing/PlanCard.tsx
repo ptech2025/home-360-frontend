@@ -63,15 +63,15 @@ function PlanCard({ plan, user }: Props) {
         </div>
       )}
       <div className="w-full flex items-center justify-between">
-        <h3 className="text-2xl font-medium font-circular-medium text-main-blue">
+        <h3 className="text-2xl font-medium font-circular-medium text-black">
           {plan.name}
         </h3>
-        <span className="text-2xl text-main-blue font-broke-bold ">
+        <span className="text-2xl text-black font-broke-bold ">
           ${plan.price}/{plan.interval === "monthly" ? "mo" : "yr"}
         </span>
       </div>
       <div className="flex flex-col w-full gap-5">
-        <h5 className="text-lg font-medium font-circular-medium text-main-blue">
+        <h5 className="text-lg font-medium font-circular-medium text-black">
           All core benefits in one unified platform
         </h5>
         <ul className="flex min-h-[160px] flex-col w-full gap-5">
@@ -89,7 +89,7 @@ function PlanCard({ plan, user }: Props) {
         <Button
           disabled={isSubscribing || isUpgrading || isCurrentPlan(plan, user)}
           onClick={handlePlan}
-          className="rounded-4xl h-11 w-full bg-main-green border font-circular-medium font-medium border-transparent text-white hover:border-main-blue hover:bg-transparent hover:text-main-blue"
+          className="rounded-4xl h-11 w-full bg-main-green border font-circular-medium font-medium border-transparent text-white hover:border-black hover:bg-transparent hover:text-black"
         >
           {isSubscribing || isUpgrading ? (
             <Loader2 className="animate-spin" />
@@ -100,7 +100,7 @@ function PlanCard({ plan, user }: Props) {
       ) : (
         <Button
           asChild
-          className="rounded-4xl h-11 w-full bg-main-green border font-circular-medium font-medium border-transparent text-white hover:border-main-blue hover:bg-transparent hover:text-main-blue"
+          className="rounded-4xl h-11 w-full bg-main-green border font-circular-medium font-medium border-transparent text-white hover:border-black hover:bg-transparent hover:text-black"
         >
           <Link href="/sign-in">Sign in to Subscribe</Link>
         </Button>
