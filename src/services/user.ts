@@ -12,7 +12,7 @@ export const userService = {
   saveToWaitList: async (data: { email: string }) => {
     await api.post(`/api/waitlist`, data);
   },
-  unSubscribeFromWaitList: async (data: { email: string }) => {
-    await api.patch(`/api/waitlist/unsubscribe`, data);
+  unSubscribeFromWaitList: async (email: string) => {
+    await api.patch(`/api/waitlist/unsubscribe`, { email });
   },
 };

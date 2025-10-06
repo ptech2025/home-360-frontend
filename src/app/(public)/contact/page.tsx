@@ -21,7 +21,7 @@ function ContactUsPage() {
           <ContactUsForm />
         </section>
       </div>
-      <FAQs isHome={false} />
+      <FAQs />
     </>
   );
 }

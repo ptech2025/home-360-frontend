@@ -30,7 +30,7 @@ function PaymentSuccessfulPage() {
           </div>
         </div>
       </section>
-      <FAQs isHome={false} />
+      <FAQs />
     </>
   );
 }

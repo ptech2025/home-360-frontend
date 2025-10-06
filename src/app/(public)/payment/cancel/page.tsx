@@ -29,7 +29,7 @@ function PaymentCancelPage() {
           </div>
         </div>
       </section>
-      <FAQs isHome={false} />
+      <FAQs  />
     </>
   );
 }

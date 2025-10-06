@@ -19,7 +19,7 @@ async function PricingPage() {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <PricingPageWrapper user={user} />
-      <FAQs isHome={false} />
+      <FAQs />
     </HydrationBoundary>
   );
 }
