@@ -19,7 +19,6 @@ const tabsOptions = [
 ];
 
 function SettingsPageWrapper({ user }: { user: AuthUserType }) {
-  const profile = user.profile!;
   return (
     <section className="w-full flex-col flex gap-6 py-4  px-10 md:px-20 lg:px-25">
       <h1 className="text-lg md:text-xl lg:text-2xl font-bold font-broke-bold text-black">
