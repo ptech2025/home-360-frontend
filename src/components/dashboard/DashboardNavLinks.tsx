@@ -1,20 +1,18 @@
 import { DashboardLink, UserRole } from "@/types";
-import { Bell, BrushCleaning, FileText, Home, Settings, UserRoundPen, Wallet } from "lucide-react";
+import {
+  Bell,
+  BrushCleaning,
+  FileText,
+  Home,
+  Settings,
+  UserRoundPen,
+  Wallet,
+} from "lucide-react";
 import NavbarLink from "./NavbarLink";
 
 export const dashboardLinks: DashboardLink[] = [
-  {
-    icon: <Home />,
-    title: "Dashboard",
-    url: "/dashboard",
-    access: ["admin", "multiple_home_owner", "single_home_owner"],
-  },
-  {
-    icon: <FileText />,
-    title: "Documents",
-    url: "#",
-    access: ["admin", "multiple_home_owner", "single_home_owner"],
-  },
+
+
   {
     icon: <BrushCleaning />,
     title: "Maintenance",
@@ -52,10 +50,18 @@ export const dropdownLinks: DashboardLink[] = [
   },
 ];
 
-export function DesktopDashboardNavLinks({ userRole }: { userRole: UserRole }) {
+export function DesktopDashboardNavLinks({
+  userRole,
+  homeLinks
+}: {
+  userRole: UserRole;
+  homeLinks: DashboardLink[];
+}) {
   return (
     <div className="hidden md:flex gap-6 lg:gap-8 items-center">
-      {dashboardLinks.map((link) => (
+      {homeLinks.map((link) => (
+        <NavbarLink key={link.title} link={link} userRole={userRole} />
+      ))}   {dashboardLinks.map((link) => (
         <NavbarLink key={link.title} link={link} userRole={userRole} />
       ))}
     </div>
@@ -76,4 +82,3 @@ export function IconNavLinks({ userRole }: { userRole: UserRole }) {
     </div>
   );
 }
-

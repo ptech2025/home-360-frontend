@@ -15,7 +15,7 @@ type Props = {
 function NavbarLink({ link, userRole, isIconLink }: Props) {
   const { access, url, icon, title } = link;
   const pathname = usePathname();
-  const isActive = pathname === url || pathname.startsWith(url + "/");
+  const isActive = pathname === url || pathname.endsWith(url + "/");
 
   if (!access.some((role) => userRole === role)) {
     return null;

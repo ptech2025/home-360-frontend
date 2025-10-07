@@ -1,7 +1,7 @@
 import { SessionType } from "@/lib/auth-client";
 import { Route } from "next";
 import { JSX } from "react";
-import { Home } from "./home";
+import { Home } from "./prisma-schema-types";
 export type ProfileType = {
   id: string;
   companyName: string;
@@ -15,7 +15,6 @@ export type ProfileType = {
 };
 
 export type AuthUserType = SessionType["user"] & {
-  profile: ProfileType | null;
   subscription: UserSubscription | null;
   homes: Home[];
 };
@@ -36,7 +35,7 @@ export type PlaceSuggestion = {
   placeId: string;
 };
 
-export type UserRole = "single_home_owner" | "multiple_home_owner" | "admin";
+export type UserRole = "single_home_owner" | "multiple_home_owner" | "admin" | "super_admin";
 
 export interface DashboardLink {
   icon: JSX.Element;

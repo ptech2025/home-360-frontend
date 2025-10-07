@@ -1,4 +1,5 @@
 import { AuthUserType, Subscription } from "@/types";
+import { DocumentCategory, Document } from "@/types/prisma-schema-types";
 
 export const getCurrentLocation = (): Promise<GeolocationPosition> => {
   return new Promise((resolve, reject) => {
@@ -98,3 +99,9 @@ export const isCurrentPlan = (plan: Subscription, user: AuthUserType) => {
   if (!user.subscription) return false;
   return user.subscription.plan.id === plan.id;
 };
+
+
+export const getDocumentCategoryCount = (category: DocumentCategory, documents: Document[]) => {
+  const count = documents.filter(doc => doc.category === category).length;
+  return count;
+}

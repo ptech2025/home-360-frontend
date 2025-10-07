@@ -101,7 +101,7 @@ export const personalInfoSchema = z.object({
 export const createHomeSchema = z.object({
   address: z.string().min(1, { message: "Address is required" }),
   city: z.string().min(1, { message: "City is required" }),
-  state: z.string().min(3, { message: "State must be atleast 3 characters" }),
+  state: z.string().min(3, { message: "State must be at least 3 characters" }),
 });
 
 export function validateImageFiles() {

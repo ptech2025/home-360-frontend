@@ -27,6 +27,20 @@ export const fetchUserServer = async () => {
   }
 };
 
+export const fetchUserServerWithCookies = async (cookieHeader: string) => {
+  try {
+    const res = await axios.get(`${API_URL}/api/user/details`, {
+      headers: { Cookie: cookieHeader },
+    });
+    const data: AuthUserType = res.data;
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 export const updateUserPersonalInfoServer = async (
   data: PersonalInfoSchemaType
 ) => {
