@@ -10,7 +10,7 @@ export const userService = {
   },
 
   onboarded: async () => {
-    await api.post(`/api/onboarded`);
+    await api.patch(`/api/complete-onboarding`);
   },
 
   createHome: async (address: string) => {
