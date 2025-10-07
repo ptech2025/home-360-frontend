@@ -22,7 +22,7 @@ function PaymentSuccessfulPage() {
               asChild
               className="font-medium font-circular-medium text-base h-11 rounded-4xl text-black w-full max-w-md  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-black group"
             >
-              <Link prefetch={true} href={"/dashboard"}>
+              <Link prefetch={true} href={"/"}>
                 <span>Go to dashboard</span>
                 <ArrowUpRight className="size-5 group-hover:translate-x-1 transition-transform duration-200" />
               </Link>

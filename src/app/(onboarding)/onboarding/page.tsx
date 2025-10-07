@@ -11,21 +11,17 @@ async function OnboardingPage() {
   const queryClient = new QueryClient();
   const user = await fetchUserServer();
 
-  // if (!user) {
-  //   redirect("/sign-in");
-  // }
-
-  // if (user.isOnboarded && user.hasProjects) {
-  //   redirect("/dashboard/projects");
-  // }
+  if (!user) {
+    redirect("/sign-in");
+  }
+  if (user.isOnboarded && user.homes.length > 0) {
+    const firstHome = user.homes[0];
+    redirect(`/dashboard/${firstHome.id}`);
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <OnboardingWrapper
-        // profile={user.profile}
-        // name={user.name}
-        // userId={user.id}
-      />
+      <OnboardingWrapper homes={user.homes} />
     </HydrationBoundary>
   );
 }
