@@ -9,19 +9,18 @@ export default async function DashboardLayout({
 }>) {
   const user = await fetchUserServer();
 
-
-
   if (!user) {
     redirect("/sign-in");
   }
-  // if (!user.isOnboarded || !user.hasProjects) {
-  //   redirect("/onboarding");
-  // }
+
+  if (!user.isOnboarded || user.homes.length === 0) {
+    redirect("/onboarding");
+  }
 
   return (
     <>
       <DashboardNavbar user={user} />
-      <main className="min-h-svh max-w-[1800px] mx-auto px-4 md:px-6 lg:px-8 py-4  w-full">{children}</main>;
+      <main className="min-h-svh  w-full">{children}</main>
     </>
   );
 }

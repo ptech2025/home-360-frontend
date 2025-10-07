@@ -3,16 +3,12 @@ import { queryResult, mutationResult } from "@/lib/react-query-config";
 import { userService } from "@/services/user";
 
 export const userQueries = {
-  all: () => queryResult(["users"], () => userService.getAll()),
+  singleHome: (id: string) =>
+    queryResult(["single-home", id], () => userService.getHome(id)),
 
-  detail: (id: string) =>
-    queryResult(["users", id], () => userService.getById(id)),
-
-  // 🔑 server-only variants
   withCookies: (cookies: string) => ({
-    all: () => queryResult(["users"], () => userService.getAll(cookies)),
-    detail: (id: string) =>
-      queryResult(["users", id], () => userService.getById(id, cookies)),
+    singleHome: (id: string) =>
+      queryResult(["single-home", id], () => userService.getHome(id, cookies)),
   }),
 };
 
@@ -23,6 +19,8 @@ export const userMutations = {
   removeFromWaitList: mutationResult((email: string) =>
     userService.unSubscribeFromWaitList(email)
   ),
+  triggerOnboarding: mutationResult(() => userService.onboarded()),
+  addHome: mutationResult((address: string) => userService.createHome(address)),
 
   // server-only variant
   withCookies: (cookies: string) => ({}),

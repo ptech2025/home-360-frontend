@@ -6,7 +6,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { UserRole, AuthUserType } from "@/types";
+import { UserRole, AuthUserType, DashboardLink } from "@/types";
 import { AlignRight, ChevronDown } from "lucide-react";
 import NavbarLink from "./NavbarLink";
 import LogOutBtn from "./LogOutBtn";
@@ -17,6 +17,7 @@ import { dropdownLinks, iconLinks, dashboardLinks } from "./DashboardNavLinks";
 type Props = {
   user: AuthUserType;
   userRole: UserRole;
+  homeLinks: DashboardLink[];
 };
 
 export function DesktopDashboardDropdown({ userRole, user }: Props) {
@@ -47,7 +48,7 @@ export function DesktopDashboardDropdown({ userRole, user }: Props) {
   );
 }
 
-export function MobileDashboardDropdown({ userRole, user }: Props) {
+export function MobileDashboardDropdown({ userRole, user, homeLinks }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="md:hidden" asChild>
@@ -65,6 +66,11 @@ export function MobileDashboardDropdown({ userRole, user }: Props) {
         className="w-[15rem] md:hidden flex p-0 flex-col"
       >
         <DropdownMenuGroup>
+          {homeLinks.map((link) => (
+            <DropdownMenuItem key={link.title}>
+              <NavbarLink link={link} userRole={userRole} />
+            </DropdownMenuItem>
+          ))}{" "}
           {dashboardLinks.map((link) => (
             <DropdownMenuItem key={link.title}>
               <NavbarLink link={link} userRole={userRole} />

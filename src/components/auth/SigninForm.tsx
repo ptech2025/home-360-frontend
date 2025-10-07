@@ -21,6 +21,8 @@ import { signInSchema, SignInSchemaType } from "@/types/zod-schemas";
 import { Input } from "../ui/input";
 import { GoogleIcon } from "../global/Icons";
 import EmailVerificationSent from "./EmailVerificationSent";
+import { useRouter } from "nextjs-toploader/app";
+import { Home } from "@/types/prisma-schema-types";
 
 function SignInForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,6 +30,8 @@ function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showVerifyEmail, setShowVerifyEmail] = useState(false);
   const lastMethod = authClient.getLastUsedLoginMethod();
+
+  const { push } = useRouter();
 
   const form = useForm<SignInSchemaType>({
     resolver: zodResolver(signInSchema),
@@ -64,7 +68,6 @@ function SignInForm() {
       {
         email: values.email,
         password: values.password,
-        callbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
       },
       {
         onRequest: () => {
@@ -72,8 +75,12 @@ function SignInForm() {
         },
 
         onSuccess: async (ctx) => {
-          console.log(ctx);
-          toast.success("Signed in successfully.");
+          if (ctx.data.user.isOnboarded && ctx.data.user.homes.length > 0) {
+            const firstHome: Home = ctx.data.user.homes[0];
+            push(`/dashboard/${firstHome.id}`);
+          } else {
+            push("/onboarding");
+          }
         },
         onError: (ctx) => {
           if (ctx.error.code === "EMAIL_NOT_VERIFIED") {
