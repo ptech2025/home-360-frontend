@@ -28,6 +28,18 @@ function Command({
     />
   );
 }
+function CommandLoading({
+  className,
+  ...props
+}: React.ComponentProps<typeof CommandPrimitive.Loading>) {
+  return (
+    <CommandPrimitive.Loading
+      data-slot="command-loading"
+      className={cn("w-full flex items-center justify-center py-4", className)}
+      {...props}
+    />
+  );
+}
 
 function CommandDialog({
   title = "Command Palette",
@@ -180,5 +192,6 @@ export {
   CommandGroup,
   CommandItem,
   CommandShortcut,
+  CommandLoading,
   CommandSeparator,
 };

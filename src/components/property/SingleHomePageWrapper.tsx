@@ -31,7 +31,10 @@ function SingleHomePageWrapper({ homeId }: Props) {
         <OverviewCard home={homeData} />
         <UpcomingEventsCardWrapper />
       </div>
-      <MetricsCardWrapper />
+      <MetricsCardWrapper
+        documents={homeData.documents}
+        appliances={homeData.appliances}
+      />
       <div className="lg:flex-row flex flex-col gap-4">
         <RecentTasksTable />
         <ServicesCard />

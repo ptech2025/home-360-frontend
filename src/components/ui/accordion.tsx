@@ -41,9 +41,9 @@ function AccordionTrigger({
         {...props}
       >
         {children}
-        <div className="rounded-full flex size-12 items-center justify-center bg-black">
-          <Plus className="text-white group-data-[state=open]:hidden pointer-events-none size-5 shrink-0 translate-y-0.5 transition-transform duration-200" />
-          <X className="text-white group-data-[state=open]:block group-data-[state=closed]:hidden pointer-events-none size-5 shrink-0 translate-y-0.5 transition-transform duration-200" />
+        <div className="rounded-full flex size-9 shrink-0 sm:size-11 items-center justify-center bg-black">
+          <Plus className="text-white group-data-[state=open]:hidden pointer-events-none size-4 sm:size-5 shrink-0 transition-transform duration-200" />
+          <X className="text-white group-data-[state=open]:block group-data-[state=closed]:hidden pointer-events-none size-4 sm:size-5 shrink-0 transition-transform duration-200" />
         </div>
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useOnboardingStore } from "@/store/onboardingStore";
-import { AuthUserType } from "@/types";
 import { JSX, useEffect } from "react";
 import CreateHomeOnboarding from "./CreateHomeOnboarding";
 import WelcomeOnboarding from "./WelcomeOnboarding";

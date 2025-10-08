@@ -5,21 +5,7 @@ import { API_URL } from "@/utils/constants";
 
 const onboardingRoutes = ["/onboarding"];
 
-// export const fetchSession = async (req: NextRequest) => {
-//   const cookie = req.headers.get("cookie");
 
-//   const { data: session } = await betterFetch<SessionType>(
-//     "/api/auth/get-session",
-//     {
-//       baseURL: API_URL,
-//       headers: {
-//         cookie: cookie || "",
-//       },
-//     }
-//   );
-
-//   return session;
-// };
 
 export const fetchSession = async (
   req: NextRequest
@@ -56,16 +42,7 @@ export const protectDashboard = async (
   return NextResponse.next();
 };
 
-export const protectAdmin = async (
-  req: NextRequest,
-  session: SessionType | null
-) => {
-  if (session && session.user.role !== "admin") {
-    return NextResponse.redirect(new URL("/dashboard/projects", req.url));
-  }
 
-  return NextResponse.next();
-};
 
 export const redirectAuthUser = async (
   req: NextRequest,

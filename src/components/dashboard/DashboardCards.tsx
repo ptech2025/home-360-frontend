@@ -13,7 +13,7 @@ import {
 } from "date-fns";
 import { MoreVertical, Plus, Search } from "lucide-react";
 import { HouseIcon, AlertIcon, DocumentIcon } from "../global/Icons";
-import { Home } from "@/types/prisma-schema-types";
+import { Appliance, Document, Home } from "@/types/prisma-schema-types";
 import { authClient } from "@/lib/auth-client";
 import { Skeleton } from "../ui/skeleton";
 
@@ -27,34 +27,14 @@ interface Metric {
 type MetricsCardProps = {
   data: Metric;
 };
+type MetricsCardWrapperProps = {
+  documents: Document[];
+  appliances: Appliance[];
+};
 
 type OverviewCardProps = {
   home: Home;
 };
-
-const metrics: Metric[] = [
-  {
-    title: "Mortgage ",
-    value: formatCurrency(10000),
-    date: new Date(),
-    subtitle: "Last 30 days",
-    icon: <HouseIcon className="absolute  bottom-0 right-0" />,
-  },
-  {
-    title: "Alerts",
-    subtitle: `Due in ${differenceInDays(addDays(new Date(), 5), new Date())}d`,
-    date: new Date(),
-    value: "Insurance",
-    icon: <AlertIcon className="absolute  bottom-0 right-0" />,
-  },
-  {
-    title: "Documents",
-    value: "5 files",
-    date: new Date(),
-    subtitle: "Total",
-    icon: <DocumentIcon className="absolute  bottom-0 right-0" />,
-  },
-];
 
 export function CalendarCard() {
   const now = new Date();
@@ -165,7 +145,7 @@ export function OverviewCard({ home }: OverviewCardProps) {
             Current Home Value
           </span>
           <h5 className="text-white font-circular-bold font-bold text-xl lg:text-2xl">
-            {formatCurrency(250000)}
+            {formatCurrency(home.homeValue || 0)}
           </h5>
         </div>
       </div>
@@ -174,10 +154,10 @@ export function OverviewCard({ home }: OverviewCardProps) {
           <span className="text-white font-circular-light text-xs">
             Property Details
           </span>
-          <p className="text-white font-circular-bold font-bold text-xl lg:text-2xl">
+          <p className="text-white text-center lg:text-start font-circular-bold font-bold text-xl lg:text-2xl">
             {home.address || ""}
           </p>
-          <div className="w-full flex gap-1.5 items-center">
+          <div className="w-full flex flex-wrap gap-1.5 justify-center lg:justify-start items-center">
             {home.squareFeet && (
               <>
                 <span className="text-xs font-circular-light text-white ">
@@ -205,9 +185,8 @@ export function OverviewCard({ home }: OverviewCardProps) {
             {home.yearBuilt && (
               <>
                 <span className="text-xs font-circular-light text-white ">
-                  Built in {home.yearBuilt}
+                  Year Built: {home.yearBuilt}
                 </span>
-                <span className="bg-white rounded-full size-1"></span>{" "}
               </>
             )}{" "}
           </div>
@@ -227,7 +206,34 @@ export function UpcomingEventsCardWrapper() {
     </div>
   );
 }
-export function MetricsCardWrapper() {
+export function MetricsCardWrapper({
+  documents,
+  appliances,
+}: MetricsCardWrapperProps) {
+  const metrics: Metric[] = [
+    {
+      title: "Expenses",
+      value: formatCurrency(10000),
+      date: new Date(),
+      subtitle: "Last 30 days",
+      icon: <HouseIcon className="absolute  bottom-0 right-0" />,
+    },
+    {
+      title: "Appliances",
+      subtitle: `Total`,
+      date: new Date(),
+      value: `${appliances.length} Appliances`,
+      icon: <AlertIcon className="absolute  bottom-0 right-0" />,
+    },
+    {
+      title: "Documents",
+      subtitle: "Total",
+      value: `${documents.length} Files`,
+      date: new Date(),
+      icon: <DocumentIcon className="absolute  bottom-0 right-0" />,
+    },
+  ];
+
   return (
     <div className="grid  grid-cols-1 lg:grid-cols-3 w-full gap-4 items-center lg:flex-row flex-col lg:col-span-2 lg:row-start-2">
       {metrics.map((data, index) => (
