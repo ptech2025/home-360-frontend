@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import * as motion from "motion/react-client";
 import { Home } from "@/types/prisma-schema-types";
-import { Home as HomeIcon, Loader2, Plus } from "lucide-react";
+import { Home as HomeIcon, Loader2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { useMutation } from "@tanstack/react-query";
 import { userMutations } from "@/queries/user";
@@ -21,6 +20,7 @@ function WelcomeOnboarding({ home }: Props) {
       push(`/dashboard/${home.id}`);
     },
   });
+  if (!home) return null;
 
   return (
     <div className="flex relative z-20 flex-col   w-full items-center justify-center gap-6">
@@ -72,37 +72,38 @@ function WelcomeOnboarding({ home }: Props) {
           <h2 className="font-circular-bold font-bold text-2xl md:text-3xl lg:text-4xl">
             {home.address || ""}
           </h2>
-          <div className="flex items-center gap-2">
+          <div className="grid grid-cols-2 sm:flex  items-center gap-2">
             {home.homeType && (
-              <>
+              <div className="flex gap-2 items-center  flex-row-reverse justify-end sm:flex-row">
                 <span className="text-black capitalize text-sm font-circular-medium font-medium">
                   {home.homeType.replace("_", " ")}
                 </span>
-                <span className="bg-light-gray size-1.5 rounded-full"></span>
-              </>
+                <span className="bg-light-gray size-1.5  rounded-full"></span>
+              </div>
             )}{" "}
             {home.bedrooms && (
-              <>
+              <div className="flex gap-2 items-center flex-row-reverse justify-end sm:flex-row">
                 <span className="text-black capitalize text-sm font-circular-medium font-medium">
                   {home.bedrooms} Bedrooms
                 </span>
-                <span className="bg-light-gray size-1.5 rounded-full"></span>
-              </>
+                <span className="bg-light-gray size-1.5  rounded-full"></span>
+              </div>
             )}{" "}
             {home.bathrooms && (
-              <>
+              <div className="flex gap-2 items-center flex-row-reverse justify-end sm:flex-row">
                 <span className="text-black capitalize text-sm font-circular-medium font-medium">
                   {home.bathrooms} Bathrooms
                 </span>
-                <span className="bg-light-gray size-1.5 rounded-full"></span>
-              </>
+                <span className="bg-light-gray size-1.5  rounded-full"></span>
+              </div>
             )}{" "}
             {home.yearBuilt && (
-              <>
+              <div className="flex gap-2 items-center flex-row-reverse justify-end sm:flex-row">
                 <span className="text-black capitalize text-sm font-circular-medium font-medium">
                   Year Built: {home.yearBuilt}
                 </span>
-              </>
+                <span className="bg-light-gray size-1.5 sm:hidden rounded-full"></span>
+              </div>
             )}
           </div>
         </div>

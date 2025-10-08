@@ -35,7 +35,11 @@ export type PlaceSuggestion = {
   placeId: string;
 };
 
-export type UserRole = "single_home_owner" | "multiple_home_owner" | "admin" | "super_admin";
+export type UserRole =
+  | "single_home_owner"
+  | "multiple_home_owner"
+  | "admin"
+  | "super_admin";
 
 export interface DashboardLink {
   icon: JSX.Element;
@@ -55,4 +59,21 @@ export interface Subscription {
     planId: string;
     benefit: string;
   }[];
+}
+
+export enum DynamicLocationStatus {
+  street = "street",
+  city = "city",
+  state = "state",
+}
+
+export interface FetchPlacesParams {
+  usOnly?: boolean;
+  citiesOnly?: boolean;
+  query: string;
+}
+
+export interface FetchLocationParams {
+  query: string;
+  mode: DynamicLocationStatus;
 }

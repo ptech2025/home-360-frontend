@@ -106,7 +106,7 @@ export interface Home {
   squareFeet?: number;
   lotSizeSqFt?: number;
   photoUrl?: string;
-
+homeValue?: number
   homeType: HomeType;
   createdAt: Date;
   updatedAt: Date;
