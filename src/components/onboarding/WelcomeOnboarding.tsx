@@ -20,7 +20,6 @@ function WelcomeOnboarding({ home }: Props) {
       push(`/dashboard/${home.id}`);
     },
   });
-  if (!home) return null;
 
   return (
     <div className="flex relative z-20 flex-col   w-full items-center justify-center gap-6">
@@ -121,16 +120,6 @@ function WelcomeOnboarding({ home }: Props) {
               <span>Explore Your Dashboard</span>
             )}
           </Button>{" "}
-          {/* <Button
-            size={"lg"}
-            asChild
-            className="gap-2 group text-black h-12 w-full font-medium font-circular-medium  text-base bg-main-white border border-light-gray hover:border-main-green hover:bg-transparent hover:text-main-green "
-          >
-            <Link href={`/dashboard/${home.id}`}>
-              <Plus className="size-5 " />
-              <span>Add Another Property</span>
-            </Link>
-          </Button> */}
         </div>
       </motion.div>
     </div>
