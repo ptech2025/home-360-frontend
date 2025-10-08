@@ -65,7 +65,7 @@ export function EventsCard() {
     <div className="flex gap-3  h-full  flex-col p-2 pr-0  flex-1">
       <div className="flex items-center gap-4 justify-between">
         <h4 className="text-sm text-black font-medium font-circular-medium">
-          Upcoming Events
+          Reminders
         </h4>
         <Button
           size={"icon"}

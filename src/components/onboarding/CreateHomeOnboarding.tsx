@@ -19,11 +19,14 @@ import { createHomeSchema, CreateHomeSchemaType } from "@/types/zod-schemas";
 
 import { useMutation } from "@tanstack/react-query";
 import { userMutations } from "@/queries/user";
-import { useOnboardingStore } from "@/store/onboardingStore";
 import AutoCompleteLocation from "./AutoCompleteLocation";
 import { DynamicLocationStatus } from "@/types";
-function CreateHomeOnboarding() {
-  const { setCurrentPage } = useOnboardingStore();
+import { Home } from "@/types/prisma-schema-types";
+function CreateHomeOnboarding({
+  setFirstHome,
+}: {
+  setFirstHome: (home: Home) => void;
+}) {
   const form = useForm<CreateHomeSchemaType>({
     resolver: zodResolver(createHomeSchema),
     mode: "onChange",
@@ -38,8 +41,8 @@ function CreateHomeOnboarding() {
     mutationFn: userMutations.addHome,
     onSuccess(data) {
       if (data.home) {
+        setFirstHome(data.home);
         toast.success("Home Added Successfully.");
-        setCurrentPage(2);
       } else {
         toast.error(data.message || "Something went wrong, try again later.");
       }
