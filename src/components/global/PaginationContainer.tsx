@@ -29,14 +29,18 @@ function PaginationContainer({
   const pathname = usePathname();
 
   const handlePageChange = (page: number) => {
-    const queryParams: Record<string, string> = Object.fromEntries(
-      Object.entries({
-        [searchKey]: searchParams?.get(searchKey) || "",
-        page: String(page),
-        status: searchParams?.get("status") ?? "",
-        //eslint-disable-next-line
-      }).filter(([_, value]) => value !== "")
-    );
+    const queryParams = Object.entries({
+      [searchKey]: searchParams?.get(searchKey) || "",
+      page: String(page),
+      category: searchParams?.get("category") || "",
+      tags: searchParams?.getAll("tags") || [],
+    })
+      .filter(([_, value]) => value !== "" && value !== undefined)
+      .flatMap(([key, value]) =>
+        Array.isArray(value)
+          ? value.map((v) => [key, v]) // expand arrays
+          : [[key, value]]
+      );
 
     const search = new URLSearchParams(queryParams).toString();
     push(`${pathname}?${search}` as Route, { scroll: false });

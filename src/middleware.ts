@@ -26,18 +26,18 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith(route)
   );
 
-  // if (isPrivateRoute) {
-  //   console.log("running private route middleware");
-  //   const res = await protectDashboard(request, session);
-  //   if (res) return res;
-  // }
+  if (isPrivateRoute) {
+    console.log("running private route middleware");
+    const res = await protectDashboard(request, session);
+    if (res) return res;
+  }
 
-  // if (isAuthRoute) {
-  //   console.log("running auth route middleware");
-  //   const res = await redirectAuthUser(request, session);
+  if (isAuthRoute) {
+    console.log("running auth route middleware");
+    const res = await redirectAuthUser(request, session);
 
-  //   if (res) return res;
-  // }
+    if (res) return res;
+  }
 
   return NextResponse.next();
 }
