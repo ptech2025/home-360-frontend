@@ -20,7 +20,7 @@ export const userService = {
     return res.data.suggestions as PlaceSuggestion[];
   },
   saveToWaitList: async (data: { email: string }) => {
-    await api.post(`/api/waitlist`, data);
+    await api.post(`/api/waitlist `, data);
   },
   unSubscribeFromWaitList: async (email: string) => {
     await api.patch(`/api/waitlist/unsubscribe`, { email });

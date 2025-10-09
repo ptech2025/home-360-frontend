@@ -33,7 +33,7 @@ function DocumentSidebar({ homeId }: DocumentSidebarProps) {
   const availableCategories = Object.values(DocumentCategory);
 
   return (
-    <div className="bg-white rounded-t-md flex flex-col gap-4 w-full p-4">
+    <div className="bg-white  rounded-t-md hidden md:flex flex-col gap-4 w-full p-4">
       <div className="flex flex-col gap-2">
         <h3 className="text-black text-base font-bold font-circular-bold">
           Categories
@@ -114,8 +114,8 @@ function DocumentSidebar({ homeId }: DocumentSidebarProps) {
               ).map((tag) => (
                 <Link
                   key={tag}
-                  href={`/dashboard/${homeId}/documents?tag=${tag}`}
-                  className="p-2 rounded-md bg-white transition-colors hover:bg-main-green text-black hover:text-white border border-light-gray hover:border-white text-sm font-medium font-circular-medium"
+                  href={`/dashboard/${homeId}/documents?tags=${tag}`}
+                  className="px-2 py-1 h-auto w-max rounded-md bg-white transition-colors hover:bg-main-green text-black hover:text-white border border-light-gray hover:border-white text-sm font-medium font-circular-medium"
                 >
                   {tag}
                 </Link>

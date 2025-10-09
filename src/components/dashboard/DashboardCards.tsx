@@ -74,7 +74,7 @@ export function EventsCard() {
           <Plus />
         </Button>
       </div>
-      <div className="flex flex-col gap-3 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-main-green scrollbar-track-main-green/20">
+      <div className="flex flex-col gap-3 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-main-green  scrollbar-track-lighter-gray">
         {Array.from({ length: 13 }).map((_, index) => (
           <div
             key={index}
@@ -222,13 +222,15 @@ export function MetricsCardWrapper({
       title: "Appliances",
       subtitle: `Total`,
       date: new Date(),
-      value: `${appliances.length} Appliances`,
+      value: `${appliances.length} Appliance${
+        appliances.length > 1 ? "s" : ""
+      }`,
       icon: <AlertIcon className="absolute  bottom-0 right-0" />,
     },
     {
       title: "Documents",
       subtitle: "Total",
-      value: `${documents.length} Files`,
+      value: `${documents.length} File${documents.length > 1 ? "s" : ""}`,
       date: new Date(),
       icon: <DocumentIcon className="absolute  bottom-0 right-0" />,
     },
@@ -257,7 +259,7 @@ export function ServicesCard() {
           <Search />
         </Button>
       </div>
-      <div className="flex flex-col gap-3 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-main-green scrollbar-track-main-green/20">
+      <div className="flex flex-col gap-3 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-main-green  scrollbar-track-lighter-gray">
         {Array.from({ length: 13 }).map((_, index) => (
           <div
             key={index}

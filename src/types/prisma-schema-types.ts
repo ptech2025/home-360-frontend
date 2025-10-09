@@ -106,7 +106,7 @@ export interface Home {
   squareFeet?: number;
   lotSizeSqFt?: number;
   photoUrl?: string;
-homeValue?: number
+  homeValue?: number;
   homeType: HomeType;
   createdAt: Date;
   updatedAt: Date;
@@ -151,6 +151,7 @@ export interface Document {
   description?: string | null;
   category: DocumentCategory;
   fileUrl: string;
+  fileType: string;
   isOcrProcessed: boolean;
   ocrText?: string | null;
   tags: string[];

@@ -1,5 +1,6 @@
 import { AuthUserType, Subscription } from "@/types";
 import { DocumentCategory, Document } from "@/types/prisma-schema-types";
+import { toast } from "sonner";
 
 export const getCurrentLocation = (): Promise<GeolocationPosition> => {
   return new Promise((resolve, reject) => {
@@ -100,8 +101,45 @@ export const isCurrentPlan = (plan: Subscription, user: AuthUserType) => {
   return user.subscription.plan.id === plan.id;
 };
 
-
-export const getDocumentCategoryCount = (category: DocumentCategory, documents: Document[]) => {
-  const count = documents.filter(doc => doc.category === category).length;
+export const getDocumentCategoryCount = (
+  category: DocumentCategory,
+  documents: Document[]
+) => {
+  const count = documents.filter((doc) => doc.category === category).length;
   return count;
+};
+
+export function formatFileSize(size: number) {
+  if (size < 1024) return `${size} B`;
+  if (size < 1024 * 1024) return `${(size / 1024).toFixed(2)} KB`;
+  return `${(size / 1024 / 1024).toFixed(2)} MB`;
 }
+
+export const renderDocumentCategoryStyle = (category: DocumentCategory) => {
+  switch (category) {
+    case DocumentCategory.deed:
+      return "bg-emerald-100 text-emerald-700"; // legal/ownership → trustworthy green
+
+    case DocumentCategory.mortgage:
+      return "bg-blue-100 text-blue-700"; // finance → stability
+
+    case DocumentCategory.warranty:
+      return "bg-green-100 text-green-700"; // assurance → green tone
+
+    case DocumentCategory.insurance:
+      return "bg-yellow-100 text-yellow-700"; // safety → yellow
+
+    case DocumentCategory.tax_record:
+      return "bg-orange-100 text-orange-700"; // government → orange
+
+    case DocumentCategory.utility_bill:
+      return "bg-purple-100 text-purple-700"; // recurring → purple
+
+    case DocumentCategory.other:
+      return "bg-gray-100 text-gray-700"; // fallback → neutral
+
+    default:
+      throw new Error("Invalid Document Category");
+  }
+};
+

@@ -1,7 +1,7 @@
 import { SessionType } from "@/lib/auth-client";
 import { Route } from "next";
 import { JSX } from "react";
-import { Home } from "./prisma-schema-types";
+import { DocumentCategory, Home, Document, Appliance } from "./prisma-schema-types";
 export type ProfileType = {
   id: string;
   companyName: string;
@@ -76,4 +76,24 @@ export interface FetchPlacesParams {
 export interface FetchLocationParams {
   query: string;
   mode: DynamicLocationStatus;
+}
+
+export interface Pagination {
+  currentPage: number;
+  totalPages: number;
+  totalRecords: number;
+  size: number;
+}
+
+export interface FetchDocumentParams {
+  page?: number;
+  size?: number;
+  tags?: string[];
+  category?: DocumentCategory;
+  search?: string;
+}
+
+export interface FetchAllDocumentsResponse {
+  documents: Document[];
+  pagination: Pagination;
 }
