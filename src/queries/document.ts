@@ -34,7 +34,7 @@ export const documentMutations = {
       documentService.updateDocument(variables.docId, variables.data)
   ),
   delete: mutationResult((variables: { docId: string; homeId: string }) =>
-    documentService.deleteDocument(variables.homeId, variables.docId)
+    documentService.deleteDocument(variables.docId, variables.homeId)
   ),
   download: mutationResult((variables: { docId: string; homeId: string }) =>
     documentService.downloadDocument(variables.homeId, variables.docId)
