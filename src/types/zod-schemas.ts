@@ -150,7 +150,6 @@ function validateImageFile() {
     "image/jpeg",
     "image/png",
     "image/webp",
-    "image/gif",
     "image/jpg",
   ];
   return z
@@ -160,29 +159,28 @@ function validateImageFile() {
     }, `File size must be less than 2 MB`)
     .refine((file) => {
       return !file || acceptedFileTypes.includes(file.type);
-    }, "File must be a valid image type (JPEG, PNG, WebP, GIF, JPG)");
+    }, "File must be a valid image type (JPEG, PNG, WebP, JPG)");
 }
 
 export function validateDocumentFile() {
-  const maxUploadSize = 5 * 1024 * 1024; // 5MB
+  const maxUploadSize = 3 * 1024 * 1024; // 3MB
   const acceptedFileTypes = [
     "application/pdf",
     "application/msword", // .doc
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
     "application/vnd.ms-excel", // .xls
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
-    "text/plain", // .txt
   ];
 
   return z
     .instanceof(File)
     .refine(
       (file) => !file || file.size <= maxUploadSize,
-      "File size must be less than 5MB"
+      "File size must be less than 3MB"
     )
     .refine(
       (file) => !file || acceptedFileTypes.includes(file.type),
-      "Only PDF, DOC, DOCX, XLS, XLSX, and TXT files are allowed"
+      "Only PDF, DOC, DOCX, XLS, and XLSX files are allowed"
     );
 }
 
@@ -194,7 +192,6 @@ export function validateDocumentFiles() {
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
     "application/vnd.ms-excel", // .xls
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
-    "text/plain", // .txt
   ];
 
   return z
@@ -206,7 +203,51 @@ export function validateDocumentFiles() {
     )
     .refine(
       (files) => files.every((file) => acceptedFileTypes.includes(file.type)),
-      "Only PDF, DOC, DOCX, XLS, XLSX, and TXT files are allowed"
+      "Only PDF, DOC, DOCX, XLS, and XLSX files are allowed"
+    );
+}
+
+export function validatePDFOrImageFile() {
+  const maxUploadSize = 3 * 1024 * 1024; // 3MB
+  const acceptedFileTypes = [
+    "application/pdf",
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/jpg",
+  ];
+
+  return z
+    .instanceof(File)
+    .refine(
+      (file) => !file || file.size <= maxUploadSize,
+      "File size must be less than 3MB"
+    )
+    .refine(
+      (file) => !file || acceptedFileTypes.includes(file.type),
+      "File must be a valid image type (JPEG, PNG, WebP, JPG) or PDF"
+    );
+}
+export function validatePDFOrImageFiles() {
+  const maxUploadSize = 3 * 1024 * 1024; // 3MB
+  const acceptedFileTypes = [
+    "application/pdf",
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/jpg",
+  ];
+
+  return z
+    .array(z.instanceof(File))
+    .max(5, "You can only upload up to 5 documents")
+    .refine(
+      (files) => files.every((file) => file.size <= maxUploadSize),
+      "Each file must be less than 5MB"
+    )
+    .refine(
+      (files) => files.every((file) => acceptedFileTypes.includes(file.type)),
+      "Each File must be a valid image type (JPEG, PNG, WebP, JPG) or PDF"
     );
 }
 

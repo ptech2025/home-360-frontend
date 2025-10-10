@@ -75,7 +75,7 @@ function FileInput({ value, onChange }: Props) {
         type="file"
         id="file"
         hidden
-        accept=".pdf,.doc,.docx,.xls,.xlsx,.txt"
+        accept=".pdf,.doc,.docx,.xls,.xlsx,"
         onChange={(e) => {
           if (e.target.files && e.target.files.length > 0) {
             onChange(e.target.files[0]);

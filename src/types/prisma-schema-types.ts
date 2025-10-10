@@ -151,7 +151,7 @@ export interface Document {
   description?: string | null;
   category: DocumentCategory;
   fileUrl: string;
-  fileType: string;
+  previewUrl?: string | null;
   isOcrProcessed: boolean;
   ocrText?: string | null;
   tags: string[];

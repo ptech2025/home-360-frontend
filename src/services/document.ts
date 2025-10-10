@@ -58,7 +58,7 @@ export const documentService = {
     return res.data as Document;
   },
 
-  deleteDocument: async (homeId: string, docId: string) => {
+  deleteDocument: async (docId: string, homeId: string) => {
     await api.delete(`/api/document/${docId}/${homeId}`);
   },
   downloadDocument: async (homeId: string, docId: string) => {

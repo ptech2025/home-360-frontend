@@ -12,8 +12,6 @@ import {
 } from "./DocumentDialogs";
 import { DialogTrigger } from "../ui/dialog";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { documentMutations } from "@/queries/document";
 import { toast } from "sonner";
 
 type Props = {
@@ -23,29 +21,18 @@ type Props = {
 function DocumentActions({ doc }: Props) {
   const [open, setOpen] = useState(false);
 
-  const {} = useMutation({
-    mutationFn: documentMutations.download,
-    onSuccess: (data) => {
-      if (!data) return;
-      const { title, fileType } = doc;
-      const blob = new Blob([data], { type: `application/${fileType}` });
-
-      // Create object URL for the Blob
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${title}.${fileType}`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-
-      // Cleanup memory
-      URL.revokeObjectURL(url);
-
-      setOpen(false);
-      toast.success("Document downloaded successfully.");
-    },
-  });
+  const handleDownloadDocument = () => {
+    const fileUrl = doc.fileUrl.endsWith("pdf")
+      ? doc.fileUrl.replace("/upload/", "/upload/fl_attachment/")
+      : doc.fileUrl;
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.download = doc.title;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success("Document downloaded successfully.");
+  };
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -53,11 +40,16 @@ function DocumentActions({ doc }: Props) {
         <MoreHorizontal className="size-5" />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem className="cursor-pointer">Download</DropdownMenuItem>
+        <DropdownMenuItem
+          className="cursor-pointer"
+          onSelect={handleDownloadDocument}
+        >
+          Download
+        </DropdownMenuItem>
         <DropdownMenuItem
           onSelect={(e) => {
             e.preventDefault();
-            e.stopPropagation(); 
+            e.stopPropagation();
           }}
         >
           <AddOrEditDocumentDialog type="update" data={doc}>
