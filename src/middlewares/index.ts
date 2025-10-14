@@ -5,12 +5,14 @@ import { API_URL } from "@/utils/constants";
 
 const onboardingRoutes = ["/onboarding"];
 
-
-
 export const fetchSession = async (
   req: NextRequest
 ): Promise<SessionType | null> => {
   const cookie = req.headers.get("cookie");
+  const TIMEOUT_MS = 800;
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
   try {
     const { data: session } = await betterFetch<SessionType>(
@@ -18,6 +20,7 @@ export const fetchSession = async (
       {
         baseURL: API_URL,
         headers: { cookie: cookie || "" },
+        signal: controller.signal,
       }
     );
     return session;
@@ -41,8 +44,6 @@ export const protectDashboard = async (
   }
   return NextResponse.next();
 };
-
-
 
 export const redirectAuthUser = async (
   req: NextRequest,
