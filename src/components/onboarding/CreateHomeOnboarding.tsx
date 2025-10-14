@@ -16,13 +16,17 @@ import {
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { createHomeSchema, CreateHomeSchemaType } from "@/types/zod-schemas";
-import { Input } from "../ui/input";
 
 import { useMutation } from "@tanstack/react-query";
 import { userMutations } from "@/queries/user";
-import { useOnboardingStore } from "@/store/onboardingStore";
-function CreateHomeOnboarding() {
-  const { setCurrentPage } = useOnboardingStore();
+import AutoCompleteLocation from "./AutoCompleteLocation";
+import { DynamicLocationStatus } from "@/types";
+import { Home } from "@/types/prisma-schema-types";
+function CreateHomeOnboarding({
+  setFirstHome,
+}: {
+  setFirstHome: (home: Home) => void;
+}) {
   const form = useForm<CreateHomeSchemaType>({
     resolver: zodResolver(createHomeSchema),
     mode: "onChange",
@@ -37,8 +41,8 @@ function CreateHomeOnboarding() {
     mutationFn: userMutations.addHome,
     onSuccess(data) {
       if (data.home) {
+        setFirstHome(data.home);
         toast.success("Home Added Successfully.");
-        setCurrentPage(2);
       } else {
         toast.error(data.message || "Something went wrong, try again later.");
       }
@@ -46,7 +50,7 @@ function CreateHomeOnboarding() {
   });
 
   const onSubmit = async (values: CreateHomeSchemaType) => {
-    const fullAddress = `${values.address}, ${values.city}, ${values.state}, USA`;
+    const fullAddress = `${values.address.trim()}, ${values.city.trim()}, ${values.state.trim()}, USA`;
     mutate(fullAddress);
   };
   return (
@@ -85,10 +89,13 @@ function CreateHomeOnboarding() {
                     Street Address
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="5 Main Street"
+                    <AutoCompleteLocation
+                      value={field.value}
+                      onChange={field.onChange}
+                      mode={DynamicLocationStatus.street}
+                      isFormLoading={isLoading}
+                      placeholder="123 Main Street"
                       className="h-10"
-                      {...field}
                     />
                   </FormControl>
                   <FormMessage className="text-xs" />
@@ -105,10 +112,13 @@ function CreateHomeOnboarding() {
                       City
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Orlando"
+                      <AutoCompleteLocation
+                        value={field.value}
+                        onChange={field.onChange}
+                        mode={DynamicLocationStatus.city}
+                        isFormLoading={isLoading}
+                        placeholder="Miami"
                         className="h-10"
-                        {...field}
                       />
                     </FormControl>
                     <FormMessage className="text-xs" />
@@ -124,10 +134,13 @@ function CreateHomeOnboarding() {
                       State
                     </FormLabel>
                     <FormControl>
-                      <Input
+                      <AutoCompleteLocation
+                        value={field.value}
+                        onChange={field.onChange}
+                        mode={DynamicLocationStatus.state}
+                        isFormLoading={isLoading}
                         placeholder="Florida"
                         className="h-10"
-                        {...field}
                       />
                     </FormControl>
                     <FormMessage className="text-xs" />

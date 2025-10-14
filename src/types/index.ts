@@ -1,7 +1,7 @@
 import { SessionType } from "@/lib/auth-client";
 import { Route } from "next";
 import { JSX } from "react";
-import { Home } from "./prisma-schema-types";
+import { DocumentCategory, Home, Document, Appliance } from "./prisma-schema-types";
 export type ProfileType = {
   id: string;
   companyName: string;
@@ -35,7 +35,11 @@ export type PlaceSuggestion = {
   placeId: string;
 };
 
-export type UserRole = "single_home_owner" | "multiple_home_owner" | "admin" | "super_admin";
+export type UserRole =
+  | "single_home_owner"
+  | "multiple_home_owner"
+  | "admin"
+  | "super_admin";
 
 export interface DashboardLink {
   icon: JSX.Element;
@@ -55,4 +59,41 @@ export interface Subscription {
     planId: string;
     benefit: string;
   }[];
+}
+
+export enum DynamicLocationStatus {
+  street = "street",
+  city = "city",
+  state = "state",
+}
+
+export interface FetchPlacesParams {
+  usOnly?: boolean;
+  citiesOnly?: boolean;
+  query: string;
+}
+
+export interface FetchLocationParams {
+  query: string;
+  mode: DynamicLocationStatus;
+}
+
+export interface Pagination {
+  currentPage: number;
+  totalPages: number;
+  totalRecords: number;
+  size: number;
+}
+
+export interface FetchDocumentParams {
+  page?: number;
+  size?: number;
+  tags?: string[];
+  category?: DocumentCategory;
+  search?: string;
+}
+
+export interface FetchAllDocumentsResponse {
+  documents: Document[];
+  pagination: Pagination;
 }

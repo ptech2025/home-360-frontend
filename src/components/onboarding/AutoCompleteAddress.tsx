@@ -6,25 +6,28 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Loader2, Map, MapPin } from "lucide-react";
 
-import { PlaceSuggestion } from "@/types";
+import { DynamicLocationStatus, PlaceSuggestion } from "@/types";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
+import { userQueries } from "@/queries/user";
 
-interface AutoCompleteProps {
-  isAllowAccessLoading: boolean;
+interface AutoCompleteAddressProps {
+  isFormLoading: boolean;
   value: string;
   onChange: (value: string) => void;
-  handleAutoSelect: () => void;
+  citiesOnly?: boolean;
+  usOnly?: boolean;
 }
 
-export default function Autocomplete({
+export default function AutoCompleteAddress({
   value,
-  isAllowAccessLoading,
-  handleAutoSelect,
+  isFormLoading,
   onChange,
-}: AutoCompleteProps) {
+  citiesOnly,
+  usOnly = true,
+}: AutoCompleteAddressProps) {
   const [query, setQuery] = useState(value);
-  const [debouncedQuery] = useDebounce(query, 300);
+  const [debouncedQuery] = useDebounce(query, 400);
   const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [isFocused, setIsFocused] = useState(false);
@@ -73,16 +76,18 @@ export default function Autocomplete({
     }, 200);
   };
 
-  const { isLoading, data } = useQuery({
-    queryKey: ["placeSuggestions", debouncedQuery],
-    queryFn: () => {},
-    enabled: Boolean(debouncedQuery.trim()) && isFocused, // only run if query is not empty & input is focused
-    staleTime: 1000 * 60, // cache suggestions for 1 minute
-    gcTime: 1000 * 60 * 5, // keep in memory for 5 minutes
-  });
+  const { isLoading, data } = useQuery(
+    userQueries.fetchPlaces({
+      query: debouncedQuery,
+      citiesOnly,
+      usOnly,
+    })
+  );
 
   useEffect(() => {
-    setSuggestions(data || []);
+    if (data) {
+      setSuggestions(data);
+    }
   }, [data]);
 
   return (
@@ -100,8 +105,8 @@ export default function Autocomplete({
           </Button>
           <Input
             type="search"
-            disabled={isAllowAccessLoading}
-            placeholder="Set your price location"
+            disabled={isFormLoading}
+            placeholder={`Search for a location...`}
             value={query}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
@@ -153,25 +158,11 @@ export default function Autocomplete({
         {!isLoading && suggestions.length === 0 && (
           <div className="flex flex-col items-center p-2 gap-2 mt-2">
             <div className="size-10 flex items-center justify-center shrink-0 border border-input rounded-lg p-2">
-              <Map className="size-5 text-black/80" />
+              <Map className="size-5 text-black" />
             </div>
-            <p className="text-sm text-black/80 text-center">
-              Choose your pricing location or enable location access for
-              automatic estimates.{" "}
+            <p className="text-sm capitalize text-black text-center">
+              No results found
             </p>
-            <Button
-              type="button"
-              className="h-12 w-full hover:bg-main-green bg-main-yellow rounded-4xl max-w-[12rem]"
-              onClick={handleAutoSelect}
-              disabled={isAllowAccessLoading}
-              size="lg"
-            >
-              {isAllowAccessLoading ? (
-                <Loader2 className="animate-spin" />
-              ) : (
-                <span>Allow location access</span>
-              )}
-            </Button>
           </div>
         )}
       </div>

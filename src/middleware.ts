@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import {
   fetchSession,
-  protectAdmin,
   protectDashboard,
   redirectAuthUser,
 } from "./middlewares";
@@ -15,8 +14,6 @@ const authRoutes = [
   "/sign-up",
 ];
 
-const adminRoutes = ["/admin"];
-
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -28,38 +25,24 @@ export async function middleware(request: NextRequest) {
   const isAuthRoute = authRoutes.some((route) =>
     request.nextUrl.pathname.startsWith(route)
   );
-  const isAdminRoute = adminRoutes.some((route) =>
-    request.nextUrl.pathname.startsWith(route)
-  );
 
-  // if (isPrivateRoute) {
-  //   console.log("running private route middleware");
-  //   const res = await protectDashboard(request, session);
-  //   if (res) return res;
-  // }
-
-  // if (isAdminRoute) {
-  //   console.log("running admin route middleware");
-  //   const res = await protectAdmin(request, session);
-  //   if (res) return res;
-  // }
-
-  // if (isAuthRoute) {
-  //   console.log("running auth route middleware");
-  //   const res = await redirectAuthUser(request, session);
-
-  //   if (res) return res;
-  // }
-
-  // optional "production lock" — but only if you still want it
-  if (process.env.APP_ENV === "production" && pathname !== "/") {
-    const url = request.nextUrl.clone();
-    url.pathname = "/";
-    return NextResponse.redirect(url);
+  if (isPrivateRoute) {
+    console.log("running private route middleware");
+    const res = await protectDashboard(request, session);
+    if (res) return res;
   }
+
+  if (isAuthRoute) {
+    console.log("running auth route middleware");
+    const res = await redirectAuthUser(request, session);
+
+    if (res) return res;
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
+  runtime: "nodejs",
   matcher: ["/((?!.*\\..*|_next|\\.png).*)", "/"],
 };

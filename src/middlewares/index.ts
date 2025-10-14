@@ -5,26 +5,14 @@ import { API_URL } from "@/utils/constants";
 
 const onboardingRoutes = ["/onboarding"];
 
-// export const fetchSession = async (req: NextRequest) => {
-//   const cookie = req.headers.get("cookie");
-
-//   const { data: session } = await betterFetch<SessionType>(
-//     "/api/auth/get-session",
-//     {
-//       baseURL: API_URL,
-//       headers: {
-//         cookie: cookie || "",
-//       },
-//     }
-//   );
-
-//   return session;
-// };
-
 export const fetchSession = async (
   req: NextRequest
 ): Promise<SessionType | null> => {
   const cookie = req.headers.get("cookie");
+  const TIMEOUT_MS = 800;
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
   try {
     const { data: session } = await betterFetch<SessionType>(
@@ -32,12 +20,19 @@ export const fetchSession = async (
       {
         baseURL: API_URL,
         headers: { cookie: cookie || "" },
+        signal: controller.signal,
       }
     );
     return session;
   } catch (err) {
-    console.error("Session fetch failed:", err);
-    return null; // gracefully degrade
+    if (err instanceof Error && err.name === "AbortError") {
+      console.error(`Session fetch aborted after ${TIMEOUT_MS}ms`);
+    } else {
+      console.error("Session fetch failed:", err);
+    }
+    return null;
+  } finally {
+    clearTimeout(timeout);
   }
 };
 
@@ -56,17 +51,6 @@ export const protectDashboard = async (
   return NextResponse.next();
 };
 
-export const protectAdmin = async (
-  req: NextRequest,
-  session: SessionType | null
-) => {
-  if (session && session.user.role !== "admin") {
-    return NextResponse.redirect(new URL("/dashboard/projects", req.url));
-  }
-
-  return NextResponse.next();
-};
-
 export const redirectAuthUser = async (
   req: NextRequest,
   session: SessionType | null
@@ -74,7 +58,7 @@ export const redirectAuthUser = async (
   if (session) {
     const isOnboarded = session.user.isOnboarded;
     const currentPath = req.nextUrl.pathname;
-    const redirectPath = isOnboarded ? "/dashboard/projects" : "/onboarding";
+    const redirectPath = isOnboarded ? "/dashboard/profile" : "/onboarding";
 
     if (isOnboarded) {
       const isInOnboardedRoute =

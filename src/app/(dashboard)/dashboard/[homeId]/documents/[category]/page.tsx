@@ -1,7 +1,45 @@
-async function DocumentCategoryPage({
-  params,
-}: PageProps<"/dashboard/[homeId]/documents/[category]">) {
-  const { homeId, category } = await params;
-  return <div>{category}</div>;
+import AllDocumentsPageWrapper from "@/components/document/AllDocumentsPageWrapper";
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
+import { cookies } from "next/headers";
+import { userQueries } from "@/queries/user";
+import { documentQueries } from "@/queries/document";
+import { FetchDocumentParams } from "@/types";
+import { DocumentCategory } from "@/types/prisma-schema-types";
+
+async function DocumentCategoryPage(
+  props: PageProps<"/dashboard/[homeId]/documents/[category]">
+) {
+  const queryClient = new QueryClient();
+  const { homeId, category } = await props.params;
+  const { search, tags, page, viewMode } = await props.searchParams;
+  const cookieStore = await cookies();
+  const cookieHeader = cookieStore.toString();
+
+  const filterParams: FetchDocumentParams = {
+    search: search?.toString(),
+    tags: Array.isArray(tags) ? tags : tags ? [tags] : [],
+    page: page ? parseInt(page.toString()) : 1,
+    category: category as DocumentCategory,
+    size: 10,
+  };
+
+  await Promise.all([
+    queryClient.prefetchQuery(
+      documentQueries.withCookies(cookieHeader).all(homeId, filterParams)
+    ),
+  ]);
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <AllDocumentsPageWrapper
+        homeId={homeId}
+        filterParams={filterParams}
+        viewMode={viewMode as "grid" | "list"}
+      />
+    </HydrationBoundary>
+  );
 }
 export default DocumentCategoryPage;

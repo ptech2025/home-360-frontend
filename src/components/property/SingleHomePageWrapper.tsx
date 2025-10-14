@@ -9,11 +9,13 @@ import {
 import { RecentTasksTable } from "@/components/dashboard/DashboardTables";
 import { userQueries } from "@/queries/user";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 type Props = {
   homeId: string;
 };
 
 function SingleHomePageWrapper({ homeId }: Props) {
+  const { replace } = useRouter();
   const { data: homeData, isPending: isHomeLoading } = useQuery(
     userQueries.singleHome(homeId)
   );
@@ -22,7 +24,8 @@ function SingleHomePageWrapper({ homeId }: Props) {
     return <div>Loading...</div>;
   }
   if (!homeData) {
-    return <div>Home not found</div>;
+    replace("/onboarding");
+    return null;
   }
 
   return (
@@ -31,7 +34,10 @@ function SingleHomePageWrapper({ homeId }: Props) {
         <OverviewCard home={homeData} />
         <UpcomingEventsCardWrapper />
       </div>
-      <MetricsCardWrapper />
+      <MetricsCardWrapper
+        documents={homeData.documents}
+        appliances={homeData.appliances}
+      />
       <div className="lg:flex-row flex flex-col gap-4">
         <RecentTasksTable />
         <ServicesCard />
