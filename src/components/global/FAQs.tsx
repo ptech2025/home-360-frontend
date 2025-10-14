@@ -24,7 +24,7 @@ const faqsArr = [
       "Yes, you can! The ability to add and manage multiple properties is available to premium subscribers. Upgrade to a paid plan to easily organize all your homes ideal for landlords, investors, or anyone managing more than one property.",
   },
   {
-    question: "What devices can I use QuickEstimate on?",
+    question: "Is my data secure?",
     answer:
       "Absolutely. We take your privacy seriously. Home360 uses bank-level encryption, secure cloud storage, and strict privacy controls to keep your personal and property information safe at all times.",
   },
