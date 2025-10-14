@@ -25,8 +25,14 @@ export const fetchSession = async (
     );
     return session;
   } catch (err) {
-    console.error("Session fetch failed:", err);
-    return null; // gracefully degrade
+    if (err instanceof Error && err.name === "AbortError") {
+      console.error(`Session fetch aborted after ${TIMEOUT_MS}ms`);
+    } else {
+      console.error("Session fetch failed:", err);
+    }
+    return null;
+  } finally {
+    clearTimeout(timeout);
   }
 };
 
