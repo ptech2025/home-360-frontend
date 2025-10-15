@@ -38,7 +38,7 @@ const tasksData: Task[] = [
   },
 ];
 
-export function RecentTasksTable() {
+function RecentTasksTable() {
   const columns: ColumnDef<Task>[] = [
     {
       id: "select",
@@ -155,3 +155,5 @@ export function RecentTasksTable() {
     </div>
   );
 }
+
+export default RecentTasksTable;

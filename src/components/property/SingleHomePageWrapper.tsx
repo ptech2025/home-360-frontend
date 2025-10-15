@@ -1,15 +1,18 @@
 "use client";
 
-import {
-  OverviewCard,
-  UpcomingEventsCardWrapper,
-  MetricsCardWrapper,
-  ServicesCard,
-} from "@/components/dashboard/DashboardCards";
-import { RecentTasksTable } from "@/components/dashboard/DashboardTables";
+import MetricsWrapper from "@/components/dashboard/MetricsWrapper";
+import RecentTasksTable from "@/components/dashboard/RecentTasksTable";
 import { userQueries } from "@/queries/user";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { DashboardOverview } from "../dashboard/DashboardOverview";
+import UpcomingEventsWrapper from "../dashboard/UpcomingEventsWrapper";
+import ServicesWrapper from "../dashboard/ServicesWrapper";
+import {
+  DashboardPageLoadingSkeleton,
+  MetricsWrapperLoadingSkeleton,
+} from "../global/Skeletons";
+import { Suspense } from "react";
 type Props = {
   homeId: string;
 };
@@ -21,7 +24,7 @@ function SingleHomePageWrapper({ homeId }: Props) {
   );
 
   if (isHomeLoading) {
-    return <div>Loading...</div>;
+    return <DashboardPageLoadingSkeleton />;
   }
   if (!homeData) {
     replace("/onboarding");
@@ -31,16 +34,15 @@ function SingleHomePageWrapper({ homeId }: Props) {
   return (
     <section className="flex flex-col gap-4 px-4 py-4 ">
       <div className="lg:flex-row flex flex-col gap-4">
-        <OverviewCard home={homeData} />
-        <UpcomingEventsCardWrapper />
+        <DashboardOverview home={homeData} />
+        <UpcomingEventsWrapper />
       </div>
-      <MetricsCardWrapper
-        documents={homeData.documents}
-        appliances={homeData.appliances}
-      />
+      <Suspense fallback={<MetricsWrapperLoadingSkeleton />}>
+        <MetricsWrapper homeId={homeId} />
+      </Suspense>
       <div className="lg:flex-row flex flex-col gap-4">
         <RecentTasksTable />
-        <ServicesCard />
+        <ServicesWrapper />
       </div>
     </section>
   );

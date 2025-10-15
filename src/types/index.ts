@@ -1,7 +1,12 @@
 import { SessionType } from "@/lib/auth-client";
 import { Route } from "next";
 import { JSX } from "react";
-import { DocumentCategory, Home, Document, Appliance } from "./prisma-schema-types";
+import {
+  DocumentCategory,
+  Home,
+  Document,
+  Appliance,
+} from "./prisma-schema-types";
 export type ProfileType = {
   id: string;
   companyName: string;
@@ -96,4 +101,14 @@ export interface FetchDocumentParams {
 export interface FetchAllDocumentsResponse {
   documents: Document[];
   pagination: Pagination;
+}
+
+export interface FetchDashboardMetricResponse {
+  appliancesCount: number;
+  documentsCount: number;
+  expenseMetrics: {
+    currentMonthTotal: number;
+    previousMonthTotal: number;
+    percentageChange: number;
+  };
 }
