@@ -1,10 +1,8 @@
 "use client";
-
-import { useChatPanelStore } from "@/store/chatPanelStore";
 import { Skeleton } from "../ui/skeleton";
 import { cn } from "@/lib/utils";
 
-export function TableSkeleton() {
+export function TableLoadingSkeleton() {
   return (
     <div className="flex flex-col gap-4 w-full">
       <Skeleton className=" min-h-[300px] w-full" />
@@ -19,133 +17,44 @@ export function TableSkeleton() {
     </div>
   );
 }
-
-export function HeaderSkeleton({ heading }: { heading: string }) {
+export function MetricsWrapperLoadingSkeleton() {
   return (
-    <div className="flex items-center justify-between gap-4">
-      <h1 className="md:text-lg lg:text-xl text-base text-black font-semibold">
-        {heading}
-      </h1>
-      <div className="w-full max-w-[35rem] flex gap-4 items-center h-11">
-        <Skeleton className="flex-1 h-full" />
-        <Skeleton className="h-11 w-8" />
-        <Skeleton className="h-11 px-3 min-w-14 rounded-4xl  " />
+    <div className="grid   grid-cols-1 lg:grid-cols-3 w-full gap-4 items-center lg:flex-row flex-col lg:col-span-2 lg:row-start-2">
+      <Skeleton className="h-40 w-full" />
+      <Skeleton className="h-40 w-full" />
+      <Skeleton className="h-40 w-full" />
+    </div>
+  );
+}
+
+export function ServicesWrapperLoadingSkeleton() {
+  return (
+    <div className="flex gap-3 shrink-0 rounded-md shadow-sm shadow-light-gray/50  h-[20rem] w-full min-w-[20rem] lg:max-w-[20rem]  flex-col p-2  flex-1">
+      <div className="flex items-center gap-4 justify-between">
+        <Skeleton className="h-6 w-1/4" />
+        <Skeleton className="size-10" />
+      </div>
+      <div className="flex flex-col gap-3 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-main-green  scrollbar-track-lighter-gray">
+        {Array.from({ length: 10 }).map((_, index) => (
+          <Skeleton key={index} className="h-50 w-full" />
+        ))}
       </div>
     </div>
   );
 }
 
-export function ChatPageSkeleton() {
-  const { isChatPanelOpen } = useChatPanelStore();
+export function DashboardPageLoadingSkeleton() {
   return (
-    <section className="w-full h-full py-4  flex-col flex gap-4">
-      <div>
-        <Skeleton className="h-10 w-14 rounded-full" />
+    <section className="flex w-full flex-col gap-4 px-4 py-4 ">
+      <div className="lg:flex-row flex flex-col gap-4 w-full">
+        <Skeleton className="lg:max-w-[30rem] w-full min-h-[12rem]" />
+        <Skeleton className="w-full flex-1 h-full min-h-[12rem]" />
       </div>
-      <div
-        className={cn(
-          "grid   w-full gap-4 overflow-y-hidden flex-1 justify-between",
-          isChatPanelOpen
-            ? "grid-cols-1 lg:grid-cols-[0.75fr_1fr]"
-            : "grid-cols-1"
-        )}
-      >
-        <div
-          className={cn("h-full pb-1", isChatPanelOpen ? "block" : "hidden")}
-        >
-          <Skeleton className="min-h-full w-full" />
-        </div>
-
-        <div className="hidden lg:block h-full pb-1 transition-width duration-300 ease-in-out">
-          <Skeleton className="min-h-full w-full" />
-        </div>
+      <MetricsWrapperLoadingSkeleton />
+      <div className="lg:flex-row w-full flex flex-col gap-4">
+        <TableLoadingSkeleton />
+        <ServicesWrapperLoadingSkeleton />
       </div>
-    </section>
-  );
-}
-
-export function SingleClientPageWrapperSkeleton() {
-  return (
-    <section className="w-full flex-col flex gap-4  py-4">
-      <div>
-        <Skeleton className="h-10 w-14 rounded-full" />
-      </div>{" "}
-      <div className="p-2 md:p-4 w-full min-h-svh  flex-col flex gap-6">
-        <div className="flex w-full flex-col gap-4">
-          {" "}
-          <div className="flex gap-2 items-center">
-            <Skeleton className="h-10 w-14" />
-            <Skeleton className="h-10 w-5" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 w-full gap-2">
-            <div className="flex items-center justify-start gap-2 w-full">
-              <Skeleton className="h-5 w-5" />
-              <Skeleton className="h-5 w-7" />
-            </div>{" "}
-            <div className="flex items-center justify-start gap-2 w-full">
-              <Skeleton className="h-5 w-5" />
-              <Skeleton className="h-5 w-7" />
-            </div>{" "}
-            <div className="flex items-center justify-start gap-2 w-full">
-              <Skeleton className="h-5 w-5" />
-              <Skeleton className="h-5 w-7" />
-            </div>
-          </div>
-        </div>
-        <TableSkeleton />
-      </div>
-    </section>
-  );
-}
-
-export function SingleProjectPageSkeleton() {
-  return (
-    <section className="w-full flex-col flex gap-4  py-4">
-      <div>
-        <Skeleton className="h-10 w-14 rounded-full" />
-      </div>{" "}
-      <div className="p-2 md:p-4 w-full min-h-svh  flex-col flex gap-6">
-        <div className="flex md:flex-row flex-col justify-between md:items-center w-full gap-3 lg:gap-6">
-          <div className="flex items-start gap-4">
-            <div className="flex gap-1 flex-col flex-1">
-              <Skeleton className="h-10 w-14" />
-
-              <Skeleton className="h-5 w-7" />
-            </div>
-            <div className="md:hidden flex items-center justify-center">
-              <Skeleton className="h-5 w-5" />
-            </div>
-          </div>
-          <div className="flex max-md:flex-wrap items-center gap-3">
-            <Skeleton className="h-8 w-10" />
-
-            <Skeleton className="h-8 w-10" />
-            <Skeleton className="h-8 w-10" />
-
-            <div className="md:flex items-center justify-center hidden">
-              <Skeleton className="h-5 w-5" />
-            </div>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full [&>div]:min-h-[16rem]">
-          <Skeleton className="w-full" />
-          <Skeleton className="w-full" />
-          <Skeleton className="w-full" />
-          <Skeleton className="w-full" />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function SingleEstimateSkeleton() {
-  return (
-    <section className="w-full h-full py-4  flex-col flex gap-4">
-      <div>
-        <Skeleton className="h-10 w-14 rounded-full" />
-      </div>
-
-      <Skeleton className="min-h-full w-full" />
     </section>
   );
 }

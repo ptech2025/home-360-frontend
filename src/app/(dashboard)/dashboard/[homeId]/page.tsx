@@ -2,6 +2,7 @@ import SingleHomePageWrapper from "@/components/property/SingleHomePageWrapper";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 import { cookies } from "next/headers";
 import {userQueries} from "@/queries/user"
+import { dashboardQueries } from "@/queries/dashboard";
 
 
 async function SingleHomePage(props: PageProps<"/dashboard/[homeId]">) {
@@ -10,7 +11,8 @@ async function SingleHomePage(props: PageProps<"/dashboard/[homeId]">) {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
   await Promise.all([
-    queryClient.prefetchQuery(userQueries.withCookies(cookieHeader).singleHome(homeId))
+    queryClient.prefetchQuery(userQueries.withCookies(cookieHeader).singleHome(homeId)),
+    queryClient.prefetchQuery(dashboardQueries.withCookies(cookieHeader).metrics(homeId))
   ])
   return (
    <HydrationBoundary state={dehydrate(queryClient)}>

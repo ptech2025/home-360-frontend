@@ -171,3 +171,22 @@ export interface PublicRecord {
   updatedAt: Date;
   home: Home;
 }
+
+export interface ServiceProvider {
+  id: string;
+  homeId: string | null;
+  userId: string;
+  name: string;
+  type: ProviderType;
+  phone: string | null;
+  email: string | null;
+  notes: string | null;
+  address: string | null;
+  website: string;
+  avgRating: number | null;
+  // jobs :     ServiceHistory[]
+  createdAt: Date;
+  updatedAt: Date;
+  home: Home | null;
+  user: AuthUserType;
+}
