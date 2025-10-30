@@ -9,7 +9,7 @@ import {
   DesktopDashboardDropdown,
   MobileDashboardDropdown,
 } from "./DashboardDropdown";
-import { Home, FileText } from "lucide-react";
+import { Home, FileText, Wrench } from "lucide-react";
 
 type Props = {
   user: AuthUserType;
@@ -30,6 +30,12 @@ function DashboardNavbar({ user }: Props) {
       icon: <FileText />,
       title: "Documents",
       url: `/dashboard/${firstHome.id}/documents` as DashboardLink["url"],
+      access: ["admin", "multiple_home_owner", "single_home_owner"],
+    },
+    {
+      icon: <Wrench />,
+      title: "Services",
+      url: `/dashboard/${firstHome.id}/services` as DashboardLink["url"],
       access: ["admin", "multiple_home_owner", "single_home_owner"],
     },
   ];

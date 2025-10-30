@@ -8,9 +8,14 @@ import { formatFileSize } from "@/utils/funcs";
 type Props = {
   value: File | undefined;
   onChange: (file: File) => void;
+  acceptedFiles?: string;
 };
 
-function FileInput({ value, onChange }: Props) {
+function FileInput({
+  value,
+  onChange,
+  acceptedFiles = ".pdf,.doc,.docx,.xls,.xlsx,",
+}: Props) {
   const [isDragging, setIsDragging] = useState(false);
   const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
@@ -75,7 +80,7 @@ function FileInput({ value, onChange }: Props) {
         type="file"
         id="file"
         hidden
-        accept=".pdf,.doc,.docx,.xls,.xlsx,"
+        accept={acceptedFiles}
         onChange={(e) => {
           if (e.target.files && e.target.files.length > 0) {
             onChange(e.target.files[0]);

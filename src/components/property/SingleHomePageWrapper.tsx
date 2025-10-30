@@ -11,6 +11,7 @@ import ServicesWrapper from "../dashboard/ServicesWrapper";
 import {
   DashboardPageLoadingSkeleton,
   MetricsWrapperLoadingSkeleton,
+  ServicesWrapperLoadingSkeleton,
 } from "../global/Skeletons";
 import { Suspense } from "react";
 type Props = {
@@ -42,7 +43,9 @@ function SingleHomePageWrapper({ homeId }: Props) {
       </Suspense>
       <div className="lg:flex-row flex flex-col gap-4">
         <RecentTasksTable />
-        <ServicesWrapper />
+        <Suspense fallback={<ServicesWrapperLoadingSkeleton />}>
+          <ServicesWrapper homeId={homeId} />
+        </Suspense>
       </div>
     </section>
   );

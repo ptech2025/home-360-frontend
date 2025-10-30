@@ -25,7 +25,7 @@ function WaitlistPage() {
           </p>
         </div>
         <WaitListForm />
-        <Countdown targetDate="2025-11-01T23:59:59Z" />
+        <Countdown targetDate="2025-11-15T23:59:59Z" />
       </div>
       <div className="relative w-full flex items-center justify-center">
         <div className="w-full h-full absolute -top-[100px] lg:-top-[270px] left-1/2 -translate-x-1/2 ">
