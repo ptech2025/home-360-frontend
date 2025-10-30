@@ -34,9 +34,11 @@ export default async function DocumentLayout(
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <section className="px-4  py-4 bg-lighter-gray grid grid-cols-1 md:grid-cols-[0.3fr_1fr] gap-2 ">
+      <section className="px-4  py-4 bg-lighter-gray/50 grid grid-cols-1 md:grid-cols-[0.3fr_1fr] gap-2 ">
         <DocumentSidebar homeId={homeId} />
-        <div className="min-h-svh bg-white rounded-t-md p-4 w-full">{props.children}</div>
+        <div className="min-h-svh bg-white rounded-t-md p-4 w-full">
+          {props.children}
+        </div>
       </section>
     </HydrationBoundary>
   );

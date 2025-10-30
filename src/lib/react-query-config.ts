@@ -1,18 +1,23 @@
-import { queryOptions, QueryKey, MutationFunction } from "@tanstack/react-query";
+import {
+  queryOptions,
+  QueryKey,
+  MutationFunction,
+  type DefaultError,
+} from "@tanstack/react-query";
 
 export function queryResult<TData>(
   key: QueryKey,
-  fn: () => Promise<TData>
+  fn: () => Promise<TData>,
+  options?: Omit<
+    ReturnType<typeof queryOptions<TData, DefaultError>>,
+    "queryKey" | "queryFn"
+  >
 ) {
-  const options = queryOptions({
+  return queryOptions({
     queryKey: key,
     queryFn: fn,
-  });
-
-  return {
     ...options,
-    queryKey: key, // explicit for invalidate/prefetch
-  };
+  });
 }
 
 export function mutationResult<TData, TVariables>(
@@ -22,13 +27,11 @@ export function mutationResult<TData, TVariables>(
 }
 
 // 🔎 Utility type: infer query data
-export type InferQueryData<T> = T extends ReturnType<typeof queryResult<infer D>>
+export type InferQueryData<T> = T extends ReturnType<
+  typeof queryResult<infer D>
+>
   ? D
   : never;
-
-
-
-
 
 // 🔎 Utility type: infer mutation data (TData)
 export type InferMutationData<T> = T extends () => MutationFunction<

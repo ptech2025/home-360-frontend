@@ -90,6 +90,7 @@ export enum ProviderType {
 export interface Home {
   id: string;
   userId: string;
+  name: string;
   address?: string;
 
   city?: string;
@@ -113,11 +114,11 @@ export interface Home {
 
   documents: Document[];
   appliances: Appliance[];
-  //   expenses    Expense[]
+  expenses: Expense[];
   records: PublicRecord[];
-  //   reminders   Reminder[]
-  //   providers   ServiceProvider[]
-  //   serviceJobs ServiceHistory[]
+  reminders: Reminder[];
+  providers: ServiceProvider[];
+  serviceJobs: ServiceHistory[];
 }
 
 export interface Appliance {
@@ -136,10 +137,10 @@ export interface Appliance {
   createdAt: Date;
   updatedAt: Date;
 
-  // receipt?: Receipt | null;
-  // maintenance?: ApplianceMaintenance[];
+  receipt: Receipt | null;
+  maintenance: ApplianceMaintenance[];
   home: Home;
-  // reminders?: Reminder[];
+  reminders: Reminder[];
   records: PublicRecord[];
 }
 
@@ -174,7 +175,6 @@ export interface PublicRecord {
 
 export interface ServiceProvider {
   id: string;
-  homeId: string | null;
   userId: string;
   name: string;
   type: ProviderType;
@@ -184,9 +184,93 @@ export interface ServiceProvider {
   address: string | null;
   website: string;
   avgRating: number | null;
-  // jobs :     ServiceHistory[]
+  isHired: boolean;
+  jobs: ServiceHistory[];
   createdAt: Date;
   updatedAt: Date;
   home: Home | null;
   user: AuthUserType;
+  _count: { jobs: number };
+}
+
+export interface ServiceHistory {
+  id: string;
+  homeId: string;
+  providerId: string;
+  jobDescription: string;
+  date: Date;
+  invoiceUrl: string | null;
+  previewUrl: string | null;
+  rating: number | null;
+  amount: number | null;
+  createdAt: Date;
+  updatedAt: Date;
+  home: Home;
+  provider: ServiceProvider;
+}
+
+export interface Receipt {
+  id: string;
+  applianceId: string | null;
+  expenseId: string | null;
+  fileUrl: string;
+  previewUrl: string | null;
+  sourceType: ReceiptSourceType;
+  extracted: Record<string, any> | null;
+  notes: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+
+  appliance: Appliance | null;
+  expenses: Expense | null;
+  maintenances: ApplianceMaintenance[];
+}
+
+export interface Expense {
+  id: string;
+  title: string;
+  homeId: string;
+  amount: number;
+  category: ExpenseCategory;
+  date: Date;
+  description: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+
+  home: Home;
+  receipts: Receipt[];
+}
+
+export interface ApplianceMaintenance {
+  id: string;
+  applianceId: string | null;
+  receiptId: string | null;
+  description: string | null;
+  maintenanceDate: Date | null;
+  cost: number | null;
+  intervalMonths: number | null;
+  status: ReminderStatus;
+  createdAt: Date;
+  updatedAt: Date;
+
+  appliance: Appliance | null;
+  receipt: Receipt | null;
+}
+
+export interface Reminder {
+  id: string;
+  userId: string;
+  homeId: string;
+  applianceId: string | null;
+  priority: Priority;
+  taskName: string;
+  dueDate: Date;
+  status: ReminderStatus;
+  type: ReminderType;
+  createdAt: Date;
+  updatedAt: Date;
+
+  user: AuthUserType;
+  home: Home;
+  appliance: Appliance | null;
 }

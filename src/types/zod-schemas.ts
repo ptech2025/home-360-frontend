@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { fromError } from "zod-validation-error";
-import { DocumentCategory } from "./prisma-schema-types";
+import { DocumentCategory, ProviderType } from "./prisma-schema-types";
 
 export const signUpSchema = z
   .object({
@@ -100,6 +100,7 @@ export const personalInfoSchema = z.object({
 });
 
 export const createHomeSchema = z.object({
+  name: z.string().min(1, { message: "Name is required" }),
   address: z.string().min(1, { message: "Address is required" }),
   city: z.string().min(1, { message: "City is required" }),
   state: z.string().min(3, { message: "State must be at least 3 characters" }),
@@ -111,12 +112,48 @@ export const createDocumentSchema = (type: "create" | "update") =>
     category: z.enum([...Object.values(DocumentCategory)]),
     tags: z
       .array(z.string())
-      .min(1, { message: "At least one tag is required" }),
+      .min(1, { message: "At least one tag is required" }).max(5, "Maximum of 5 tags"),
     file:
       type === "create"
         ? validateDocumentFile()
         : validateDocumentFile().optional(),
   });
+
+export const createServiceProviderSchema = z.object({
+  name: z.string().min(1, { message: "Name is required" }),
+  type: z.enum([...Object.values(ProviderType)], {
+    message: `Provider Type is required and must be one of the following: ${Object.values(
+      ProviderType
+    ).join(", ")}`,
+  }),
+  phone: z.string().optional(),
+  email: z.email({ message: "Invalid email address" }).optional(),
+  address: z.string().optional(),
+  website: z.url({ message: "Invalid website URL" }).optional(),
+  notes: z
+    .string()
+    .max(100, { message: "Notes must be less than 100 characters" })
+    .optional(),
+});
+
+export const createServiceJobSchema = z.object({
+  homeId: z.string().min(1, { message: "Home is required" }),
+  jobDescription: z
+    .string()
+    .min(1, { message: "Job Description is required" })
+    .max(100, { message: "Job Description must be less than 100 characters" }),
+  date: z.coerce.date({ message: "Date is required" }),
+  rating: z.coerce
+    .number({ message: "Rating must be a number" })
+    .min(1, { message: "Rating is required" })
+    .max(5, {
+      message: "Rating must be between 1 and 5",
+    }),
+  amount: z.coerce
+    .number({ message: "Amount must be a number" })
+    .min(1, { message: "Amount is required" }),
+  file: validatePDFOrImageFile().optional(),
+});
 
 export function validateImageFiles() {
   const maxUploadSize = 2 * 1024 * 1024; // 2MB
@@ -130,7 +167,7 @@ export function validateImageFiles() {
 
   return z
     .array(z.instanceof(File))
-    .max(8, "You can only upload up to 8 images")
+    .max(5, "You can only upload up to 5s images")
     .refine(
       (files) => files.every((file) => file.size <= maxUploadSize),
       "Each file must be less than 2MB"
@@ -185,7 +222,7 @@ export function validateDocumentFile() {
 }
 
 export function validateDocumentFiles() {
-  const maxUploadSize = 5 * 1024 * 1024; // 5MB
+  const maxUploadSize = 3 * 1024 * 1024; // 5MB
   const acceptedFileTypes = [
     "application/pdf",
     "application/msword", // .doc
@@ -199,7 +236,7 @@ export function validateDocumentFiles() {
     .max(5, "You can only upload up to 5 documents")
     .refine(
       (files) => files.every((file) => file.size <= maxUploadSize),
-      "Each file must be less than 5MB"
+      "Each file must be less than 3MB"
     )
     .refine(
       (files) => files.every((file) => acceptedFileTypes.includes(file.type)),
@@ -243,7 +280,7 @@ export function validatePDFOrImageFiles() {
     .max(5, "You can only upload up to 5 documents")
     .refine(
       (files) => files.every((file) => file.size <= maxUploadSize),
-      "Each file must be less than 5MB"
+      "Each file must be less than 3MB"
     )
     .refine(
       (files) => files.every((file) => acceptedFileTypes.includes(file.type)),
@@ -276,3 +313,9 @@ export type PersonalInfoSchemaType = z.infer<typeof personalInfoSchema>;
 export type CreateDocumentSchemaType = z.infer<
   ReturnType<typeof createDocumentSchema>
 >;
+
+export type CreateServiceProviderSchemaType = z.infer<
+  typeof createServiceProviderSchema
+>;
+
+export type CreateServiceJobSchemaType = z.infer<typeof createServiceJobSchema>;

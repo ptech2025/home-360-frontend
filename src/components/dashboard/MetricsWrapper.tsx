@@ -2,10 +2,10 @@
 
 import { formatCurrency } from "@/utils/funcs";
 import { Button } from "../ui/button";
-import { JSX, useState } from "react";
+import { JSX } from "react";
 import { formatDate } from "date-fns";
 import { MoreVertical, TrendingDown, TrendingUp } from "lucide-react";
-import { HouseIcon, AlertIcon, DocumentIcon } from "../global/Icons";
+import { HouseIcon, ApplianceIcon, DocumentIcon } from "../global/Icons";
 
 import { useQuery } from "@tanstack/react-query";
 import { dashboardQueries } from "@/queries/dashboard";
@@ -112,7 +112,7 @@ function MetricsWrapper({ homeId }: MetricsWrapperProps) {
           prevVal={0}
         />
         <MetricsCard
-          icon={<AlertIcon className="absolute  bottom-0 right-0" />}
+          icon={<ApplianceIcon className="absolute  bottom-0 right-0" />}
           percentage={0}
           title="Appliances"
           type="number"
@@ -141,7 +141,7 @@ function MetricsWrapper({ homeId }: MetricsWrapperProps) {
         prevVal={data.expenseMetrics.previousMonthTotal}
       />
       <MetricsCard
-        icon={<AlertIcon className="absolute  bottom-0 right-0" />}
+        icon={<ApplianceIcon className="absolute  bottom-0 right-0" />}
         percentage={0}
         title="Appliances"
         type="number"

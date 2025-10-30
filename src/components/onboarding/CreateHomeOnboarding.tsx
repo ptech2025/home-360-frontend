@@ -22,6 +22,7 @@ import { userMutations } from "@/queries/user";
 import AutoCompleteLocation from "./AutoCompleteLocation";
 import { DynamicLocationStatus } from "@/types";
 import { Home } from "@/types/prisma-schema-types";
+import { Input } from "../ui/input";
 function CreateHomeOnboarding({
   setFirstHome,
 }: {
@@ -31,6 +32,7 @@ function CreateHomeOnboarding({
     resolver: zodResolver(createHomeSchema),
     mode: "onChange",
     defaultValues: {
+      name: "",
       address: "",
       city: "",
       state: "",
@@ -51,7 +53,10 @@ function CreateHomeOnboarding({
 
   const onSubmit = async (values: CreateHomeSchemaType) => {
     const fullAddress = `${values.address.trim()}, ${values.city.trim()}, ${values.state.trim()}, USA`;
-    mutate(fullAddress);
+    mutate({
+      address: fullAddress,
+      name: values.name.trim(),
+    });
   };
   return (
     <div className="flex relative z-20 flex-col   w-full items-center justify-center gap-6">
@@ -80,6 +85,21 @@ function CreateHomeOnboarding({
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex w-full  justify-center  flex-col gap-6"
           >
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="w-full relative">
+                  <FormLabel className="text-black after:-ml-1 after:text-red-500 after:content-['*'] relative">
+                    Property Name
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="Hampton's Cottage" className="h-11" />
+                  </FormControl>
+                  <FormMessage className="text-xs" />
+                </FormItem>
+              )}
+            />{" "}
             <FormField
               control={form.control}
               name="address"
@@ -148,7 +168,6 @@ function CreateHomeOnboarding({
                 )}
               />
             </div>
-
             <Button
               size={"lg"}
               disabled={isLoading}

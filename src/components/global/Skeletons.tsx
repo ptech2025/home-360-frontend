@@ -1,4 +1,5 @@
 "use client";
+import { Table } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 import { cn } from "@/lib/utils";
 
@@ -54,6 +55,34 @@ export function DashboardPageLoadingSkeleton() {
       <div className="lg:flex-row w-full flex flex-col gap-4">
         <TableLoadingSkeleton />
         <ServicesWrapperLoadingSkeleton />
+      </div>
+    </section>
+  );
+}
+
+export function DocumentsPageLoadingSkeleton() {
+  return (
+    <section className="flex flex-col items-center gap-2 w-full">
+      <div className="py-2 px-3 w-full flex flex-col">
+        <div className="border-b border-lighter-gray flex justify-between items-center py-4">
+          <div className="flex w-full gap-1 items-center">
+            <Skeleton className="h-6 w-1/3" />
+            <Skeleton className="h-4 rounded-full w-4" />
+          </div>
+          <Skeleton className="h-6 w-1/4" />
+        </div>{" "}
+        <div className="flex justify-end items-center py-4">
+          <div className="flex items-center gap-2">
+            <Skeleton className="size-10" />
+            <Skeleton className="size-10" />
+          </div>
+        </div>
+      </div>
+
+      <div className="grid w-full gap-4 grid-cols-[repeat(auto-fill,minmax(20rem,1fr))]">
+        {Array.from({ length: 10 }).map((_, index) => (
+          <Skeleton key={index} className="h-50 rounded-xl  w-full" />
+        ))}
       </div>
     </section>
   );

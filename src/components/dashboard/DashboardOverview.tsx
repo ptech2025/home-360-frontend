@@ -33,7 +33,10 @@ export function DashboardOverview({ home }: OverviewCardProps) {
           <span className="text-white font-circular-light text-xs">
             Property Details
           </span>
-          <p className="text-white text-center lg:text-start font-circular-bold font-bold text-xl lg:text-2xl">
+          <span className="text-white text-sm font-circular-medium ">
+            {home.name}
+          </span>
+          <p className="text-white text-center lg:text-start font-circular-medium font-medium text-xl lg:text-2xl">
             {home.address || ""}
           </p>
           <div className="w-full flex flex-wrap gap-1.5 justify-center lg:justify-start items-center">

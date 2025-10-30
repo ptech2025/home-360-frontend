@@ -6,7 +6,10 @@ import {
   Home,
   Document,
   Appliance,
+  ServiceProvider,
+  ProviderType,
 } from "./prisma-schema-types";
+import { CreateServiceJobSchemaType } from "./zod-schemas";
 export type ProfileType = {
   id: string;
   companyName: string;
@@ -111,4 +114,46 @@ export interface FetchDashboardMetricResponse {
     previousMonthTotal: number;
     percentageChange: number;
   };
+}
+
+export interface FetchAllServiceProvidersResponse {
+  providers: ServiceProvider[];
+  pagination: Pagination;
+}
+
+export interface FetchGoogleServiceProviderParams {
+  homeId?: string;
+  type: ProviderType;
+  search?: string;
+  rating?: number;
+}
+
+export interface FetchServiceProviderParams {
+  search?: string;
+  homeId?: string;
+  type?: ProviderType;
+  rating?: number;
+  size?: number;
+  page?: number;
+}
+
+export interface GoogleProviderInfo {
+  id: string;
+  name: string;
+  address: string;
+  phone: string | null;
+  website: string | null;
+  rating: number | null;
+  totalReviews: number;
+  distance: number;
+  email: string | null;
+}
+
+export interface CreateJobBody {
+  homeId: string;
+  jobDescription: string;
+  date: string;
+  rating: number;
+  amount: number;
+  file?: File;
 }

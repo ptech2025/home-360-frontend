@@ -17,6 +17,7 @@ import { renderDocumentCategoryStyle } from "@/utils/funcs";
 import { ChevronsUpDown } from "lucide-react";
 import { format } from "date-fns";
 import DocumentActions from "./DocumentActions";
+import { DocumentsPageLoadingSkeleton } from "../global/Skeletons";
 
 type Props = {
   homeId: string;
@@ -117,7 +118,7 @@ function AllDocumentsPageWrapper({ homeId, filterParams, viewMode }: Props) {
   const [displayMode, setDisplayMode] = useState<"grid" | "list">(
     viewMode || "grid"
   );
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <DocumentsPageLoadingSkeleton />;
 
   return (
     <section className="flex flex-col items-center gap-2 w-full">

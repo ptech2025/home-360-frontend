@@ -43,7 +43,7 @@ export function LogoWithText({ className }: { className?: string }) {
         className="absolute top-1 -right-2"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <circle cx="4.5" cy="4.5" r="3.25" stroke="#f8be5c" strokeWidth="2.5" />
+        <circle cx="4.5" cy="4.5" r="3.25" stroke="#F59E0B" strokeWidth="2.5" />
       </svg>
     </div>
   );

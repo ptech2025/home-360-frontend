@@ -34,6 +34,8 @@ function PaginationContainer({
       page: String(page),
       category: searchParams?.get("category") || "",
       tags: searchParams?.getAll("tags") || [],
+      type: searchParams?.get("type") || "",
+      rating: searchParams?.get("rating") || "",
     })
       .filter(([_, value]) => value !== "" && value !== undefined)
       .flatMap(([key, value]) =>
