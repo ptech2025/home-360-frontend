@@ -1,6 +1,6 @@
 import { api, withAuthHeaders } from "@/lib/axios-client";
 import { FetchAllDocumentsResponse, FetchDocumentParams } from "@/types";
-import { Document, Home, PublicRecord } from "@/types/prisma-schema-types";
+import { Document } from "@/types/prisma-schema-types";
 import { CreateDocumentSchemaType } from "@/types/zod-schemas";
 
 export const documentService = {

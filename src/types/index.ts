@@ -5,11 +5,12 @@ import {
   DocumentCategory,
   Home,
   Document,
-  Appliance,
   ServiceProvider,
   ProviderType,
+  MaintenanceInstance,
+  ReminderStatus,
+  MaintenanceFrequency,
 } from "./prisma-schema-types";
-import { CreateServiceJobSchemaType } from "./zod-schemas";
 export type ProfileType = {
   id: string;
   companyName: string;
@@ -54,6 +55,7 @@ export interface DashboardLink {
   title: string;
   url: Route;
   access: UserRole[];
+  items?: DashboardLink[];
 }
 
 export interface Subscription {
@@ -120,6 +122,10 @@ export interface FetchAllServiceProvidersResponse {
   providers: ServiceProvider[];
   pagination: Pagination;
 }
+export interface FetchAllHomeTasksResponse {
+  maintenances: MaintenanceInstance[];
+  pagination: Pagination;
+}
 
 export interface FetchGoogleServiceProviderParams {
   homeId?: string;
@@ -135,6 +141,14 @@ export interface FetchServiceProviderParams {
   rating?: number;
   size?: number;
   page?: number;
+}
+export interface FetchHomeTasksParams {
+  search?: string;
+  status?: ReminderStatus;
+  frequency?: MaintenanceFrequency;
+  size?: number;
+  page?: number;
+  isCustom?: boolean;
 }
 
 export interface GoogleProviderInfo {

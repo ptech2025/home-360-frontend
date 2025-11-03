@@ -1,15 +1,73 @@
 "use client";
-import { Table } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 import { cn } from "@/lib/utils";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export function TableLoadingSkeleton() {
+  const rows = Array.from({ length: 6 });
+
   return (
     <div className="flex flex-col gap-4 w-full">
-      <Skeleton className=" min-h-[300px] w-full" />
-      <div className="flex  w-full flex-col sm:flex-row items-center sm:justify-between">
+      <div className="overflow-hidden w-full">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-[#fbfbfb]">
+              <TableHead className="py-4 font-circular-medium first:pl-6 w-[25px]">
+                <Skeleton className="h-4 w-4" />
+              </TableHead>
+              <TableHead className="py-4 font-circular-medium first:pl-6">
+                <Skeleton className="h-4 w-20" />
+              </TableHead>
+              <TableHead className="py-4 font-circular-medium first:pl-6">
+                <Skeleton className="h-4 w-16" />
+              </TableHead>
+              <TableHead className="py-4 font-circular-medium first:pl-6">
+                <Skeleton className="h-4 w-20" />
+              </TableHead>
+              <TableHead className="py-4 font-circular-medium first:pl-6">
+                <Skeleton className="h-4 w-16" />
+              </TableHead>
+              <TableHead className="py-4 font-circular-medium last:pr-6 w-[40px]">
+                <Skeleton className="h-4 w-4" />
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {rows.map((_, index) => (
+              <TableRow key={index}>
+                <TableCell className="py-4 first:pl-6 w-[25px]">
+                  <Skeleton className="h-4 w-4" />
+                </TableCell>
+                <TableCell className="py-4 first:pl-6">
+                  <Skeleton className="h-4 w-32" />
+                </TableCell>
+                <TableCell className="py-4 first:pl-6">
+                  <Skeleton className="h-6 w-20 rounded-full" />
+                </TableCell>
+                <TableCell className="py-4 first:pl-6">
+                  <Skeleton className="h-6 w-16 rounded-full" />
+                </TableCell>
+                <TableCell className="py-4 first:pl-6">
+                  <Skeleton className="h-4 w-24" />
+                </TableCell>
+                <TableCell className="py-4 last:pr-6 w-[40px]">
+                  <Skeleton className="h-4 w-4" />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+      <div className="flex w-full flex-col sm:flex-row items-center sm:justify-between">
         <Skeleton className="h-8 w-1/4" />
-        <div className="flex gap-2 ">
+        <div className="flex gap-2">
           <Skeleton className="h-8 w-8" />
           <Skeleton className="h-8 w-8" />
           <Skeleton className="h-8 w-8" />

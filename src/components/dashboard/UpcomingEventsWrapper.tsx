@@ -1,36 +1,40 @@
-
 "use client";
 
-import { Button } from "../ui/button";
-import {
-  formatDate,
-    addYears,
-  startOfYear,
-} from "date-fns";
-import { Plus } from "lucide-react";
+import { formatDate, addYears, startOfYear } from "date-fns";
 import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
+import { Dot } from "lucide-react";
 
+type EventsCardProps = {
+  orientation: "horizontal" | "vertical";
+};
+type EventsWrapperProps = {
+  orientation?: "horizontal" | "vertical";
+  homeId: string;
+  className?: string;
+  calendarClassName?: string;
+};
 
+type CalendarCardProps = {
+  className?: string;
+};
 
-
-
-export function EventsCard() {
+export function EventsCard({ orientation = "horizontal" }: EventsCardProps) {
   return (
-    <div className="flex gap-3  h-full  flex-col p-2 pr-0  flex-1">
+    <div
+      className={cn(
+        "flex gap-3  h-full   flex-col p-2 flex-1",
+        orientation === "horizontal" ? "pr-0" : ""
+      )}
+    >
       <div className="flex items-center gap-4 justify-between">
         <h4 className="text-sm text-black font-medium font-circular-medium">
-          Reminders
+          Upcoming Events
         </h4>
-        <Button
-          size={"icon"}
-          className="text-black hover:bg-main-green hover:text-white bg-transparent shadow-none"
-        >
-          <Plus />
-        </Button>
       </div>
       <div className="flex flex-col gap-3 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-main-green  scrollbar-track-lighter-gray">
-        {Array.from({ length: 13 }).map((_, index) => (
+        {Array.from({ length: 5 }).map((_, index) => (
           <div
             key={index}
             className="flex items-start gap-2  bg-light-gray/10 rounded-md p-2 w-full h-13"
@@ -52,39 +56,66 @@ export function EventsCard() {
   );
 }
 
-
-export function CalendarCard() {
+export function CalendarCard({ className }: CalendarCardProps) {
   const now = new Date();
 
   const [date, setDate] = useState<Date | undefined>(now);
 
   return (
-    <Calendar
-      mode="single"
-      captionLayout="dropdown"
-      defaultMonth={now}
-      numberOfMonths={1}
-      selected={date}
-      onSelect={setDate}
-      showOutsideDays={false}
-      startMonth={startOfYear(now)}
-      endMonth={addYears(now, 5)}
-      className="w-full max-w-[15rem] hidden lg:block"
-      classNames={{
-        day_button: "data-[selected-single=true]:bg-main-green",
-      }}
-    />
-  );
-}
-
- function UpcomingEventsWrapper() {
-  return (
-    <div className="overflow-y-hidden p-2 max-h-[21.5rem] flex-1 w-full min-h-[21.5rem] flex gap-6 rounded-md shadow-sm shadow-light-gray/50 items-start bg-white">
-      <CalendarCard />
-      <EventsCard />
+    <div className="w-full flex-col items-center gap-2">
+      <Calendar
+        mode="single"
+        captionLayout="dropdown"
+        defaultMonth={now}
+        numberOfMonths={1}
+        selected={date}
+        onSelect={setDate}
+        showOutsideDays={false}
+        startMonth={startOfYear(now)}
+        endMonth={addYears(now, 10)}
+        className={cn("w-full", className)}
+        classNames={{
+          day_button: "data-[selected-single=true]:bg-main-green",
+        }}
+      />
+      <div className="flex items-center justify-center gap-3">
+        <div className="flex items-center gap-1">
+          <Dot className="size-2 bg-main-green text-main-green shrink-0 rounded-full" />
+          <span className="text-xs text-gray">Default</span>
+        </div>{" "}
+        <div className="flex items-center gap-1">
+          <Dot className="size-2 bg-main-yellow text-main-yellow shrink-0 rounded-full" />
+          <span className="text-xs text-gray">Appliance</span>
+        </div>{" "}
+        <div className="flex items-center gap-1">
+          <Dot className="size-2 bg-red-500 text-red-500 shrink-0 rounded-full" />
+          <span className="text-xs">Custom</span>
+        </div>
+      </div>
     </div>
   );
 }
 
+function UpcomingEventsWrapper({
+  homeId,
+  orientation = "horizontal",
+  className,
+  calendarClassName,
+}: EventsWrapperProps) {
+  return (
+    <div
+      className={cn(
+        "overflow-y-hidden p-2  flex-1 w-full  flex gap-6 rounded-md shadow-sm shadow-light-gray/50  bg-white",
+        orientation === "horizontal"
+          ? "flex-row h-[21.5rem] items-start"
+          : "flex-col min-h-full ",
+        className
+      )}
+    >
+      <CalendarCard className={calendarClassName} />
+      <EventsCard orientation={orientation} />
+    </div>
+  );
+}
 
-export default UpcomingEventsWrapper
+export default UpcomingEventsWrapper;

@@ -28,7 +28,7 @@ export const userMutations = {
     userService.unSubscribeFromWaitList(email)
   ),
   triggerOnboarding: mutationResult(() => userService.onboarded()),
-  addHome: mutationResult((variables: { address: string; name: string }) =>
+  addHome: mutationResult((variables: { address: string; }) =>
     userService.createHome(variables)
   ),
   updateHome: mutationResult(

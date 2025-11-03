@@ -2,6 +2,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Route } from "next";
+import { cn } from "@/lib/utils";
 
 type PaginationContainerProps = {
   currentPage: number;
@@ -9,6 +10,7 @@ type PaginationContainerProps = {
   size?: number;
   contentTitle: string;
   searchKey: string;
+  className?: string;
 };
 
 type ButtonProps = {
@@ -22,7 +24,8 @@ function PaginationContainer({
   totalPages,
   searchKey,
   contentTitle,
-  size,
+  size = 10,
+  className,
 }: PaginationContainerProps) {
   const searchParams = useSearchParams();
   const { push } = useRouter();
@@ -139,9 +142,14 @@ function PaginationContainer({
     return null;
   }
   return (
-    <div className="flex  w-full flex-col sm:flex-row items-center sm:justify-between">
-      <p className="font-nunito text-sm text-[#B9B8BD]">
-        Showing {size || 10} {contentTitle} per page
+    <div
+      className={cn(
+        "flex  w-full flex-col sm:flex-row items-center sm:justify-between",
+        className
+      )}
+    >
+      <p className="font-circular-light text-sm text-gray">
+        Showing {size} {contentTitle} per page
       </p>
 
       <div className="flex gap-x-2">

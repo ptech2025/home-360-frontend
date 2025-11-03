@@ -7,10 +7,7 @@ import {
   GoogleProviderInfo,
 } from "@/types";
 import { ServiceHistory, ServiceProvider } from "@/types/prisma-schema-types";
-import {
-  CreateServiceJobSchemaType,
-  CreateServiceProviderSchemaType,
-} from "@/types/zod-schemas";
+import { CreateServiceProviderSchemaType } from "@/types/zod-schemas";
 
 export const providerService = {
   fetchAllSaved: async (

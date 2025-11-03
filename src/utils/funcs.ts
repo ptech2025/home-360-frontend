@@ -1,6 +1,6 @@
 import { AuthUserType, Subscription } from "@/types";
 import { DocumentCategory, Document } from "@/types/prisma-schema-types";
-import { toast } from "sonner";
+
 
 export const getCurrentLocation = (): Promise<GeolocationPosition> => {
   return new Promise((resolve, reject) => {

@@ -66,7 +66,7 @@ function WelcomeOnboarding({ home }: Props) {
         <div className="p-6 flex rounded-xl bg-lime w-full flex-col gap-4 justify-center">
           <div className="flex gap-2 text-base text-black font-circular-medium font-medium">
             <HomeIcon strokeWidth={1.5} className="text-gray size-5" />
-            <span>{home.name}</span>
+            <span>Your Property</span>
           </div>
           <h2 className="font-circular-bold font-bold text-2xl md:text-3xl lg:text-4xl">
             {home.address || ""}

@@ -1,7 +1,7 @@
 "use client";
 
 import MetricsWrapper from "@/components/dashboard/MetricsWrapper";
-import RecentTasksTable from "@/components/dashboard/RecentTasksTable";
+import RecentTasksWrapper from "@/components/dashboard/RecentTasksWrapper";
 import { userQueries } from "@/queries/user";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,7 @@ import {
   DashboardPageLoadingSkeleton,
   MetricsWrapperLoadingSkeleton,
   ServicesWrapperLoadingSkeleton,
+  TableLoadingSkeleton,
 } from "../global/Skeletons";
 import { Suspense } from "react";
 type Props = {
@@ -36,13 +37,18 @@ function SingleHomePageWrapper({ homeId }: Props) {
     <section className="flex flex-col gap-4 px-4 py-4 ">
       <div className="lg:flex-row flex flex-col gap-4">
         <DashboardOverview home={homeData} />
-        <UpcomingEventsWrapper />
+        <UpcomingEventsWrapper
+          homeId={homeId}
+          calendarClassName=" max-w-[15rem] hidden lg:block [--cell-size:--spacing(8.5)]"
+        />
       </div>
       <Suspense fallback={<MetricsWrapperLoadingSkeleton />}>
         <MetricsWrapper homeId={homeId} />
       </Suspense>
       <div className="lg:flex-row flex flex-col gap-4">
-        <RecentTasksTable />
+        <Suspense fallback={<TableLoadingSkeleton />}>
+          <RecentTasksWrapper homeId={homeId} />
+        </Suspense>
         <Suspense fallback={<ServicesWrapperLoadingSkeleton />}>
           <ServicesWrapper homeId={homeId} />
         </Suspense>

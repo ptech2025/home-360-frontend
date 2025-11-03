@@ -4,8 +4,13 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { providerQueries } from "@/queries/provider";
 import { ServicesWrapperLoadingSkeleton } from "../global/Skeletons";
+import { SavedProviderSheet } from "../service-provider/ServiceProviderSheets";
+import { userQueries } from "@/queries/user";
 
 function ServicesWrapper({ homeId }: { homeId: string }) {
+  const { data: homeData, isLoading: isHomeLoading } = useQuery(
+    userQueries.allHomes()
+  );
   const { data, isLoading } = useQuery(
     providerQueries.allHired({
       page: 1,
@@ -14,7 +19,7 @@ function ServicesWrapper({ homeId }: { homeId: string }) {
     })
   );
 
-  if (isLoading) return <ServicesWrapperLoadingSkeleton />;
+  if (isLoading || isHomeLoading) return <ServicesWrapperLoadingSkeleton />;
 
   return (
     <div className="flex gap-3 shrink-0 rounded-md shadow-sm shadow-light-gray/50  h-[20rem] lg:max-w-[20rem]  flex-col p-2  flex-1">
@@ -35,26 +40,32 @@ function ServicesWrapper({ homeId }: { homeId: string }) {
       {data && data.providers.length > 0 ? (
         <div className="flex flex-col gap-3 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-main-green  scrollbar-track-lighter-gray">
           {data.providers.map((provider) => (
-            <div
+            <SavedProviderSheet
               key={provider.id}
-              className="flex items-start gap-2  bg-light-gray/10 rounded-md p-2 w-full h-13"
+              data={provider}
+              homes={homeData || []}
             >
-              <span className="rounded-md bg-main-green w-1 min-h-full"> </span>
-              <div className="flex flex-col gap-1">
-                <h6 className="text-sm font-medium font-circular-medium text-black">
-                  {provider.name}
-                </h6>
-                <div className="flex items-center gap-1">
-                  <span className="text-gray text-xs">
-                    {provider.type.replace("_", " ")}
-                  </span>
-                  <span className="bg-gray size-1 rounded-full"></span>
-                  <span className="text-gray text-xs">
-                    {provider._count.jobs} Jobs
-                  </span>
+              <div className="flex items-start gap-2 hover:bg-main-green/20  bg-light-gray/10 rounded-md p-2 w-full h-13 cursor-pointer">
+                <span className="rounded-md bg-main-green w-1 min-h-full">
+                  {" "}
+                </span>
+                <div className="flex flex-col gap-1">
+                  <h6 className="text-sm font-medium font-circular-medium text-black">
+                    {provider.name}
+                  </h6>
+                  <div className="flex items-center gap-1">
+                    <span className="text-gray capitalize text-xs">
+                      {provider.type.replace("_", " ")}
+                    </span>
+                    <span className="bg-gray size-1 rounded-full"></span>
+                    <span className="text-gray text-xs">
+                      {provider._count.jobs} Job
+                      {provider._count.jobs > 1 && "s"}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
+            </SavedProviderSheet>
           ))}
         </div>
       ) : (

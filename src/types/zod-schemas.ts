@@ -1,6 +1,12 @@
 import { z } from "zod";
 import { fromError } from "zod-validation-error";
-import { DocumentCategory, ProviderType } from "./prisma-schema-types";
+import {
+  DocumentCategory,
+  ProviderType,
+  ReminderType,
+  ReminderStatus,
+  MaintenanceFrequency,
+} from "./prisma-schema-types";
 
 export const signUpSchema = z
   .object({
@@ -100,7 +106,6 @@ export const personalInfoSchema = z.object({
 });
 
 export const createHomeSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
   address: z.string().min(1, { message: "Address is required" }),
   city: z.string().min(1, { message: "City is required" }),
   state: z.string().min(3, { message: "State must be at least 3 characters" }),
@@ -112,7 +117,8 @@ export const createDocumentSchema = (type: "create" | "update") =>
     category: z.enum([...Object.values(DocumentCategory)]),
     tags: z
       .array(z.string())
-      .min(1, { message: "At least one tag is required" }).max(5, "Maximum of 5 tags"),
+      .min(1, { message: "At least one tag is required" })
+      .max(5, "Maximum of 5 tags"),
     file:
       type === "create"
         ? validateDocumentFile()
@@ -153,6 +159,30 @@ export const createServiceJobSchema = z.object({
     .number({ message: "Amount must be a number" })
     .min(1, { message: "Amount is required" }),
   file: validatePDFOrImageFile().optional(),
+});
+
+export const createHomeTaskSchema = z.object({
+  title: z.string().min(1, { message: "Task Name is required" }),
+  dueDate: z.coerce.date({ message: "Due Date is required" }),
+  status: z.enum([...Object.values(ReminderStatus)], {
+    message: `Status is required and must be one of the following: ${Object.values(
+      ReminderStatus
+    ).join(", ")}`,
+  }).optional(),
+  description: z
+    .string()
+    .max(100, { message: "Description must be less than 100 characters" })
+    .optional(),
+  category: z.enum([...Object.values(ReminderType)], {
+    message: `Task Category is required and must be one of the following: ${Object.values(
+      ReminderType
+    ).join(", ")}`,
+  }),
+  frequency: z.enum([...Object.values(MaintenanceFrequency)], {
+    message: `Frequency is required and must be one of the following: ${Object.values(
+      MaintenanceFrequency
+    ).join(", ")}`,
+  }),
 });
 
 export function validateImageFiles() {
@@ -319,3 +349,4 @@ export type CreateServiceProviderSchemaType = z.infer<
 >;
 
 export type CreateServiceJobSchemaType = z.infer<typeof createServiceJobSchema>;
+export type CreateHomeTaskSchemaType = z.infer<typeof createHomeTaskSchema>;
