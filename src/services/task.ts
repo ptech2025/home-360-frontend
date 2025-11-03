@@ -1,7 +1,6 @@
 import { api, withAuthHeaders } from "@/lib/axios-client";
 import {
   FetchAllHomeTasksResponse,
-  FetchAllServiceProvidersResponse,
   FetchHomeTasksParams,
 } from "@/types";
 import { MaintenanceInstance } from "@/types/prisma-schema-types";

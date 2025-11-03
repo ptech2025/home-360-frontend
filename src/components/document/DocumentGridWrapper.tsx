@@ -1,8 +1,6 @@
 import { Document } from "@/types/prisma-schema-types";
 import DocumentEmpty from "./DocumentEmpty";
 import { format } from "date-fns";
-import { Button } from "../ui/button";
-import { Download } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
 import { renderDocumentCategoryStyle } from "@/utils/funcs";

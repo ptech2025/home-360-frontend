@@ -5,14 +5,12 @@ import {
   DocumentCategory,
   Home,
   Document,
-  Appliance,
   ServiceProvider,
   ProviderType,
   MaintenanceInstance,
   ReminderStatus,
   MaintenanceFrequency,
 } from "./prisma-schema-types";
-import { CreateServiceJobSchemaType } from "./zod-schemas";
 export type ProfileType = {
   id: string;
   companyName: string;

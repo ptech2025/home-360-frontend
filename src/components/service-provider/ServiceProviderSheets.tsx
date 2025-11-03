@@ -206,7 +206,7 @@ export function SavedProviderSheet({
                           Home:
                         </span>
                         <span className="text-xs font-circular-medium">
-                          {job.home.name}
+                          {job.home.address ?? "N/A"}
                         </span>
                       </div>{" "}
                       <div className="flex items-center gap-1 ">
