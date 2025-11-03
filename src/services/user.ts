@@ -30,7 +30,7 @@ export const userService = {
     await api.patch(`/api/user/complete-onboarding`);
   },
 
-  createHome: async (data: { address: string; name: string }) => {
+  createHome: async (data: { address: string }) => {
     const res = await api.post("/api/public-record/lookup", data);
     return res.data as {
       home: Home | null;
@@ -38,11 +38,7 @@ export const userService = {
       message: string;
     };
   },
-  updateHome: async (data: {
-    address: string;
-    name: string;
-    homeId: string;
-  }) => {
+  updateHome: async (data: { address: string; homeId: string }) => {
     const res = await api.post(`/api/home/address/${data.homeId}`, data);
     return res.data as {
       home: Home | null;

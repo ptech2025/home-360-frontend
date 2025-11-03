@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
@@ -710,7 +709,7 @@ export function HireProviderDialog({
                               value={home.id}
                               className="capitalize"
                             >
-                              {home.name}
+                              {home.address ?? "N/A"}
                             </SelectItem>
                           ))}
                         </SelectContent>

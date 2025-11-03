@@ -25,12 +25,14 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   emptyMessage?: string;
+  children?: React.ReactNode;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   emptyMessage = "No results found.",
+  children,
 }: DataTableProps<TData, TValue>) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -101,9 +103,13 @@ export function DataTable<TData, TValue>({
             <TableRow>
               <TableCell
                 colSpan={columns.length}
-                className="h-24 text-center capitalize"
+                className="h-full text-center capitalize"
               >
-                {emptyMessage.replace("_", " ")}
+                {children ? (
+                  children
+                ) : (
+                  <span>{emptyMessage.replace("_", " ")}</span>
+                )}
               </TableCell>
             </TableRow>
           )}

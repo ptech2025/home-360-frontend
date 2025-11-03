@@ -11,14 +11,12 @@ import { Wrench } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
 import { providerQueries } from "@/queries/provider";
-import { Button } from "../ui/button";
 import PaginationContainer from "../global/PaginationContainer";
 import {
   ProviderRatingFilter,
   ProviderTypeFilter,
 } from "./ServiceProviderFilters";
 import SearchBar from "../global/SearchBar";
-import { AddOrEditDocumentDialog } from "../document/DocumentDialogs";
 
 type Props = {
   filterParams: FetchServiceProviderParams;

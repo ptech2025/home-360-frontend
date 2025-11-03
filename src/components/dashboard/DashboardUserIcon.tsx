@@ -1,7 +1,13 @@
 import { AuthUserType } from "@/types";
 import Image from "next/image";
 
-function DashboardUserIcon({ user }: { user: AuthUserType }) {
+function DashboardUserIcon({
+  user,
+  className,
+}: {
+  user: AuthUserType;
+  className?: string;
+}) {
   const userName = user.name;
   const profileImage =
     user.image ||
@@ -15,7 +21,7 @@ function DashboardUserIcon({ user }: { user: AuthUserType }) {
       width={40}
       height={40}
       priority
-      className="size-10 shrink-0 rounded-full object-cover"
+      className={`size-10 shrink-0 rounded-full object-cover ${className}`}
     />
   );
 }

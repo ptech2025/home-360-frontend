@@ -87,10 +87,18 @@ export enum ProviderType {
   other = "other",
 }
 
+export enum MaintenanceFrequency {
+  monthly = "monthly",
+  quarterly = "quarterly",
+  annual = "annual",
+  biannual = "biannual",
+  five_years = "five_years",
+  ten_years = "ten_years",
+}
+
 export interface Home {
   id: string;
   userId: string;
-  name: string;
   address?: string;
 
   city?: string;
@@ -273,4 +281,27 @@ export interface Reminder {
   user: AuthUserType;
   home: Home;
   appliance: Appliance | null;
+}
+
+export interface MaintenanceInstance {
+  id: string;
+  templateId: string | null;
+  homeId: string;
+  userId: string;
+  title: string;
+  description: string | null;
+  dueDate: Date;
+  frequency: MaintenanceFrequency;
+  status: ReminderStatus;
+  completedAt: Date | null;
+  category: ReminderType;
+  isCustom: boolean;
+  reminderSent: boolean;
+  reminderSentAt: Date | null;
+  estimatedCost: number | null;
+  createdAt: Date;
+  updatedAt: Date;
+
+  home: Home;
+  user: AuthUserType;
 }
