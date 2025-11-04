@@ -163,7 +163,6 @@ export const createServiceJobSchema = z.object({
 
 export const createHomeTaskSchema = z.object({
   title: z.string().min(1, { message: "Task Name is required" }),
-  dueDate: z.coerce.date({ message: "Due Date is required" }),
   status: z.enum([...Object.values(ReminderStatus)], {
     message: `Status is required and must be one of the following: ${Object.values(
       ReminderStatus

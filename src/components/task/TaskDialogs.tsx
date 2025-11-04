@@ -99,7 +99,6 @@ export function AddOrEditCustomTaskDialog({
     defaultValues: {
       category: data?.category ?? undefined,
       frequency: data?.frequency ?? undefined,
-      dueDate: data?.dueDate ?? undefined,
       description: data?.description ?? undefined,
       title: data?.title ?? undefined,
       status: data?.status ?? undefined,
@@ -241,41 +240,6 @@ export function AddOrEditCustomTaskDialog({
                   )}
                 />
               </div>{" "}
-              <FormField
-                control={form.control}
-                name="dueDate"
-                render={({ field }) => (
-                  <FormItem className="w-full relative">
-                    <FormLabel className="text-black font-circular-medium">
-                      Due Date
-                    </FormLabel>
-                    <FormDescription>
-                      Select the due date of the task.
-                    </FormDescription>
-                    <FormControl>
-                      <Input
-                        type="datetime-local"
-                        className="h-11"
-                        value={
-                          field.value
-                            ? format(field.value as Date, "yyyy-MM-dd'T'HH:mm")
-                            : ""
-                        }
-                        onChange={(e) => {
-                          const dateValue = e.target.value;
-                          if (!dateValue) {
-                            field.onChange(undefined);
-                            return;
-                          }
-                          const parsedDate = new Date(dateValue);
-                          field.onChange(parsedDate);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
               <FormField
                 control={form.control}
                 name="description"
@@ -482,7 +446,7 @@ export function ViewTaskDialog({
                 Category
               </span>
               <h5 className="text-black capitalize text-base font-circular-medium">
-                {/* {task.category.replace("_", " ")} */}
+                {task.category.replace("_", " ")}
               </h5>
             </div>
           </div>

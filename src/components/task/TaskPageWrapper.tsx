@@ -39,6 +39,7 @@ function TaskPageWrapper({ homeId, filterParams }: Props) {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-[0.3fr_1fr] gap-2">
         <UpcomingEventsWrapper
+          type="tasks"
           homeId={homeId}
           orientation="vertical"
           className="min-h-svh bg-white rounded-t-md p-0 w-full justify-center"

@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { CalendarCard } from "../dashboard/UpcomingEventsWrapper";
 
 export function TableLoadingSkeleton() {
   const rows = Array.from({ length: 6 });
@@ -143,5 +144,42 @@ export function DocumentsPageLoadingSkeleton() {
         ))}
       </div>
     </section>
+  );
+}
+
+export function UpcomingEventsWrapperLoadingSkeleton({
+  orientation = "horizontal",
+  className,
+}: {
+  orientation?: "horizontal" | "vertical";
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "flex gap-3 w-full h-full flex-col p-2 flex-1",
+        orientation === "horizontal" ? "pr-0" : ""
+      )}
+    >
+      {/* Header */}
+      <div className="flex items-center gap-4 justify-between">
+        <Skeleton className="h-5 w-32" />
+      </div>
+      {/* Events List */}
+      <div className="flex flex-col gap-3 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-main-green scrollbar-track-lighter-gray">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <div
+            key={index}
+            className="flex items-start gap-2 bg-light-gray/10 rounded-md p-2 w-full h-13"
+          >
+            <Skeleton className="w-1 min-h-full rounded-md" />
+            <div className="flex flex-col gap-1 flex-1">
+              <Skeleton className="h-4 w-3/4" />
+              <Skeleton className="h-3 w-24" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

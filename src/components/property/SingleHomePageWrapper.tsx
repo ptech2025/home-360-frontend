@@ -13,6 +13,7 @@ import {
   MetricsWrapperLoadingSkeleton,
   ServicesWrapperLoadingSkeleton,
   TableLoadingSkeleton,
+  UpcomingEventsWrapperLoadingSkeleton,
 } from "../global/Skeletons";
 import { Suspense } from "react";
 type Props = {
@@ -37,10 +38,13 @@ function SingleHomePageWrapper({ homeId }: Props) {
     <section className="flex flex-col gap-4 px-4 py-4 ">
       <div className="lg:flex-row flex flex-col gap-4">
         <DashboardOverview home={homeData} />
-        <UpcomingEventsWrapper
-          homeId={homeId}
-          calendarClassName=" max-w-[15rem] hidden lg:block [--cell-size:--spacing(8.5)]"
-        />
+        <Suspense fallback={<UpcomingEventsWrapperLoadingSkeleton />}>
+          <UpcomingEventsWrapper
+           type="reminders"
+            homeId={homeId}
+            calendarClassName="max-w-[15rem] hidden lg:block [--cell-size:--spacing(8.5)]"
+          />
+        </Suspense>
       </div>
       <Suspense fallback={<MetricsWrapperLoadingSkeleton />}>
         <MetricsWrapper homeId={homeId} />

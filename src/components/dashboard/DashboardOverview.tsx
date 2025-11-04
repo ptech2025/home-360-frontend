@@ -3,6 +3,7 @@ import { Skeleton } from "../ui/skeleton";
 import { Home } from "@/types/prisma-schema-types";
 import { formatCurrency } from "@/utils/funcs";
 import { Button } from "../ui/button";
+import Link from "next/link";
 type OverviewCardProps = {
   home: Home;
 };
@@ -71,8 +72,13 @@ export function DashboardOverview({ home }: OverviewCardProps) {
             )}{" "}
           </div>
         </div>
-        <Button className="w-full shrink-0 lg:w-max text-main-green px-8 bg-white border border-transparent hover:bg-light-gray shadow-none hover:text-white duration-300 hover:border-white">
-          Edit
+        <Button
+          asChild
+          className="w-full shrink-0 lg:w-max text-main-green px-4 bg-white border border-transparent hover:bg-light-gray shadow-none hover:text-white duration-300 hover:border-white"
+        >
+          <Link href={`/dashboard/${home.id}/public-records`}>
+            Public Records
+          </Link>
         </Button>
       </div>
     </div>

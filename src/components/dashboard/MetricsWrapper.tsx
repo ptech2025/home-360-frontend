@@ -1,15 +1,16 @@
 "use client";
 
 import { formatCurrency } from "@/utils/funcs";
-import { Button } from "../ui/button";
 import { JSX } from "react";
 import { formatDate } from "date-fns";
-import { MoreVertical, TrendingDown, TrendingUp } from "lucide-react";
+import { TrendingDown, TrendingUp } from "lucide-react";
 import { HouseIcon, ApplianceIcon, DocumentIcon } from "../global/Icons";
 
 import { useQuery } from "@tanstack/react-query";
 import { dashboardQueries } from "@/queries/dashboard";
 import { MetricsWrapperLoadingSkeleton } from "../global/Skeletons";
+import Link from "next/link";
+import { Route } from "next";
 
 type MetricsCardProps = {
   title: string;
@@ -18,6 +19,7 @@ type MetricsCardProps = {
   percentage: number;
   icon: JSX.Element;
   type: "currency" | "number";
+  url: string;
 };
 type MetricsWrapperProps = {
   homeId: string;
@@ -30,10 +32,14 @@ export function MetricsCard({
   prevVal,
   type,
   icon,
+  url,
 }: MetricsCardProps) {
   if (type === "currency") {
     return (
-      <div className="w-full h-full relative rounded-md overflow-clip flex flex-col justify-between items-start px-4 gap-4 py-6 shadow-light-gray/50 shadow-xs ">
+      <Link
+        href={url as Route}
+        className="w-full hover:shadow-md h-full relative rounded-md overflow-clip flex flex-col justify-between items-start px-4 gap-4 py-6 shadow-light-gray/50 shadow-xs "
+      >
         <div className="flex relative z-10 items-start w-full justify-between gap-4">
           <div className="flex flex-col gap-1">
             <span className="text-sm font-medium font-circular-medium text-black">
@@ -43,12 +49,6 @@ export function MetricsCard({
               {formatDate(new Date(), "MMMM yyyy")}
             </span>
           </div>
-          <Button
-            size={"icon"}
-            className="text-black hover:bg-main-green hover:text-white bg-transparent shadow-none"
-          >
-            <MoreVertical />
-          </Button>
         </div>
         <div className="flex relative z-10 flex-col gap-1.5 ">
           <div className="border border-sidebar-border flex items-center gap-2 text-black py-1 px-2 rounded-md">
@@ -66,23 +66,20 @@ export function MetricsCard({
           </h5>
         </div>
         {icon}
-      </div>
+      </Link>
     );
   }
   return (
-    <div className="w-full h-full justify-between relative rounded-md overflow-clip flex flex-col items-start px-4 gap-4 py-6 shadow-light-gray/50 shadow-xs ">
+    <Link
+      href={url as Route}
+      className="w-full hover:shadow-md h-full justify-between relative rounded-md overflow-clip flex flex-col items-start px-4 gap-4 py-6 shadow-light-gray/50 shadow-xs "
+    >
       <div className="flex relative z-10 items-start w-full justify-between gap-4">
         <div className="flex flex-col gap-1">
           <span className="text-sm font-medium font-circular-medium text-black">
             {title}
           </span>
         </div>
-        <Button
-          size={"icon"}
-          className="text-black hover:bg-main-green hover:text-white bg-transparent shadow-none"
-        >
-          <MoreVertical />
-        </Button>
       </div>
       <div className="flex relative z-10 flex-col gap-1 ">
         <span className="text-sm text-gray">Total</span>
@@ -91,7 +88,7 @@ export function MetricsCard({
         </h5>
       </div>
       {icon}
-    </div>
+    </Link>
   );
 }
 
@@ -110,6 +107,7 @@ function MetricsWrapper({ homeId }: MetricsWrapperProps) {
           type="currency"
           value={0}
           prevVal={0}
+          url={`/dashboard/${homeId}/expenses`}
         />
         <MetricsCard
           icon={<ApplianceIcon className="absolute  bottom-0 right-0" />}
@@ -118,6 +116,7 @@ function MetricsWrapper({ homeId }: MetricsWrapperProps) {
           type="number"
           value={0}
           prevVal={0}
+          url={`/dashboard/${homeId}/appliances`}
         />
         <MetricsCard
           icon={<DocumentIcon className="absolute  bottom-0 right-0" />}
@@ -126,6 +125,7 @@ function MetricsWrapper({ homeId }: MetricsWrapperProps) {
           type="number"
           value={0}
           prevVal={0}
+          url={`/dashboard/${homeId}/documents`}
         />
       </div>
     );
@@ -139,6 +139,7 @@ function MetricsWrapper({ homeId }: MetricsWrapperProps) {
         type="currency"
         value={data.expenseMetrics.currentMonthTotal}
         prevVal={data.expenseMetrics.previousMonthTotal}
+        url={`/dashboard/${homeId}/expenses`}
       />
       <MetricsCard
         icon={<ApplianceIcon className="absolute  bottom-0 right-0" />}
@@ -149,6 +150,7 @@ function MetricsWrapper({ homeId }: MetricsWrapperProps) {
           data?.appliancesCount > 1 ? "s" : ""
         }`}
         prevVal={0}
+        url={`/dashboard/${homeId}/appliances`}
       />
       <MetricsCard
         icon={<DocumentIcon className="absolute  bottom-0 right-0" />}
@@ -159,6 +161,7 @@ function MetricsWrapper({ homeId }: MetricsWrapperProps) {
           data?.documentsCount > 1 ? "s" : ""
         }`}
         prevVal={0}
+        url={`/dashboard/${homeId}/documents`}
       />
     </div>
   );

@@ -12,11 +12,31 @@ export const taskQueries = {
     queryResult(["all-tasks", homeId, params], () =>
       taskService.fetchAll(homeId, params)
     ),
-    
+  tasks: (homeId: string, date?: string, enabled:boolean) =>
+    queryResult(["tasks-events", homeId, date], () =>
+      taskService.fetchTaskEvents(homeId, date), {
+        enabled
+      }
+    ),
+  reminders: (homeId: string, date?: string, enabled:boolean) =>
+    queryResult(["reminders-events", homeId, date], () =>
+      taskService.fetchReminderEvents(homeId, date), {
+        enabled
+      }
+    ),
   withCookies: (cookies: string) => ({
     allTasks: (homeId: string, params: FetchHomeTasksParams) =>
       queryResult(["all-tasks", homeId, params], () =>
         taskService.fetchAll(homeId, params, cookies)
+      ),
+
+    tasks: (homeId: string, date?: string) =>
+      queryResult(["tasks-events", homeId, date], () =>
+        taskService.fetchTaskEvents(homeId, date, cookies)
+      ),
+    reminders: (homeId: string, date?: string) =>
+      queryResult(["reminders-events", homeId, date], () =>
+        taskService.fetchReminderEvents(homeId, date, cookies)
       ),
   }),
 };

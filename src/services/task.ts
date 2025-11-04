@@ -1,9 +1,6 @@
 import { api, withAuthHeaders } from "@/lib/axios-client";
-import {
-  FetchAllHomeTasksResponse,
-  FetchHomeTasksParams,
-} from "@/types";
-import { MaintenanceInstance } from "@/types/prisma-schema-types";
+import { FetchAllHomeTasksResponse, FetchHomeTasksParams } from "@/types";
+import { MaintenanceInstance, Reminder } from "@/types/prisma-schema-types";
 import { CreateHomeTaskSchemaType } from "@/types/zod-schemas";
 
 export const taskService = {
@@ -64,5 +61,29 @@ export const taskService = {
       `/api/maintenance/delete-user-maintenance/${homeId}/${taskId}`,
       withAuthHeaders(cookies)
     );
+  },
+  fetchTaskEvents: async (homeId: string, date?: string, cookies?: string) => {
+    const res = await api.get(
+      `/api/maintenance/upcoming-maintenance/${homeId}`,
+      {
+        ...withAuthHeaders(cookies),
+        params: {
+          date,
+        },
+      }
+    );
+    return res.data as MaintenanceInstance[];
+  }, 
+   fetchReminderEvents: async (homeId: string, date?: string, cookies?: string) => {
+    const res = await api.get(
+      `/api/maintenance/upcoming/${homeId}`,
+      {
+        ...withAuthHeaders(cookies),
+        params: {
+          date,
+        },
+      }
+    );
+    return res.data as Reminder[];
   },
 };

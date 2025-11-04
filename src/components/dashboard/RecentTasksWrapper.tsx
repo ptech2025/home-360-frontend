@@ -18,7 +18,7 @@ function RecentTasksWrapper({ homeId }: { homeId: string }) {
     <div className="flex flex-col gap-4 flex-1 w-full">
       <div className="flex justify-between gap-4 items-center">
         <h5 className="text-lg font-circular-bold font-bold text-black">
-          Tasks Overview
+          Latest Tasks
         </h5>
         <Button asChild className="green-btn">
           <Link href={`/dashboard/${homeId}/tasks`}>
