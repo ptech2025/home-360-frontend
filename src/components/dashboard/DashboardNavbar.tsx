@@ -17,7 +17,7 @@ import {
   BrushCleaning,
   Refrigerator,
   Target,
-  Bell,
+  Archive,
   DollarSign,
 } from "lucide-react";
 
@@ -50,6 +50,12 @@ function DashboardNavbar({ user }: Props) {
       access: ["admin", "multiple_home_owner", "single_home_owner"],
       items: [
         {
+          icon: <Archive />,
+          title: "Details",
+          url: `/dashboard/${firstHome.id}/details` as DashboardLink["url"],
+          access: ["admin", "multiple_home_owner", "single_home_owner"],
+        },
+        {
           icon: <FileText />,
           title: "Documents",
           url: `/dashboard/${firstHome.id}/documents` as DashboardLink["url"],
@@ -67,17 +73,10 @@ function DashboardNavbar({ user }: Props) {
           url: `/dashboard/${firstHome.id}/appliances` as DashboardLink["url"],
           access: ["admin", "multiple_home_owner", "single_home_owner"],
         },
-
         {
           icon: <BrushCleaning />,
           title: "Tasks",
           url: `/dashboard/${firstHome.id}/tasks` as DashboardLink["url"],
-          access: ["admin", "multiple_home_owner", "single_home_owner"],
-        },
-        {
-          icon: <Bell />,
-          title: "Reminders",
-          url: `/dashboard/${firstHome.id}/reminders` as DashboardLink["url"],
           access: ["admin", "multiple_home_owner", "single_home_owner"],
         },
       ],

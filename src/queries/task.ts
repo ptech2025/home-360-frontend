@@ -2,17 +2,22 @@
 import { queryResult, mutationResult } from "@/lib/react-query-config";
 import { taskService } from "@/services/task";
 import { FetchHomeTasksParams } from "@/types";
-import {
-  CreateHomeSchemaType,
-  CreateHomeTaskSchemaType,
-} from "@/types/zod-schemas";
+import { CreateHomeTaskSchemaType } from "@/types/zod-schemas";
 
 export const taskQueries = {
   allTasks: (homeId: string, params: FetchHomeTasksParams) =>
     queryResult(["all-tasks", homeId, params], () =>
       taskService.fetchAll(homeId, params)
     ),
-    
+  taskEvents: (homeId: string, enabled: boolean, date?: string) =>
+    queryResult(
+      ["tasks-events", homeId, date],
+      () => taskService.fetchTaskEvents(homeId, date),
+      {
+        enabled,
+      }
+    ),
+
   withCookies: (cookies: string) => ({
     allTasks: (homeId: string, params: FetchHomeTasksParams) =>
       queryResult(["all-tasks", homeId, params], () =>

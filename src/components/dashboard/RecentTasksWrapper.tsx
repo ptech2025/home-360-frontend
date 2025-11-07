@@ -11,14 +11,14 @@ import Link from "next/link";
 
 function RecentTasksWrapper({ homeId }: { homeId: string }) {
   const { data, isLoading } = useQuery(
-    taskQueries.allTasks(homeId, { page: 1, size: 5 })
+    taskQueries.allTasks(homeId, { page: 1, size: 5, instanceType: "all" })
   );
 
   return (
     <div className="flex flex-col gap-4 flex-1 w-full">
       <div className="flex justify-between gap-4 items-center">
         <h5 className="text-lg font-circular-bold font-bold text-black">
-          Tasks Overview
+          Upcoming Tasks
         </h5>
         <Button asChild className="green-btn">
           <Link href={`/dashboard/${homeId}/tasks`}>

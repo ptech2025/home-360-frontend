@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { CalendarCard } from "../dashboard/UpcomingEventsWrapper";
 
 export function TableLoadingSkeleton() {
   const rows = Array.from({ length: 6 });
@@ -143,5 +144,165 @@ export function DocumentsPageLoadingSkeleton() {
         ))}
       </div>
     </section>
+  );
+}
+
+export function UpcomingEventsWrapperLoadingSkeleton({
+  orientation = "horizontal",
+  className,
+}: {
+  orientation?: "horizontal" | "vertical";
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "flex gap-3 w-full h-full flex-col p-2 flex-1",
+        orientation === "horizontal" ? "pr-0" : ""
+      )}
+    >
+      {/* Header */}
+      <div className="flex items-center gap-4 justify-between">
+        <Skeleton className="h-5 w-32" />
+      </div>
+      {/* Events List */}
+      <div className="flex flex-col gap-3 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-main-green scrollbar-track-lighter-gray">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <div
+            key={index}
+            className="flex items-start gap-2 bg-light-gray/10 rounded-md p-2 w-full h-13"
+          >
+            <Skeleton className="w-1 min-h-full rounded-md" />
+            <div className="flex flex-col gap-1 flex-1">
+              <Skeleton className="h-4 w-3/4" />
+              <Skeleton className="h-3 w-24" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function HomeDetailsWrapperLoadingSkeleton() {
+  return (
+    <section className="px-4 flex flex-col gap-4 py-4 bg-lighter-gray/50 min-h-screen">
+      {/* Header Section */}
+      <div className="flex flex-col gap-2 w-full">
+        <Skeleton className="h-7 w-64" />
+        <Skeleton className="h-4 w-96" />
+      </div>
+
+      {/* Top Grid - 3 Cards */}
+      <div className="md:grid-cols-3 grid grid-cols-1 gap-4">
+        {/* Property Address Card */}
+        <div className="rounded-xl flex flex-col gap-4 bg-white p-6">
+          <Skeleton className="h-5 w-32" />
+          <Skeleton className="h-7 w-3/4" />
+          <Skeleton className="h-10 w-36" />
+        </div>
+
+        {/* County Card */}
+        <div className="rounded-xl bg-white p-6 flex flex-col gap-4">
+          <Skeleton className="h-5 w-20" />
+          <Skeleton className="h-7 w-24" />
+          <Skeleton className="h-3 w-32" />
+        </div>
+
+        {/* Property Type Card */}
+        <div className="rounded-xl relative bg-white p-6 flex flex-col gap-4">
+          <Skeleton className="absolute top-4 right-4 h-6 w-16 rounded-full" />
+          <Skeleton className="h-5 w-28" />
+          <Skeleton className="h-7 w-20" />
+          <Skeleton className="h-3 w-32" />
+        </div>
+      </div>
+
+      {/* Bottom Grid - 2 Columns */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Property Details Section */}
+        <div className="rounded-xl bg-white p-6 flex flex-col gap-4">
+          <div className="flex justify-between items-center gap-4">
+            <Skeleton className="h-7 w-40" />
+            <Skeleton className="h-10 w-32" />
+          </div>
+          <div className="grid grid-cols-[repeat(auto-fill,_minmax(300px,1fr))] gap-4">
+            {Array.from({ length: 7 }).map((_, index) => (
+              <div
+                key={`detail-${index}`}
+                className="flex bg-lighter-gray/50 py-2 px-4 rounded-md gap-4 items-center justify-between"
+              >
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-4 w-16" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Public Record Details Section */}
+        <div className="rounded-xl bg-white p-6 flex flex-col gap-4">
+          <Skeleton className="h-7 w-48" />
+          <div className="grid grid-cols-[repeat(auto-fill,_minmax(300px,1fr))] gap-4">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div
+                key={`record-${index}`}
+                className="flex bg-lighter-gray/50 py-2 px-4 rounded-md gap-4 items-center justify-between"
+              >
+                <Skeleton className="h-4 w-28" />
+                <Skeleton className="h-4 w-20" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function ExpensesMetricsWrapperLoadingSkeleton() {
+  return (
+    <div className="grid grid-cols-1 w-full md:grid-cols-3 gap-4">
+      {Array.from({ length: 3 }).map((_, index) => (
+        <div
+          key={index}
+          className="w-full min-h-[165px] relative h-full bg-white rounded-xl p-6 flex flex-col gap-4 border border-lighter-gray"
+        >
+          {/* Title */}
+          <Skeleton className="h-6 w-40" />
+
+          {/* Value and Subtext */}
+          <div className="flex flex-col gap-1.5">
+            <Skeleton className="h-8 w-32" />
+            <Skeleton className="h-4 w-48" />
+          </div>
+
+          {/* Icon in top-right corner */}
+          <Skeleton className="size-12 absolute top-4 right-4 rounded-full" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function ExpensesBreakdownLoadingSkeleton() {
+  return (
+    <div className="rounded-xl bg-white p-6 flex flex-col gap-4">
+      {/* Header */}
+      <div className="flex items-center justify-between gap-4">
+        <Skeleton className="h-6 w-40" />
+      </div>
+      {/* Expense Items Grid */}
+      <div className="grid grid-cols-[repeat(auto-fill,_minmax(300px,1fr))] gap-4">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <div
+            key={index}
+            className="flex bg-lighter-gray/50 py-2 px-4 rounded-md gap-4 items-center justify-between"
+          >
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-4 w-20" />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

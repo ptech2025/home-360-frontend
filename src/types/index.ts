@@ -10,6 +10,8 @@ import {
   MaintenanceInstance,
   ReminderStatus,
   MaintenanceFrequency,
+  ExpenseCategory,
+  Reminder,
 } from "./prisma-schema-types";
 export type ProfileType = {
   id: string;
@@ -147,8 +149,13 @@ export interface FetchHomeTasksParams {
   status?: ReminderStatus;
   frequency?: MaintenanceFrequency;
   size?: number;
-  page?: number;
-  isCustom?: boolean;
+  page?: number;  
+  instanceType?: "all" | "custom" | "default";
+}
+
+export interface FetchApplianceReminderResponse {
+  message: string;
+  data: Reminder[];
 }
 
 export interface GoogleProviderInfo {
@@ -170,4 +177,18 @@ export interface CreateJobBody {
   rating: number;
   amount: number;
   file?: File;
+}
+
+
+export interface FetchExpensesMetricsResponse {
+  homeValue: number
+  totalMortgage: number
+  totalMonthlyExpenses: number
+}
+
+export interface FetchAllExpensesResponse {
+  data: {
+    category: ExpenseCategory;
+    totalAmount: number;
+  }[];
 }

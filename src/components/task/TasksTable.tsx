@@ -12,7 +12,7 @@ import TasksEmpty from "./TasksEmpty";
 
 type Props = {
   tasks: MaintenanceInstance[];
-  isCustom?: boolean;
+    isCustom?: boolean;
 };
 
 function TasksTable({ tasks, isCustom }: Props) {

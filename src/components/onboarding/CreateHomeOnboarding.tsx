@@ -22,7 +22,6 @@ import { userMutations } from "@/queries/user";
 import AutoCompleteLocation from "./AutoCompleteLocation";
 import { DynamicLocationStatus } from "@/types";
 import { Home } from "@/types/prisma-schema-types";
-import { Input } from "../ui/input";
 function CreateHomeOnboarding({
   setFirstHome,
 }: {

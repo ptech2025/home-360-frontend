@@ -4,16 +4,15 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 import { cookies } from "next/headers";
+import HomeDetailsWrapper from "@/components/details/HomeDetailsWrapper";
 import { userQueries } from "@/queries/user";
-import AppliancePageWrapper from "@/components/appliance/AppliancePageWrapper";
 
-async function AppliancesPage(
-  props: PageProps<"/dashboard/[homeId]/appliances">
-) {
-  const { homeId } = await props.params;
+async function DetailsPage(props: PageProps<"/dashboard/[homeId]/details">) {
   const queryClient = new QueryClient();
+  const { homeId } = await props.params;
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
+
   await Promise.all([
     queryClient.prefetchQuery(
       userQueries.withCookies(cookieHeader).singleHome(homeId)
@@ -21,8 +20,8 @@ async function AppliancesPage(
   ]);
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <AppliancePageWrapper homeId={homeId} />
+      <HomeDetailsWrapper homeId={homeId} />
     </HydrationBoundary>
   );
 }
-export default AppliancesPage;
+export default DetailsPage;
