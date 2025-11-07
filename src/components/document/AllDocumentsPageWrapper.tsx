@@ -22,7 +22,6 @@ import { DocumentsPageLoadingSkeleton } from "../global/Skeletons";
 type Props = {
   homeId: string;
   filterParams: FetchDocumentParams;
-  viewMode: "grid" | "list";
 };
 
 const columns: ColumnDef<Document>[] = [
@@ -111,12 +110,10 @@ const columns: ColumnDef<Document>[] = [
     enableHiding: false,
   },
 ];
-function AllDocumentsPageWrapper({ homeId, filterParams, viewMode }: Props) {
+function AllDocumentsPageWrapper({ homeId, filterParams }: Props) {
+  const [displayMode, setDisplayMode] = useState<"grid" | "list">("grid");
   const { data, isLoading } = useQuery(
     documentQueries.all(homeId, filterParams)
-  );
-  const [displayMode, setDisplayMode] = useState<"grid" | "list">(
-    viewMode || "grid"
   );
   if (isLoading) return <DocumentsPageLoadingSkeleton />;
 

@@ -143,15 +143,11 @@ function AddExpenseDialog() {
                       </FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="0.00"
+                          placeholder="Enter amount (in USD)"
                           className="h-10"
                           value={field.value as number | undefined}
                           onChange={(e) => {
-                            field.onChange(
-                              e.target.value === ""
-                                ? undefined
-                                : Number(e.target.value)
-                            );
+                            field.onChange(e.target.value);
                           }}
                         />
                       </FormControl>
@@ -252,10 +248,15 @@ function AddExpenseDialog() {
                       </span>
                     </FormLabel>
                     <FormControl>
-                      <FileInput
-                        value={field.value}
-                        onChange={(file) => field.onChange(file)}
-                        acceptedFiles=".pdf,.jpg,.jpeg,.png,.webp"
+                      <Input
+                        type="file"
+                        className="h-11"
+                        accept=".pdf, image/*"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files.length > 0) {
+                            field.onChange(e.target.files[0]);
+                          }
+                        }}
                       />
                     </FormControl>
                     <FormDescription className="text-xs">

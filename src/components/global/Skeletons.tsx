@@ -306,3 +306,68 @@ export function ExpensesBreakdownLoadingSkeleton() {
     </div>
   );
 }
+
+export function AppliancePageWrapperLoadingSkeleton() {
+  return (
+    <section className="px-4 flex flex-col gap-4 py-4 bg-lighter-gray/50 min-h-screen">
+      {/* Title and Description */}
+      <div className="flex flex-col gap-2 w-full">
+        <Skeleton className="h-7 w-64" />
+        <Skeleton className="h-4 w-96" />
+      </div>
+
+      {/* Metrics Wrapper */}
+      <ExpensesMetricsWrapperLoadingSkeleton />
+
+      {/* Main Content Container */}
+      <div className="flex flex-col items-center min-h-screen w-full bg-white rounded-t-md p-4 gap-6">
+        {/* Page Header */}
+        <div className="w-full flex items-center justify-between gap-4">
+          <div className="flex gap-1 items-center">
+            <Skeleton className="h-6 w-40" />
+            <Skeleton className="h-6 w-12 rounded-full" />
+          </div>
+          <div className="flex gap-4 justify-end items-center">
+            <Skeleton className="h-10 w-32 rounded-md" />
+            <Skeleton className="h-10 w-64 rounded-md" />
+            <div className="flex items-center gap-2">
+              <Skeleton className="size-10 rounded-md" />
+              <Skeleton className="size-10 rounded-md" />
+            </div>
+          </div>
+        </div>
+
+        {/* Grid View Skeleton */}
+        <div className="grid w-full gap-4 grid-cols-[repeat(auto-fill,minmax(20rem,1fr))] min-h-[300px]">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div
+              key={index}
+              className="rounded-xl w-full flex flex-col gap-3 p-4 bg-white border border-lighter-gray"
+            >
+              <div className="flex flex-col gap-1 flex-1">
+                <Skeleton className="h-6 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+                <Skeleton className="h-4 w-2/3" />
+                <Skeleton className="h-6 w-24 rounded-full" />
+              </div>
+              <div className="grid md:grid-cols-2 gap-4 justify-between w-full items-center">
+                <Skeleton className="h-10 w-full rounded-md" />
+                <Skeleton className="h-10 w-full rounded-md" />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Pagination Skeleton */}
+        <div className="flex w-full flex-col sm:flex-row items-center sm:justify-between">
+          <Skeleton className="h-8 w-1/4" />
+          <div className="flex gap-2">
+            <Skeleton className="h-8 w-8" />
+            <Skeleton className="h-8 w-8" />
+            <Skeleton className="h-8 w-8" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

@@ -8,6 +8,7 @@ import {
   MaintenanceFrequency,
   HomeType,
   ExpenseCategory,
+  ApplianceCategory,
 } from "./prisma-schema-types";
 
 export const signUpSchema = z
@@ -201,6 +202,38 @@ export const createExpenseSchema = z.object({
   date: z.string().min(1, { message: "Date is required" }),
   description: z.string().optional(),
   file: validatePDFOrImageFile().optional(),
+});
+
+export const createApplianceSchema = z.object({
+  name: z.string().min(1, { message: "Name is required" }),
+  brand: z.string().optional(),
+  model: z.string().optional(),
+  serialNumber: z.string().optional(),
+  category: z.enum([...Object.values(ApplianceCategory)], {
+    message: `Category is required and must be one of the following: ${Object.values(
+      ApplianceCategory
+    ).join(", ")}`,
+  }),
+  purchaseDate: z.coerce.date().optional(),
+  purchasePrice: z.coerce
+    .number({ message: "Purchase price must be a number" })
+    .int({ message: "Purchase price must be an integer" })
+    .min(0, { message: "Purchase price must be greater than or equal to 0" })
+    .optional(),
+  warrantyExpiry: z.coerce.date().optional(),
+  installationDate: z.coerce.date().optional(),
+  image: validateImageFile().optional(),
+  receipt: validatePDFOrImageFile().optional(),
+});
+
+export const createApplianceMaintenanceSchema = z.object({
+  title: z.string().min(1, { message: "Title is required" }),
+  maintenanceDate: z.coerce.date({ message: "Maintenance date is required" }),
+  intervalMonths: z.coerce
+    .number({ message: "Frequency must be a number" })
+    .int({ message: "Frequency must be an integer" })
+    .min(1, { message: "Frequency must be greater than or equal to 1" })
+    .max(12, { message: "Frequency must be less than or equal to 12" }),
 });
 
 export const updateHomeDetailsSchema = z.object({
@@ -402,6 +435,10 @@ export type CreateServiceProviderSchemaType = z.infer<
 export type CreateServiceJobSchemaType = z.infer<typeof createServiceJobSchema>;
 export type CreateHomeTaskSchemaType = z.infer<typeof createHomeTaskSchema>;
 export type CreateExpenseSchemaType = z.infer<typeof createExpenseSchema>;
+export type CreateApplianceSchemaType = z.infer<typeof createApplianceSchema>;
+export type CreateApplianceMaintenanceSchemaType = z.infer<
+  typeof createApplianceMaintenanceSchema
+>;
 export type UpdateHomeDetailsSchemaType = z.infer<
   typeof updateHomeDetailsSchema
 >;

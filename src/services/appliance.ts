@@ -1,73 +1,138 @@
 import { api, withAuthHeaders } from "@/lib/axios-client";
-import { FetchAllHomeTasksResponse, FetchApplianceReminderResponse, FetchHomeTasksParams } from "@/types";
-import { MaintenanceInstance, Reminder } from "@/types/prisma-schema-types";
-import { CreateHomeTaskSchemaType } from "@/types/zod-schemas";
+import { Appliance, ApplianceMaintenance } from "@/types/prisma-schema-types";
+import {
+  ApplianceHistory,
+  FetchAllAppliancesResponse,
+  FetchApplianceMetricsResponse,
+  FetchApplianceReminderResponse,
+  FetchAppliancesParams,
+  FetchSingleApplianceResponse,
+} from "@/types";
+import {
+  CreateApplianceSchemaType,
+  CreateApplianceMaintenanceSchemaType,
+} from "@/types/zod-schemas";
 
 export const applianceService = {
-  addTask: async (
-    homeId: string,
-    data: CreateHomeTaskSchemaType,
-    cookies?: string
-  ) => {
-    const res = await api.post(
-      `/api/maintenance/add-maintenance-instance/${homeId}`,
-      data,
-      withAuthHeaders(cookies)
-    );
-    return res.data as MaintenanceInstance;
-  },
-  updateTask: async (
-    homeId: string,
-    taskId: string,
-    data: CreateHomeTaskSchemaType,
-    cookies?: string
-  ) => {
-    const res = await api.patch(
-      `/api/maintenance/update-user-maintenance/${homeId}/${taskId}`,
-     data,
-      withAuthHeaders(cookies)
-    );
-    return res.data as MaintenanceInstance;
-  },
-  markAsCompleted: async (taskId: string, cookies?: string) => {
-    await api.patch(
-      `/api/maintenance/mark-as-completed/${taskId}`,
-      withAuthHeaders(cookies)
-    );
-  },
   fetchAll: async (
     homeId: string,
-    params: FetchHomeTasksParams,
+    params: FetchAppliancesParams,
+    cookies?: string
+  ) => {
+    const res = await api.get(`/api/appliance/get-appliances/${homeId}`, {
+      ...withAuthHeaders(cookies),
+      params,
+    });
+    return res.data as FetchAllAppliancesResponse;
+  },
+
+  fetchSingle: async (
+    homeId: string,
+    applianceId: string,
     cookies?: string
   ) => {
     const res = await api.get(
-      `/api/maintenance/get-user-maintenance/${homeId}`,
-      {
-        ...withAuthHeaders(cookies),
-        params,
-      }
-    );
-    return res.data as FetchAllHomeTasksResponse;
-  },
-
-  delete: async (homeId: string, taskId: string, cookies?: string) => {
-    await api.delete(
-      `/api/maintenance/delete-user-maintenance/${homeId}/${taskId}`,
+      `/api/appliance/get-appliance/${homeId}/${applianceId}`,
       withAuthHeaders(cookies)
     );
+    return res.data as FetchSingleApplianceResponse;
   },
-  fetchTaskEvents: async (homeId: string, date?: string, cookies?: string) => {
+  fetchSingleHistory: async (applianceId: string, cookies?: string) => {
     const res = await api.get(
-      `/api/maintenance/upcoming-maintenance/${homeId}`,
+      `/api/appliance/get-appliance-history/${applianceId}`,
+      withAuthHeaders(cookies)
+    );
+    return res.data as ApplianceHistory[];
+  },
+
+  fetchApplianceMetrics: async (homeId: string, cookies?: string) => {
+    const res = await api.get(
+      `/api/appliance/metrics/${homeId}`,
+      withAuthHeaders(cookies)
+    );
+    return res.data as FetchApplianceMetricsResponse;
+  },
+
+  create: async (homeId: string, data: CreateApplianceSchemaType) => {
+    const formData = new FormData();
+    if (data.image) {
+      formData.append("image", data.image);
+    }
+    if (data.receipt) {
+      formData.append("receipt", data.receipt);
+    }
+    Object.entries(data).forEach(([key, value]) => {
+      if (
+        key !== "image" &&
+        key !== "receipt" &&
+        value !== undefined &&
+        value !== null
+      ) {
+        if (typeof value === "object" && value instanceof Date) {
+          formData.append(key, value.toISOString());
+        } else if (typeof value === "object" || Array.isArray(value)) {
+          formData.append(key, JSON.stringify(value));
+        } else {
+          formData.append(key, String(value));
+        }
+      }
+    });
+    const res = await api.post(
+      `/api/appliance/add-appliance/${homeId}`,
+      formData,
       {
-        ...withAuthHeaders(cookies),
-        params: {
-          date,
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
       }
     );
-    return res.data as MaintenanceInstance[];
+    return res.data as Appliance;
   },
+
+  update: async (
+    homeId: string,
+    applianceId: string,
+    data: CreateApplianceSchemaType
+  ) => {
+    const formData = new FormData();
+    if (data.image) {
+      formData.append("image", data.image);
+    }
+    if (data.receipt) {
+      formData.append("receipt", data.receipt);
+    }
+    Object.entries(data).forEach(([key, value]) => {
+      if (
+        key !== "image" &&
+        key !== "receipt" &&
+        value !== undefined &&
+        value !== null
+      ) {
+        if (typeof value === "object" && value instanceof Date) {
+          formData.append(key, value.toISOString());
+        } else if (typeof value === "object" || Array.isArray(value)) {
+          formData.append(key, JSON.stringify(value));
+        } else {
+          formData.append(key, String(value));
+        }
+      }
+    });
+    const res = await api.patch(
+      `/api/appliance/${homeId}/${applianceId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return res.data as Appliance;
+  },
+
+  delete: async (applianceId: string) => {
+    await api.delete(`/api/appliance/${applianceId}`);
+  },
+
   fetchApplianceEvents: async (
     homeId: string,
     date?: string,
@@ -80,5 +145,18 @@ export const applianceService = {
       },
     });
     return res.data as FetchApplianceReminderResponse;
+  },
+
+  createMaintenance: async (
+    applianceId: string,
+    data: CreateApplianceMaintenanceSchemaType
+  ) => {
+    const res = await api.post(`/api/appliance/maintenance/${applianceId}`, {
+      ...data,
+      maintenanceDate: data.maintenanceDate
+        ? data.maintenanceDate.toISOString()
+        : undefined,
+    });
+    return res.data as ApplianceMaintenance;
   },
 };

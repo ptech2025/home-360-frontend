@@ -12,6 +12,8 @@ import {
   MaintenanceFrequency,
   ExpenseCategory,
   Reminder,
+  Appliance,
+  ApplianceCategory,
 } from "./prisma-schema-types";
 export type ProfileType = {
   id: string;
@@ -149,7 +151,7 @@ export interface FetchHomeTasksParams {
   status?: ReminderStatus;
   frequency?: MaintenanceFrequency;
   size?: number;
-  page?: number;  
+  page?: number;
   instanceType?: "all" | "custom" | "default";
 }
 
@@ -179,11 +181,10 @@ export interface CreateJobBody {
   file?: File;
 }
 
-
 export interface FetchExpensesMetricsResponse {
-  homeValue: number
-  totalMortgage: number
-  totalMonthlyExpenses: number
+  homeValue: number;
+  totalMortgage: number;
+  totalMonthlyExpenses: number;
 }
 
 export interface FetchAllExpensesResponse {
@@ -191,4 +192,55 @@ export interface FetchAllExpensesResponse {
     category: ExpenseCategory;
     totalAmount: number;
   }[];
+}
+
+export interface FetchApplianceMetricsResponse {
+  totalAppliances: number;
+  underWarranty: number;
+  totalMaintenance: number;
+  pendingMaintenance: number;
+}
+
+export type ApplianceWithWarranty = Appliance & {
+  warrantyStatus: WarrantyStatus;
+};
+
+export type WarrantyStatus =
+  | "No Warranty"
+  | "Expired"
+  | "Under Warranty"
+  | "Expiring Soon";
+
+export interface FetchAllAppliancesResponse {
+  appliances: ApplianceWithWarranty[];
+  pagination: Pagination;
+}
+
+export interface FetchSingleApplianceResponse extends Appliance {
+  warrantyStatus: WarrantyStatus;
+  reminder: Reminder;
+  document: { url: string; previewUrl: string | null }[];
+}
+
+export interface ApplianceHistory {
+  type: string;
+  date: Date;
+  title: string;
+  details?: string;
+  cost?: number;
+  status?: string;
+}
+
+export interface FetchAppliancesParams {
+  page?: number;
+
+  size?: number;
+
+  search?: string;
+
+  category?: ApplianceCategory;
+
+  hasWarranty?: boolean;
+
+  hasMaintenance?: boolean;
 }
