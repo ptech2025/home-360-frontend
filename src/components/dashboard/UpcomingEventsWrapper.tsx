@@ -11,6 +11,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { MaintenanceInstance, Reminder } from "@/types/prisma-schema-types";
 import { UpcomingEventsWrapperLoadingSkeleton } from "../global/Skeletons";
 import { Route } from "next";
+import { applianceQueries } from "@/queries/appliance";
 
 type EventsCardProps = {
   orientation: "horizontal" | "vertical";
@@ -51,63 +52,83 @@ export function EventsCard({
         </h4>
       </div>
       <div className="flex h-full flex-col gap-3 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-main-green  scrollbar-track-lighter-gray">
-        {tasks &&
-          tasks.length > 0 &&
-          tasks.map((task) => (
-            <div
-              key={task.id}
-              className="flex items-start gap-2  bg-light-gray/10 rounded-md p-2 w-full h-13"
-            >
-              <span
-                className={cn(
-                  "rounded-md w-1 min-h-full",
-                  task.isCustom ? "bg-red-500" : "bg-main-green"
-                )}
-              >
-                {" "}
-              </span>
-              <div className="flex flex-col gap-1">
-                <h6 className="text-sm font-medium font-circular-medium text-black">
-                  {task.title}
-                </h6>
-                <span className="text-gray text-xs">
-                  {formatDate(new Date(task.dueDate), "MMM dd")},{" "}
-                  {formatDate(new Date(task.dueDate), "HH:mm aa")}
+        {type === "tasks" && (
+          <>
+            {tasks &&
+              tasks.length > 0 &&
+              tasks.map((task) => (
+                <div
+                  key={task.id}
+                  className="flex items-start gap-2  bg-light-gray/10 rounded-md p-2 w-full h-13"
+                >
+                  <span
+                    className={cn(
+                      "rounded-md w-1 min-h-full",
+                      task.isCustom ? "bg-red-500" : "bg-main-green"
+                    )}
+                  >
+                    {" "}
+                  </span>
+                  <div className="flex flex-col gap-1">
+                    <h6 className="text-sm font-medium font-circular-medium text-black">
+                      {task.title}
+                    </h6>
+                    <span className="text-gray text-xs">
+                      {formatDate(new Date(task.dueDate), "MMM dd")},{" "}
+                      {formatDate(new Date(task.dueDate), "HH:mm aa")}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            {(!tasks || tasks.length === 0) && (
+              <div className="p-4 text-black bg-light-gray/10 h-full text-sm font-circular-medium rounded-md flex items-center justify-center flex-col gap-4">
+                <div className="size-10 p-1 flex items-center justify-center rounded-md border bg-white">
+                  <CalendarOff />
+                </div>
+                <span className="capitalize">
+                  No {type} Found For Selected Date
                 </span>
               </div>
-            </div>
-          ))}
+            )}
+          </>
+        )}
 
-        {reminders &&
-          reminders.length > 0 &&
-          reminders.map((task) => (
-            <div
-              key={task.id}
-              className="flex items-start gap-2  bg-light-gray/10 rounded-md p-2 w-full h-13"
-            >
-              <span className={cn("rounded-md w-1 min-h-full bg-main-yellow")}>
-                {" "}
-              </span>
-              <div className="flex flex-col gap-1">
-                <h6 className="text-sm font-medium font-circular-medium text-black">
-                  {task.taskName}
-                </h6>
-                <span className="text-gray text-xs">
-                  {formatDate(new Date(task.dueDate), "MMM dd")},{" "}
-                  {formatDate(new Date(task.dueDate), "HH:mm aa")}
+        {type === "reminders" && (
+          <>
+            {reminders &&
+              reminders.length > 0 &&
+              reminders.map((task) => (
+                <div
+                  key={task.id}
+                  className="flex items-start gap-2  bg-light-gray/10 rounded-md p-2 w-full h-13"
+                >
+                  <span
+                    className={cn("rounded-md w-1 min-h-full bg-main-yellow")}
+                  >
+                    {" "}
+                  </span>
+                  <div className="flex flex-col gap-1">
+                    <h6 className="text-sm font-medium font-circular-medium text-black">
+                      {task.taskName}
+                    </h6>
+                    <span className="text-gray text-xs">
+                      {formatDate(new Date(task.dueDate), "MMM dd")},{" "}
+                      {formatDate(new Date(task.dueDate), "HH:mm aa")}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            {(!reminders || reminders.length === 0) && (
+              <div className="p-4 text-black bg-light-gray/10 h-full text-sm font-circular-medium rounded-md flex items-center justify-center flex-col gap-4">
+                <div className="size-10 p-1 flex items-center justify-center rounded-md border bg-white">
+                  <CalendarOff />
+                </div>
+                <span className="capitalize">
+                  No {type} Found For Selected Date
                 </span>
               </div>
-            </div>
-          ))}
-        {(tasks?.length === 0 || reminders?.length === 0) && (
-          <div className="p-4 text-black bg-light-gray/10 h-full text-sm font-circular-medium rounded-md flex items-center justify-center flex-col gap-4">
-            <div className="size-10 p-1 flex items-center justify-center rounded-md border bg-white">
-              <CalendarOff />
-            </div>
-            <span className="capitalize">
-              No {type} Found For Selected Date
-            </span>
-          </div>
+            )}
+          </>
         )}
       </div>
     </div>
@@ -191,10 +212,10 @@ function UpcomingEventsWrapper({
     : undefined;
 
   const { data: tasks, isLoading: isTasksLoading } = useQuery(
-    taskQueries.tasks(homeId, date, type === "tasks")
+    taskQueries.taskEvents(homeId, type === "tasks", date)
   );
-  const { data: reminders, isLoading: isRemindersLoading } = useQuery(
-    taskQueries.reminders(homeId, date, type === "reminders")
+  const { data: appliance, isLoading: isRemindersLoading } = useQuery(
+    applianceQueries.applianceEvents(homeId, type === "reminders", date)
   );
 
   return (
@@ -220,7 +241,7 @@ function UpcomingEventsWrapper({
           orientation={orientation}
           tasks={type === "tasks" ? tasks : []}
           type={type}
-          reminders={type === "reminders" ? reminders : []}
+          reminders={type === "reminders" ? appliance?.data : []}
         />
       )}
     </div>

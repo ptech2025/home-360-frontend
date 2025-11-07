@@ -2,6 +2,7 @@
 import { queryResult, mutationResult } from "@/lib/react-query-config";
 import { userService } from "@/services/user";
 import { FetchLocationParams, FetchPlacesParams } from "@/types";
+import { UpdateHomeDetailsSchemaType } from "@/types/zod-schemas";
 
 export const userQueries = {
   fetchPlaces: (params: FetchPlacesParams) =>
@@ -28,14 +29,16 @@ export const userMutations = {
     userService.unSubscribeFromWaitList(email)
   ),
   triggerOnboarding: mutationResult(() => userService.onboarded()),
-  addHome: mutationResult((variables: { address: string; }) =>
+  addHome: mutationResult((variables: { address: string }) =>
     userService.createHome(variables)
   ),
-  updateHome: mutationResult(
-    (variables: { address: string; name: string; homeId: string }) =>
-      userService.updateHome(variables)
+  updateHome: mutationResult((variables: { address: string; homeId: string }) =>
+    userService.updateHome(variables)
+  ),
+  updateHomeDetails: mutationResult(
+    (variables: { homeId: string; data: UpdateHomeDetailsSchemaType }) =>
+      userService.updateHomeDetails(variables.homeId, variables.data)
   ),
 
   // server-only variant
-  withCookies: (cookies: string) => ({}),
 };

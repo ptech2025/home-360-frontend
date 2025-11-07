@@ -5,6 +5,7 @@ import {
   PlaceSuggestion,
 } from "@/types";
 import { Home, PublicRecord } from "@/types/prisma-schema-types";
+import { UpdateHomeDetailsSchemaType } from "@/types/zod-schemas";
 
 export const userService = {
   fetchPlaces: async (params: FetchPlacesParams) => {
@@ -39,12 +40,34 @@ export const userService = {
     };
   },
   updateHome: async (data: { address: string; homeId: string }) => {
-    const res = await api.post(`/api/home/address/${data.homeId}`, data);
+    const res = await api.post(`/api/public-record/refetch/lookup`, data);
     return res.data as {
       home: Home | null;
       record: PublicRecord | null;
       message: string;
     };
+  },
+  updateHomeDetails: async (
+    homeId: string,
+    data: UpdateHomeDetailsSchemaType
+  ) => {
+    const formData = new FormData();
+    if (data.file) {
+      formData.append("file", data.file);
+    }
+    Object.entries(data).forEach(([key, value]) => {
+      if (key !== "file" && value !== undefined && value !== null) {
+        if (typeof value === "object" || Array.isArray(value)) {
+          formData.append(key, JSON.stringify(value));
+        } else {
+          formData.append(key, String(value));
+        }
+      }
+    });
+    const res = await api.patch(`/api/home/${homeId}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return res.data as Home;
   },
   getHome: async (id: string, cookies?: string) => {
     const res = await api.get(`/api/home/${id}`, withAuthHeaders(cookies));

@@ -1,9 +1,9 @@
 import { api, withAuthHeaders } from "@/lib/axios-client";
-import { FetchAllHomeTasksResponse, FetchHomeTasksParams } from "@/types";
+import { FetchAllHomeTasksResponse, FetchApplianceReminderResponse, FetchHomeTasksParams } from "@/types";
 import { MaintenanceInstance, Reminder } from "@/types/prisma-schema-types";
 import { CreateHomeTaskSchemaType } from "@/types/zod-schemas";
 
-export const taskService = {
+export const applianceService = {
   addTask: async (
     homeId: string,
     data: CreateHomeTaskSchemaType,
@@ -24,7 +24,7 @@ export const taskService = {
   ) => {
     const res = await api.patch(
       `/api/maintenance/update-user-maintenance/${homeId}/${taskId}`,
-      data,
+     data,
       withAuthHeaders(cookies)
     );
     return res.data as MaintenanceInstance;
@@ -67,5 +67,18 @@ export const taskService = {
       }
     );
     return res.data as MaintenanceInstance[];
+  },
+  fetchApplianceEvents: async (
+    homeId: string,
+    date?: string,
+    cookies?: string
+  ) => {
+    const res = await api.get(`/api/appliance/upcoming-reminders/${homeId}`, {
+      ...withAuthHeaders(cookies),
+      params: {
+        date,
+      },
+    });
+    return res.data as FetchApplianceReminderResponse;
   },
 };

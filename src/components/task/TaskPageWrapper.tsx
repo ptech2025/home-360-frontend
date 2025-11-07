@@ -18,13 +18,15 @@ type Props = {
   filterParams: FetchHomeTasksParams;
 };
 function TaskPageWrapper({ homeId, filterParams }: Props) {
-  const [isCustom, setIsCustom] = useState(false);
+  const [instanceType, setInstanceType] = useState<"custom" | "default">(
+    "default"
+  );
   const { data, isPending } = useQuery(
-    taskQueries.allTasks(homeId, { ...filterParams, isCustom })
+    taskQueries.allTasks(homeId, { ...filterParams, instanceType })
   );
 
   const toggleCustom = () => {
-    setIsCustom(!isCustom);
+    setInstanceType(instanceType === "custom" ? "default" : "custom");
   };
 
   return (
@@ -64,14 +66,14 @@ function TaskPageWrapper({ homeId, filterParams }: Props) {
               className="h-10 bg-main-green/10  hover:bg-main-green/10 grid-cols-2 grid gap-0 w-full max-w-[250px]  p-1"
             >
               <div
-                data-state={isCustom ? "inactive" : "active"}
+                data-state={instanceType === "default" ? "active" : "inactive"}
                 className="text-center flex items-center justify-center duration-200 text-base font-circular-medium rounded-sm h-full w-full capitalize data-[state=active]:bg-main-green data-[state=active]:text-white data-[state=inactive]:bg-transparent data-[state=inactive]:text-main-green/50"
               >
                 {" "}
                 <span>Default</span>
               </div>{" "}
               <div
-                data-state={isCustom ? "active" : "inactive"}
+                data-state={instanceType === "custom" ? "active" : "inactive"}
                 className="text-center flex items-center justify-center duration-200 text-base font-circular-medium rounded-sm h-full w-full capitalize data-[state=active]:bg-main-green data-[state=active]:text-white data-[state=inactive]:bg-transparent data-[state=inactive]:text-main-green/50"
               >
                 {" "}
@@ -91,7 +93,7 @@ function TaskPageWrapper({ homeId, filterParams }: Props) {
             <>
               <TasksTable
                 tasks={data?.maintenances ?? []}
-                isCustom={isCustom}
+                isCustom={instanceType === "custom"}
               />
 
               <PaginationContainer

@@ -51,8 +51,8 @@ function DashboardNavbar({ user }: Props) {
       items: [
         {
           icon: <Archive />,
-          title: "Public Records",
-          url: `/dashboard/${firstHome.id}/public-records` as DashboardLink["url"],
+          title: "Details",
+          url: `/dashboard/${firstHome.id}/details` as DashboardLink["url"],
           access: ["admin", "multiple_home_owner", "single_home_owner"],
         },
         {

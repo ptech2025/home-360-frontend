@@ -58,11 +58,14 @@ export enum ReminderType {
 }
 
 export enum ExpenseCategory {
-  maintenance = "maintenance",
-  utilities = "utilities",
+  mortgage = "mortgage",  
+  maintenance = "maintenance",  
   improvements = "improvements",
-  insurance = "insurance",
-  taxes = "taxes",
+  utilities = "utilities",
+  landscaping = "landscaping",
+  safety = "safety",
+  administrative = "administrative",  
+  sustainability = "sustainability",
   other = "other",
 }
 

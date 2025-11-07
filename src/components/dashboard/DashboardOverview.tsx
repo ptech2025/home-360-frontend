@@ -76,8 +76,8 @@ export function DashboardOverview({ home }: OverviewCardProps) {
           asChild
           className="w-full shrink-0 lg:w-max text-main-green px-4 bg-white border border-transparent hover:bg-light-gray shadow-none hover:text-white duration-300 hover:border-white"
         >
-          <Link href={`/dashboard/${home.id}/public-records`}>
-            Public Records
+          <Link href={`/dashboard/${home.id}/details`}>
+            View Details
           </Link>
         </Button>
       </div>

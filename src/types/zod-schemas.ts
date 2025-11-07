@@ -6,6 +6,8 @@ import {
   ReminderType,
   ReminderStatus,
   MaintenanceFrequency,
+  HomeType,
+  ExpenseCategory,
 } from "./prisma-schema-types";
 
 export const signUpSchema = z
@@ -163,11 +165,13 @@ export const createServiceJobSchema = z.object({
 
 export const createHomeTaskSchema = z.object({
   title: z.string().min(1, { message: "Task Name is required" }),
-  status: z.enum([...Object.values(ReminderStatus)], {
-    message: `Status is required and must be one of the following: ${Object.values(
-      ReminderStatus
-    ).join(", ")}`,
-  }).optional(),
+  status: z
+    .enum([...Object.values(ReminderStatus)], {
+      message: `Status is required and must be one of the following: ${Object.values(
+        ReminderStatus
+      ).join(", ")}`,
+    })
+    .optional(),
   description: z
     .string()
     .max(100, { message: "Description must be less than 100 characters" })
@@ -182,6 +186,54 @@ export const createHomeTaskSchema = z.object({
       MaintenanceFrequency
     ).join(", ")}`,
   }),
+});
+
+export const createExpenseSchema = z.object({
+  title: z.string().min(1, { message: "Title is required" }),
+  amount: z.coerce
+    .number({ message: "Amount must be a number" })
+    .min(0, { message: "Amount must be greater than or equal to 0" }),
+  category: z.enum([...Object.values(ExpenseCategory)], {
+    message: `Category is required and must be one of the following: ${Object.values(
+      ExpenseCategory
+    ).join(", ")}`,
+  }),
+  date: z.string().min(1, { message: "Date is required" }),
+  description: z.string().optional(),
+  file: validatePDFOrImageFile().optional(),
+});
+
+export const updateHomeDetailsSchema = z.object({
+  yearBuilt: z.coerce
+    .number({ message: "Year built must be a number" })
+    .int({ message: "Year built must be an integer" })
+    .min(1800, { message: "Year built must be at least 1800" })
+    .max(new Date().getFullYear(), {
+      message: `Year built cannot exceed ${new Date().getFullYear()}`,
+    })
+    .optional(),
+  squareFeet: z.coerce
+    .number({ message: "Square feet must be a number" })
+    .int({ message: "Square feet must be an integer" })
+    .optional(),
+  lotSizeSqFt: z.coerce
+    .number({ message: "Lot size must be a number" })
+    .int({ message: "Lot size must be an integer" })
+    .optional(),
+  bathrooms: z.coerce
+    .number({ message: "Bathrooms must be a number" })
+    .int({ message: "Bathrooms must be an integer" })
+    .optional(),
+  bedrooms: z.coerce
+    .number({ message: "Bedrooms must be a number" })
+    .int({ message: "Bedrooms must be an integer" })
+    .optional(),
+  homeType: z.enum([...Object.values(HomeType)], {
+    message: `Home type is required and must be one of the following: ${Object.values(
+      HomeType
+    ).join(", ")}`,
+  }),
+  file: validateImageFile().optional(),
 });
 
 export function validateImageFiles() {
@@ -349,3 +401,7 @@ export type CreateServiceProviderSchemaType = z.infer<
 
 export type CreateServiceJobSchemaType = z.infer<typeof createServiceJobSchema>;
 export type CreateHomeTaskSchemaType = z.infer<typeof createHomeTaskSchema>;
+export type CreateExpenseSchemaType = z.infer<typeof createExpenseSchema>;
+export type UpdateHomeDetailsSchemaType = z.infer<
+  typeof updateHomeDetailsSchema
+>;

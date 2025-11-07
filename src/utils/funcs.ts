@@ -1,6 +1,6 @@
 import { AuthUserType, Subscription } from "@/types";
 import { DocumentCategory, Document } from "@/types/prisma-schema-types";
-
+import { format } from "date-fns";
 
 export const getCurrentLocation = (): Promise<GeolocationPosition> => {
   return new Promise((resolve, reject) => {
@@ -143,3 +143,38 @@ export const renderDocumentCategoryStyle = (category: DocumentCategory) => {
   }
 };
 
+export const renderValue = (key: string, value: any) => {
+  // dates
+  if (["taxDueDate", "lastSaleDate"].includes(key)) {
+    return value ? format(new Date(value.toString()), "MMM dd, yyyy") : "N/A";
+  }
+  // amount numbers
+  if (
+    [
+      "homeValue",
+      "landValue",
+      "annualTax",
+      "appraisedValue",
+      "assessedValue",
+      "lastSalePrice",
+      "improvementValue",
+    ].includes(key)
+  ) {
+    return value ? `$${value?.toLocaleString()}` : "N/A";
+  }
+  // other numbers
+  if (
+    [
+      "bedrooms",
+      "lotSizeSqFt",
+      "bathrooms",
+      "squareFeet",
+      "buildingSqft",
+      "lotSizeSqft",
+    ].includes(key)
+  ) {
+    return value ? value?.toLocaleString() : "N/A";
+  }
+  // strings
+  return value ? value.toString() : "N/A";
+};

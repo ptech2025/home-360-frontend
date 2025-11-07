@@ -31,7 +31,7 @@ function SingleHomePageWrapper({ homeId }: Props) {
   }
   if (!homeData) {
     replace("/onboarding");
-    return null;
+    return <DashboardPageLoadingSkeleton />;
   }
 
   return (
@@ -40,7 +40,7 @@ function SingleHomePageWrapper({ homeId }: Props) {
         <DashboardOverview home={homeData} />
         <Suspense fallback={<UpcomingEventsWrapperLoadingSkeleton />}>
           <UpcomingEventsWrapper
-           type="reminders"
+            type="reminders"
             homeId={homeId}
             calendarClassName="max-w-[15rem] hidden lg:block [--cell-size:--spacing(8.5)]"
           />
