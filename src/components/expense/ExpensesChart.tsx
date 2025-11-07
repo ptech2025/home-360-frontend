@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/card";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { formatCurrency } from "@/utils/funcs";
-import { ExpensesBreakdownLoadingSkeleton } from "@/components/global/Skeletons";
 import { useMemo } from "react";
 
 type Props = {
@@ -139,8 +138,9 @@ function ExpensesChart({ homeId }: Props) {
               align="right"
               layout="vertical"
               formatter={(value: string) => {
+                if (!value) return "";
                 const item = chartData.find((d) => d.category === value);
-                const categoryLabel = value.replace("_", " ");
+                const categoryLabel = String(value).replace("_", " ");
                 const percentage = item
                   ? ((item.amount / totalAmount) * 100).toFixed(1)
                   : "0";

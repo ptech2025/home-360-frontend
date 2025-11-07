@@ -13,7 +13,7 @@ async function AllDocumentsPage(
 ) {
   const queryClient = new QueryClient();
   const { homeId } = await props.params;
-  const { search, tags, page, viewMode, size } = await props.searchParams;
+  const { search, tags, page, size } = await props.searchParams;
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
 
@@ -31,11 +31,7 @@ async function AllDocumentsPage(
   ]);
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <AllDocumentsPageWrapper
-        homeId={homeId}
-        filterParams={filterParams}
-        viewMode={viewMode as "grid" | "list"}
-      />
+      <AllDocumentsPageWrapper homeId={homeId} filterParams={filterParams} />
     </HydrationBoundary>
   );
 }

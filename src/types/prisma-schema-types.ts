@@ -136,6 +136,7 @@ export interface Appliance {
   id: string;
   homeId: string;
   name: string;
+  image: string | null
   brand?: string | null;
   model?: string | null;
   serialNumber?: string | null;
