@@ -1,29 +1,6 @@
 "use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { PiInstagramLogoLight } from "react-icons/pi";
-import { TiSocialFacebook } from "react-icons/ti";
-
-const footerLinks = [
-  {
-    link: "/about",
-    title: "About",
-  },
-  {
-    link: "/pricing",
-    title: "Pricing",
-  },
-  {
-    link: "/#features",
-    title: "Features",
-  },
-];
 
 function Footer() {
-  const pathname = usePathname();
-  const isActive = (href: string) => {
-    return pathname === href;
-  };
   return (
     <footer className="custom-container flex flex-col gap-10">
       {/* <div className="flex flex-col gap-6 sm:flex-row justify-between items-center">

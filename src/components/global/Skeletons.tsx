@@ -9,7 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CalendarCard } from "../dashboard/UpcomingEventsWrapper";
 
 export function TableLoadingSkeleton() {
   const rows = Array.from({ length: 6 });
@@ -149,10 +148,8 @@ export function DocumentsPageLoadingSkeleton() {
 
 export function UpcomingEventsWrapperLoadingSkeleton({
   orientation = "horizontal",
-  className,
 }: {
   orientation?: "horizontal" | "vertical";
-  className?: string;
 }) {
   return (
     <div
@@ -369,5 +366,127 @@ export function AppliancePageWrapperLoadingSkeleton() {
         </div>
       </div>
     </section>
+  );
+}
+
+export function SingleAppliancePageWrapperLoadingSkeleton() {
+  return (
+    <section className="px-4 flex flex-col gap-4 py-4 bg-lighter-gray/50 min-h-screen">
+      {/* Header Section */}
+      <div className="flex flex-col gap-2 w-full">
+        <Skeleton className="h-7 w-80" />
+        <Skeleton className="h-4 w-96" />
+      </div>
+
+      {/* Back Button */}
+      <Skeleton className="h-10 w-40 rounded-md" />
+
+      {/* Main Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_0.5fr] gap-4">
+        {/* Left Column */}
+        <div className="flex flex-col gap-4">
+          {/* Appliance Preview Card Skeleton */}
+          <div className="flex flex-col gap-2 bg-white rounded-md p-4">
+            <div className="flex justify-between items-start gap-4">
+              <div className="flex flex-col gap-2 flex-1">
+                <Skeleton className="h-7 w-48" />
+                <Skeleton className="h-4 w-32" />
+              </div>
+              <Skeleton className="h-10 w-20 rounded-md" />
+            </div>
+            <div className="flex items-center bg-lighter-gray/50 rounded-md p-2 min-h-[240px] justify-center">
+              <Skeleton className="size-[240px] rounded-md" />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <div key={index} className="flex flex-col gap-1">
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-5 w-32" />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Maintenance History Skeleton */}
+          <ApplianceMaintenanceHistoryLoadingSkeleton />
+        </div>
+
+        {/* Right Column */}
+        <div className="flex flex-col gap-4">
+          {/* Warranty Card Skeleton */}
+          <div className="flex flex-col gap-2 bg-white rounded-md p-4">
+            <Skeleton className="h-7 w-48" />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col gap-1">
+                <Skeleton className="h-4 w-16" />
+                <Skeleton className="h-6 w-24 rounded-full" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <Skeleton className="h-4 w-28" />
+                <Skeleton className="h-4 w-32" />
+              </div>
+            </div>
+          </div>
+
+          {/* Reminder Card Skeleton */}
+          <div className="flex flex-col gap-2 bg-white rounded-md p-4">
+            <Skeleton className="h-7 w-40" />
+            <div className="flex h-full flex-col gap-3">
+              <div className="flex flex-col gap-1">
+                <Skeleton className="h-4 w-32" />
+                <Skeleton className="h-3 w-24" />
+              </div>
+            </div>
+          </div>
+
+          {/* Document Card Skeleton */}
+          <div className="flex flex-col gap-2 bg-white rounded-md p-4">
+            <Skeleton className="h-7 w-32" />
+            <div className="grid grid-cols-1 gap-4">
+              {Array.from({ length: 2 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="flex gap-3 justify-between items-center"
+                >
+                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="size-10 rounded-md" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function ApplianceMaintenanceHistoryLoadingSkeleton() {
+  return (
+    <div className="flex flex-col gap-2 bg-white rounded-md p-4">
+      <div className="flex flex-col gap-1">
+        <Skeleton className="h-7 w-48" />
+        <Skeleton className="h-4 w-64" />
+      </div>
+      <div className="grid grid-cols-1 gap-4">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <div
+            key={index}
+            className="flex flex-col gap-2 rounded-xl border border-lighter-gray p-4"
+          >
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-2">
+                <Skeleton className="h-6 w-24 rounded-full" />
+                <Skeleton className="h-4 w-28" />
+              </div>
+              <Skeleton className="h-7 w-20" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <Skeleton className="h-5 w-3/4" />
+              <Skeleton className="h-3 w-full" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

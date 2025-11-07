@@ -5,7 +5,6 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 import { cookies } from "next/headers";
-import { userQueries } from "@/queries/user";
 import { documentQueries } from "@/queries/document";
 import { FetchDocumentParams } from "@/types";
 import { DocumentCategory } from "@/types/prisma-schema-types";
@@ -15,7 +14,7 @@ async function DocumentCategoryPage(
 ) {
   const queryClient = new QueryClient();
   const { homeId, category } = await props.params;
-  const { search, tags, page, } = await props.searchParams;
+  const { search, tags, page } = await props.searchParams;
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
 
@@ -34,10 +33,7 @@ async function DocumentCategoryPage(
   ]);
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <AllDocumentsPageWrapper
-        homeId={homeId}
-        filterParams={filterParams}
-      />
+      <AllDocumentsPageWrapper homeId={homeId} filterParams={filterParams} />
     </HydrationBoundary>
   );
 }

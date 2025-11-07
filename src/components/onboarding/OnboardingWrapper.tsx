@@ -1,7 +1,6 @@
 "use client";
 
-import { useOnboardingStore } from "@/store/onboardingStore";
-import { JSX, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CreateHomeOnboarding from "./CreateHomeOnboarding";
 import WelcomeOnboarding from "./WelcomeOnboarding";
 import { Home } from "@/types/prisma-schema-types";

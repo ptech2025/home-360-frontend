@@ -33,7 +33,7 @@ function ContactForm() {
 
   const { reset } = form;
 
-  const onSubmit = async (data: ContactFormSchemaType) => {
+  const onSubmit = async () => {
     try {
       setIsSubmitting(true);
       toast.success("Message sent successfully, we will get back to you soon.");

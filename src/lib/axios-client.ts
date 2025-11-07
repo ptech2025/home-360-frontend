@@ -1,7 +1,5 @@
 import type { ErrorContext } from "better-auth/react";
-import axios, { AxiosRequestConfig, AxiosError, AxiosHeaders } from "axios";
-
-
+import axios, { AxiosRequestConfig, AxiosError } from "axios";
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL!,
@@ -26,9 +24,8 @@ function isErrorContext(error: unknown): error is ErrorContext {
   );
 }
 
-
 export const renderAxiosOrAuthError = (error: unknown): string => {
-  console.log(error)
+  console.log(error);
   if (error instanceof AxiosError) {
     return (
       error.response?.data?.message ||

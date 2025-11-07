@@ -1,23 +1,30 @@
 import SingleHomePageWrapper from "@/components/property/SingleHomePageWrapper";
-import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
 import { cookies } from "next/headers";
-import {userQueries} from "@/queries/user"
+import { userQueries } from "@/queries/user";
 import { dashboardQueries } from "@/queries/dashboard";
-
 
 async function SingleHomePage(props: PageProps<"/dashboard/[homeId]">) {
   const queryClient = new QueryClient();
-  const {homeId} = await props.params
+  const { homeId } = await props.params;
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
   await Promise.all([
-    queryClient.prefetchQuery(userQueries.withCookies(cookieHeader).singleHome(homeId)),
-    queryClient.prefetchQuery(dashboardQueries.withCookies(cookieHeader).metrics(homeId))
-  ])
+    queryClient.prefetchQuery(
+      userQueries.withCookies(cookieHeader).singleHome(homeId)
+    ),
+    queryClient.prefetchQuery(
+      dashboardQueries.withCookies(cookieHeader).metrics(homeId)
+    ),
+  ]);
   return (
-   <HydrationBoundary state={dehydrate(queryClient)}>
-    <SingleHomePageWrapper homeId={homeId} />
-   </HydrationBoundary>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <SingleHomePageWrapper homeId={homeId} />
+    </HydrationBoundary>
   );
 }
 export default SingleHomePage;

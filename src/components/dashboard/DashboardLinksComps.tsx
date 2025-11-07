@@ -4,12 +4,10 @@ import NavbarLink from "./NavbarLink";
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 
 import {
@@ -47,7 +45,15 @@ type Props = {
   homeLinks: DashboardLink[];
 };
 
-export function DesktopDashboardDropdown({ userRole, user }: Props) {
+type DesktopDropdownProps = {
+  userRole: UserRole;
+  user: AuthUserType;
+};
+
+export function DesktopDashboardDropdown({
+  userRole,
+  user,
+}: DesktopDropdownProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="hidden md:flex items-center gap-4 group">

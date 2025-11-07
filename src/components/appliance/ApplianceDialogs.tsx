@@ -45,6 +45,7 @@ import {
 } from "@/types/zod-schemas";
 import { Appliance, ApplianceCategory } from "@/types/prisma-schema-types";
 import { applianceMutations } from "@/queries/appliance";
+import { useRouter } from "next/navigation";
 
 type AddOrEditApplianceDialogProps = {
   type: "create" | "update";
@@ -148,7 +149,7 @@ export function AddOrEditApplianceDialog({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
 
-      <DialogContent className="p-0 max-h-[95vh] overflow-y-auto flex flex-col">
+      <DialogContent className="p-0 max-h-[95vh] sm:max-w-2xl overflow-y-auto flex flex-col">
         <DialogHeader className="p-6 pb-3 sticky z-10 bg-white top-0 left-0">
           <DialogTitle className="font-circular-bold font-bold">
             {type === "create" ? "Add New Appliance" : "Edit Appliance"}
@@ -312,12 +313,8 @@ export function AddOrEditApplianceDialog({
                         <Input
                           type="date"
                           className="h-10"
-                          value={
-                            typeof field.value === "string" ? field.value : ""
-                          }
-                          onChange={(e) => field.onChange(e.target.value)}
-                          onBlur={field.onBlur}
-                          name={field.name}
+                          value={field.value as string | undefined}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage className="text-xs" />
@@ -368,12 +365,8 @@ export function AddOrEditApplianceDialog({
                         <Input
                           type="date"
                           className="h-10"
-                          value={
-                            typeof field.value === "string" ? field.value : ""
-                          }
-                          onChange={(e) => field.onChange(e.target.value)}
-                          onBlur={field.onBlur}
-                          name={field.name}
+                          value={field.value as string | undefined}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage className="text-xs" />
@@ -396,12 +389,8 @@ export function AddOrEditApplianceDialog({
                         <Input
                           type="date"
                           className="h-10"
-                          value={
-                            typeof field.value === "string" ? field.value : ""
-                          }
-                          onChange={(e) => field.onChange(e.target.value)}
-                          onBlur={field.onBlur}
-                          name={field.name}
+                          value={field.value as string | undefined}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage className="text-xs" />
@@ -484,6 +473,7 @@ export function DeleteApplianceDialog({
   children,
   applianceId,
 }: DeleteApplianceDialogProps) {
+  const { push } = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { homeId } = useParams<{ homeId: string }>();
 
@@ -492,6 +482,7 @@ export function DeleteApplianceDialog({
     onSuccess: () => {
       toast.success("Appliance deleted successfully.");
       setIsOpen(false);
+      push(`/dashboard/${homeId}/appliances`);
     },
     onSettled: (_data, _error, _vars, _result, context) => {
       context.client.invalidateQueries({
@@ -509,9 +500,9 @@ export function DeleteApplianceDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      {children}
+      <DialogTrigger asChild>{children}</DialogTrigger>
 
-      <DialogContent className="p-0 max-h-[95vh] overflow-y-auto flex flex-col">
+      <DialogContent className="p-0 max-h-[95vh] sm:max-w-2xl overflow-y-auto flex flex-col">
         <DialogHeader className="p-6 pb-3 sticky z-10 bg-white top-0 left-0">
           <DialogTitle className="font-circular-bold font-bold">
             Confirm Appliance Deletion
@@ -601,7 +592,7 @@ export function AddApplianceMaintenanceDialog({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
 
-      <DialogContent className="p-0 max-h-[95vh] overflow-y-auto flex flex-col">
+      <DialogContent className="p-0 max-h-[95vh] sm:max-w-2xl overflow-y-auto flex flex-col">
         <DialogHeader className="p-6 pb-3 sticky z-10 bg-white top-0 left-0">
           <DialogTitle className="font-circular-bold font-bold">
             Add Maintenance Record

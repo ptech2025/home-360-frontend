@@ -1,5 +1,4 @@
 import WaitlistPage from "@/components/home/WaitlistPage";
-import WhySection from "@/components/home/WhySection";
 import {
   HydrationBoundary,
   dehydrate,

@@ -1,6 +1,6 @@
 import { api, withAuthHeaders } from "@/lib/axios-client";
 import { FetchAllHomeTasksResponse, FetchHomeTasksParams } from "@/types";
-import { MaintenanceInstance, Reminder } from "@/types/prisma-schema-types";
+import { MaintenanceInstance, } from "@/types/prisma-schema-types";
 import { CreateHomeTaskSchemaType } from "@/types/zod-schemas";
 
 export const taskService = {

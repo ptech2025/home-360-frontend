@@ -8,13 +8,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-  DropdownMenuItem,
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-
-import { Checkbox } from "@/components/ui/checkbox";
 import { Route } from "next";
 
 export function GoogleServiceFilter() {

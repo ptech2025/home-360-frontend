@@ -1,11 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { unsubscribeFromWaitList } from "@/services/waitlist";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { toast } from "sonner";
-import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { userMutations } from "@/queries/user";

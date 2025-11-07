@@ -40,7 +40,7 @@ function PaginationContainer({
       type: searchParams?.get("type") || "",
       rating: searchParams?.get("rating") || "",
     })
-      .filter(([_, value]) => value !== "" && value !== undefined)
+      .filter(([, value]) => value !== "" && value !== undefined)
       .flatMap(([key, value]) =>
         Array.isArray(value)
           ? value.map((v) => [key, v]) // expand arrays

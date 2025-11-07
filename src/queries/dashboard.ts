@@ -1,5 +1,5 @@
 // queries/users.ts
-import { queryResult, mutationResult } from "@/lib/react-query-config";
+import { queryResult } from "@/lib/react-query-config";
 import { dashboardService } from "@/services/dashboard";
 
 export const dashboardQueries = {

@@ -44,7 +44,6 @@ import {
 } from "@/types/zod-schemas";
 import { ExpenseCategory } from "@/types/prisma-schema-types";
 import { expenseMutations } from "@/queries/expense";
-import FileInput from "../document/FileInput";
 
 function AddExpenseDialog() {
   const [isOpen, setIsOpen] = useState(false);
@@ -96,7 +95,7 @@ function AddExpenseDialog() {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="p-0 max-h-[95vh] overflow-y-auto flex flex-col">
+      <DialogContent className="p-0 max-h-[95vh] sm:max-w-2xl overflow-y-auto flex flex-col">
         <DialogHeader className="p-6 pb-3 sticky z-10 bg-white top-0 left-0">
           <DialogTitle className="font-circular-bold font-bold">
             Add New Expense
@@ -171,7 +170,7 @@ function AddExpenseDialog() {
                         >
                           <SelectTrigger
                             id="category"
-                            className="w-full capitalize h-10"
+                            className="w-full capitalize h-10!"
                           >
                             <SelectValue
                               placeholder="Select category"
@@ -206,7 +205,12 @@ function AddExpenseDialog() {
                       Date
                     </FormLabel>
                     <FormControl>
-                      <Input type="date" className="h-10" {...field} />
+                      <Input
+                        type="date"
+                        className="h-10"
+                        value={field.value as string | undefined}
+                        onChange={field.onChange}
+                      />
                     </FormControl>
                     <FormMessage className="text-xs" />
                   </FormItem>

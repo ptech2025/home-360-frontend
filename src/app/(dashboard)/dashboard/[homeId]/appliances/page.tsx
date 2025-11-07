@@ -13,8 +13,7 @@ async function AppliancesPage(
   props: PageProps<"/dashboard/[homeId]/appliances">
 ) {
   const { homeId } = await props.params;
-  const { page, size, search, category, hasWarranty, hasMaintenance } =
-    await props.searchParams;
+  const { page, size, search, category } = await props.searchParams;
   const queryClient = new QueryClient();
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
@@ -23,8 +22,6 @@ async function AppliancesPage(
     size: size ? parseInt(size.toString()) : 10,
     search: search?.toString(),
     category: category ? (category as ApplianceCategory) : undefined,
-    hasWarranty: hasWarranty ? Boolean(hasWarranty) : undefined,
-    hasMaintenance: hasMaintenance ? Boolean(hasMaintenance) : undefined,
   };
   await Promise.all([
     queryClient.prefetchQuery(

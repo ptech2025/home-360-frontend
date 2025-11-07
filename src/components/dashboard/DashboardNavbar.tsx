@@ -89,11 +89,7 @@ function DashboardNavbar({ user }: Props) {
       </Link>
       <DesktopDashboardNavLinks userRole={userRole} homeLinks={homeLinks} />
       <div className="flex gap-6 items-center">
-        <DesktopDashboardDropdown
-          user={user}
-          userRole={userRole}
-          homeLinks={homeLinks}
-        />
+        <DesktopDashboardDropdown user={user} userRole={userRole} />
         <MobileDashboardDropdown
           user={user}
           userRole={userRole}
