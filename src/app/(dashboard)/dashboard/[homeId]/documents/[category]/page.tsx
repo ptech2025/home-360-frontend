@@ -15,7 +15,7 @@ async function DocumentCategoryPage(
 ) {
   const queryClient = new QueryClient();
   const { homeId, category } = await props.params;
-  const { search, tags, page, viewMode } = await props.searchParams;
+  const { search, tags, page, } = await props.searchParams;
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
 
@@ -37,7 +37,6 @@ async function DocumentCategoryPage(
       <AllDocumentsPageWrapper
         homeId={homeId}
         filterParams={filterParams}
-        viewMode={viewMode as "grid" | "list"}
       />
     </HydrationBoundary>
   );
