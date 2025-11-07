@@ -6,9 +6,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 
-import { useDebounce } from "use-debounce";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Input } from "../ui/input";
 import { CommandLoading } from "cmdk";
 import { MapPin, Map, Ban, Loader2 } from "lucide-react";
@@ -24,7 +22,6 @@ type AddressItemProps = {
 type LocationCommandProps = {
   handleClose: (value: string) => void;
   currentAddress: string | undefined;
-  usOnly: boolean;
 };
 
 function AddressItem({ address, handleClose, matched }: AddressItemProps) {
@@ -47,11 +44,9 @@ function AddressItem({ address, handleClose, matched }: AddressItemProps) {
 function LocationCommand({
   handleClose,
   currentAddress,
-  usOnly,
 }: LocationCommandProps) {
   const [searchVal, setSearchVal] = useState("");
-  const [debouncedSearchVal] = useDebounce(searchVal, 300);
-  const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
+  const [suggestions] = useState<PlaceSuggestion[]>([]);
 
   const isLoading = false;
   // fetch clients with debounced value

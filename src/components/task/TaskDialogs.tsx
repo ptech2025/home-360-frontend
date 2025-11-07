@@ -1,6 +1,5 @@
 import {
   MaintenanceFrequency,
-  Priority,
   MaintenanceInstance,
   ReminderType,
   ReminderStatus,
@@ -9,7 +8,7 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useState } from "react";
-import { Ellipsis, EllipsisVertical, Loader2 } from "lucide-react";
+import { EllipsisVertical, Loader2 } from "lucide-react";
 import {
   Dialog,
   DialogClose,
@@ -53,8 +52,6 @@ import { taskMutations } from "@/queries/task";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { format } from "date-fns";
-import { SavedProviderSheet } from "../service-provider/ServiceProviderSheets";
-import { DeleteProviderDialog } from "../service-provider/ServiceProviderDialogs";
 
 export function AddOrEditCustomTaskDialog({
   children,

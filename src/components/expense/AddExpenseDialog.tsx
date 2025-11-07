@@ -44,7 +44,6 @@ import {
 } from "@/types/zod-schemas";
 import { ExpenseCategory } from "@/types/prisma-schema-types";
 import { expenseMutations } from "@/queries/expense";
-import FileInput from "../document/FileInput";
 
 function AddExpenseDialog() {
   const [isOpen, setIsOpen] = useState(false);

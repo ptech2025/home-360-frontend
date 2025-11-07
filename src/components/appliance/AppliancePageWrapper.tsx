@@ -9,8 +9,6 @@ import ApplianceGridWrapper from "./ApplianceGridWrapper";
 import AppliancePageHeader from "./AppliancePageHeader";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "../global/DataTable";
-import { Badge } from "../ui/badge";
-import { cn } from "@/lib/utils";
 import { ChevronsUpDown } from "lucide-react";
 import { format } from "date-fns";
 import { Checkbox } from "../ui/checkbox";

@@ -217,13 +217,21 @@ export interface FetchAllAppliancesResponse {
 }
 
 export interface FetchSingleApplianceResponse extends Appliance {
-  warrantyStatus: WarrantyStatus;
-  reminder: Reminder;
-  document: { url: string; previewUrl: string | null }[];
+  warranty?: {
+    status: WarrantyStatus;
+    expiryDate: Date | null;
+  };
+  reminder: {
+    id: string;
+    title: string;
+    dueDate: Date;
+    status: ReminderStatus;
+  } | null;
+  documents: { url: string; previewUrl: string | null }[];
 }
 
 export interface ApplianceHistory {
-  type: string;
+  type: "Maintenance" | "Installation" | "Purchase" | "Warranty";
   date: Date;
   title: string;
   details?: string;
@@ -239,8 +247,4 @@ export interface FetchAppliancesParams {
   search?: string;
 
   category?: ApplianceCategory;
-
-  hasWarranty?: boolean;
-
-  hasMaintenance?: boolean;
 }

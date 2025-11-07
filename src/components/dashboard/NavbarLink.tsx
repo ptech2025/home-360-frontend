@@ -4,7 +4,6 @@ import { DashboardLink } from "@/types";
 import { usePathname } from "next/navigation";
 
 import Link from "next/link";
-import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip";
 import { cn } from "@/lib/utils";
 
 type Props = {

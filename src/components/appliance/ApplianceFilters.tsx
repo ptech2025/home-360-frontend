@@ -19,8 +19,6 @@ export function ApplianceFilter() {
   const page = searchParams.get("page");
   const size = searchParams.get("size");
   const search = searchParams.get("search");
-  const hasWarranty = searchParams.get("hasWarranty");
-  const hasMaintenance = searchParams.get("hasMaintenance");
   const category = searchParams.get("category") as ApplianceCategory | null;
 
   const handleCategoryChange = (newCategory: ApplianceCategory | null) => {

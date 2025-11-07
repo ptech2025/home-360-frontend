@@ -6,10 +6,7 @@ import {
   FetchGoogleServiceProviderParams,
   FetchServiceProviderParams,
 } from "@/types";
-import {
-  CreateServiceJobSchemaType,
-  CreateServiceProviderSchemaType,
-} from "@/types/zod-schemas";
+import { CreateServiceProviderSchemaType } from "@/types/zod-schemas";
 export const providerQueries = {
   single: (homeId: string, provId: string) =>
     queryResult(["single-provider", homeId, provId], () =>
@@ -77,13 +74,7 @@ export const providerMutations = {
       providerService.updateProvider(variables.provId, variables.data)
   ),
   createJob: mutationResult(
-    (variables: {
-      provId: string;
-      data: CreateJobBody;
-    }) =>
-      providerService.createProviderJob(
-        variables.provId,
-        variables.data
-      )
+    (variables: { provId: string; data: CreateJobBody }) =>
+      providerService.createProviderJob(variables.provId, variables.data)
   ),
 };

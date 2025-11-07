@@ -39,5 +39,4 @@ export const documentMutations = {
   download: mutationResult((variables: { docId: string; homeId: string }) =>
     documentService.downloadDocument(variables.homeId, variables.docId)
   ),
-  withCookies: (cookies: string) => ({}),
 };

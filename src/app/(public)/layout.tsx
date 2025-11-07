@@ -1,7 +1,3 @@
-import Newsletter from "@/components/global/Newsletter";
-import Footer from "@/components/global/Footer";
-import Navbar from "@/components/navbar/NavbarWrapper";
-
 export default function PublicLayout({
   children,
 }: Readonly<{
