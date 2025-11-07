@@ -146,9 +146,11 @@ export const createServiceProviderSchema = z.object({
 });
 
 export const createServiceJobSchema = z.object({
-  homeId: z.string().min(1, { message: "Home is required" }),
+  homeId: z
+    .string({ message: "Home is required" })
+    .min(1, { message: "Home is required" }),
   jobDescription: z
-    .string()
+    .string({ message: "Job Description is required" })
     .min(1, { message: "Job Description is required" })
     .max(100, { message: "Job Description must be less than 100 characters" }),
   date: z.coerce.date({ message: "Date is required" }),

@@ -5,7 +5,6 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 import { cookies } from "next/headers";
-import { userQueries } from "@/queries/user";
 import { documentQueries } from "@/queries/document";
 import { FetchDocumentParams } from "@/types";
 import { DocumentCategory } from "@/types/prisma-schema-types";

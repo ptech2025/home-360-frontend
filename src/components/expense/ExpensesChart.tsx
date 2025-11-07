@@ -125,7 +125,7 @@ function ExpensesChart({ homeId }: Props) {
               data={chartData}
               dataKey="amount"
               nameKey="category"
-              innerRadius={60}
+              innerRadius={80}
               cx={150}
               cy={150}
             >
@@ -150,8 +150,7 @@ function ExpensesChart({ homeId }: Props) {
               }}
               iconType="circle"
               wrapperStyle={{
-                paddingLeft: "20px",
-                fontSize: "12px",
+                fontSize: "16px",
               }}
             />
           </PieChart>

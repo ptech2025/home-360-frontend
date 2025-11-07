@@ -43,15 +43,15 @@ import {
 } from "../ui/select";
 import { HomeType } from "@/types/prisma-schema-types";
 type UpdateHomeDetailsProps = {
-    homeId: string;
-    bedrooms?: number | null;
-    bathrooms?: number | null;
-    yearBuilt?: number | null;
-    squareFeet?: number | null;
-    lotSizeSqFt?: number | null;
-    homeType: HomeType;
-    children: React.ReactNode;
-  };
+  homeId: string;
+  bedrooms?: number | null;
+  bathrooms?: number | null;
+  yearBuilt?: number | null;
+  squareFeet?: number | null;
+  lotSizeSqFt?: number | null;
+  homeType: HomeType;
+  children: React.ReactNode;
+};
 type UpdateHomeAddressProps = {
   address: string | undefined;
   city: string | undefined;
@@ -112,7 +112,7 @@ export const UpdateHomeAddressDialog = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="px-0  flex flex-col">
+      <DialogContent className="px-0 sm:max-w-2xl flex flex-col">
         <DialogHeader className="px-4">
           <DialogTitle>Edit Property Address</DialogTitle>
           <DialogDescription>
@@ -234,8 +234,6 @@ export const UpdateHomeAddressDialog = ({
   );
 };
 
-
-
 export const UpdateHomeDetailsDialog = ({
   homeId,
   bedrooms,
@@ -286,7 +284,7 @@ export const UpdateHomeDetailsDialog = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="px-0 flex flex-col max-h-[90vh] overflow-y-auto">
+      <DialogContent className="px-0 sm:max-w-2xl flex flex-col max-h-[90vh] overflow-y-auto">
         <DialogHeader className="px-4">
           <DialogTitle>Edit Property Details</DialogTitle>
           <DialogDescription>
@@ -313,7 +311,6 @@ export const UpdateHomeDetailsDialog = ({
                       <Input
                         className="h-10"
                         placeholder="Enter number of bedrooms"
-                   
                         value={field.value as number | undefined}
                         onChange={(e) => {
                           field.onChange(e.target.value);

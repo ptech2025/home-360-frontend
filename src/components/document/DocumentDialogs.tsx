@@ -144,7 +144,7 @@ export function AddOrEditDocumentDialog({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       {children}
 
-      <DialogContent className="p-0 max-h-[95vh] overflow-y-auto  flex flex-col">
+      <DialogContent className="p-0 max-h-[95vh] sm:max-w-2xl overflow-y-auto  flex flex-col">
         <DialogHeader className="p-6 pb-3 sticky z-10 bg-white top-0 left-0">
           <DialogTitle className="font-circular-bold font-bold">
             {type === "create" ? "Upload New Document" : "Update Document"}
@@ -385,7 +385,7 @@ export function DeleteDocumentDialog({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       {children}
 
-      <DialogContent className="p-0 max-h-[95vh] overflow-y-auto  flex flex-col">
+      <DialogContent className="p-0 max-h-[95vh] sm:max-w-2xl overflow-y-auto  flex flex-col">
         <DialogHeader className="p-6 pb-3 sticky z-10 bg-white top-0 left-0">
           <DialogTitle className="font-circular-bold font-bold">
             Confirm Document Deletion

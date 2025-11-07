@@ -135,7 +135,7 @@ export function DeleteProviderDialog({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="p-0 max-h-[95vh] overflow-y-auto  flex flex-col">
+      <DialogContent className="p-0 max-h-[95vh] sm:max-w-2xl overflow-y-auto  flex flex-col">
         <DialogHeader className="p-6 pb-3 sticky z-10 bg-white top-0 left-0">
           <DialogTitle className="font-circular-bold font-bold">
             Confirm Service Provider Deletion
@@ -245,7 +245,7 @@ export function AddOrEditProviderDialog({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="p-0 max-h-[95vh] overflow-y-auto  flex flex-col">
+      <DialogContent className="p-0 max-h-[95vh] sm:max-w-2xl overflow-y-auto  flex flex-col">
         <DialogHeader className="p-6 pb-3 sticky z-10 bg-white top-0 left-0">
           <DialogTitle className="font-circular-bold font-bold">
             {type === "create"
@@ -379,6 +379,7 @@ export function AddOrEditProviderDialog({
                         onChange={field.onChange}
                         placeholder="Enter provider address"
                         isFormLoading={isCreating || isUpdating}
+                        className="h-11"
                       />
                     </FormControl>
                     <FormMessage className="text-xs" />
@@ -504,6 +505,13 @@ export function HireProviderDialog({
 
   const form = useForm({
     resolver: zodResolver(createServiceJobSchema),
+    mode: "onChange",
+    defaultValues: {
+      amount: 0,
+      rating: 0,
+      jobDescription: "",
+      homeId: "",
+    },
   });
 
   const onSubmit = (values: CreateServiceJobSchemaType) => {
@@ -519,7 +527,7 @@ export function HireProviderDialog({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="p-0 max-h-[95vh] overflow-y-auto  flex flex-col">
+      <DialogContent className="p-0 max-h-[95vh] sm:max-w-2xl overflow-y-auto  flex flex-col">
         <DialogHeader className="p-6 pb-3 sticky z-10 bg-white top-0 left-0">
           <DialogTitle className="font-circular-bold font-bold">
             Add Job to Service Provider
@@ -576,25 +584,10 @@ export function HireProviderDialog({
                       </FormDescription>
                       <FormControl>
                         <Input
-                          type="datetime-local"
+                          type="date"
                           className="h-11"
-                          value={
-                            field.value
-                              ? format(
-                                  field.value as Date,
-                                  "yyyy-MM-dd'T'HH:mm"
-                                )
-                              : ""
-                          }
-                          onChange={(e) => {
-                            const dateValue = e.target.value;
-                            if (!dateValue) {
-                              field.onChange(undefined);
-                              return;
-                            }
-                            const parsedDate = new Date(dateValue);
-                            field.onChange(parsedDate);
-                          }}
+                          value={field.value as string | undefined}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage className="text-xs" />
