@@ -58,7 +58,7 @@ export const redirectAuthUser = async (
   if (session) {
     const isOnboarded = session.user.isOnboarded;
     const currentPath = req.nextUrl.pathname;
-    const redirectPath = isOnboarded ? "/dashboard/profile" : "/onboarding";
+    const redirectPath = isOnboarded ? "/dashboard/settings" : "/onboarding";
 
     if (isOnboarded) {
       const isInOnboardedRoute =

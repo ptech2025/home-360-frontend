@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 import NavbarLink from "./NavbarLink";
 import {
   NavigationMenu,
@@ -26,16 +28,10 @@ import { Button } from "../ui/button";
 
 export const dropdownLinks: DashboardLink[] = [
   {
-    icon: <UserRoundPen />,
-    title: "Profile",
-    url: "#",
-    access: ["admin", "multiple_home_owner", "single_home_owner"],
-  },
-  {
     icon: <Settings />,
     title: "Settings",
-    url: "#",
-    access: ["admin", "multiple_home_owner", "single_home_owner"],
+    url: "/dashboard/settings",
+    access: ["admin", "user"],
   },
 ];
 
@@ -99,11 +95,42 @@ export function MobileDashboardDropdown({ userRole, user, homeLinks }: Props) {
         className="w-[15rem] md:hidden flex p-0 flex-col"
       >
         <DropdownMenuGroup>
-          {homeLinks.map((link) => (
-            <DropdownMenuItem key={link.title}>
-              <NavbarLink link={link} userRole={userRole} />
-            </DropdownMenuItem>
-          ))}{" "}
+          {homeLinks.map((link) => {
+            const subLinks = link.items;
+
+            if (subLinks && subLinks.length > 0) {
+              return (
+                <React.Fragment key={link.title}>
+                  <DropdownMenuItem
+                    onSelect={(event) => event.preventDefault()}
+                    className="cursor-default focus:bg-transparent focus:text-inherit"
+                  >
+                    <NavbarLink
+                      link={link}
+                      userRole={userRole}
+                      isLinkTrigger
+                      className="flex-row items-center gap-2"
+                    />
+                  </DropdownMenuItem>
+                  {subLinks.map((subLink) => (
+                    <DropdownMenuItem asChild key={subLink.title}>
+                      <NavbarLink
+                        link={subLink}
+                        userRole={userRole}
+                        className="pl-6"
+                      />
+                    </DropdownMenuItem>
+                  ))}
+                </React.Fragment>
+              );
+            }
+
+            return (
+              <DropdownMenuItem key={link.title} asChild>
+                <NavbarLink link={link} userRole={userRole} />
+              </DropdownMenuItem>
+            );
+          })}
           {dropdownLinks.map((link) => (
             <DropdownMenuItem key={link.title}>
               <NavbarLink link={link} userRole={userRole} />

@@ -2,7 +2,10 @@
 import { queryResult, mutationResult } from "@/lib/react-query-config";
 import { userService } from "@/services/user";
 import { FetchLocationParams, FetchPlacesParams } from "@/types";
-import { UpdateHomeDetailsSchemaType } from "@/types/zod-schemas";
+import {
+  PersonalInfoSchemaType,
+  UpdateHomeDetailsSchemaType,
+} from "@/types/zod-schemas";
 
 export const userQueries = {
   fetchPlaces: (params: FetchPlacesParams) =>
@@ -38,6 +41,9 @@ export const userMutations = {
   updateHomeDetails: mutationResult(
     (variables: { homeId: string; data: UpdateHomeDetailsSchemaType }) =>
       userService.updateHomeDetails(variables.homeId, variables.data)
+  ),
+  updateProfile: mutationResult((variables: PersonalInfoSchemaType) =>
+    userService.updateProfile(variables)
   ),
 
   // server-only variant

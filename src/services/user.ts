@@ -4,8 +4,12 @@ import {
   FetchLocationParams,
   PlaceSuggestion,
 } from "@/types";
+import { AuthUserType } from "@/types";
 import { Home, PublicRecord } from "@/types/prisma-schema-types";
-import { UpdateHomeDetailsSchemaType } from "@/types/zod-schemas";
+import {
+  PersonalInfoSchemaType,
+  UpdateHomeDetailsSchemaType,
+} from "@/types/zod-schemas";
 
 export const userService = {
   fetchPlaces: async (params: FetchPlacesParams) => {
@@ -68,6 +72,19 @@ export const userService = {
       headers: { "Content-Type": "multipart/form-data" },
     });
     return res.data as Home;
+  },
+  updateProfile: async (data: PersonalInfoSchemaType) => {
+    const formData = new FormData();
+    formData.append("name", `${data.firstName} ${data.lastName}`);
+    if (data.image) {
+      formData.append("file", data.image);
+    }
+
+    const res = await api.patch("/api/user/update-user-info", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    return res.data as AuthUserType;
   },
   getHome: async (id: string, cookies?: string) => {
     const res = await api.get(`/api/home/${id}`, withAuthHeaders(cookies));

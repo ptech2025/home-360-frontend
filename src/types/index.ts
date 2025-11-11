@@ -49,8 +49,7 @@ export type PlaceSuggestion = {
 };
 
 export type UserRole =
-  | "single_home_owner"
-  | "multiple_home_owner"
+  | "user"
   | "admin"
   | "super_admin";
 
