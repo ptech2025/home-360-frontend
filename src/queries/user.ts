@@ -1,7 +1,7 @@
 // queries/users.ts
 import { queryResult, mutationResult } from "@/lib/react-query-config";
 import { userService } from "@/services/user";
-import { FetchLocationParams, FetchPlacesParams } from "@/types";
+import { FetchLocationParams, FetchPlacesParams, FetchHomesParams } from "@/types";
 import {
   PersonalInfoSchemaType,
   UpdateHomeDetailsSchemaType,
@@ -14,13 +14,13 @@ export const userQueries = {
     queryResult(["location", params], () => userService.fetchLocation(params)),
   singleHome: (id: string) =>
     queryResult(["single-home", id], () => userService.getHome(id)),
-  allHomes: () => queryResult(["all-homes"], () => userService.getHomes()),
+  allHomes: (params: FetchHomesParams) => queryResult(["all-homes", params], () => userService.getHomes(params)),
 
   withCookies: (cookies: string) => ({
     singleHome: (id: string) =>
       queryResult(["single-home", id], () => userService.getHome(id, cookies)),
-    allHomes: () =>
-      queryResult(["all-homes"], () => userService.getHomes(cookies)),
+    allHomes: (params: FetchHomesParams) =>
+      queryResult(["all-homes", params], () => userService.getHomes(params, cookies)),
   }),
 };
 

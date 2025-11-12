@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 import { PenLine } from "lucide-react";
 import { HomeDetailsWrapperLoadingSkeleton } from "../global/Skeletons";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Props = {
   homeId: string;
@@ -28,13 +29,18 @@ function HomeDetailsWrapper({ homeId }: Props) {
   }
   return (
     <section className="px-4 flex flex-col gap-4 py-4 bg-lighter-gray/50 min-h-screen">
-      <div className="flex flex-col gap-2 w-full">
-        <h1 className="text-black text-xl font-circular-medium">
-          Property Details & Public Records
-        </h1>
-        <p className="text-gray text-sm">
-          Official property public records and verified details
-        </p>
+      <div className="flex items-start justify-start gap-4">
+        <div className="flex flex-col gap-2 w-full">
+          <h1 className="text-black text-xl font-circular-medium">
+            Property Details & Public Records
+          </h1>
+          <p className="text-gray text-sm">
+            Official property public records and verified details
+          </p>
+        </div>
+        <Button asChild className="green-btn h-11">
+          <Link href={`/dashboard/${homeId}/all`}>View Homes</Link>
+        </Button>
       </div>
       <div className="md:grid-cols-3 grid grid-cols-1 gap-4">
         <div className="rounded-xl flex flex-col gap-4 bg-white p-6">

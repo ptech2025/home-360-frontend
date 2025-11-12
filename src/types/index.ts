@@ -14,6 +14,7 @@ import {
   Reminder,
   Appliance,
   ApplianceCategory,
+  Subscription,
 } from "./prisma-schema-types";
 export type ProfileType = {
   id: string;
@@ -28,30 +29,22 @@ export type ProfileType = {
 };
 
 export type AuthUserType = SessionType["user"] & {
-  subscription: UserSubscription | null;
+  subscription: Subscription | null;
   homes: Home[];
 };
 
-export type UserSubscription = {
-  status: "active" | "trailing" | "canceled" | "expired";
-  plan: {
-    id: string;
-    name: string;
-    active: boolean;
-    price: number;
-    interval: "monthly" | "yearly";
-  };
-};
+export interface FetchHomesParams {
+  search?: string;
+  size?: number;
+  page?: number;
+}
 
 export type PlaceSuggestion = {
   description: string;
   placeId: string;
 };
 
-export type UserRole =
-  | "user"
-  | "admin"
-  | "super_admin";
+export type UserRole = "user" | "admin" | "super_admin";
 
 export interface DashboardLink {
   icon: JSX.Element;
@@ -59,19 +52,6 @@ export interface DashboardLink {
   url: Route;
   access: UserRole[];
   items?: DashboardLink[];
-}
-
-export interface Subscription {
-  id: string;
-  name: string;
-  price: number;
-  interval: "monthly" | "yearly";
-  active: boolean;
-  benefits: {
-    id: string;
-    planId: string;
-    benefit: string;
-  }[];
 }
 
 export enum DynamicLocationStatus {
@@ -246,4 +226,9 @@ export interface FetchAppliancesParams {
   search?: string;
 
   category?: ApplianceCategory;
+}
+
+export interface FetchAllHomesResponse {
+  homes: Home[];
+  pagination: Pagination;
 }

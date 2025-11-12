@@ -41,7 +41,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { HomeType } from "@/types/prisma-schema-types";
+import { Home, HomeType } from "@/types/prisma-schema-types";
+import WelcomeOnboarding from "../onboarding/WelcomeOnboarding";
 type UpdateHomeDetailsProps = {
   homeId: string;
   bedrooms?: number | null;
@@ -59,6 +60,11 @@ type UpdateHomeAddressProps = {
   homeId: string;
   children: React.ReactNode;
 };
+
+type AddHomeAddressProps = {
+  children: React.ReactNode;
+};
+
 export const UpdateHomeAddressDialog = ({
   homeId,
   address,
@@ -229,6 +235,174 @@ export const UpdateHomeAddressDialog = ({
             </Button>
           </DialogFooter>
         </Form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export const AddHomeAddressDialog = ({ children }: AddHomeAddressProps) => {
+  const [open, setOpen] = useState(false);
+  const [newHome, setNewHome] = useState<Home | null>(null);
+  const form = useForm<CreateHomeSchemaType>({
+    resolver: zodResolver(createHomeSchema),
+    mode: "onChange",
+    defaultValues: {
+      address: "",
+      city: "",
+      state: "",
+    },
+  });
+
+  const { isPending: isLoading, mutate } = useMutation({
+    mutationFn: userMutations.addHome,
+    onSuccess(data) {
+      if (data.home) {
+        setNewHome(data.home);
+        toast.success("Home address updated successfully.");
+      } else {
+        setNewHome(null);
+        toast.error(data.message || "Something went wrong, try again later.");
+      }
+    },
+    onSettled: (_data, _error, _vars, _result, context) => {
+      context.client.invalidateQueries({
+        queryKey: ["all-homes"],
+      });
+    },
+  });
+  const onSubmit = (values: CreateHomeSchemaType) => {
+    console.log(values);
+    const fullAddress = `${values.address.trim()}, ${values.city.trim()}, ${values.state.trim()}, USA`;
+    mutate({
+      address: fullAddress,
+    });
+  };
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent showCloseButton={false} className="px-4 sm:max-w-2xl flex flex-col">
+        {newHome ? (
+          <WelcomeOnboarding showHeader={false} home={newHome} />
+        ) : (
+          <>
+            <DialogHeader className="px-0">
+              <DialogTitle>Add New Home</DialogTitle>
+              <DialogDescription>
+                We currently only support US residential properties. Add your
+                property address to add a new home
+              </DialogDescription>
+            </DialogHeader>
+
+            <Form {...form}>
+              <form
+                id="add-home-address-form"
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="flex w-full justify-center  flex-col gap-6 "
+              >
+                <FormField
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
+                    <FormItem className="w-full relative">
+                      <FormLabel className="text-black after:-ml-1 after:text-red-500 after:content-['*'] relative">
+                        Street Address
+                      </FormLabel>
+                      <FormControl>
+                        <AutoCompleteLocation
+                          value={field.value}
+                          onChange={field.onChange}
+                          mode={DynamicLocationStatus.street}
+                          isFormLoading={isLoading}
+                          placeholder="123 Main Street"
+                          className="h-10"
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />
+                <div className="grid grid-cols-1 w-full md:grid-cols-2 justify-between items-center gap-6">
+                  <FormField
+                    control={form.control}
+                    name="city"
+                    render={({ field }) => (
+                      <FormItem className="w-full relative">
+                        <FormLabel className="text-black after:-ml-1 after:text-red-500 after:content-['*'] relative">
+                          City
+                        </FormLabel>
+                        <FormControl>
+                          <AutoCompleteLocation
+                            value={field.value}
+                            onChange={field.onChange}
+                            mode={DynamicLocationStatus.city}
+                            isFormLoading={isLoading}
+                            placeholder="Miami"
+                            className="h-10"
+                          />
+                        </FormControl>
+                        <FormMessage className="text-xs" />
+                      </FormItem>
+                    )}
+                  />{" "}
+                  <FormField
+                    control={form.control}
+                    name="state"
+                    render={({ field }) => (
+                      <FormItem className="w-full relative">
+                        <FormLabel className="text-black after:-ml-1 after:text-red-500 after:content-['*'] relative">
+                          State
+                        </FormLabel>
+                        <FormControl>
+                          <AutoCompleteLocation
+                            value={field.value}
+                            onChange={field.onChange}
+                            mode={DynamicLocationStatus.state}
+                            isFormLoading={isLoading}
+                            placeholder="Florida"
+                            className="h-10"
+                          />
+                        </FormControl>
+                        <FormMessage className="text-xs" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </form>
+              <DialogFooter className="px-4 border-t border-lighter-gray pt-4">
+                <DialogClose
+                  type="button"
+                  disabled={isLoading}
+                  className="text-black min-w-[90px] border border-black h-11 rounded-md px-4 hover:text-main-green hover:border-main-green transition-colors"
+                >
+                  Close
+                </DialogClose>
+
+                <Button
+                  type="submit"
+                  form="add-home-address-form"
+                  disabled={isLoading}
+                  className="green-btn min-w-[90px] text-base grid grid-cols-1 grid-rows-1 place-items-center border border-transparent h-11 rounded-md px-4  transition-colors"
+                >
+                  <Loader2
+                    className={cn(
+                      "size-5 animate-spin col-span-full row-span-full",
+                      isLoading ? "visible" : "invisible"
+                    )}
+                  />
+
+                  <span
+                    className={cn(
+                      "col-span-full row-span-full ",
+                      isLoading ? "invisible" : "visible"
+                    )}
+                  >
+                    Add Property
+                  </span>
+                </Button>
+              </DialogFooter>
+            </Form>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );

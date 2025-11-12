@@ -3,8 +3,10 @@ import {
   FetchPlacesParams,
   FetchLocationParams,
   PlaceSuggestion,
+  FetchHomesParams,
+  FetchAllHomesResponse,
+  AuthUserType,
 } from "@/types";
-import { AuthUserType } from "@/types";
 import { Home, PublicRecord } from "@/types/prisma-schema-types";
 import {
   PersonalInfoSchemaType,
@@ -90,8 +92,11 @@ export const userService = {
     const res = await api.get(`/api/home/${id}`, withAuthHeaders(cookies));
     return res.data as Home | null;
   },
-  getHomes: async (cookies?: string) => {
-    const res = await api.get(`/api/home`, withAuthHeaders(cookies));
-    return res.data as Home[];
+  getHomes: async (params: FetchHomesParams, cookies?: string) => {
+    const res = await api.get(`/api/home`, {
+      ...withAuthHeaders(cookies),
+      params,
+    });
+    return res.data as FetchAllHomesResponse;
   },
 };
