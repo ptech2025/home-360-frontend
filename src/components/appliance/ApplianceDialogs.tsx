@@ -169,6 +169,34 @@ export function AddOrEditApplianceDialog({
             <div className="px-6 py-4 flex flex-col gap-5">
               <FormField
                 control={form.control}
+                name="image"
+                render={({ field }) => (
+                  <FormItem className="w-full relative">
+                    <FormLabel className="text-black font-circular-medium">
+                      {type === "create" ? "Upload Image" : "Update Image"}
+                      <span className="text-light-gray font-circular-light">
+                        (optional)
+                      </span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="file"
+                        className="h-11"
+                        accept="image/*"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files.length > 0) {
+                            field.onChange(e.target.files[0]);
+                          }
+                        }}
+                      />
+                    </FormControl>
+
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem className="w-full relative">

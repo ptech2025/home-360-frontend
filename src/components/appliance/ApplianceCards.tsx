@@ -35,14 +35,14 @@ export function AppliancePreviewCard({ appliance }: Props) {
           </Button>
         </DeleteApplianceDialog>
       </div>
-      <div className="flex items-center bg-lighter-gray/50 rounded-md p-2 min-h-[240px]">
+      <div className="flex items-center justify-center bg-lighter-gray/50 rounded-md p-2 min-h-[240px]">
         {appliance.image && (
           <Image
             src={appliance.image}
             alt={appliance.name}
-            width={240}
-            height={240}
-            className="size-[240px] object-contain"
+            width={300}
+            height={300}
+            className="size-[300px] object-contain"
           />
         )}
       </div>
