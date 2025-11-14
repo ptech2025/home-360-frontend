@@ -73,7 +73,10 @@ export function GoogleProviderCard({
 }
 
 export function SavedProviderCard({ data }: SavedProviderCardProps) {
-  const { data: homes, isLoading } = useQuery(userQueries.allHomes());
+  const { data: homes, isLoading } = useQuery(userQueries.allHomes({
+    page: 1,
+    size: 10,
+  }));
 
   return (
     <div className="w-full flex flex-col justify-between gap-2 rounded-xl border border-lighter-gray py-4  relative">
@@ -81,7 +84,7 @@ export function SavedProviderCard({ data }: SavedProviderCardProps) {
         <h6 className="text-black line-clamp-2  font-circular-bold text-base font-bold">
           {data.name}
         </h6>
-        <SavedProviderCardAction data={data} homes={homes || []} />
+        <SavedProviderCardAction data={data} homes={homes?.homes || []} />
       </div>
       <div className="flex gap-2 px-4 relative flex-col w-full">
         <div className="flex  flex-col gap-1.5">
@@ -100,13 +103,13 @@ export function SavedProviderCard({ data }: SavedProviderCardProps) {
           </div>{" "}
         </div>
         <div className="w-full grid grid-cols-1 gap-2  md:grid-cols-2">
-          <SavedProviderSheet data={data} homes={homes || []}>
+          <SavedProviderSheet data={data} homes={homes?.homes || []}>
             <Button className="w-full text-sm font-circular-light light-green-btn">
               View
             </Button>
           </SavedProviderSheet>
 
-          <HireProviderDialog data={homes || []} provId={data.id}>
+          <HireProviderDialog data={homes?.homes || []} provId={data.id}>
             <Button
               disabled={isLoading}
               className="w-full green-btn text-sm font-circular-light"
@@ -120,7 +123,10 @@ export function SavedProviderCard({ data }: SavedProviderCardProps) {
   );
 }
 export function HiredProviderCard({ data }: SavedProviderCardProps) {
-  const { data: homes, isLoading } = useQuery(userQueries.allHomes());
+  const { data: homes, isLoading } = useQuery(userQueries.allHomes({
+    page: 1,
+    size: 10,
+  }));
 
   return (
     <div className="w-full flex flex-col justify-between gap-2 rounded-xl border border-lighter-gray py-4  relative">
@@ -128,7 +134,7 @@ export function HiredProviderCard({ data }: SavedProviderCardProps) {
         <h6 className="text-black line-clamp-2  font-circular-bold text-base font-bold">
           {data.name}
         </h6>
-        <SavedProviderCardAction data={data} homes={homes || []} />
+        <SavedProviderCardAction data={data} homes={homes?.homes || []} />
       </div>
       <div className="flex gap-2 px-4 relative flex-col w-full">
         <div className="flex  flex-col gap-1.5">
@@ -153,13 +159,13 @@ export function HiredProviderCard({ data }: SavedProviderCardProps) {
           </div>{" "}
         </div>
         <div className="w-full grid grid-cols-1 gap-2  md:grid-cols-2">
-          <SavedProviderSheet data={data} homes={homes || []}>
+          <SavedProviderSheet data={data} homes={homes?.homes || []}>
             <Button className="w-full text-sm font-circular-light light-green-btn">
               View
             </Button>
           </SavedProviderSheet>
 
-          <HireProviderDialog data={homes || []} provId={data.id}>
+          <HireProviderDialog data={homes?.homes || []} provId={data.id}>
             <Button
               disabled={isLoading}
               className="w-full green-btn text-sm font-circular-light"

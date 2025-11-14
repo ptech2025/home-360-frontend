@@ -9,7 +9,10 @@ import { userQueries } from "@/queries/user";
 
 function ServicesWrapper({ homeId }: { homeId: string }) {
   const { data: homeData, isLoading: isHomeLoading } = useQuery(
-    userQueries.allHomes()
+    userQueries.allHomes({
+      page: 1,
+      size: 10,
+    })
   );
   const { data, isLoading } = useQuery(
     providerQueries.allHired({
@@ -43,7 +46,7 @@ function ServicesWrapper({ homeId }: { homeId: string }) {
             <SavedProviderSheet
               key={provider.id}
               data={provider}
-              homes={homeData || []}
+              homes={homeData?.homes || []}
             >
               <div className="flex items-start gap-2 hover:bg-main-green/20  bg-light-gray/10 rounded-md p-2 w-full h-13 cursor-pointer">
                 <span className="rounded-md bg-main-green w-1 min-h-full">

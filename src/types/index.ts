@@ -29,7 +29,7 @@ export type ProfileType = {
 };
 
 export type AuthUserType = SessionType["user"] & {
-  subscription: Subscription | null;
+  subscription: Subscription;
   homes: Home[];
 };
 

@@ -40,7 +40,12 @@ async function ServicesPage(props: PageProps<"/dashboard/[homeId]/services">) {
     queryClient.prefetchQuery(
       providerQueries.withCookies(cookieHeader).allHired(params)
     ),
-    queryClient.prefetchQuery(userQueries.withCookies(cookieHeader).allHomes()),
+    queryClient.prefetchQuery(
+      userQueries.withCookies(cookieHeader).allHomes({
+        page: 1,
+        size: 10,
+      })
+    ),
   ]);
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

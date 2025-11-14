@@ -1,5 +1,9 @@
-import { AuthUserType, Subscription } from "@/types";
-import { DocumentCategory, Document } from "@/types/prisma-schema-types";
+import { AuthUserType } from "@/types";
+import {
+  DocumentCategory,
+  Document,
+  SubscriptionPlan,
+} from "@/types/prisma-schema-types";
 import { format } from "date-fns";
 
 export const getCurrentLocation = (): Promise<GeolocationPosition> => {
@@ -85,19 +89,20 @@ export function formatNameWithDot(name: string): string {
   return lastName ? `${firstInitial}.${lastName}` : firstInitial;
 }
 
-export const getPlanLabel = (plan: Subscription, user: AuthUserType) => {
-  const label = user.subscription
-    ? user.subscription.plan.id === plan.id
-      ? "Current Plan"
-      : `${plan.name.toLowerCase() === "pro plan" ? "Upgrade" : "Change"} to ${
-          plan.name
-        }`
-    : `Upgrade to ${plan.name}`;
+export const getPlanLabel = (plan: SubscriptionPlan, user: AuthUserType) => {
+  const label =
+    user.subscription && user.subscription.plan
+      ? user.subscription.plan.id === plan.id
+        ? "Current Plan"
+        : `${
+            plan.name.toLowerCase() === "pro plan" ? "Upgrade" : "Change"
+          } to ${plan.name}`
+      : `Upgrade to ${plan.name}`;
   return label;
 };
 
-export const isCurrentPlan = (plan: Subscription, user: AuthUserType) => {
-  if (!user.subscription) return false;
+export const isCurrentPlan = (plan: SubscriptionPlan, user: AuthUserType) => {
+  if (!user.subscription || !user.subscription.plan) return false;
   return user.subscription.plan.id === plan.id;
 };
 
