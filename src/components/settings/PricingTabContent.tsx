@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dialog";
 import { ChevronDown } from "lucide-react";
 import { subscriptionMutations } from "@/queries/subscription";
+import { Badge } from "../ui/badge";
 
 export const DisplayCurrentPlan = ({ user }: { user: AuthUserType }) => {
   const { subscription } = user;
@@ -49,34 +50,42 @@ export const DisplayCurrentPlan = ({ user }: { user: AuthUserType }) => {
         </p>
       </div>
 
-      <div className="bg-white grid gap-6 ">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div className="bg-white grid gap-4 ">
+        <div className="flex border-2 border-main-green/50 rounded-md p-4 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex flex-col gap-1">
-            <span className="text-sm font-medium font-circular-medium text-black/80">
-              Current plan
-            </span>
-            <h4 className="text-xl font-semibold font-circular-semibold text-main-yellow md:text-2xl">
-              {subscription && subscription.plan
-                ? subscription.plan.name
-                : "Free Trial"}
-            </h4>
-            <p className="text-xs text-gray">
-              Unlock the full Home360 experience with the right subscription
-              tier.
-            </p>
+            <div className="flex items-center gap-4">
+              <h4 className="text-base font-medium font-circular-medium text-black">
+                {subscription
+                  ? `${subscription.plan.name} - $${subscription.plan.price}/${subscription.plan.interval}`
+                  : "Free Plan"}
+              </h4>
+
+              {subscription && (
+                <Badge className="font-circular-medium  text-center text-main-green bg-main-green/10">
+                  Active
+                </Badge>
+              )}
+            </div>
+
+            {subscription && (
+              <p className="text-xs text-gray">
+                Next billing date:{" "}
+                {format(subscription.currentPeriodEnd, "MMM d, yyyy")}
+              </p>
+            )}
           </div>
           <Button asChild className="h-max green-btn">
-            <Link href="/pricing">Manage plan</Link>
+            <Link href="/pricing">Upgrade plan</Link>
           </Button>
         </div>
 
-        {subscription && (
+        {subscription && !subscription.hasBeenCancelled && (
           <Dialog>
             <DialogTrigger asChild>
               <Button
                 type="button"
                 variant="ghost"
-                className="h-9 w-9 shrink-0 rounded-full border border-destructive/40 bg-white text-destructive hover:bg-destructive/10"
+                className="size-6 shrink-0 rounded-full  border border-grey bg-white text-grey"
               >
                 <ChevronDown className="size-4" />
               </Button>

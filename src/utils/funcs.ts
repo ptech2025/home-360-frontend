@@ -183,3 +183,7 @@ export const renderValue = (key: string, value: any) => {
   // strings
   return value ? value.toString() : "N/A";
 };
+
+export const getDefaultImage = (name: string) => {
+  return `https://ui-avatars.com/api/?size=60&background=2d6a4f&color=fff&rounded=true&name=${name}`;
+};

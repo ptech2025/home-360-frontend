@@ -360,5 +360,5 @@ export interface Subscription {
   createdAt: Date;
   updatedAt: Date;
   user: AuthUserType;
-  plan: SubscriptionPlan | null;
+  plan: SubscriptionPlan;
 }

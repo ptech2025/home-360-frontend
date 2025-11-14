@@ -36,9 +36,12 @@ function PricingTabs({ currentPlan, type }: Props) {
     currentPlan
   );
   const [activeTab, setActiveTab] = useState("monthly");
+  const [hasMounted, setHasMounted] = useState(false);
   const { data, isLoading } = useQuery(subscriptionQueries.fetchPlans());
-  const monthlyPlans = data?.filter((plan) => plan.interval === "monthly");
-  const yearlyPlans = data?.filter((plan) => plan.interval === "yearly");
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   const { mutate: choosePlan, isPending: isChoosingPlan } = useMutation({
     mutationFn: subscriptionMutations.subscribeToPlan,
@@ -72,15 +75,31 @@ function PricingTabs({ currentPlan, type }: Props) {
 
   // Auto-select first plan when data loads or tab changes
   useEffect(() => {
-    if (data && data.length > 0) {
-      const plansForActiveTab =
-        activeTab === "monthly" ? monthlyPlans : yearlyPlans;
-      if (plansForActiveTab && plansForActiveTab.length > 0) {
-        const firstPlan = plansForActiveTab[0];
-        // Always select first plan when tab changes, or if no plan is selected
-        if (!selectedPlan || selectedPlan.interval !== activeTab) {
-          setSelectedPlan(firstPlan);
-        }
+    if (!data || data.length === 0) return;
+
+    const hasMonthly =
+      (data || []).filter((p) => p.interval === "monthly").length > 0;
+    const hasYearly =
+      (data || []).filter((p) => p.interval === "yearly").length > 0;
+
+    // If the active tab has no plans, switch to the one that does to avoid empty mount
+    if (activeTab === "monthly" && !hasMonthly && hasYearly) {
+      setActiveTab("yearly");
+      return;
+    }
+    if (activeTab === "yearly" && !hasYearly && hasMonthly) {
+      setActiveTab("monthly");
+      return;
+    }
+
+    const plansForActiveTab =
+      activeTab === "monthly"
+        ? (data || []).filter((p) => p.interval === "monthly")
+        : (data || []).filter((p) => p.interval === "yearly");
+    if (plansForActiveTab && plansForActiveTab.length > 0) {
+      const firstPlan = plansForActiveTab[0];
+      if (!selectedPlan || selectedPlan.interval !== activeTab) {
+        setSelectedPlan(firstPlan);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -97,7 +116,8 @@ function PricingTabs({ currentPlan, type }: Props) {
           anytime.
         </p>
       </div>
-      {isLoading ? (
+
+      {isLoading && (
         <div className="w-full flex flex-col gap-6 min-h-[300px]">
           <div className="flex justify-center gap-2">
             {tabsOptions.map((option) => (
@@ -126,7 +146,21 @@ function PricingTabs({ currentPlan, type }: Props) {
             </div>
           </div>
         </div>
-      ) : (
+      )}
+
+      {!isLoading && (!data || data.length === 0) && (
+        <div className="w-full flex items-center justify-center rounded-md border border-light-gray bg-white p-6 text-sm text-gray">
+          No subscription plans available.
+        </div>
+      )}
+
+      {!isLoading && data && data.length > 0 && !selectedPlan && (
+        <div className="w-full flex items-center justify-center rounded-md border border-light-gray bg-white p-6 text-sm text-gray">
+          Loading plans...
+        </div>
+      )}
+
+      {hasMounted && !isLoading && data && data.length > 0 && selectedPlan && (
         <Tabs
           value={activeTab}
           onValueChange={setActiveTab}
@@ -147,132 +181,180 @@ function PricingTabs({ currentPlan, type }: Props) {
             value="monthly"
             className="flex w-full flex-col md:flex-row gap-4 min-h-[300px]"
           >
-            <div className="flex md:basis-1/2 flex-col gap-6 flex-1 min-h-[300px]">
-              {monthlyPlans?.map((plan) => (
-                <Button
-                  key={plan.id}
-                  data-state={
-                    selectedPlan?.id === plan.id ? "active" : "inactive"
-                  }
-                  onClick={() => setSelectedPlan(plan)}
-                  className="flex h-[60px]  rounded-2xl py-4 border data-[state=inactive]:text-black  data-[state=inactive]:border-light-gray shadow-none data-[state=inactive]:bg-white justify-between items-center gap-4 data-[state=active]:bg-main-green data-[state=active]:text-white"
-                >
-                  <div className="flex items-center gap-4">
-                    <Checkbox
-                      checked={selectedPlan?.id === plan.id}
-                      className="data-[state=checked]:bg-white data-[state=checked]:border-main-green data-[state=checked]:text-main-green shrink-0"
-                    />
-                    <h3 className="text-sm font-circular-medium capitalize">
-                      {plan.name}
-                    </h3>
-                  </div>{" "}
-                  <span className="text-lg font-circular-medium">
-                    ${plan.price}/{plan.interval}
-                  </span>
-                </Button>
-              ))}
+            {(() => {
+              const plans = (data || []).filter(
+                (p) => p.interval === "monthly"
+              );
+              if (plans.length === 0) {
+                return (
+                  <div className="w-full rounded-md border border-light-gray bg-white p-4 text-sm text-gray">
+                    No monthly plans available.
+                  </div>
+                );
+              }
+              const selectedInTab =
+                plans.find((p) => p.id === selectedPlan?.id) || plans[0];
+              return (
+                <>
+                  <div className="flex md:basis-1/2 flex-col gap-6 flex-1 min-h-[300px]">
+                    {plans.map((plan) => (
+                      <Button
+                        key={plan.id}
+                        data-state={
+                          selectedPlan?.id === plan.id ? "active" : "inactive"
+                        }
+                        onClick={() => setSelectedPlan(plan)}
+                        className="flex h-[60px]  rounded-2xl py-4 border data-[state=inactive]:text-black  data-[state=inactive]:border-light-gray shadow-none data-[state=inactive]:bg-white justify-between items-center gap-4 data-[state=active]:bg-main-green data-[state=active]:text-white"
+                      >
+                        <div className="flex items-center gap-4">
+                          <Checkbox
+                            checked={selectedPlan?.id === plan.id}
+                            className="data-[state=checked]:bg-white data-[state=checked]:border-main-green data-[state=checked]:text-main-green shrink-0"
+                          />
+                          <h3 className="text-sm font-circular-medium capitalize">
+                            {plan.name}
+                          </h3>
+                        </div>{" "}
+                        <span className="text-lg font-circular-medium">
+                          ${plan.price}/{plan.interval}
+                        </span>
+                      </Button>
+                    ))}
 
-              <Button
-                onClick={() => handleSelectedPlan(selectedPlan?.id)}
-                className="w-max green-btn min-w-[175px]"
-                disabled={!selectedPlan || currentPlan?.id === selectedPlan?.id}
-              >
-                {isChoosingPlan || isChangingPlan ? (
-                  <Loader2 className="size-4 animate-spin" />
-                ) : (
-                  <span>
-                    {currentPlan?.id === selectedPlan?.id
-                      ? "Current Plan"
-                      : `Upgrade to ${selectedPlan?.name}`}
-                  </span>
-                )}
-              </Button>
-            </div>
-            <div className="flex p-5 bg-white flex-col rounded-2xl border-light-gray border w-full md:max-w-[400px] gap-4 min-h-[200px]">
-              <h5 className="text-base font-circular-medium">Benefits:</h5>
-              <ul className="flex flex-col gap-2">
-                {selectedPlan?.benefits && selectedPlan.benefits.length > 0 ? (
-                  selectedPlan.benefits.map((benefit) => (
-                    <li
-                      key={benefit.id}
-                      className="flex justify-between items-center gap-2"
+                    <Button
+                      onClick={() => handleSelectedPlan(selectedPlan?.id)}
+                      className="w-max green-btn min-w-[175px]"
+                      disabled={
+                        !selectedPlan || currentPlan?.id === selectedPlan?.id
+                      }
                     >
-                      <span className="text-sm text-gray ">
-                        {benefit.benefit}
-                      </span>
-                      <CircleCheck className="text-white size-4  shrink-0 fill-main-green" />
-                    </li>
-                  ))
-                ) : (
-                  <li className="text-sm text-gray">No benefits available</li>
-                )}
-              </ul>
-            </div>
+                      {isChoosingPlan || isChangingPlan ? (
+                        <Loader2 className="size-4 animate-spin" />
+                      ) : (
+                        <span>
+                          {currentPlan?.id === selectedPlan?.id
+                            ? "Current Plan"
+                            : `Upgrade to ${selectedPlan?.name}`}
+                        </span>
+                      )}
+                    </Button>
+                  </div>
+                  <div className="flex p-5 bg-white flex-col rounded-2xl border-light-gray border w-full md:max-w-[400px] gap-4 min-h-[200px]">
+                    <h5 className="text-base font-circular-medium">
+                      Benefits:
+                    </h5>
+                    <ul className="flex flex-col gap-2">
+                      {selectedInTab?.benefits &&
+                      selectedInTab.benefits.length > 0 ? (
+                        selectedInTab.benefits.map((benefit) => (
+                          <li
+                            key={benefit.id}
+                            className="flex justify-between items-center gap-2"
+                          >
+                            <span className="text-sm text-gray ">
+                              {benefit.benefit}
+                            </span>
+                            <CircleCheck className="text-white size-4  shrink-0 fill-main-green" />
+                          </li>
+                        ))
+                      ) : (
+                        <li className="text-sm text-gray">
+                          No benefits available
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                </>
+              );
+            })()}
           </TabsContent>{" "}
           <TabsContent
             value="yearly"
             className="flex w-full flex-col md:flex-row gap-4 min-h-[300px]"
           >
-            <div className="flex flex-col gap-6 flex-1 min-h-[300px]">
-              {yearlyPlans?.map((plan) => (
-                <Button
-                  key={plan.id}
-                  data-state={
-                    selectedPlan?.id === plan.id ? "active" : "inactive"
-                  }
-                  onClick={() => setSelectedPlan(plan)}
-                  className="flex h-[60px]  rounded-2xl py-4 border data-[state=inactive]:text-black  data-[state=inactive]:border-light-gray shadow-none data-[state=inactive]:bg-white justify-between items-center gap-4 data-[state=active]:bg-main-green data-[state=active]:text-white"
-                >
-                  <div className="flex items-center gap-4">
-                    <Checkbox
-                      checked={selectedPlan?.id === plan.id}
-                      className="data-[state=checked]:bg-white data-[state=checked]:border-main-green data-[state=checked]:text-main-green shrink-0"
-                    />
-                    <h3 className="text-sm font-circular-medium capitalize">
-                      {plan.name}
-                    </h3>
-                  </div>{" "}
-                  <span className="text-lg font-circular-medium">
-                    ${plan.price}/{plan.interval}
-                  </span>
-                </Button>
-              ))}
-              <Button
-                onClick={() => handleSelectedPlan(selectedPlan?.id)}
-                className="w-max green-btn min-w-[175px]"
-                disabled={!selectedPlan || currentPlan?.id === selectedPlan?.id}
-              >
-                {isChoosingPlan || isChangingPlan ? (
-                  <Loader2 className="size-4 animate-spin" />
-                ) : (
-                  <span>
-                    {currentPlan?.id === selectedPlan?.id
-                      ? "Current Plan"
-                      : `Upgrade to ${selectedPlan?.name}`}
-                  </span>
-                )}
-              </Button>
-            </div>
-            <div className="flex p-5 bg-white flex-col rounded-2xl border-light-gray border w-full md:max-w-[400px] gap-4 min-h-[200px]">
-              <h5 className="text-base font-circular-medium">Benefits:</h5>
-              <ul className="flex flex-col gap-2">
-                {selectedPlan?.benefits && selectedPlan.benefits.length > 0 ? (
-                  selectedPlan.benefits.map((benefit) => (
-                    <li
-                      key={benefit.id}
-                      className="flex justify-between items-center gap-2"
+            {(() => {
+              const plans = (data || []).filter((p) => p.interval === "yearly");
+              if (plans.length === 0) {
+                return (
+                  <div className="w-full rounded-md border border-light-gray bg-white p-4 text-sm text-gray">
+                    No yearly plans available.
+                  </div>
+                );
+              }
+              const selectedInTab =
+                plans.find((p) => p.id === selectedPlan?.id) || plans[0];
+              return (
+                <>
+                  <div className="flex flex-col gap-6 flex-1 min-h-[300px]">
+                    {plans.map((plan) => (
+                      <Button
+                        key={plan.id}
+                        data-state={
+                          selectedPlan?.id === plan.id ? "active" : "inactive"
+                        }
+                        onClick={() => setSelectedPlan(plan)}
+                        className="flex h-[60px]  rounded-2xl py-4 border data-[state=inactive]:text-black  data-[state=inactive]:border-light-gray shadow-none data-[state=inactive]:bg-white justify-between items-center gap-4 data-[state=active]:bg-main-green data-[state=active]:text-white"
+                      >
+                        <div className="flex items-center gap-4">
+                          <Checkbox
+                            checked={selectedPlan?.id === plan.id}
+                            className="data-[state=checked]:bg-white data-[state=checked]:border-main-green data-[state=checked]:text-main-green shrink-0"
+                          />
+                          <h3 className="text-sm font-circular-medium capitalize">
+                            {plan.name}
+                          </h3>
+                        </div>{" "}
+                        <span className="text-lg font-circular-medium">
+                          ${plan.price}/{plan.interval}
+                        </span>
+                      </Button>
+                    ))}
+                    <Button
+                      onClick={() => handleSelectedPlan(selectedPlan?.id)}
+                      className="w-max green-btn min-w-[175px]"
+                      disabled={
+                        !selectedPlan || currentPlan?.id === selectedPlan?.id
+                      }
                     >
-                      <span className="text-sm text-gray ">
-                        {benefit.benefit}
-                      </span>
-                      <CircleCheck className="text-white size-4  shrink-0 fill-main-green" />
-                    </li>
-                  ))
-                ) : (
-                  <li className="text-sm text-gray">No benefits available</li>
-                )}
-              </ul>
-            </div>
+                      {isChoosingPlan || isChangingPlan ? (
+                        <Loader2 className="size-4 animate-spin" />
+                      ) : (
+                        <span>
+                          {currentPlan?.id === selectedPlan?.id
+                            ? "Current Plan"
+                            : `Upgrade to ${selectedPlan?.name}`}
+                        </span>
+                      )}
+                    </Button>
+                  </div>
+                  <div className="flex p-5 bg-white flex-col rounded-2xl border-light-gray border w-full md:max-w-[400px] gap-4 min-h-[200px]">
+                    <h5 className="text-base font-circular-medium">
+                      Benefits:
+                    </h5>
+                    <ul className="flex flex-col gap-2">
+                      {selectedInTab?.benefits &&
+                      selectedInTab.benefits.length > 0 ? (
+                        selectedInTab.benefits.map((benefit) => (
+                          <li
+                            key={benefit.id}
+                            className="flex justify-between items-center gap-2"
+                          >
+                            <span className="text-sm text-gray ">
+                              {benefit.benefit}
+                            </span>
+                            <CircleCheck className="text-white size-4  shrink-0 fill-main-green" />
+                          </li>
+                        ))
+                      ) : (
+                        <li className="text-sm text-gray">
+                          No benefits available
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                </>
+              );
+            })()}
           </TabsContent>
         </Tabs>
       )}

@@ -10,6 +10,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import HomesPageHeader from "./HomesPageHeader";
 import PaginationContainer from "../global/PaginationContainer";
 import HomeCard from "./HomeCard";
+import { Skeleton } from "../ui/skeleton";
 
 function AllHomesPageWrapper({
   user,
@@ -48,7 +49,23 @@ function AllHomesPageWrapper({
       <div className="flex flex-col gap-4 min-h-dvh p-4 bg-white rounded-md">
         <HomesPageHeader count={data?.pagination.totalRecords || 0} />
         <div className="grid grid-cols-[repeat(auto-fill,_minmax(20rem,1fr))] gap-4">
-          {data && data.homes.length > 0 ? (
+          {isLoading ? (
+            Array.from({ length: 6 }).map((_, idx) => (
+              <div
+                key={idx}
+                className="w-full flex flex-col gap-2 rounded-xl border border-lighter-gray p-4"
+              >
+                <div className="flex relative min-h-[200px] items-center gap-2 justify-center bg-lighter-gray/50 p-2 rounded-md">
+                  <Skeleton className="h-[100px] w-[100px] rounded-md" />
+                </div>
+                <div className="flex flex-col items-start gap-2">
+                  <Skeleton className="h-5 w-3/4" />
+                  <Skeleton className="h-5 w-24" />
+                  <Skeleton className="h-10 w-full rounded-md" />
+                </div>
+              </div>
+            ))
+          ) : data && data.homes.length > 0 ? (
             data.homes.map((home) => (
               <HomeCard key={home.id} home={home} currentHomeId={homeId} />
             ))

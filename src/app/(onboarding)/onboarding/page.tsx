@@ -1,18 +1,23 @@
 import OnboardingWrapper from "@/components/onboarding/OnboardingWrapper";
-import { fetchUserServer } from "@/lib/actions";
+import { fetchUserServerWithCookies } from "@/lib/actions";
 import {
   HydrationBoundary,
   dehydrate,
   QueryClient,
 } from "@tanstack/react-query";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { subscriptionQueries } from "@/queries/subscription";
 
 async function OnboardingPage() {
   const queryClient = new QueryClient();
-  const user = await fetchUserServer();
+  const cookieStore = await cookies();
+  const cookieHeader = cookieStore.toString();
 
-  await queryClient.prefetchQuery(subscriptionQueries.fetchPlans());
+  const [user] = await Promise.all([
+    fetchUserServerWithCookies(cookieHeader),
+    queryClient.prefetchQuery(subscriptionQueries.fetchPlans()),
+  ]);
 
   if (!user) {
     redirect("/sign-in");

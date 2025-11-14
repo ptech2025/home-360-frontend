@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AuthUserType } from "@/types";
 import {
   personalInfoSchema,
@@ -27,6 +26,8 @@ import { userMutations } from "@/queries/user";
 import { useMutation } from "@tanstack/react-query";
 import { UploadIcon } from "lucide-react";
 import { DeleteAccountSection } from "./DeleteAccountSection";
+import { getDefaultImage } from "@/utils/funcs";
+import Image from "next/image";
 
 function getNameParts(name: string) {
   const parts = name.split(" ");
@@ -42,7 +43,9 @@ type UpdateProfileFormProps = {
 
 export function UpdateProfileForm({ user }: UpdateProfileFormProps) {
   const { firstName, lastName } = getNameParts(user.name);
-  const [preview, setPreview] = useState<string | null>(user.image ?? null);
+  const [preview, setPreview] = useState<string>(
+    user.image ?? getDefaultImage(user.name)
+  );
   const previewUrlRef = useRef<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -102,20 +105,13 @@ export function UpdateProfileForm({ user }: UpdateProfileFormProps) {
                 </FormLabel>
                 <FormControl>
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                    <Avatar className="size-20 rounded-full ">
-                      {preview ? (
-                        <AvatarImage
-                          src={preview}
-                          alt={`Profile picture of ${user.name}`}
-                          className="object-cover"
-                        />
-                      ) : (
-                        <AvatarFallback className="bg-main-green/10 text-main-green text-lg font-circular-medium uppercase">
-                          {firstName[0].toUpperCase()}
-                          {lastName[0].toUpperCase()}
-                        </AvatarFallback>
-                      )}
-                    </Avatar>
+                    <Image
+                      src={preview}
+                      alt={`Profile picture of ${user.name}`}
+                      className="size-20 object-cover rounded-full"
+                      width={80}
+                      height={80}
+                    />
                     <Button
                       type="button"
                       variant="outline"
