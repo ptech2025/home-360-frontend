@@ -4,7 +4,6 @@ import { AuthUserType } from "@/types";
 import { format, isBefore } from "date-fns";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { cancelSubscription } from "@/services/subscription";
 import { useMutation } from "@tanstack/react-query";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import { toast } from "sonner";
@@ -19,13 +18,12 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { ChevronDown } from "lucide-react";
+import { subscriptionMutations } from "@/queries/subscription";
 
 export const DisplayCurrentPlan = ({ user }: { user: AuthUserType }) => {
   const { subscription } = user;
   const { mutate, isPending } = useMutation({
-    mutationFn: (planId: string) => {
-      return cancelSubscription(planId);
-    },
+    mutationFn: subscriptionMutations.cancelSubscription,
     onSuccess() {
       toast.success("Subscription cancelled successfully.");
     },
@@ -34,6 +32,12 @@ export const DisplayCurrentPlan = ({ user }: { user: AuthUserType }) => {
       toast.error(msg);
     },
   });
+
+  const handleCancelSubscription = () => {
+    if (!subscription?.plan?.id) return;
+    mutate({ planId: subscription.plan.id });
+  };
+
   return (
     <div className="min-h-full w-full p-4 flex flex-col gap-3">
       <div className="flex flex-col gap-0.5">
@@ -52,7 +56,9 @@ export const DisplayCurrentPlan = ({ user }: { user: AuthUserType }) => {
               Current plan
             </span>
             <h4 className="text-xl font-semibold font-circular-semibold text-main-yellow md:text-2xl">
-              {subscription ? subscription.plan.name : "Free Trial"}
+              {subscription && subscription.plan
+                ? subscription.plan.name
+                : "Free Trial"}
             </h4>
             <p className="text-xs text-gray">
               Unlock the full Home360 experience with the right subscription
@@ -102,9 +108,10 @@ export const DisplayCurrentPlan = ({ user }: { user: AuthUserType }) => {
                     Keep plan
                   </Button>
                 </DialogClose>
+
                 <Button
                   disabled={isPending}
-                  onClick={() => mutate(subscription.plan.id)}
+                  onClick={handleCancelSubscription}
                   className="w-full rounded-md border border-destructive bg-destructive text-white transition-all duration-200 hover:bg-transparent hover:text-destructive hover:ring-[3px] ring-destructive/40 sm:w-max"
                 >
                   <span>

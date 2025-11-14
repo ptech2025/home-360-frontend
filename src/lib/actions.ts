@@ -1,9 +1,7 @@
 "use server";
-import { AuthUserType, Subscription } from "@/types";
+import { AuthUserType } from "@/types";
 
-import {
-  PersonalInfoSchemaType,
-} from "@/types/zod-schemas";
+import { PersonalInfoSchemaType } from "@/types/zod-schemas";
 import { API_URL } from "@/utils/constants";
 
 import axios from "axios";
@@ -68,23 +66,4 @@ export const updateUserPersonalInfoServer = async (
 
   revalidatePath("/dashboard", "layout");
   revalidatePath("/dashboard/settings", "page");
-};
-
-
-export const fetchSubscriptionsServer = async (): Promise<Subscription[]> => {
-  try {
-    const cookieStore = await cookies();
-    const cookieHeader = cookieStore.toString();
-    const res: { data: Subscription[] } = await axios.get(
-      `${API_URL}/api/subscription`,
-      {
-        headers: { Cookie: cookieHeader },
-        withCredentials: true,
-      }
-    );
-    return res.data;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
 };

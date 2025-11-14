@@ -1,6 +1,7 @@
 import FAQs from "@/components/global/FAQs";
-import PricingPageWrapper from "@/components/pricing/PricingPageWrapper";
-import { fetchSubscriptionsServer, fetchUserServer } from "@/lib/actions";
+import PricingTabs from "@/components/pricing/PricingTabs";
+import { fetchUserServer } from "@/lib/actions";
+import { subscriptionQueries } from "@/queries/subscription";
 import {
   HydrationBoundary,
   QueryClient,
@@ -11,14 +12,16 @@ async function PricingPage() {
 
   const user = await fetchUserServer();
 
-  await queryClient.prefetchQuery({
-    queryKey: ["subscriptions"],
-    queryFn: () => fetchSubscriptionsServer(),
-  });
+  const currentPlan = user && user.subscription ? user.subscription.plan : null;
+
+  await queryClient.prefetchQuery(subscriptionQueries.fetchPlans());
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <PricingPageWrapper user={user} />
+      <PricingTabs
+        currentPlan={currentPlan}
+        type={currentPlan ? "change" : "onboarding"}
+      />
       <FAQs />
     </HydrationBoundary>
   );

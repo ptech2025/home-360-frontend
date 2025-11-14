@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import CreateHomeOnboarding from "./CreateHomeOnboarding";
 import WelcomeOnboarding from "./WelcomeOnboarding";
 import { Home, Subscription } from "@/types/prisma-schema-types";
-import PricingTabs from "./PricingTabs";
+import PricingTabs from "../pricing/PricingTabs";
 
 type Props = {
   homes: Home[];
