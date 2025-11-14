@@ -12,7 +12,7 @@ import TasksEmpty from "./TasksEmpty";
 
 type Props = {
   tasks: MaintenanceInstance[];
-    isCustom?: boolean;
+  isCustom?: boolean;
 };
 
 function TasksTable({ tasks, isCustom }: Props) {
@@ -68,21 +68,21 @@ function TasksTable({ tasks, isCustom }: Props) {
         return <DisplayTaskStatus status={row.original.status} />;
       },
     },
-    // {
-    //   accessorKey: "category",
-    //   header: () => (
-    //     <span className="text-sm text-black font-medium font-circular-medium">
-    //       Category
-    //     </span>
-    //   ),
-    //   cell: ({ row }) => {
-    //     return (
-    //       <span className="text-sm text-black   capitalize  ">
-    //         {row.original.category.replace("_", " ")}
-    //       </span>
-    //     );
-    //   },
-    // },
+    {
+      accessorKey: "category",
+      header: () => (
+        <span className="text-sm text-black font-medium font-circular-medium">
+          Category
+        </span>
+      ),
+      cell: ({ row }) => {
+        return (
+          <span className="text-sm text-black   capitalize  ">
+            {row.original.category.replace("_", " ")}
+          </span>
+        );
+      },
+    },
     {
       accessorKey: "frequency",
       header: () => (
@@ -92,8 +92,10 @@ function TasksTable({ tasks, isCustom }: Props) {
       ),
       cell: ({ row }) => {
         return (
-          <Badge className="text-xs text-black font-circular-medium border border-light-gray bg-white   capitalize  ">
-            {row.original.frequency.replace("_", " ")}
+          <Badge className="text-xs text-center text-black font-circular-medium border border-light-gray bg-white   capitalize  ">
+            <span className="text-xs">
+              {row.original.frequency.replace("_", " ")}
+            </span>
           </Badge>
         );
       },

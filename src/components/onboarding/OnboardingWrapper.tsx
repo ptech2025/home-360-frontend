@@ -3,13 +3,15 @@
 import { useEffect, useState } from "react";
 import CreateHomeOnboarding from "./CreateHomeOnboarding";
 import WelcomeOnboarding from "./WelcomeOnboarding";
-import { Home } from "@/types/prisma-schema-types";
+import { Home, Subscription } from "@/types/prisma-schema-types";
+import PricingTabs from "./PricingTabs";
 
 type Props = {
   homes: Home[];
+  subscription: Subscription | null;
 };
 
-function OnboardingWrapper({ homes }: Props) {
+function OnboardingWrapper({ homes, subscription }: Props) {
   const [firstHome, setFirstHome] = useState<Home | null>(homes[0]);
 
   useEffect(() => {
@@ -20,11 +22,17 @@ function OnboardingWrapper({ homes }: Props) {
 
   return (
     <section className="custom-container min-h-dvh flex justify-center items-start w-full">
-      <div className="w-full max-w-lg flex-col items-center flex gap-6 lg:gap-8">
-        {firstHome ? (
-          <WelcomeOnboarding home={firstHome} />
+      <div className="w-full max-w-7xl flex-col items-center flex gap-6 lg:gap-8">
+        {subscription ? (
+          <>
+            {firstHome ? (
+              <WelcomeOnboarding home={firstHome} />
+            ) : (
+              <CreateHomeOnboarding setFirstHome={setFirstHome} />
+            )}
+          </>
         ) : (
-          <CreateHomeOnboarding setFirstHome={setFirstHome} />
+          <PricingTabs currentPlan={null} type="onboarding" />
         )}
       </div>
     </section>

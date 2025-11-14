@@ -10,9 +10,10 @@ import { useRouter } from "nextjs-toploader/app";
 
 type Props = {
   home: Home;
+  showHeader?: boolean;
 };
 
-function WelcomeOnboarding({ home }: Props) {
+function WelcomeOnboarding({ home, showHeader = true }: Props) {
   const { push } = useRouter();
   const { mutate, isPending } = useMutation({
     mutationFn: userMutations.triggerOnboarding,
@@ -23,35 +24,37 @@ function WelcomeOnboarding({ home }: Props) {
 
   return (
     <div className="flex relative z-20 flex-col   w-full items-center justify-center gap-6">
-      <div className="flex flex-col gap-3 items-center w-full">
-        <div className="relative">
-          <h1 className="text-black font-circular-bold text-2xl md:text-3xl lg:text-4xl font-bold">
-            <span>Welcome To</span>{" "}
-            <span className="text-main-green">Home</span>
-            <span className="text-main-yellow">360</span>
-          </h1>
-          <svg
-            width="9"
-            height="9"
-            viewBox="0 0 9 9"
-            fill="none"
-            className="absolute top-1 -right-2"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle
-              cx="4.5"
-              cy="4.5"
-              r="3.25"
-              stroke="#f8be5c"
-              strokeWidth="2.5"
-            />
-          </svg>
+      {showHeader && (
+        <div className="flex flex-col gap-3 items-center w-full">
+          <div className="relative">
+            <h1 className="text-black font-circular-bold text-2xl md:text-3xl lg:text-4xl font-bold">
+              <span>Welcome To</span>{" "}
+              <span className="text-main-green">Home</span>
+              <span className="text-main-yellow">360</span>
+            </h1>
+            <svg
+              width="9"
+              height="9"
+              viewBox="0 0 9 9"
+              fill="none"
+              className="absolute top-1 -right-2"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="4.5"
+                cy="4.5"
+                r="3.25"
+                stroke="#f8be5c"
+                strokeWidth="2.5"
+              />
+            </svg>
+          </div>
+          <p className="text-base text-center md:text-lg font-circular-regular font-normal text-light-gray">
+            Your home has been added. You&apos;re now ready to track
+            maintenance, finances, and documents — all in one place.
+          </p>
         </div>
-        <p className="text-base text-center md:text-lg font-circular-regular font-normal text-light-gray">
-          Your home has been added. You&apos;re now ready to track maintenance,
-          finances, and documents — all in one place.
-        </p>
-      </div>
+      )}
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}

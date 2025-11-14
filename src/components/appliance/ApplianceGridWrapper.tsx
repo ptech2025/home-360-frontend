@@ -29,16 +29,16 @@ function ApplianceGridWrapper({ appliances }: ApplianceGridWrapperProps) {
       {appliances.map((appliance) => (
         <div
           key={appliance.id}
-          className="rounded-xl w-full flex flex-col gap-3 p-4 bg-white border border-lighter-gray"
+          className="rounded-xl w-full flex justify-between flex-col gap-3 p-4 bg-white border border-lighter-gray"
         >
-          <div className="bg-lighter-gray/50 rounded-md min-h-[160px] w-full flex items-center justify-center">
+          <div className="bg-lighter-gray/50 rounded-md min-h-[160px] w-full flex items-center justify-center relative">
             {appliance.image && (
               <Image
                 src={appliance.image}
                 alt={appliance.name}
-                width={100}
-                height={100}
-                className="object-contain size-[100px]"
+                width={150}
+                height={150}
+                className="object-contain size-[120px] aspect-square"
               />
             )}
           </div>

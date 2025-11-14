@@ -63,7 +63,7 @@ export function UpdatePassword() {
           setIsPending(true);
         },
         onSuccess: async () => {
-          toast.success("Password Updated Successfully.");
+          toast.success("Password updated successfully.");
           form.reset({
             oldPassword: "",
             newPassword: "",
@@ -71,7 +71,6 @@ export function UpdatePassword() {
           });
         },
         onError: (ctx) => {
-          console.log(ctx);
           if (ctx.error.code === "CREDENTIAL_ACCOUNT_NOT_FOUND") {
             toast.error(
               "Your account was created with Google so you can't update password"
@@ -91,74 +90,82 @@ export function UpdatePassword() {
     );
     setIsPending(false);
   };
+
   return (
-    <div className="rounded-[1.75rem] bg-[#FAFAFB]  p-3 pt-4 flex-col flex gap-3">
-      <h3 className=" pl-2 text-base font-medium font-broke-medium text-black">
-        Update Password
-      </h3>
+    <div className="min-h-full w-full p-4 flex flex-col gap-3">
+      <div className="flex flex-col gap-0.5">
+        <h3 className="text-base font-medium font-circular-medium text-black">
+          Password & Security
+        </h3>
+        <p className="text-xs text-gray">
+          Update your password and keep your Home360 account secure.
+        </p>
+      </div>
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="bg-white shadow-xs grid-cols-1 grid gap-6 rounded-2xl p-4 lg:p-6 xl:p-8"
+          className="bg-white grid gap-6 "
         >
-          <FormField
-            control={form.control}
-            name="oldPassword"
-            render={({ field }) => (
-              <FormItem className="w-full md:w-1/2">
-                <FormLabel className="text-black after:ml-[-5px] after:text-red-500 after:content-['*']">
-                  Old Password
-                </FormLabel>
-                <FormDescription className="text-xs ">
-                  Type your current password
-                </FormDescription>
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Old password"
-                    className="h-11"
-                  />
-                </FormControl>
-                <div className="flex gap-0.5 flex-col">
-                  <FormMessage className="text-xs " />
-                  <div className="flex gap-1 items-center text-black/80 text-xs">
-                    <span>Forgot password? click</span>
+          <div className="grid gap-6 md:grid-cols-2">
+            <FormField
+              control={form.control}
+              name="oldPassword"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel className="text-black font-circular-medium after:ml-[-5px] after:text-red-500 after:content-['*']">
+                    Current password
+                  </FormLabel>
+                  <FormDescription className="text-xs text-gray">
+                    Enter your existing password.
+                  </FormDescription>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="Enter current password"
+                      type="password"
+                      className="h-11"
+                    />
+                  </FormControl>
+                  <FormMessage className="text-xs" />
+                  <div className="flex flex-wrap gap-1 text-xs text-gray">
+                    <span>Forgot password?</span>
                     <Button
                       type="button"
-                      variant={"link"}
+                      variant="link"
                       onClick={handleForgotPassword}
                       disabled={isPending || isSigningOut}
-                      className="p-0 text-xs underline italic text-black h-max"
+                      className="h-max p-0 text-xs underline text-black"
                     >
-                      Here
+                      Reset it here
                     </Button>
                   </div>
-                </div>
-              </FormItem>
-            )}
-          />
+                </FormItem>
+              )}
+            />
+          </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2">
             <FormField
               control={form.control}
               name="newPassword"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel className="text-black after:ml-[-5px] after:text-red-500 after:content-['*']">
-                    New Password
+                  <FormLabel className="text-black font-circular-medium after:ml-[-5px] after:text-red-500 after:content-['*']">
+                    New password
                   </FormLabel>
-                  <FormDescription className="text-xs ">
-                    Type your new password
+                  <FormDescription className="text-xs text-gray">
+                    Use at least 8 characters and avoid old passwords.
                   </FormDescription>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="New password"
+                      placeholder="Create a new password"
+                      type="password"
                       className="h-11"
                     />
                   </FormControl>
-                  <FormMessage className="text-xs " />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
@@ -167,28 +174,35 @@ export function UpdatePassword() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel className="text-black after:ml-[-5px] after:text-red-500 after:content-['*']">
-                    Re-type New Password
+                  <FormLabel className="text-black font-circular-medium after:ml-[-5px] after:text-red-500 after:content-['*']">
+                    Confirm new password
                   </FormLabel>
-                  <FormDescription className="text-xs ">
-                    Repeat your new password
+                  <FormDescription className="text-xs text-gray">
+                    Re-enter the new password for confirmation.
                   </FormDescription>
                   <FormControl>
-                    <Input {...field} className="h-11" />
+                    <Input
+                      {...field}
+                      placeholder="Re-type new password"
+                      type="password"
+                      className="h-11"
+                    />
                   </FormControl>
-                  <FormMessage className="text-xs " />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
           </div>
 
-          <Button
-            type="submit"
-            disabled={isPending || isSigningOut}
-            className="h-11 ml-auto hover:ring-[3px]  ring-black/50  transition-all duration-200 py-1 px-4  w-full md:w-max rounded-md md:rounded-4xl bg-main-green text-white flex gap-1 items-center text-sm border hover:border-black hover:bg-transparent hover:text-black"
-          >
-            <span>{isPending ? "Saving..." : "Save Changes"}</span>
-          </Button>
+          <div className="flex w-full flex-col gap-2 sm:flex-row sm:justify-end">
+            <Button
+              type="submit"
+              disabled={isPending || isSigningOut}
+              className="h-11 w-full rounded-md bg-main-green text-white transition-all duration-200 hover:border-black hover:bg-transparent hover:text-black hover:ring-[3px] ring-black/50 sm:w-max"
+            >
+              <span>{isPending ? "Saving..." : "Save changes"}</span>
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

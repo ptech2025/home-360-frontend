@@ -58,13 +58,13 @@ export enum ReminderType {
 }
 
 export enum ExpenseCategory {
-  mortgage = "mortgage",  
-  maintenance = "maintenance",  
+  mortgage = "mortgage",
+  maintenance = "maintenance",
   improvements = "improvements",
   utilities = "utilities",
   landscaping = "landscaping",
   safety = "safety",
-  administrative = "administrative",  
+  administrative = "administrative",
   sustainability = "sustainability",
   other = "other",
 }
@@ -97,6 +97,18 @@ export enum MaintenanceFrequency {
   biannual = "biannual",
   five_years = "five_years",
   ten_years = "ten_years",
+}
+
+export enum PlanInterval {
+  monthly = "monthly",
+  yearly = "yearly",
+}
+
+export enum SubscriptionStatus {
+  trialing = "trialing",
+  active = "active",
+  canceled = "canceled",
+  expired = "expired",
 }
 
 export interface Home {
@@ -136,7 +148,7 @@ export interface Appliance {
   id: string;
   homeId: string;
   name: string;
-  image: string | null
+  image: string | null;
   brand?: string | null;
   model?: string | null;
   serialNumber?: string | null;
@@ -308,4 +320,45 @@ export interface MaintenanceInstance {
 
   home: Home;
   user: AuthUserType;
+}
+
+export interface SubscriptionPlanBenefit {
+  id: string;
+  planId: string;
+  benefit: string;
+  plan: SubscriptionPlan;
+}
+
+export interface SubscriptionPlan {
+  id: string;
+  name: string;
+  price: number;
+  stripePriceId: string;
+  documentCredit?: number | null;
+  aiQueryCredit?: number | null;
+  applianceCredit?: number | null;
+  maxHomes: number;
+  interval: PlanInterval;
+  active: boolean;
+  benefits: SubscriptionPlanBenefit[];
+  subscriptions: Subscription[];
+  createdAt: Date | null;
+  updatedAt: Date | null;
+}
+
+export interface Subscription {
+  id: string;
+  userId: string;
+  planId: string;
+  stripeCustomerId: string;
+  stripePriceId: string;
+  stripeSubId: string;
+  status: SubscriptionStatus;
+  currentPeriodStart: Date;
+  currentPeriodEnd: Date;
+  hasBeenCancelled: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  user: AuthUserType;
+  plan: SubscriptionPlan | null;
 }
