@@ -22,15 +22,15 @@ function OnboardingWrapper({ homes, subscription }: Props) {
 
   return (
     <section className="custom-container min-h-dvh flex justify-center items-start w-full">
-      <div className="w-full max-w-7xl flex-col items-center flex gap-6 lg:gap-8">
+      <div className="w-full max-w-6xl flex-col justify-center items-center flex gap-6 lg:gap-8">
         {subscription ? (
-          <>
+          <div className="max-w-xl">
             {firstHome ? (
               <WelcomeOnboarding home={firstHome} />
             ) : (
               <CreateHomeOnboarding setFirstHome={setFirstHome} />
             )}
-          </>
+          </div>
         ) : (
           <PricingTabs currentPlan={null} type="onboarding" />
         )}

@@ -3,13 +3,11 @@ import { betterFetch } from "@better-fetch/fetch";
 import { SessionType } from "@/lib/auth-client";
 import { API_URL } from "@/utils/constants";
 
-const onboardingRoutes = ["/onboarding"];
-
 export const fetchSession = async (
   req: NextRequest
 ): Promise<SessionType | null> => {
   const cookie = req.headers.get("cookie");
-  const TIMEOUT_MS = 800;
+  const TIMEOUT_MS = 10000;
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
@@ -40,12 +38,10 @@ export const protectDashboard = async (
   req: NextRequest,
   session: SessionType | null
 ) => {
+  console.log(session);
   if (!session) {
     return NextResponse.redirect(new URL("/sign-in", req.url));
-  } else if (
-    !session.user.isOnboarded &&
-    !onboardingRoutes.includes(req.nextUrl.pathname)
-  ) {
+  } else if (!session.user.isOnboarded) {
     return NextResponse.redirect(new URL("/onboarding", req.url));
   }
   return NextResponse.next();

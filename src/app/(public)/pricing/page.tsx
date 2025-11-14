@@ -18,10 +18,12 @@ async function PricingPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <PricingTabs
-        currentPlan={currentPlan}
-        type={currentPlan ? "change" : "onboarding"}
-      />
+      <section className="custom-container">
+        <PricingTabs
+          currentPlan={currentPlan}
+          type={currentPlan ? "change" : "onboarding"}
+        />
+      </section>
       <FAQs />
     </HydrationBoundary>
   );
