@@ -27,8 +27,6 @@ export async function middleware(request: NextRequest) {
   );
 
   if (isPrivateRoute) {
-    console.log("session", session);
-    console.log("running private route middleware");
     const res = await protectDashboard(request, session);
     if (res) return res;
   }
