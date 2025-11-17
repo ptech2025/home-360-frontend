@@ -49,7 +49,7 @@ function WelcomeOnboarding({ home, showHeader = true }: Props) {
               />
             </svg>
           </div>
-          <p className="text-base text-center md:text-lg font-circular-regular font-normal text-light-gray">
+          <p className="text-base text-center  font-circular-medium text-black">
             Your home has been added. You&apos;re now ready to track
             maintenance, finances, and documents — all in one place.
           </p>

@@ -20,7 +20,7 @@ const faqsArr = [
   {
     question: "Can I manage more than one home?",
     answer:
-      "Yes, you can! The ability to add and manage multiple properties is available to premium subscribers. Upgrade to a paid plan to easily organize all your homes ideal for landlords, investors, or anyone managing more than one property.",
+      "Yes, you can! The ability to add and manage multiple properties is available to premium subscribers. Upgrade to a Pro Plus Plan or Business Plan to easily organize all your homes ideal for landlords, investors, or anyone managing more than one property.",
   },
   {
     question: "Is my data secure?",
@@ -46,7 +46,7 @@ function FAQs() {
           className={cn("flex max-w-md flex-col items-center gap-1 text-black")}
         >
           <h4 className="text-3xl font-circular-medium font-regular text-center md:text-4xl lg:text-[3rem]">
-            Frequently asked questions
+            Frequently Asked Questions
           </h4>
           <span className="text-base text-center">
             Everything you need to know about the home360. Find answers to the
@@ -78,37 +78,6 @@ function FAQs() {
           ))}
         </Accordion>
       </div>
-      {/* <div
-          className={cn(
-            "rounded-xl flex  p-5.5  items-center border gap-4 justify-between w-full max-w-[770px]",
-          )}
-        >
-          <div className="flex flex-col">
-            <h5 className="text-sm font-bold">
-              Still have a question in mind?
-            </h5>
-
-            <span
-              className={cn(
-                "text-sm",
-                isHome ? "text-[#808080]" : "text-white"
-              )}
-            >
-              Contact us if you have any other questions.
-            </span>
-          </div>
-          <Link
-            href="/contact"
-            className={cn(
-              "px-5 py-3  hover:shadow-black hover:shadow h-10 items-center justify-center  flex rounded-4xl border border-transparent cursor-pointer text-base font-bold",
-              isHome
-                ? "bg-main-green text-white hover:border-black hover:text-black hover:bg-transparent"
-                : "bg-white text-black hover:border-white hover:text-white hover:bg-transparent"
-            )}
-          >
-            <span>Contact</span>
-          </Link>
-        </div> */}
     </div>
   );
 }

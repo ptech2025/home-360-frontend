@@ -111,7 +111,7 @@ function PricingTabs({ currentPlan, type }: Props) {
         <h2 className="text-2xl font-circular-bold text-center font-bold">
           Select Your Plan
         </h2>
-        <p className="text-base font-circular-light text-center text-gray">
+        <p className="text-base font-circular-medium text-center text-black">
           Choose the plan that fits your needs. You can upgrade or cancel
           anytime.
         </p>
@@ -149,13 +149,13 @@ function PricingTabs({ currentPlan, type }: Props) {
       )}
 
       {!isLoading && (!data || data.length === 0) && (
-        <div className="w-full flex items-center justify-center rounded-md border border-light-gray bg-white p-6 text-sm text-gray">
+        <div className="w-full flex items-center justify-center rounded-md border border-light-gray bg-white p-6 text-base text-black">
           No subscription plans available.
         </div>
       )}
 
       {!isLoading && data && data.length > 0 && !selectedPlan && (
-        <div className="w-full flex items-center justify-center rounded-md border border-light-gray bg-white p-6 text-sm text-gray">
+        <div className="w-full flex items-center justify-center rounded-md border border-light-gray bg-white p-6 text-base text-gray">
           Loading plans...
         </div>
       )}
@@ -187,7 +187,7 @@ function PricingTabs({ currentPlan, type }: Props) {
               );
               if (plans.length === 0) {
                 return (
-                  <div className="w-full rounded-md border border-light-gray bg-white p-4 text-sm text-gray">
+                  <div className="w-full rounded-md border border-light-gray bg-white p-4 text-sm text-black">
                     No monthly plans available.
                   </div>
                 );
@@ -322,7 +322,7 @@ function PricingTabs({ currentPlan, type }: Props) {
                         <span>
                           {currentPlan?.id === selectedPlan?.id
                             ? "Current Plan"
-                            : `Upgrade to ${selectedPlan?.name}`}
+                            : `Subscribe to ${selectedPlan?.name}`}
                         </span>
                       )}
                     </Button>
