@@ -234,7 +234,7 @@ function PricingTabs({ currentPlan, type }: Props) {
                         <span>
                           {currentPlan?.id === selectedPlan?.id
                             ? "Current Plan"
-                            : `Upgrade to ${selectedPlan?.name}`}
+                            : `Subscribe to ${selectedPlan?.name}`}
                         </span>
                       )}
                     </Button>
@@ -251,7 +251,7 @@ function PricingTabs({ currentPlan, type }: Props) {
                             key={benefit.id}
                             className="flex justify-between items-center gap-2"
                           >
-                            <span className="text-sm text-gray ">
+                            <span className="text-sm text-black ">
                               {benefit.benefit}
                             </span>
                             <CircleCheck className="text-white size-4  shrink-0 fill-main-green" />
@@ -339,7 +339,7 @@ function PricingTabs({ currentPlan, type }: Props) {
                             key={benefit.id}
                             className="flex justify-between items-center gap-2"
                           >
-                            <span className="text-sm text-gray ">
+                            <span className="text-sm text-black ">
                               {benefit.benefit}
                             </span>
                             <CircleCheck className="text-white size-4  shrink-0 fill-main-green" />

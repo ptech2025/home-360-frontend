@@ -51,7 +51,7 @@ export function EventsCard({
           Upcoming {type}
         </h4>
       </div>
-      <div className="flex h-full flex-col gap-3 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-main-green  scrollbar-track-lighter-gray">
+      <div className="flex min-h-full flex-col gap-3 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-main-green  scrollbar-track-lighter-gray">
         {type === "tasks" && (
           <>
             {tasks &&

@@ -97,6 +97,7 @@ function HomeDetailsWrapper({ homeId }: Props) {
               squareFeet={data.squareFeet}
               lotSizeSqFt={data.lotSizeSqFt}
               homeType={data.homeType}
+              photoUrl={data.photoUrl}
             >
               <Button className="text-black hover:bg-white border w-max  bg-white border-black hover:text-main-green hover:border-main-green">
                 <PenLine className="size-4" />

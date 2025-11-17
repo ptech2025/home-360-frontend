@@ -50,7 +50,8 @@ type UpdateHomeDetailsProps = {
   yearBuilt?: number | null;
   squareFeet?: number | null;
   lotSizeSqFt?: number | null;
-  homeType: HomeType;
+  photoUrl: string | null;
+  homeType: string;
   children: React.ReactNode;
 };
 type UpdateHomeAddressProps = {
@@ -280,7 +281,10 @@ export const AddHomeAddressDialog = ({ children }: AddHomeAddressProps) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent showCloseButton={false} className="px-4 sm:max-w-2xl flex flex-col">
+      <DialogContent
+        showCloseButton={false}
+        className="px-4 sm:max-w-2xl flex flex-col"
+      >
         {newHome ? (
           <WelcomeOnboarding showHeader={false} home={newHome} />
         ) : (
@@ -417,6 +421,7 @@ export const UpdateHomeDetailsDialog = ({
   lotSizeSqFt,
   homeType,
   children,
+  photoUrl,
 }: UpdateHomeDetailsProps) => {
   const [open, setOpen] = useState(false);
   const form = useForm({
@@ -428,7 +433,7 @@ export const UpdateHomeDetailsDialog = ({
       yearBuilt: yearBuilt ?? undefined,
       squareFeet: squareFeet ?? undefined,
       lotSizeSqFt: lotSizeSqFt ?? undefined,
-      homeType: homeType,
+      homeType: homeType ?? undefined,
     },
   });
 
@@ -472,6 +477,34 @@ export const UpdateHomeDetailsDialog = ({
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex w-full px-4 justify-center flex-col gap-6"
           >
+            <FormField
+              control={form.control}
+              name="file"
+              render={({ field }) => (
+                <FormItem className="w-full relative">
+                  <FormLabel className="text-black font-circular-medium">
+                    {photoUrl ? "Update Image" : "Upload Image"}
+                    <span className="text-light-gray font-circular-light">
+                      (optional)
+                    </span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      className="h-10"
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files.length > 0) {
+                          field.onChange(e.target.files[0]);
+                        }
+                      }}
+                    />
+                  </FormControl>
+
+                  <FormMessage className="text-xs" />
+                </FormItem>
+              )}
+            />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
@@ -600,31 +633,11 @@ export const UpdateHomeDetailsDialog = ({
                       Property Type
                     </FormLabel>
                     <FormControl>
-                      <Select
-                        value={field.value}
-                        onValueChange={field.onChange}
-                      >
-                        <SelectTrigger
-                          id="homeType"
-                          className="w-full capitalize h-10"
-                        >
-                          <SelectValue
-                            placeholder="Select property type"
-                            className="capitalize"
-                          />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {Object.values(HomeType).map((type) => (
-                            <SelectItem
-                              key={type}
-                              value={type}
-                              className="capitalize"
-                            >
-                              {type.replace("_", " ")}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <Input
+                        className="h-10"
+                        placeholder="Enter property type"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage className="text-xs" />
                   </FormItem>
