@@ -189,6 +189,7 @@ export const createHomeTaskSchema = z.object({
       MaintenanceFrequency
     ).join(", ")}`,
   }),
+  dueDate: z.coerce.date({ message: "Due date is required" }),
 });
 
 export const createExpenseSchema = z.object({

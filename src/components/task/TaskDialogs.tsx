@@ -66,10 +66,23 @@ export function AddOrEditCustomTaskDialog({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const form = useForm({
+    resolver: zodResolver(createHomeTaskSchema),
+    defaultValues: {
+      category: data?.category ?? undefined,
+      frequency: data?.frequency ?? undefined,
+      description: data?.description ?? undefined,
+      title: data?.title ?? undefined,
+      status: data?.status ?? undefined,
+      dueDate: data?.dueDate ?? undefined,
+    },
+  });
+
   const { mutate: addTask, isPending: isAdding } = useMutation({
     mutationFn: taskMutations.create,
     onSuccess: () => {
       toast.success("Task added successfully.");
+
       setIsOpen(false);
     },
     onSettled: (_data, _error, _vars, _result, context) => {
@@ -82,23 +95,13 @@ export function AddOrEditCustomTaskDialog({
     mutationFn: taskMutations.update,
     onSuccess: () => {
       toast.success("Task updated successfully.");
+      form.reset();
       setIsOpen(false);
     },
     onSettled: (_data, _error, _vars, _result, context) => {
       context.client.invalidateQueries({
         queryKey: ["all-tasks", homeId, { page: 1 }],
       });
-    },
-  });
-
-  const form = useForm({
-    resolver: zodResolver(createHomeTaskSchema),
-    defaultValues: {
-      category: data?.category ?? undefined,
-      frequency: data?.frequency ?? undefined,
-      description: data?.description ?? undefined,
-      title: data?.title ?? undefined,
-      status: data?.status ?? undefined,
     },
   });
 
@@ -116,7 +119,11 @@ export function AddOrEditCustomTaskDialog({
       <DialogContent className="p-0 max-h-[95vh] sm:max-w-2xl overflow-y-auto  flex flex-col">
         <DialogHeader className="p-6 pb-3 sticky z-10 bg-white top-0 left-0">
           <DialogTitle className="font-circular-bold font-bold">
-            {type === "create" ? "Add Custom Task" : "Edit Custom Task"}
+            {type === "create"
+              ? "Add Custom Task"
+              : data && data.isCustom
+              ? "Edit Custom Task"
+              : "Edit Task"}
           </DialogTitle>
           <DialogDescription>
             {type === "create"
@@ -132,27 +139,29 @@ export function AddOrEditCustomTaskDialog({
             className="flex w-full flex-1   justify-center  flex-col gap-6"
           >
             <div className="px-6 py-4 flex flex-col gap-5">
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem className="w-full relative">
-                    <FormLabel className="text-black font-circular-medium">
-                      Task Name
-                    </FormLabel>
-
-                    <FormControl>
-                      <Input
-                        className="h-11"
-                        {...field}
-                        placeholder="Enter task name"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
               <div className="md:grid-cols-2 grid grid-cols gap-5">
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem className="w-full relative">
+                      <FormLabel className="text-black font-circular-medium">
+                        Task Name
+                      </FormLabel>
+
+                      <FormControl>
+                        <Input
+                          className="h-11"
+                          {...field}
+                          disabled={data && !data.isCustom ? true : false}
+                          readOnly={data && !data.isCustom ? true : false}
+                          placeholder="Enter task name"
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="category"
@@ -170,6 +179,7 @@ export function AddOrEditCustomTaskDialog({
                           <SelectTrigger
                             id="type"
                             className="w-full capitalize h-11!"
+                            disabled={data && !data.isCustom ? true : false}
                           >
                             <SelectValue
                               placeholder="Select"
@@ -193,6 +203,28 @@ export function AddOrEditCustomTaskDialog({
                     </FormItem>
                   )}
                 />
+              </div>
+              <div className="md:grid-cols-2 grid grid-cols gap-5">
+                <FormField
+                  control={form.control}
+                  name="dueDate"
+                  render={({ field }) => (
+                    <FormItem className="w-full relative">
+                      <FormLabel className="text-black font-circular-medium">
+                        Due Date
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="date"
+                          className="h-10"
+                          value={field.value as string | undefined}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />
 
                 <FormField
                   control={form.control}
@@ -211,6 +243,7 @@ export function AddOrEditCustomTaskDialog({
                           <SelectTrigger
                             id="frequency"
                             className="w-full capitalize h-11!"
+                            disabled={data && !data.isCustom ? true : false}
                           >
                             <SelectValue
                               placeholder="Select"
@@ -253,6 +286,8 @@ export function AddOrEditCustomTaskDialog({
                         placeholder="Write a short description..."
                         className=" max-h-[6rem] resize-none scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-main-green  scrollbar-track-lighter-gray"
                         {...field}
+                        disabled={data && !data.isCustom ? true : false}
+                        readOnly={data && !data.isCustom ? true : false}
                       />
                     </FormControl>
                     <FormMessage className="text-xs" />
@@ -511,17 +546,18 @@ export function TaskActions({ data }: { data: MaintenanceInstance }) {
           </Button>
         </ViewTaskDialog>
 
+        <AddOrEditCustomTaskDialog
+          type="update"
+          data={data}
+          homeId={data.homeId}
+        >
+          <Button className="rounded-none justify-start  px-4 py-2.5 last:rounded-b-md  first:rounded-t-md    text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted ">
+            Edit
+          </Button>
+        </AddOrEditCustomTaskDialog>
+
         {data.isCustom && (
           <>
-            <AddOrEditCustomTaskDialog
-              type="update"
-              data={data}
-              homeId={data.homeId}
-            >
-              <Button className="rounded-none justify-start  px-4 py-2.5 last:rounded-b-md  first:rounded-t-md    text-xs data-[state=active]:bg-black data-[state=active]:text-white  bg-transparent w-full text-black hover:bg-muted ">
-                Edit
-              </Button>
-            </AddOrEditCustomTaskDialog>
             <DeleteTaskDialog taskId={data.id} homeId={data.homeId}>
               <Button className="rounded-none  px-4 py-2.5 justify-start last:rounded-b-md  first:rounded-t-md  text-xs  bg-transparent w-full text-destructive hover:bg-destructive/20 ">
                 Delete

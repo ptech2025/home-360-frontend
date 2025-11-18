@@ -195,6 +195,7 @@ export function AddOrEditProviderDialog({
     mutationFn: providerMutations.create,
     onSuccess: () => {
       toast.success("Service Provider added successfully.");
+      form.reset();
       setIsOpen(false);
     },
     onSettled: (_data, _error, _vars, _result, context) => {
@@ -207,6 +208,7 @@ export function AddOrEditProviderDialog({
     mutationFn: providerMutations.update,
     onSuccess: () => {
       toast.success("Service Provider updated successfully.");
+      form.reset();
       setIsOpen(false);
     },
     onSettled: (_data, _error, _vars, _result, context) => {
@@ -486,6 +488,7 @@ export function HireProviderDialog({
     mutationFn: providerMutations.createJob,
     onSuccess: () => {
       toast.success("Job added to Service Provider successfully.");
+      form.reset();
       setIsOpen(false);
       setMode("hired");
     },
