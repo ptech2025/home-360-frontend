@@ -14,13 +14,13 @@ async function DocumentCategoryPage(
 ) {
   const queryClient = new QueryClient();
   const { homeId, category } = await props.params;
-  const { search, tags, page } = await props.searchParams;
+  const { search, tag, page } = await props.searchParams;
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
 
   const filterParams: FetchDocumentParams = {
     search: search?.toString(),
-    tags: Array.isArray(tags) ? tags : tags ? [tags] : [],
+    tag: tag ? tag.toString() : undefined,
     page: page ? parseInt(page.toString()) : 1,
     category: category as DocumentCategory,
     size: 10,

@@ -13,13 +13,13 @@ async function AllDocumentsPage(
 ) {
   const queryClient = new QueryClient();
   const { homeId } = await props.params;
-  const { search, tags, page, size } = await props.searchParams;
+  const { search, tag, page, size } = await props.searchParams;
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
 
   const filterParams: FetchDocumentParams = {
     search: search?.toString(),
-    tags: Array.isArray(tags) ? tags : tags ? [tags] : [],
+    tag: tag ? tag.toString() : undefined,
     page: page ? parseInt(page.toString()) : 1,
     size: size ? parseInt(size.toString()) : 10,
   };

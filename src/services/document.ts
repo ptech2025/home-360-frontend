@@ -40,7 +40,7 @@ export const documentService = {
       }
     });
 
-    return await api.patch(`/api/document/${homeId}/${docId}`, formData, {
+    return await api.patch(`/api/document/${docId}/${homeId}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

@@ -81,7 +81,7 @@ export interface Pagination {
 export interface FetchDocumentParams {
   page?: number;
   size?: number;
-  tags?: string[];
+  tag?: string
   category?: DocumentCategory;
   search?: string;
 }

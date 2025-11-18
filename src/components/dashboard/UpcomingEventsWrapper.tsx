@@ -1,6 +1,6 @@
 "use client";
 
-import { formatDate, addYears, startOfYear } from "date-fns";
+import { formatDate, addYears, startOfYear, startOfDay } from "date-fns";
 import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
@@ -12,6 +12,7 @@ import { MaintenanceInstance, Reminder } from "@/types/prisma-schema-types";
 import { UpcomingEventsWrapperLoadingSkeleton } from "../global/Skeletons";
 import { Route } from "next";
 import { applianceQueries } from "@/queries/appliance";
+import { computeBookedCalendarDates } from "@/utils/funcs";
 
 type EventsCardProps = {
   orientation: "horizontal" | "vertical";
@@ -31,6 +32,9 @@ type CalendarCardProps = {
   className?: string;
   orientation?: "horizontal" | "vertical";
   date?: string;
+  bookedDefaultDates?: Date[];
+  bookedApplianceDates?: Date[];
+  bookedCustomDates?: Date[];
 };
 
 export function EventsCard({
@@ -139,6 +143,9 @@ export function CalendarCard({
   className,
   orientation = "horizontal",
   date,
+  bookedDefaultDates = [],
+  bookedApplianceDates = [],
+  bookedCustomDates = [],
 }: CalendarCardProps) {
   const now = new Date();
   const pathname = usePathname();
@@ -178,7 +185,18 @@ export function CalendarCard({
         endMonth={addYears(now, 10)}
         className={cn("w-full", className)}
         classNames={{
-          day_button: "data-[selected-single=true]:bg-main-green",
+          day_button:
+            "data-[selected-single=true]:bg-black data-[selected-single=true]:rounded-md data-[selected-single=true]:text-white",
+        }}
+        modifiers={{
+          bookedDefault: bookedDefaultDates,
+          bookedAppliance: bookedApplianceDates,
+          bookedCustom: bookedCustomDates,
+        }}
+        modifiersClassNames={{
+          bookedDefault: "bg-main-green rounded-md text-white",
+          bookedAppliance: "bg-main-yellow rounded-md text-white",
+          bookedCustom: "bg-red-500 rounded-md text-white",
         }}
       />
       <div className="flex items-center justify-center gap-3">
@@ -218,6 +236,13 @@ function UpcomingEventsWrapper({
     applianceQueries.applianceEvents(homeId, type === "reminders", date)
   );
 
+  const { bookedDefaultDates, bookedCustomDates, bookedApplianceDates } =
+    computeBookedCalendarDates({
+      type,
+      tasks: Array.isArray(tasks) ? tasks : [],
+      reminders: Array.isArray(appliance?.data) ? appliance.data : [],
+    });
+
   return (
     <div
       className={cn(
@@ -232,6 +257,9 @@ function UpcomingEventsWrapper({
         className={calendarClassName}
         date={date}
         orientation={orientation}
+        bookedDefaultDates={bookedDefaultDates}
+        bookedApplianceDates={bookedApplianceDates}
+        bookedCustomDates={bookedCustomDates}
       />
 
       {isTasksLoading || isRemindersLoading ? (
