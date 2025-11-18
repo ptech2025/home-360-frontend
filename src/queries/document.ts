@@ -30,8 +30,8 @@ export const documentMutations = {
       documentService.createDocument(variables.homeId, variables.data)
   ),
   update: mutationResult(
-    (variables: { docId: string; data: CreateDocumentSchemaType }) =>
-      documentService.updateDocument(variables.docId, variables.data)
+    (variables: { homeId: string; docId: string; data: CreateDocumentSchemaType }) =>
+      documentService.updateDocument(variables.homeId, variables.docId, variables.data)
   ),
   delete: mutationResult((variables: { docId: string; homeId: string }) =>
     documentService.deleteDocument(variables.docId, variables.homeId)

@@ -74,7 +74,7 @@ export function EventsCard({
                       {task.title}
                     </h6>
                     <span className="text-gray text-xs">
-                      {formatDate(new Date(task.dueDate), "MMM dd")},{" "}
+                      {formatDate(new Date(task.dueDate), "MMM dd, yyyy")},{" "}
                       {formatDate(new Date(task.dueDate), "HH:mm aa")}
                     </span>
                   </div>
@@ -112,7 +112,7 @@ export function EventsCard({
                       {task.taskName}
                     </h6>
                     <span className="text-gray text-xs">
-                      {formatDate(new Date(task.dueDate), "MMM dd")},{" "}
+                      {formatDate(new Date(task.dueDate), "MMM dd, yyyy")},{" "}
                       {formatDate(new Date(task.dueDate), "HH:mm aa")}
                     </span>
                   </div>

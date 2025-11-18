@@ -1,3 +1,4 @@
+
 import {
   Dialog,
   DialogClose,
@@ -129,6 +130,7 @@ export function AddOrEditDocumentDialog({
       });
     } else if (type === "update" && data) {
       updateDocument({
+        homeId,
         docId: data.id,
         data: {
           ...values,
