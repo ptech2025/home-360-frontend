@@ -89,6 +89,9 @@ export function AddOrEditCustomTaskDialog({
       context.client.invalidateQueries({
         queryKey: ["all-tasks", homeId, { page: 1 }],
       });
+      context.client.invalidateQueries({
+        queryKey: ["tasks-events", homeId],
+      });
     },
   });
   const { mutate: updateTask, isPending: isUpdating } = useMutation({
@@ -101,6 +104,9 @@ export function AddOrEditCustomTaskDialog({
     onSettled: (_data, _error, _vars, _result, context) => {
       context.client.invalidateQueries({
         queryKey: ["all-tasks", homeId, { page: 1 }],
+      });
+      context.client.invalidateQueries({
+        queryKey: ["tasks-events", homeId],
       });
     },
   });

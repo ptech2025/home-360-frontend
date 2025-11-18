@@ -4,7 +4,8 @@ import {
   Document,
   SubscriptionPlan,
 } from "@/types/prisma-schema-types";
-import { format } from "date-fns";
+import { format, startOfDay } from "date-fns";
+import { MaintenanceInstance, Reminder } from "@/types/prisma-schema-types";
 
 export const getCurrentLocation = (): Promise<GeolocationPosition> => {
   return new Promise((resolve, reject) => {
@@ -187,3 +188,60 @@ export const renderValue = (key: string, value: any) => {
 export const getDefaultImage = (name: string) => {
   return `https://ui-avatars.com/api/?size=60&background=2d6a4f&color=fff&rounded=true&name=${name}`;
 };
+
+export function computeBookedCalendarDates(args: {
+  type: "tasks" | "reminders";
+  tasks?: MaintenanceInstance[];
+  reminders?: Reminder[];
+}): {
+  bookedDefaultDates: Date[];
+  bookedCustomDates: Date[];
+  bookedApplianceDates: Date[];
+} {
+  const { type, tasks = [], reminders = [] } = args;
+
+  const uniqueByDay = (dates: Date[]) => {
+    const seen = new Set<string>();
+    const result: Date[] = [];
+    for (const d of dates) {
+      const local = startOfDay(new Date(d));
+      const key = `${local.getFullYear()}-${local.getMonth()}-${local.getDate()}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        result.push(new Date(local.getFullYear(), local.getMonth(), local.getDate()));
+      }
+    }
+    return result;
+  };
+
+  if (type === "tasks") {
+    const defaultDates = uniqueByDay(
+      tasks
+        .filter((t) => !t.isCustom)
+        .map((t) => new Date(t.dueDate as unknown as string | number | Date))
+    );
+
+    const customDates = uniqueByDay(
+      tasks
+        .filter((t) => t.isCustom)
+        .map((t) => new Date(t.dueDate as unknown as string | number | Date))
+    );
+
+    return {
+      bookedDefaultDates: defaultDates,
+      bookedCustomDates: customDates,
+      bookedApplianceDates: [],
+    };
+  }
+
+  // reminders (appliance)
+  const applianceDates = uniqueByDay(
+    reminders.map((r) => new Date(r.dueDate as unknown as string | number | Date))
+  );
+
+  return {
+    bookedDefaultDates: [],
+    bookedCustomDates: [],
+    bookedApplianceDates: applianceDates,
+  };
+}

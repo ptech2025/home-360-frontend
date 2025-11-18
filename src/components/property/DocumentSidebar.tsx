@@ -6,14 +6,16 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
 import { getDocumentCategoryCount } from "@/utils/funcs";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import Link from "next/link";
+import { Route } from "next";
 
 type DocumentSidebarProps = {
   homeId: string;
 };
 
 function DocumentSidebar({ homeId }: DocumentSidebarProps) {
+  const { category } = useParams<{ homeId: string; category?: string }>();
   const pathname = usePathname();
   const { data, isPending } = useQuery(userQueries.singleHome(homeId));
 
@@ -114,7 +116,11 @@ function DocumentSidebar({ homeId }: DocumentSidebarProps) {
               ).map((tag) => (
                 <Link
                   key={tag}
-                  href={`/dashboard/${homeId}/documents?tags=${tag}`}
+                  href={
+                    `/dashboard/${homeId}/documents${
+                      category ? `/${category}?tag=${tag}` : `?tag=${tag}`
+                    }` as Route
+                  }
                   className="px-2 py-1 h-auto w-max rounded-md bg-white transition-colors hover:bg-main-green text-black hover:text-white border border-light-gray hover:border-white text-sm font-medium font-circular-medium"
                 >
                   {tag}
