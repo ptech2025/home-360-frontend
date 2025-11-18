@@ -129,7 +129,7 @@ export interface Home {
   yearBuilt?: number;
   squareFeet?: number;
   lotSizeSqFt?: number;
-  photoUrl?: string;
+  photoUrl: string | null;
   homeValue?: number;
   homeType: string;
   createdAt: Date;

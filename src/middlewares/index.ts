@@ -38,7 +38,6 @@ export const protectDashboard = async (
   req: NextRequest,
   session: SessionType | null
 ) => {
-  console.log(session);
   if (!session) {
     return NextResponse.redirect(new URL("/sign-in", req.url));
   } else if (!session.user.isOnboarded) {
