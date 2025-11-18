@@ -15,8 +15,8 @@ function PaymentSuccessfulPage() {
               Payment Successful
             </h1>
             <p className="text-sm max-w-xs md:text-base font-circular-medium text-black/80 font-medium text-center">
-              Thank you for subscribing. A copy of your invoice receipt has been
-              sent to your email.
+              Thank you for subscribing. A copy of your invoice has been sent to
+              your email.
             </p>
             <Button
               asChild

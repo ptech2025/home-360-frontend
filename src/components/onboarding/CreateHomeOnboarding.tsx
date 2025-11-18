@@ -61,7 +61,7 @@ function CreateHomeOnboarding({
         <h1 className="text-black font-circular-bold text-2xl md:text-3xl lg:text-4xl font-bold">
           Property Registration
         </h1>
-        <p className="text-base text-center md:text-lg font-circular-regular font-normal text-light-gray">
+        <p className="text-base text-center font-circular-medium font-normal text-black">
           We currently only support US residential properties. Add your property
           details to get started
         </p>

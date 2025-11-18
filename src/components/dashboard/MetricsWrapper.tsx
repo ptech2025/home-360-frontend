@@ -51,7 +51,7 @@ export function MetricsCard({
           </div>
         </div>
         <div className="flex relative z-10 flex-col gap-1.5 ">
-          <div className="border border-sidebar-border flex items-center gap-2 text-black py-1 px-2 rounded-md">
+          <div className="border w-max border-sidebar-border flex items-center gap-2 text-black py-1 px-2 rounded-md">
             {Number(value) > Number(prevVal) ? (
               <TrendingUp className="size-4" />
             ) : (

@@ -263,11 +263,8 @@ export const updateHomeDetailsSchema = z.object({
     .number({ message: "Bedrooms must be a number" })
     .int({ message: "Bedrooms must be an integer" })
     .optional(),
-  homeType: z.enum([...Object.values(HomeType)], {
-    message: `Home type is required and must be one of the following: ${Object.values(
-      HomeType
-    ).join(", ")}`,
-  }),
+  homeType: z.string().min(1, { message: "Home type is required" }),
+
   file: validateImageFile().optional(),
 });
 

@@ -97,8 +97,10 @@ export default function AutoCompleteLocation({
     }
   }, [data]);
   useEffect(() => {
-    setQuery(value);
-  }, [value]);
+    if (!isFocused && value !== query) {
+      setQuery(value);
+    }
+  }, [value, isFocused, query]);
 
   return (
     <div className="relative w-full">
