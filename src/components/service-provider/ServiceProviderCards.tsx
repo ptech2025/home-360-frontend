@@ -114,7 +114,7 @@ export function SavedProviderCard({ data }: SavedProviderCardProps) {
               disabled={isLoading}
               className="w-full green-btn text-sm font-circular-light"
             >
-              Hire Now
+              Add Job
             </Button>
           </HireProviderDialog>
         </div>
