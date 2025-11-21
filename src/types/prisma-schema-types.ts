@@ -258,7 +258,7 @@ export interface Receipt {
   fileUrl: string;
   previewUrl: string | null;
   sourceType: ReceiptSourceType;
-  extracted: Record<string, any> | null;
+  extracted: Record<string, string | null> | null;
   notes: string | null;
   createdAt: Date;
   updatedAt: Date;
