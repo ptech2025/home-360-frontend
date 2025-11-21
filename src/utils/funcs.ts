@@ -149,7 +149,7 @@ export const renderDocumentCategoryStyle = (category: DocumentCategory) => {
   }
 };
 
-export const renderValue = (key: string, value: string | null) => {
+export const renderValue = (key: string, value: string | number | null | undefined) => {
   // dates
   if (["taxDueDate", "lastSaleDate"].includes(key)) {
     return value ? format(new Date(value.toString()), "MMM dd, yyyy") : "N/A";
