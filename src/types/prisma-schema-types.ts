@@ -209,7 +209,7 @@ export interface PublicRecord {
   id: string;
   homeId: string;
   recordType: PublicRecordType;
-  data: Record<string, any>;
+  data: Record<string, string | null>;
   retrievedAt: Date;
   updatedAt: Date;
   home: Home;

@@ -45,12 +45,7 @@ const iconMap: Record<
   },
 };
 
-type ApplianceUsageCardProps = {
-  title: string;
-  value: number;
-  iconType: IconType;
-  children: React.ReactNode;
-};
+
 
 function ApplianceMetricsCard({
   title,

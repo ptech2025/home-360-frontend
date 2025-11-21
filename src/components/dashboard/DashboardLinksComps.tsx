@@ -21,7 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { UserRole, AuthUserType, DashboardLink } from "@/types";
-import { AlignRight, ChevronDown, Settings, UserRoundPen } from "lucide-react";
+import { AlignRight, ChevronDown, Settings } from "lucide-react";
 import LogOutBtn from "./LogOutBtn";
 import DashboardUserIcon from "./DashboardUserIcon";
 import { Button } from "../ui/button";
