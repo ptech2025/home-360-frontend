@@ -9,6 +9,7 @@ import ServicesPageWrapper from "@/components/service-provider/ServicesPageWrapp
 import { ProviderType } from "@/types/prisma-schema-types";
 import { providerQueries } from "@/queries/provider";
 import { userQueries } from "@/queries/user";
+import { fetchUserServerWithCookies } from "@/lib/actions";
 
 async function ServicesPage(props: PageProps<"/dashboard/[homeId]/services">) {
   const queryClient = new QueryClient();
@@ -23,7 +24,6 @@ async function ServicesPage(props: PageProps<"/dashboard/[homeId]/services">) {
   } = await props.searchParams;
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
-
   const params: FetchServiceProviderParams = {
     search: search?.toString(),
     homeId: searchHomeId?.toString(),
@@ -33,7 +33,8 @@ async function ServicesPage(props: PageProps<"/dashboard/[homeId]/services">) {
     size: size ? parseInt(size.toString()) : 10,
   };
 
-  await Promise.all([
+  const [user] = await Promise.all([
+    fetchUserServerWithCookies(cookieHeader),
     queryClient.prefetchQuery(
       providerQueries.withCookies(cookieHeader).allSaved(params)
     ),
@@ -49,7 +50,7 @@ async function ServicesPage(props: PageProps<"/dashboard/[homeId]/services">) {
   ]);
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ServicesPageWrapper homeId={homeId} filterParams={params} />
+      <ServicesPageWrapper homeId={homeId} filterParams={params} user={user} />
     </HydrationBoundary>
   );
 }

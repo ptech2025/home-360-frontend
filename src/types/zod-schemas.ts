@@ -6,7 +6,6 @@ import {
   ReminderType,
   ReminderStatus,
   MaintenanceFrequency,
-  HomeType,
   ExpenseCategory,
   ApplianceCategory,
 } from "./prisma-schema-types";

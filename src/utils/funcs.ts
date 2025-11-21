@@ -1,4 +1,4 @@
-import { AuthUserType } from "@/types";
+import { AuthUserType, UserUsage } from "@/types";
 import {
   DocumentCategory,
   Document,
@@ -149,7 +149,7 @@ export const renderDocumentCategoryStyle = (category: DocumentCategory) => {
   }
 };
 
-export const renderValue = (key: string, value: any) => {
+export const renderValue = (key: string, value: string | number | null | undefined) => {
   // dates
   if (["taxDueDate", "lastSaleDate"].includes(key)) {
     return value ? format(new Date(value.toString()), "MMM dd, yyyy") : "N/A";
@@ -208,7 +208,9 @@ export function computeBookedCalendarDates(args: {
       const key = `${local.getFullYear()}-${local.getMonth()}-${local.getDate()}`;
       if (!seen.has(key)) {
         seen.add(key);
-        result.push(new Date(local.getFullYear(), local.getMonth(), local.getDate()));
+        result.push(
+          new Date(local.getFullYear(), local.getMonth(), local.getDate())
+        );
       }
     }
     return result;
@@ -236,12 +238,323 @@ export function computeBookedCalendarDates(args: {
 
   // reminders (appliance)
   const applianceDates = uniqueByDay(
-    reminders.map((r) => new Date(r.dueDate as unknown as string | number | Date))
+    reminders.map(
+      (r) => new Date(r.dueDate as unknown as string | number | Date)
+    )
   );
 
   return {
     bookedDefaultDates: [],
     bookedCustomDates: [],
     bookedApplianceDates: applianceDates,
+  };
+}
+
+// ==================== Subscription Permission Helpers ====================
+
+type PlanTier = "starter" | "pro_plus" | "business" | "unknown";
+
+/**
+ * Determines the plan tier from plan name
+ */
+function getPlanTier(planName: string | null | undefined): PlanTier {
+  if (!planName) return "unknown";
+  const name = planName.toLowerCase();
+  if (name.includes("starter")) return "starter";
+  if (name.includes("pro plus") || name.includes("pro-plus")) return "pro_plus";
+  if (name.includes("business")) return "business";
+  return "unknown";
+}
+
+/**
+ * Permission check result
+ */
+export type PermissionResult = {
+  allowed: boolean;
+  reason?: string;
+  upgradeMessage?: string;
+};
+
+/**
+ * Check if user can add a new home
+ */
+export function canAddHome(
+  user: AuthUserType | null | undefined,
+  currentHomeCount: number
+): PermissionResult {
+  if (!user?.subscription?.plan) {
+    return {
+      allowed: false,
+      reason: "No active subscription",
+      upgradeMessage: "Please subscribe to a plan to add homes.",
+    };
+  }
+
+  const plan = user.subscription.plan;
+  const maxHomes = plan.maxHomes || 1;
+  const planTier = getPlanTier(plan.name);
+
+  // Business plan has unlimited homes (maxHomes should be set to a high number or null)
+  if (planTier === "business" && (!maxHomes || maxHomes >= 999)) {
+    return {
+      allowed: true,
+      reason: "Unlimited homes",
+      upgradeMessage: "You have unlimited homes for your Business Plan.",
+    };
+  }
+
+  if (currentHomeCount >= maxHomes) {
+    return {
+      allowed: false,
+      reason: `You've reached the limit of ${maxHomes} home(s) for your plan.`,
+      upgradeMessage:
+        planTier === "starter"
+          ? "Upgrade to Pro Plus or Business Plan to add more homes."
+          : "Upgrade to Business Plan for unlimited homes.",
+    };
+  }
+
+  return { allowed: true };
+}
+
+/**
+ * Check if user can add a new appliance
+ */
+export function canAddAppliance(
+  user: AuthUserType | null | undefined,
+  usage?: UserUsage["appliance"]
+): PermissionResult {
+  if (!user?.subscription?.plan) {
+    return {
+      allowed: false,
+      reason: "No active subscription",
+      upgradeMessage: "Please subscribe to a plan to add appliances.",
+    };
+  }
+
+  const plan = user.subscription.plan;
+  const applianceCredit = plan.applianceCredit;
+
+  // If no limit set (null/undefined), assume unlimited
+  if (!applianceCredit) {
+    return {
+      allowed: false,
+      reason: "No appliance limit set",
+      upgradeMessage:
+        "Please upgrade to a plan with appliance limit or contact support.",
+    };
+  }
+
+  // Check usage if provided
+  if (usage) {
+    const { used, allocated } = usage;
+    if (used >= allocated) {
+      return {
+        allowed: false,
+        reason: `You've reached your appliance limit of ${allocated}.`,
+        upgradeMessage:
+          getPlanTier(plan.name) === "starter"
+            ? "Upgrade to Pro Plus Plan for 20 appliances or Business Plan for unlimited."
+            : "Upgrade to Business Plan for unlimited appliances.",
+      };
+    }
+  }
+
+  return { allowed: true };
+}
+
+/**
+ * Check if user can add a new document
+ */
+export function canAddDocument(
+  user: AuthUserType | null | undefined,
+  usage?: UserUsage["document"]
+): PermissionResult {
+  if (!user?.subscription?.plan) {
+    return {
+      allowed: false,
+      reason: "No active subscription",
+      upgradeMessage: "Please subscribe to a plan to upload documents.",
+    };
+  }
+
+  const plan = user.subscription.plan;
+  const documentCredit = plan.documentCredit;
+
+  // If no limit set (null/undefined), assume unlimited
+  if (!documentCredit) {
+    return { allowed: true };
+  }
+
+  // Check usage if provided
+  if (usage) {
+    const { used, allocated } = usage;
+    if (used >= allocated) {
+      return {
+        allowed: false,
+        reason: `You've reached your document limit of ${allocated}.`,
+        upgradeMessage:
+          getPlanTier(plan.name) === "starter"
+            ? "Upgrade to Pro Plus Plan for 25 documents or Business Plan for unlimited."
+            : "Upgrade to Business Plan for unlimited documents.",
+      };
+    }
+  }
+
+  return { allowed: true };
+}
+
+/**
+ * Check if user can perform AI Public Record Retrieval
+ */
+export function canPerformAIQuery(
+  user: AuthUserType | null | undefined,
+  usage?: UserUsage["ai_query"]
+): PermissionResult {
+  if (!user?.subscription?.plan) {
+    return {
+      allowed: false,
+      reason: "No active subscription",
+      upgradeMessage: "Please subscribe to a plan to use AI queries.",
+    };
+  }
+
+  const plan = user.subscription.plan;
+  const aiQueryCredit = plan.aiQueryCredit;
+
+  // If no limit set (null/undefined), assume unlimited
+  if (!aiQueryCredit) {
+    return {
+      allowed: false,
+      reason: "No AI query limit set",
+      upgradeMessage:
+        "Please upgrade to a plan with AI query limit or contact support.",
+    };
+  }
+
+  // Check usage if provided
+  if (usage) {
+    const { used, allocated } = usage;
+    if (used >= allocated) {
+      return {
+        allowed: false,
+        reason: `You've reached your monthly AI query limit of ${allocated}.`,
+        upgradeMessage:
+          getPlanTier(plan.name) === "starter"
+            ? "Upgrade to Pro Plus Plan for 20 queries/month or Business Plan for unlimited."
+            : "Upgrade to Business Plan for unlimited AI queries.",
+      };
+    }
+  }
+
+  return { allowed: true };
+}
+
+/**
+ * Check if user can create custom maintenance tasks
+ */
+export function canCreateCustomTask(
+  user: AuthUserType | null | undefined
+): PermissionResult {
+  if (!user?.subscription?.plan) {
+    return {
+      allowed: false,
+      reason: "No active subscription",
+      upgradeMessage: "Please subscribe to a plan to create custom tasks.",
+    };
+  }
+
+  const planTier = getPlanTier(user.subscription.plan.name);
+
+  if (planTier === "starter") {
+    return {
+      allowed: false,
+      reason: "Custom maintenance scheduling is not available in Starter Plan.",
+      upgradeMessage:
+        "Upgrade to Pro Plus or Business Plan to create custom maintenance tasks.",
+    };
+  }
+
+  return { allowed: true };
+}
+
+/**
+ * Check if user can search providers with address
+ */
+export function canSearchProviders(
+  user: AuthUserType | null | undefined
+): PermissionResult {
+  if (!user?.subscription?.plan) {
+    return {
+      allowed: false,
+      reason: "No active subscription",
+      upgradeMessage:
+        "Please subscribe to a plan to search or view nearby providers.",
+    };
+  }
+
+  const planTier = getPlanTier(user.subscription.plan.name);
+
+  if (planTier === "starter") {
+    return {
+      allowed: false,
+      reason: "Nearby provider is not available in Starter Plan.",
+      upgradeMessage:
+        "Upgrade to Pro Plus or Business Plan to search or view nearby providers.",
+    };
+  }
+
+  return { allowed: true };
+}
+
+/**
+ * Check if user can create general maintenance tasks (available in all plans)
+ */
+export function canCreateGeneralTask(
+  user: AuthUserType | null | undefined
+): PermissionResult {
+  if (!user?.subscription?.plan) {
+    return {
+      allowed: false,
+      reason: "No active subscription",
+      upgradeMessage: "Please subscribe to a plan to create tasks.",
+    };
+  }
+
+  return { allowed: true };
+}
+
+/**
+ * Get plan limits summary for display
+ */
+export function getPlanLimits(user: AuthUserType | null | undefined): {
+  maxHomes: number | null;
+  maxAppliances: number | null;
+  maxDocuments: number | null;
+  maxAIQueries: number | null;
+  customTasks: boolean;
+  providerSearch: boolean;
+} {
+  if (!user?.subscription?.plan) {
+    return {
+      maxHomes: null,
+      maxAppliances: null,
+      maxDocuments: null,
+      maxAIQueries: null,
+      customTasks: false,
+      providerSearch: false,
+    };
+  }
+
+  const plan = user.subscription.plan;
+  const planTier = getPlanTier(plan.name);
+
+  return {
+    maxHomes: plan.maxHomes || null,
+    maxAppliances: plan.applianceCredit || null,
+    maxDocuments: plan.documentCredit || null,
+    maxAIQueries: plan.aiQueryCredit || null,
+    customTasks: planTier !== "starter",
+    providerSearch: planTier !== "starter",
   };
 }

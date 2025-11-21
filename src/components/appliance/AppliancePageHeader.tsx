@@ -3,15 +3,31 @@ import { Button } from "../ui/button";
 import SearchBar from "../global/SearchBar";
 import { ApplianceFilter } from "./ApplianceFilters";
 import { AddOrEditApplianceDialog } from "./ApplianceDialogs";
+import { AuthUserType } from "@/types";
+import { applianceQueries } from "@/queries/appliance";
+import { useQuery } from "@tanstack/react-query";
+import { canAddAppliance } from "@/utils/funcs";
+import UpgradePrompt from "../global/UpgradePrompt";
 
 type Props = {
   title: string;
   count: number;
   viewMode: "grid" | "list";
   setViewMode: (mode: "grid" | "list") => void;
+  user: AuthUserType | null;
+  homeId: string;
 };
 
-function AppliancePageHeader({ title, count, viewMode, setViewMode }: Props) {
+function AppliancePageHeader({
+  title,
+  count,
+  viewMode,
+  setViewMode,
+  user,
+  homeId,
+}: Props) {
+  const { data } = useQuery(applianceQueries.applianceMetrics(homeId));
+  const hasAddAppliancePermission = canAddAppliance(user, data?.applianceUsage);
   return (
     <div className="w-full flex items-center justify-between gap-4">
       <div className="flex gap-1 items-center">
@@ -22,7 +38,7 @@ function AppliancePageHeader({ title, count, viewMode, setViewMode }: Props) {
           ({count})
         </span>
       </div>
-      <div className="flex gap-4 justify-end items-center">
+      <div className="flex gap-4 justify-end items-center relative">
         <ApplianceFilter />
         <SearchBar searchKey="search" placeHolder="Search by name" />
 
@@ -46,11 +62,20 @@ function AppliancePageHeader({ title, count, viewMode, setViewMode }: Props) {
         </div>
 
         <AddOrEditApplianceDialog type="create">
-          <Button className="green-btn">
+          <Button
+            disabled={!hasAddAppliancePermission.allowed}
+            className="green-btn"
+          >
             <Plus />
             <span>Add Appliance</span>
           </Button>
         </AddOrEditApplianceDialog>
+        {!hasAddAppliancePermission.allowed && (
+          <UpgradePrompt
+            reason={hasAddAppliancePermission.reason}
+            upgradeMessage={hasAddAppliancePermission.upgradeMessage}
+          />
+        )}
       </div>
     </div>
   );

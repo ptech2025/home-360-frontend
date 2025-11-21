@@ -47,7 +47,7 @@ function AllHomesPageWrapper({
         </Link>
       </Button>
       <div className="flex flex-col gap-4 min-h-dvh p-4 bg-white rounded-md">
-        <HomesPageHeader count={data?.pagination.totalRecords || 0} />
+        <HomesPageHeader user={user} count={data?.pagination.totalRecords || 0} />
         <div className="grid grid-cols-[repeat(auto-fill,_minmax(20rem,1fr))] gap-4">
           {isLoading ? (
             Array.from({ length: 6 }).map((_, idx) => (

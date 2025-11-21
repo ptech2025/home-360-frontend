@@ -2,6 +2,7 @@ import { api, withAuthHeaders } from "@/lib/axios-client";
 import { Appliance, ApplianceMaintenance } from "@/types/prisma-schema-types";
 import {
   ApplianceHistory,
+  SuggestedAppliance,
   FetchAllAppliancesResponse,
   FetchApplianceMetricsResponse,
   FetchApplianceReminderResponse,
@@ -158,5 +159,44 @@ export const applianceService = {
         : undefined,
     });
     return res.data as ApplianceMaintenance;
+  },
+  updateMaintenance: async (
+    applianceId: string,
+    maintenanceId: string,
+    data: CreateApplianceMaintenanceSchemaType
+  ) => {
+    const res = await api.patch(`/api/appliance/maintenance/${applianceId}/${maintenanceId}`, {
+      ...data,
+      maintenanceDate: data.maintenanceDate
+        ? data.maintenanceDate.toISOString()
+        : undefined,
+    });
+    return res.data as ApplianceMaintenance;
+  },
+  fetchSuggestedAppliances: async (homeId: string, cookies?: string) => {
+    const res = await api.get(
+      `/api/appliance/suggestions/${homeId}`,
+      withAuthHeaders(cookies)
+    );
+    return res.data as SuggestedAppliance[];
+  },
+  addSuggestedAppliance: async (
+    homeId: string,
+    applianceId: string,
+    cookies?: string
+  ) => {
+    await api.post(
+      `/api/appliance/suggestion/add-appliance/${homeId}/${applianceId}`,
+      {},
+      withAuthHeaders(cookies)
+    );
+  },
+  markApplianceMaintenanceAsCompleted: async (
+    applianceId: string,
+    maintenanceId: string
+  ) => {
+    await api.patch(
+      `/api/appliance/maintenance/${applianceId}/${maintenanceId}`
+    );
   },
 };

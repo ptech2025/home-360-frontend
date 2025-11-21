@@ -46,6 +46,9 @@ import {
 import { Appliance, ApplianceCategory } from "@/types/prisma-schema-types";
 import { applianceMutations } from "@/queries/appliance";
 import { useRouter } from "next/navigation";
+import { ApplianceHistory } from "@/types";
+import DisplayWarrantyStatus from "./DisplayWarrantyStatus";
+import { ReminderStatus } from "@/types/prisma-schema-types";
 
 type AddOrEditApplianceDialogProps = {
   type: "create" | "update";
@@ -62,6 +65,10 @@ type AddApplianceMaintenanceDialogProps = {
   children: React.ReactNode;
 };
 
+type ViewApplianceMaintenanceDialogProps = {
+  children: React.ReactNode;
+  maintenance: ApplianceHistory;
+};
 export function AddOrEditApplianceDialog({
   type,
   data,
@@ -756,6 +763,108 @@ export function AddApplianceMaintenanceDialog({
               )}
             >
               Add Maintenance
+            </span>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export function ViewApplianceMaintenanceDialog({
+  children,
+  maintenance,
+}: ViewApplianceMaintenanceDialogProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const { mutate: markAsCompleted, isPending } = useMutation({
+    mutationFn: applianceMutations.markApplianceMaintenanceAsCompleted,
+    onSuccess: () => {
+      toast.success("Maintenance record marked as completed successfully.");
+      setIsOpen(false);
+    },
+  });
+  const handleMarkAsCompleted = () => {
+    if (!maintenance.maintenanceId || !maintenance.applianceId) return;
+
+    markAsCompleted({
+      applianceId: maintenance.applianceId,
+      maintenanceId: maintenance.maintenanceId,
+    });
+  };
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent className="p-0 max-h-[95vh] sm:max-w-2xl overflow-y-auto  flex flex-col">
+        <DialogHeader className="p-6 pb-3 sticky z-10 bg-white top-0 left-0">
+          <DialogTitle className="font-circular-bold font-bold">
+            Reminder Details
+          </DialogTitle>
+          <DialogDescription className="text-gray">
+            View and manage reminder information.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="px-6 py-4 flex flex-col gap-4">
+          <div className="flex flex-col gap-1">
+            <h3 className="text-black text-base font-circular-medium">
+              {maintenance.title}
+            </h3>
+            <p className="text-sm text-light-gray font-circular-light">
+              {maintenance.details ?? ""}
+            </p>
+          </div>
+          <div className="flex flex-col gap-1">
+            <span className="text-sm text-gray font-circular-light">
+              Due Date
+            </span>
+            <h5 className="text-black text-base font-circular-medium">
+              {format(maintenance.date, "MMM d, yyyy")}
+            </h5>
+          </div>
+          <div className="flex items-center gap-2 justify-between">
+            <div className="flex flex-col gap-1">
+              <span className="text-sm text-gray font-circular-light">
+                Status
+              </span>
+              <h5 className="text-black text-base font-circular-medium capitalize">
+                {maintenance.status ?? "Pending"}
+              </h5>
+            </div>
+            <DisplayWarrantyStatus status={maintenance.type} />
+          </div>
+        </div>
+        <DialogFooter className="py-4 sticky bottom-0 left-0 bg-white z-10 px-6 w-full border-t border-lighter-gray">
+          <DialogClose
+            type="button"
+            disabled={isPending}
+            className="text-black min-w-[90px] border border-black h-11 rounded-md px-4 hover:text-main-green hover:border-main-green transition-colors"
+          >
+            Close
+          </DialogClose>
+
+          <Button
+            type="button"
+            onClick={handleMarkAsCompleted}
+            disabled={
+              isPending || maintenance.status === ReminderStatus.completed
+            }
+            className="green-btn min-w-[90px] text-base grid grid-cols-1 grid-rows-1 place-items-center border border-transparent h-11 rounded-md px-4  transition-colors"
+          >
+            <Loader2
+              className={cn(
+                "size-5 animate-spin col-span-full row-span-full",
+                isPending ? "visible" : "invisible"
+              )}
+            />
+
+            <span
+              className={cn(
+                "col-span-full row-span-full ",
+                isPending ? "invisible" : "visible"
+              )}
+            >
+              {maintenance.status === "completed"
+                ? "Completed"
+                : "Mark as Completed"}
             </span>
           </Button>
         </DialogFooter>

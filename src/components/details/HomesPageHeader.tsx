@@ -1,14 +1,19 @@
 import SearchBar from "../global/SearchBar";
 import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
-
-type Props = {
-  count: number;
-};
+import UpgradePrompt from "../global/UpgradePrompt";
 
 import { AddHomeAddressDialog } from "./HomeDialogs";
+import { AuthUserType } from "@/types";
+import { canAddHome } from "@/utils/funcs";
+type Props = {
+  count: number;
+  user: AuthUserType;
+};
 
-function HomesPageHeader({ count }: Props) {
+function HomesPageHeader({ count, user }: Props) {
+  const homePermission = canAddHome(user, user.homes.length);
+
   return (
     <div className="w-full flex items-center justify-between gap-4">
       <div className="flex gap-1 items-center">
@@ -19,15 +24,22 @@ function HomesPageHeader({ count }: Props) {
           ({count})
         </span>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 relative">
         <SearchBar searchKey="search" placeHolder="Search by address" />
 
         <AddHomeAddressDialog>
-          <Button className="green-btn">
+          <Button disabled={!homePermission.allowed} className="green-btn">
             <Plus />
             <span>Add Home</span>
           </Button>
         </AddHomeAddressDialog>
+
+        {!homePermission.allowed && (
+          <UpgradePrompt
+            reason={homePermission.reason}
+            upgradeMessage={homePermission.upgradeMessage}
+          />
+        )}
       </div>
     </div>
   );

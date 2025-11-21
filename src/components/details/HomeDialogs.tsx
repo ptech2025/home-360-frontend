@@ -34,14 +34,8 @@ import { DynamicLocationStatus } from "@/types";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
-import { Home, HomeType } from "@/types/prisma-schema-types";
+
+import { Home } from "@/types/prisma-schema-types";
 import WelcomeOnboarding from "../onboarding/WelcomeOnboarding";
 type UpdateHomeDetailsProps = {
   homeId: string;

@@ -8,6 +8,7 @@ import { cookies } from "next/headers";
 import { documentQueries } from "@/queries/document";
 import { FetchDocumentParams } from "@/types";
 import { DocumentCategory } from "@/types/prisma-schema-types";
+import { fetchUserServerWithCookies } from "@/lib/actions";
 
 async function DocumentCategoryPage(
   props: PageProps<"/dashboard/[homeId]/documents/[category]">
@@ -26,14 +27,19 @@ async function DocumentCategoryPage(
     size: 10,
   };
 
-  await Promise.all([
+  const [user] = await Promise.all([
+    fetchUserServerWithCookies(cookieHeader),
     queryClient.prefetchQuery(
       documentQueries.withCookies(cookieHeader).all(homeId, filterParams)
     ),
   ]);
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <AllDocumentsPageWrapper homeId={homeId} filterParams={filterParams} />
+      <AllDocumentsPageWrapper
+        homeId={homeId}
+        filterParams={filterParams}
+        user={user}
+      />
     </HydrationBoundary>
   );
 }

@@ -11,6 +11,7 @@ import {
   ReminderStatus,
 } from "@/types/prisma-schema-types";
 import { taskQueries } from "@/queries/task";
+import { fetchUserServerWithCookies } from "@/lib/actions";
 
 async function TaskPage(props: PageProps<"/dashboard/[homeId]/tasks">) {
   const queryClient = new QueryClient();
@@ -27,14 +28,15 @@ async function TaskPage(props: PageProps<"/dashboard/[homeId]/tasks">) {
     size: size ? parseInt(size.toString()) : 10,
   };
 
-  await Promise.all([
+  const [user] = await Promise.all([
+    fetchUserServerWithCookies(cookieHeader),
     queryClient.prefetchQuery(
       taskQueries.withCookies(cookieHeader).allTasks(homeId, params)
     ),
   ]);
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <TaskPageWrapper homeId={homeId} filterParams={params} />
+      <TaskPageWrapper homeId={homeId} filterParams={params} user={user} />
     </HydrationBoundary>
   );
 }

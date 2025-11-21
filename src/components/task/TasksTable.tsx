@@ -9,13 +9,15 @@ import DisplayTaskStatus from "./DisplayTaskStatus";
 import { Badge } from "../ui/badge";
 import { TaskActions } from "./TaskDialogs";
 import TasksEmpty from "./TasksEmpty";
+import { PermissionResult } from "@/utils/funcs";
 
 type Props = {
   tasks: MaintenanceInstance[];
   isCustom?: boolean;
+  hasCreateTaskPermission: PermissionResult;
 };
 
-function TasksTable({ tasks, isCustom }: Props) {
+function TasksTable({ tasks, isCustom, hasCreateTaskPermission }: Props) {
   const columns: ColumnDef<MaintenanceInstance>[] = [
     {
       id: "select",
@@ -92,7 +94,7 @@ function TasksTable({ tasks, isCustom }: Props) {
       ),
       cell: ({ row }) => {
         return (
-          <Badge className="text-xs text-center text-black font-circular-medium border border-light-gray bg-white   capitalize  ">
+          <Badge className="text-xs justify-center flex text-center text-black font-circular-medium border border-light-gray bg-white   capitalize  ">
             <span className="text-xs">
               {row.original.frequency.replace("_", " ")}
             </span>
@@ -125,7 +127,7 @@ function TasksTable({ tasks, isCustom }: Props) {
   ];
   return (
     <DataTable columns={columns} data={tasks}>
-      <TasksEmpty isCustom={isCustom} />
+      <TasksEmpty isCustom={isCustom} hasCreateTaskPermission={hasCreateTaskPermission} />
     </DataTable>
   );
 }

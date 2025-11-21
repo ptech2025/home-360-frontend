@@ -1,7 +1,10 @@
-import { Trash2, CalendarOff, FileText } from "lucide-react";
+import { Trash2, CalendarOff, FileText, Pencil } from "lucide-react";
 import React from "react";
 import { Button } from "../ui/button";
-import { DeleteApplianceDialog } from "./ApplianceDialogs";
+import {
+  AddOrEditApplianceDialog,
+  DeleteApplianceDialog,
+} from "./ApplianceDialogs";
 import { FetchSingleApplianceResponse } from "@/types";
 import Image from "next/image";
 import { formatDate } from "date-fns";
@@ -25,15 +28,27 @@ export function AppliancePreviewCard({ appliance }: Props) {
           </span>
         </div>
 
-        <DeleteApplianceDialog applianceId={appliance.id}>
-          <Button
-            variant="outline"
-            className="gap-2 w-max bg-transparent items-center text-sm font-circular-medium hover:bg-transparent group text-destructive"
-          >
-            <Trash2 className="size-4" />
-            <span className="align-middle block leading-[1px]">Delete</span>
-          </Button>
-        </DeleteApplianceDialog>
+        <div className="flex items-center gap-2">
+          <AddOrEditApplianceDialog type="update" data={appliance}>
+            <Button
+              variant="outline"
+              className="gap-2 w-max bg-transparent items-center text-sm font-circular-medium hover:bg-transparent group text-black hover:text-main-greens"
+            >
+              <Pencil className="size-4" />
+              <span className="align-middle block leading-[1px]">Edit</span>
+            </Button>
+          </AddOrEditApplianceDialog>
+
+          <DeleteApplianceDialog applianceId={appliance.id}>
+            <Button
+              variant="outline"
+              className="gap-2 w-max bg-transparent items-center text-sm font-circular-medium hover:bg-transparent group text-destructive"
+            >
+              <Trash2 className="size-4" />
+              <span className="align-middle block leading-[1px]">Delete</span>
+            </Button>
+          </DeleteApplianceDialog>
+        </div>
       </div>
       <div className="flex items-center justify-center bg-lighter-gray/50 rounded-md p-2 min-h-[240px]">
         {appliance.image && (

@@ -3,12 +3,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import NearbyProviderContent from "./NearbyProviderContent";
 import SavedProviderContent from "./SavedProviderContent";
 import { useServiceProviderStore } from "@/store/serviceProviderStore";
-import { FetchServiceProviderParams } from "@/types";
+import { AuthUserType, FetchServiceProviderParams } from "@/types";
 import HiredProviderContent from "./HiredProviderContent";
+import { canSearchProviders } from "@/utils/funcs";
+import UpgradePrompt from "@/components/global/UpgradePrompt";
 
 type Props = {
   homeId: string;
   filterParams: FetchServiceProviderParams;
+  user: AuthUserType | null;
 };
 
 const tabsOptions = [
@@ -26,7 +29,8 @@ const tabsOptions = [
   },
 ];
 
-function ServicesPageWrapper({ homeId, filterParams }: Props) {
+function ServicesPageWrapper({ homeId, filterParams, user }: Props) {
+  const hasSearchProviderPermission = canSearchProviders(user);
   const { mode, setMode } = useServiceProviderStore();
   return (
     <Tabs
@@ -51,8 +55,16 @@ function ServicesPageWrapper({ homeId, filterParams }: Props) {
       <TabsContent className="w-full" value="hired">
         <HiredProviderContent filterParams={filterParams} />
       </TabsContent>
-      <TabsContent value="nearby" className="w-full">
-        <NearbyProviderContent homeId={homeId} />
+      <TabsContent value="nearby" className="w-full relative">
+        {hasSearchProviderPermission.allowed ? (
+          <NearbyProviderContent homeId={homeId} />
+        ) : (
+          <UpgradePrompt
+            reason={hasSearchProviderPermission.reason}
+            upgradeMessage={hasSearchProviderPermission.upgradeMessage}
+            className="left-1/2 -translate-x-1/2"
+          />
+        )}
       </TabsContent>
     </Tabs>
   );

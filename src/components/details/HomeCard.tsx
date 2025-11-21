@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { Lock } from "lucide-react";
 type Props = {
   home: Home;
   currentHomeId: string;
@@ -12,6 +13,11 @@ function HomeCard({ home, currentHomeId }: Props) {
   const isCurrentHome = home.id === currentHomeId;
   return (
     <div className="w-full flex flex-col gap-2 rounded-xl border border-lighter-gray p-4  relative">
+      {!home.active && (
+        <div className="absolute rounded-md inset-0 bg-black/80 z-20 flex items-center justify-center size-full">
+          <Lock className="size-10 text-white" />
+        </div>
+      )}
       <div className="flex relative min-h-[200px] items-center gap-2 justify-center bg-lighter-gray/50 p-2 rounded-md">
         {isCurrentHome && (
           <div className="absolute px-2 py-1 text-xs top-2 right-2 bg-main-green text-white rounded-md z-10">
@@ -22,9 +28,9 @@ function HomeCard({ home, currentHomeId }: Props) {
           <Image
             src={home.photoUrl}
             alt={home.address || ""}
-            width={100}
-            height={100}
-            className="size-[100px] object-contain rounded-md"
+            fill
+            priority
+            className="size-fill object-cover rounded-md"
           />
         )}
       </div>
@@ -37,6 +43,7 @@ function HomeCard({ home, currentHomeId }: Props) {
         </Badge>
 
         <Button
+          disabled={!home.active}
           className={cn(
             "w-full",
             isCurrentHome ? "light-green-btn" : "green-btn"
