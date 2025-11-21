@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 import { AddApplianceMaintenanceDialog } from "./ApplianceDialogs";
 import Link from "next/link";
 import Image from "next/image";
+import ApplianceEmpty from "./ApplianceEmpty";
 
 type ApplianceGridWrapperProps = {
   appliances: ApplianceWithWarranty[];
@@ -15,13 +16,7 @@ type ApplianceGridWrapperProps = {
 
 function ApplianceGridWrapper({ appliances }: ApplianceGridWrapperProps) {
   if (appliances.length === 0) {
-    return (
-      <div className="flex items-center justify-center h-full w-full bg-lighter-gray/50 py-12 px-4 rounded-md">
-        <span className="text-sm text-black capitalize font-circular-medium">
-          No appliances found
-        </span>
-      </div>
-    );
+    return <ApplianceEmpty />;
   }
 
   return (
@@ -31,14 +26,14 @@ function ApplianceGridWrapper({ appliances }: ApplianceGridWrapperProps) {
           key={appliance.id}
           className="rounded-xl w-full flex justify-between flex-col gap-3 p-4 bg-white border border-lighter-gray"
         >
-          <div className="bg-lighter-gray/50 rounded-md min-h-[160px] w-full flex items-center justify-center relative">
+          <div className="bg-lighter-gray/50 rounded-md h-[160px] w-full flex items-center justify-center relative">
             {appliance.image && (
               <Image
                 src={appliance.image}
                 alt={appliance.name}
-                width={150}
-                height={150}
-                className="object-contain size-[120px] aspect-square"
+                fill
+                priority
+                className="object-cover object-center aspect-square"
               />
             )}
           </div>

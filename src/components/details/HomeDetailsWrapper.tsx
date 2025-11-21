@@ -13,13 +13,24 @@ import { PenLine } from "lucide-react";
 import { HomeDetailsWrapperLoadingSkeleton } from "../global/Skeletons";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
+import Image from "next/image";
+import { AuthUserType } from "@/types";
+import { canPerformAIQuery } from "@/utils/funcs";
+import UpgradePrompt from "../global/UpgradePrompt";
 type Props = {
   homeId: string;
+  user: AuthUserType | null;
 };
-function HomeDetailsWrapper({ homeId }: Props) {
+function HomeDetailsWrapper({ homeId, user }: Props) {
   const { replace } = useRouter();
   const { data, isLoading } = useQuery(userQueries.singleHome(homeId));
+  const hasAIQueryPermission = canPerformAIQuery(user, {
+    allocated: user?.userQuotas?.allocatedAiQueryCredits ?? 0,
+    used: user?.userQuotas?.aiQueryCreditsUsed ?? 0,
+    remaining:
+      (user?.userQuotas?.allocatedAiQueryCredits ?? 0) -
+        (user?.userQuotas?.aiQueryCreditsUsed ?? 0) || 0,
+  });
   if (isLoading) {
     return <HomeDetailsWrapperLoadingSkeleton />;
   }
@@ -42,8 +53,8 @@ function HomeDetailsWrapper({ homeId }: Props) {
           <Link href={`/dashboard/${homeId}/all`}>View Homes</Link>
         </Button>
       </div>
-      <div className="md:grid-cols-3 grid grid-cols-1 gap-4">
-        <div className="rounded-xl flex flex-col gap-4 bg-white p-6">
+      <div className="md:grid-cols-4 grid grid-cols-1 gap-4">
+        <div className="rounded-xl flex flex-col gap-4 bg-white p-6 relative">
           <span className="text-base font-circular-bold text-gray">
             Property Address
           </span>
@@ -56,11 +67,21 @@ function HomeDetailsWrapper({ homeId }: Props) {
             city={data.address?.split(",")[1]}
             state={data.address?.split(",")[2]}
           >
-            <Button className="text-black hover:bg-white border w-max  bg-white border-black hover:text-main-green hover:border-main-green">
+            <Button
+              disabled={!hasAIQueryPermission.allowed}
+              className="text-black hover:bg-white border w-max  bg-white border-black hover:text-main-green hover:border-main-green"
+            >
               <PenLine className="size-4" />
               <span>Change Address</span>
             </Button>
           </UpdateHomeAddressDialog>
+          {!hasAIQueryPermission.allowed && (
+            <UpgradePrompt
+              reason={hasAIQueryPermission.reason}
+              upgradeMessage={hasAIQueryPermission.upgradeMessage}
+              className="top-40"
+            />
+          )}
         </div>
         <div className="rounded-xl bg-white p-6 flex flex-col gap-4 ">
           <span className="text-base font-circular-bold text-gray">County</span>
@@ -80,6 +101,23 @@ function HomeDetailsWrapper({ homeId }: Props) {
             Verified
           </Badge>
           <span className="text-sm text-gray">Data Source: County API</span>
+        </div>
+        <div className="rounded-xl relative bg-white p-6 flex flex-col gap-4 ">
+          {data.photoUrl ? (
+            <div className="relative h-[150px] w-full rounded-md">
+              <Image
+                src={data.photoUrl}
+                alt="Property Image"
+                fill
+                priority
+                className="w-full h-full object-cover rounded-md object-center"
+              />
+            </div>
+          ) : (
+            <div className="size-full flex items-center justify-center bg-lighter-gray/50 rounded-md">
+              <span className="text-sm text-gray">No Image</span>
+            </div>
+          )}
         </div>
       </div>
 

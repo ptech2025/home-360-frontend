@@ -39,6 +39,10 @@ export const applianceQueries = {
         enabled,
       }
     ),
+  suggestedAppliances: (homeId: string) =>
+    queryResult(["suggested-appliances", homeId], () =>
+      applianceService.fetchSuggestedAppliances(homeId)
+    ),
 
   withCookies: (cookies: string) => ({
     allAppliances: (homeId: string, params: FetchAppliancesParams) =>
@@ -73,6 +77,10 @@ export const applianceQueries = {
           enabled,
         }
       ),
+    suggestedAppliances: (homeId: string) =>
+      queryResult(["suggested-appliances", homeId], () =>
+        applianceService.fetchSuggestedAppliances(homeId, cookies)
+      ),
   }),
 };
 
@@ -105,5 +113,23 @@ export const applianceMutations = {
       data: CreateApplianceMaintenanceSchemaType;
     }) =>
       applianceService.createMaintenance(variables.applianceId, variables.data)
+  ),
+  updateMaintenance: mutationResult(
+    (variables: { applianceId: string; maintenanceId: string; data: CreateApplianceMaintenanceSchemaType }) =>
+      applianceService.updateMaintenance(variables.applianceId, variables.maintenanceId, variables.data)
+  ),
+  addSuggestedAppliance: mutationResult(
+    (variables: { homeId: string; applianceId: string }) =>
+      applianceService.addSuggestedAppliance(
+        variables.homeId,
+        variables.applianceId
+      )
+  ),
+  markApplianceMaintenanceAsCompleted: mutationResult(
+    (variables: { applianceId: string; maintenanceId: string }) =>
+      applianceService.markApplianceMaintenanceAsCompleted(
+        variables.applianceId,
+        variables.maintenanceId
+      )
   ),
 };

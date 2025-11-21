@@ -14,7 +14,7 @@ import { Checkbox } from "../ui/checkbox";
 import { Skeleton } from "../ui/skeleton";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import { toast } from "sonner";
-
+import { useRouter } from "next/navigation";
 const tabsOptions = [
   {
     value: "monthly",
@@ -32,6 +32,7 @@ type Props = {
 };
 
 function PricingTabs({ currentPlan, type }: Props) {
+  const router = useRouter();
   const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(
     currentPlan
   );
@@ -55,8 +56,9 @@ function PricingTabs({ currentPlan, type }: Props) {
   });
   const { mutate: changePlan, isPending: isChangingPlan } = useMutation({
     mutationFn: subscriptionMutations.changePlan,
-    onSuccess(url) {
-      window.location.href = url;
+    onSuccess() {
+      toast.success("Subscription updated successfully");
+      router.push("/onboarding");
     },
     onError: (error) => {
       const msg = renderAxiosOrAuthError(error);

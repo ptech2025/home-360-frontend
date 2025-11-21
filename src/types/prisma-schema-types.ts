@@ -132,6 +132,7 @@ export interface Home {
   photoUrl: string | null;
   homeValue?: number;
   homeType: string;
+  active: boolean;
   createdAt: Date;
   updatedAt: Date;
 
@@ -142,6 +143,23 @@ export interface Home {
   reminders: Reminder[];
   providers: ServiceProvider[];
   serviceJobs: ServiceHistory[];
+}
+
+export interface UserQuota {
+  id: string;
+  userId: string;
+  interval: PlanInterval;
+  cycleStart: Date;
+  cycleEnd: Date;
+  allocatedDocumentCredits: number;
+  allocatedAiQueryCredits: number;
+  allocatedApplianceCredits: number;
+  documentCreditsUsed: number;
+  aiQueryCreditsUsed: number;
+  applianceCreditsUsed: number;
+  createdAt: Date;
+  updatedAt: Date;
+  user: AuthUserType;
 }
 
 export interface Appliance {

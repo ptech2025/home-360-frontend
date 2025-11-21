@@ -8,11 +8,16 @@ import { useQuery } from "@tanstack/react-query";
 import TasksTable from "../task/TasksTable";
 import { TableLoadingSkeleton } from "../global/Skeletons";
 import Link from "next/link";
+import { AuthUserType } from "@/types";
+import { canCreateCustomTask } from "@/utils/funcs";
 
-function RecentTasksWrapper({ homeId }: { homeId: string }) {
-  const { data, isLoading } = useQuery(
-    taskQueries.allTasks(homeId, { page: 1, size: 5, instanceType: "all" })
-  );
+type Props = {
+  homeId: string;
+  user: AuthUserType | null;
+};
+function RecentTasksWrapper({ homeId, user }: Props) {
+  const { data, isLoading } = useQuery(taskQueries.allTasks(homeId, { page: 1, size: 5, instanceType: "all" }));
+  const hasCreateTaskPermission = canCreateCustomTask(user);
 
   return (
     <div className="flex flex-col gap-4 flex-1 w-full">
@@ -30,7 +35,7 @@ function RecentTasksWrapper({ homeId }: { homeId: string }) {
       {isLoading ? (
         <TableLoadingSkeleton />
       ) : (
-        <TasksTable tasks={data?.maintenances ?? []} />
+        <TasksTable tasks={data?.maintenances ?? []} hasCreateTaskPermission={hasCreateTaskPermission} />
       )}
     </div>
   );

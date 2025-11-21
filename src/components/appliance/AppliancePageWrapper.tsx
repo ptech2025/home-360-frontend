@@ -15,12 +15,16 @@ import { Checkbox } from "../ui/checkbox";
 import PaginationContainer from "../global/PaginationContainer";
 import DisplayWarrantyStatus from "./DisplayWarrantyStatus";
 import { AppliancePageWrapperLoadingSkeleton } from "../global/Skeletons";
-import { ApplianceWithWarranty } from "@/types";
+import { ApplianceWithWarranty, AuthUserType } from "@/types";
 import ApplianceActions from "./ApplianceActions";
+import { Button } from "../ui/button";
+import ApplianceEmpty from "./ApplianceEmpty";
+import SuggestedGridWrapper from "./SuggestedGridWrapper";
 
 type Props = {
   homeId: string;
   filterParams: FetchAppliancesParams;
+  user: AuthUserType | null;
 };
 
 const columns: ColumnDef<ApplianceWithWarranty>[] = [
@@ -120,12 +124,18 @@ const columns: ColumnDef<ApplianceWithWarranty>[] = [
   },
 ];
 
-function AppliancePageWrapper({ homeId, filterParams }: Props) {
+function AppliancePageWrapper({ homeId, filterParams , user}: Props) {
+  const [instanceType, setInstanceType] = useState<"default" | "suggested">(
+    "default"
+  );
   const [displayMode, setDisplayMode] = useState<"grid" | "list">("grid");
   const { data, isLoading } = useQuery(
     applianceQueries.allAppliances(homeId, filterParams)
   );
-
+  const toggleSuggested = () => {
+    setInstanceType(instanceType === "suggested" ? "default" : "suggested");
+  };
+  
   if (isLoading) {
     return <AppliancePageWrapperLoadingSkeleton />;
   }
@@ -149,38 +159,70 @@ function AppliancePageWrapper({ homeId, filterParams }: Props) {
       </div>
       <ApplianceMetricsWrapper homeId={homeId} />
       <div className="flex flex-col items-center min-h-screen  w-full bg-white rounded-t-md p-4 gap-6">
-        <AppliancePageHeader
-          title={
-            filterParams.category
-              ? `${filterParams.category} Appliances`
-              : "All Appliances"
-          }
-          count={pagination?.totalRecords || appliances.length}
-          viewMode={displayMode}
-          setViewMode={setDisplayMode}
-        />
-        {displayMode === "grid" ? (
-          <ApplianceGridWrapper appliances={appliances} />
-        ) : (
-          <DataTable
-            columns={columns}
-            data={appliances}
-            emptyMessage={
+        <div className="flex w-full flex-col gap-2">
+          <AppliancePageHeader
+            title={
               filterParams.category
-                ? `No ${filterParams.category} appliances found.`
-                : "No appliances found."
+                ? `${filterParams.category} Appliances`
+                : "All Appliances"
             }
+            count={pagination?.totalRecords || appliances.length}
+            viewMode={displayMode}
+            setViewMode={setDisplayMode}
+            user={user}
+            homeId={homeId}
           />
-        )}
+          <Button
+            onClick={toggleSuggested}
+            className="h-10 bg-main-green/10  hover:bg-main-green/10 grid-cols-2 grid gap-0 w-full max-w-[250px]  p-1"
+          >
+            <div
+              data-state={instanceType === "default" ? "active" : "inactive"}
+              className="text-center flex items-center justify-center duration-200 text-base font-circular-medium rounded-sm h-full w-full capitalize data-[state=active]:bg-main-green data-[state=active]:text-white data-[state=inactive]:bg-transparent data-[state=inactive]:text-main-green/50"
+            >
+              {" "}
+              <span>Default</span>
+            </div>{" "}
+            <div
+              data-state={instanceType === "suggested" ? "active" : "inactive"}
+              className="text-center flex items-center justify-center duration-200 text-base font-circular-medium rounded-sm h-full w-full capitalize data-[state=active]:bg-main-green data-[state=active]:text-white data-[state=inactive]:bg-transparent data-[state=inactive]:text-main-green/50"
+            >
+              {" "}
+              <span>Suggested</span>
+            </div>
+          </Button>
+        </div>
 
-        {pagination && (
-          <PaginationContainer
-            currentPage={filterParams.page || 1}
-            totalPages={pagination.totalPages || 1}
-            searchKey="search"
-            contentTitle="Appliances"
-            size={filterParams.size}
-          />
+        {instanceType === "suggested" ? (
+          <SuggestedGridWrapper homeId={homeId} user={user} />
+        ) : (
+          <>
+            {displayMode === "grid" ? (
+              <ApplianceGridWrapper appliances={appliances} />
+            ) : (
+              <DataTable
+                columns={columns}
+                data={appliances}
+                emptyMessage={
+                  filterParams.category
+                    ? `No ${filterParams.category} appliances found.`
+                    : "No appliances added yet."
+                }
+              >
+                <ApplianceEmpty />
+              </DataTable>
+            )}
+
+            {pagination && (
+              <PaginationContainer
+                currentPage={filterParams.page || 1}
+                totalPages={pagination.totalPages || 1}
+                searchKey="search"
+                contentTitle="Appliances"
+                size={filterParams.size}
+              />
+            )}
+          </>
         )}
       </div>
     </section>

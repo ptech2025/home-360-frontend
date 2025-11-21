@@ -7,6 +7,7 @@ import {
 import { cookies } from "next/headers";
 import { documentQueries } from "@/queries/document";
 import { FetchDocumentParams } from "@/types";
+import { fetchUserServerWithCookies } from "@/lib/actions";
 
 async function AllDocumentsPage(
   props: PageProps<"/dashboard/[homeId]/documents">
@@ -24,14 +25,15 @@ async function AllDocumentsPage(
     size: size ? parseInt(size.toString()) : 10,
   };
 
-  await Promise.all([
+  const [user] = await Promise.all([
+    fetchUserServerWithCookies(cookieHeader),
     queryClient.prefetchQuery(
       documentQueries.withCookies(cookieHeader).all(homeId, filterParams)
     ),
   ]);
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <AllDocumentsPageWrapper homeId={homeId} filterParams={filterParams} />
+      <AllDocumentsPageWrapper homeId={homeId} filterParams={filterParams} user={user} />
     </HydrationBoundary>
   );
 }

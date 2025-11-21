@@ -2,14 +2,15 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { applianceQueries } from "@/queries/appliance";
-import { Home, Shield, Wrench, LucideIcon } from "lucide-react";
+import { Home, Shield, Wrench, LucideIcon, Upload } from "lucide-react";
 import { ExpensesMetricsWrapperLoadingSkeleton } from "../global/Skeletons";
+import { Progress } from "@/components/ui/progress";
 
 type Props = {
   homeId: string;
 };
 
-type IconType = "home" | "shield" | "wrench";
+type IconType = "home" | "shield" | "wrench" | "usage";
 
 type ApplianceMetricsCardProps = {
   title: string;
@@ -37,6 +38,18 @@ const iconMap: Record<
     color: "text-main-yellow",
     bgColor: "bg-main-yellow/10",
   },
+  usage: {
+    icon: Upload,
+    color: "text-main-yellow",
+    bgColor: "bg-main-yellow/10",
+  },
+};
+
+type ApplianceUsageCardProps = {
+  title: string;
+  value: number;
+  iconType: IconType;
+  children: React.ReactNode;
 };
 
 function ApplianceMetricsCard({
@@ -78,7 +91,12 @@ function ApplianceMetricsWrapper({ homeId }: Props) {
   const totalAppliances = metricsData?.totalAppliances || 0;
   const underWarranty = metricsData?.underWarranty || 0;
   const pendingMaintenance = metricsData?.pendingMaintenance || 0;
-
+  const applianceUsage = metricsData?.applianceUsage || {
+    allocated: 0,
+    used: 0,
+    remaining: 0,
+  };
+  const uploadsLeft = applianceUsage.remaining;
   const warrantyPercentage =
     totalAppliances > 0
       ? Math.round((underWarranty / totalAppliances) * 100)
@@ -88,8 +106,13 @@ function ApplianceMetricsWrapper({ homeId }: Props) {
       ? Math.round((pendingMaintenance / totalAppliances) * 100)
       : 0;
 
+  const uploadUsedPercentage =
+    applianceUsage.allocated > 0
+      ? Math.round((applianceUsage.used / applianceUsage.allocated) * 100)
+      : 0;
+
   return (
-    <div className="grid grid-cols-1 w-full md:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 w-full md:grid-cols-4 gap-4">
       <ApplianceMetricsCard
         title="Total Appliances"
         value={totalAppliances}
@@ -120,6 +143,13 @@ function ApplianceMetricsWrapper({ homeId }: Props) {
             {maintenancePercentage}% needs maintenance
           </span>
         </div>
+      </ApplianceMetricsCard>
+      <ApplianceMetricsCard
+        title="Uploads Left"
+        value={uploadsLeft}
+        iconType="usage"
+      >
+        <Progress value={uploadUsedPercentage} className="w-full " />
       </ApplianceMetricsCard>
     </div>
   );

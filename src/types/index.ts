@@ -15,6 +15,7 @@ import {
   Appliance,
   ApplianceCategory,
   Subscription,
+  UserQuota,
 } from "./prisma-schema-types";
 export type ProfileType = {
   id: string;
@@ -31,6 +32,25 @@ export type ProfileType = {
 export type AuthUserType = SessionType["user"] & {
   subscription: Subscription;
   homes: Home[];
+  userQuotas?: UserQuota;
+};
+
+export type UserUsage = {
+  document?: {
+    allocated: number;
+    used: number;
+    remaining: number;
+  };
+  ai_query?: {
+    allocated: number;
+    used: number;
+    remaining: number;
+  };
+  appliance?: {
+    allocated: number;
+    used: number;
+    remaining: number;
+  };
 };
 
 export interface FetchHomesParams {
@@ -81,7 +101,7 @@ export interface Pagination {
 export interface FetchDocumentParams {
   page?: number;
   size?: number;
-  tag?: string
+  tag?: string;
   category?: DocumentCategory;
   search?: string;
 }
@@ -89,6 +109,7 @@ export interface FetchDocumentParams {
 export interface FetchAllDocumentsResponse {
   documents: Document[];
   pagination: Pagination;
+  documentUsage: UserUsage["document"];
 }
 
 export interface FetchDashboardMetricResponse {
@@ -178,6 +199,7 @@ export interface FetchApplianceMetricsResponse {
   underWarranty: number;
   totalMaintenance: number;
   pendingMaintenance: number;
+  applianceUsage: UserUsage["appliance"];
 }
 
 export type ApplianceWithWarranty = Appliance & {
@@ -216,6 +238,8 @@ export interface ApplianceHistory {
   details?: string;
   cost?: number;
   status?: string;
+  maintenanceId?: string;
+  applianceId?: string;
 }
 
 export interface FetchAppliancesParams {
@@ -231,4 +255,15 @@ export interface FetchAppliancesParams {
 export interface FetchAllHomesResponse {
   homes: Home[];
   pagination: Pagination;
+}
+
+export interface SuggestedAppliance {
+  selected: boolean;
+  applianceId: string | null;
+  id: string;
+  name: string;
+  category: ApplianceCategory;
+  createdAt: Date;
+  updatedAt: Date;
+  applianceCategory: ApplianceCategory | null;
 }

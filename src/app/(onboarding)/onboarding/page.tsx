@@ -22,9 +22,9 @@ async function OnboardingPage() {
   if (!user) {
     redirect("/sign-in");
   }
-  if (user.isOnboarded && user.homes.length > 0) {
-    const firstHome = user.homes[0];
-    redirect(`/dashboard/${firstHome.id}`);
+  const firstActiveHome = user.homes.filter((home) => home.active)[0];
+  if (user.isOnboarded && firstActiveHome) {
+    redirect(`/dashboard/${firstActiveHome.id}`);
   }
 
   return (

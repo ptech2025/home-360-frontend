@@ -1,6 +1,6 @@
 "use client";
 
-import { FetchHomeTasksParams } from "@/types";
+import { AuthUserType, FetchHomeTasksParams } from "@/types";
 import TasksTable from "./TasksTable";
 import { taskQueries } from "@/queries/task";
 import { useState } from "react";
@@ -12,12 +12,16 @@ import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
 import SearchBar from "../global/SearchBar";
 import UpcomingEventsWrapper from "../dashboard/UpcomingEventsWrapper";
+import { canCreateCustomTask } from "@/utils/funcs";
+import UpgradePrompt from "../global/UpgradePrompt";
 
 type Props = {
   homeId: string;
   filterParams: FetchHomeTasksParams;
+  user: AuthUserType | null;
 };
-function TaskPageWrapper({ homeId, filterParams }: Props) {
+function TaskPageWrapper({ homeId, filterParams, user }: Props) {
+  const hasCreateTaskPermission = canCreateCustomTask(user);
   const [instanceType, setInstanceType] = useState<"custom" | "default">(
     "default"
   );
@@ -48,17 +52,26 @@ function TaskPageWrapper({ homeId, filterParams }: Props) {
           calendarClassName="w-full [--cell-size:--spacing(8.5)] "
         />
         <div className="min-h-svh pt-4 flex flex-col gap-4 bg-white rounded-t-md  w-full">
-          <div className="w-full flex px-4 justify-between items-center gap-4">
+          <div className="w-full relative flex px-4 justify-between items-center gap-4">
             <h5 className="text-black text-lg font-circular-medium">
               My Tasks
             </h5>
 
             <AddOrEditCustomTaskDialog type="create" homeId={homeId}>
-              <Button className="text-sm font-circular-medium green-btn gap-2">
+              <Button
+                disabled={!hasCreateTaskPermission.allowed}
+                className="text-sm font-circular-medium green-btn gap-2"
+              >
                 <Plus />
                 <span>Add Custom Task</span>
               </Button>
             </AddOrEditCustomTaskDialog>
+            {!hasCreateTaskPermission.allowed && (
+              <UpgradePrompt
+                reason={hasCreateTaskPermission.reason}
+                upgradeMessage={hasCreateTaskPermission.upgradeMessage}
+              />
+            )}
           </div>
           <div className="flex px-4 justify-between items-center gap-4">
             <Button
@@ -94,6 +107,7 @@ function TaskPageWrapper({ homeId, filterParams }: Props) {
               <TasksTable
                 tasks={data?.maintenances ?? []}
                 isCustom={instanceType === "custom"}
+                hasCreateTaskPermission={hasCreateTaskPermission}
               />
 
               <PaginationContainer

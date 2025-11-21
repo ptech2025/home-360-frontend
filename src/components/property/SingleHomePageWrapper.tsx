@@ -16,11 +16,13 @@ import {
   UpcomingEventsWrapperLoadingSkeleton,
 } from "../global/Skeletons";
 import { Suspense } from "react";
+import { AuthUserType } from "@/types";
 type Props = {
   homeId: string;
+  user: AuthUserType | null;
 };
 
-function SingleHomePageWrapper({ homeId }: Props) {
+function SingleHomePageWrapper({ homeId, user }: Props) {
   const { replace } = useRouter();
   const { data: homeData, isPending: isHomeLoading } = useQuery(
     userQueries.singleHome(homeId)
@@ -51,7 +53,7 @@ function SingleHomePageWrapper({ homeId }: Props) {
       </Suspense>
       <div className="lg:flex-row flex flex-col gap-4">
         <Suspense fallback={<TableLoadingSkeleton />}>
-          <RecentTasksWrapper homeId={homeId} />
+          <RecentTasksWrapper homeId={homeId} user={user} />
         </Suspense>
         <Suspense fallback={<ServicesWrapperLoadingSkeleton />}>
           <ServicesWrapper homeId={homeId} />

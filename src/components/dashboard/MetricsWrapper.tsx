@@ -11,6 +11,18 @@ import { dashboardQueries } from "@/queries/dashboard";
 import { MetricsWrapperLoadingSkeleton } from "../global/Skeletons";
 import Link from "next/link";
 import { Route } from "next";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+const metricsTooltipContent = {
+  appliance: "Quickly access and manage all your appliances in your home",
+  expense:
+    "See a breakdown of your home-related spending and track monthly changes",
+  document: "Securely store and access your home’s important documents.",
+};
 
 type MetricsCardProps = {
   title: string;
@@ -20,6 +32,7 @@ type MetricsCardProps = {
   icon: JSX.Element;
   type: "currency" | "number";
   url: string;
+  tooltipContent?: string;
 };
 type MetricsWrapperProps = {
   homeId: string;
@@ -33,63 +46,81 @@ export function MetricsCard({
   type,
   icon,
   url,
+  tooltipContent,
 }: MetricsCardProps) {
-  if (type === "currency") {
+  const cardContent = (() => {
+    if (type === "currency") {
+      return (
+        <Link
+          href={url as Route}
+          className="w-full hover:shadow-md h-full relative rounded-md overflow-clip flex flex-col justify-between items-start px-4 gap-4 py-6 shadow-light-gray/50 shadow-xs "
+        >
+          <div className="flex relative z-10 items-start w-full justify-between gap-4">
+            <div className="flex flex-col gap-1">
+              <span className="text-sm font-medium font-circular-medium text-black">
+                {title}
+              </span>
+              <span className="text-gray text-sm">
+                {formatDate(new Date(), "MMMM yyyy")}
+              </span>
+            </div>
+          </div>
+          <div className="flex relative z-10 flex-col gap-1.5 ">
+            <div className="border w-max border-sidebar-border flex items-center gap-2 text-black py-1 px-2 rounded-md">
+              {Number(value) > Number(prevVal) ? (
+                <TrendingUp className="size-4" />
+              ) : (
+                <TrendingDown className="size-4" />
+              )}
+              <span className="text-xs font-circular-medium text-black">
+                {Number(value) > Number(prevVal) ? "+" : "-"} {percentage}%
+              </span>
+            </div>
+            <h5 className="text-xl lg:text-2xl font-bold font-circular-bold text-black">
+              {typeof value === "number" ? formatCurrency(value) : value}
+            </h5>
+          </div>
+          {icon}
+        </Link>
+      );
+    }
     return (
       <Link
         href={url as Route}
-        className="w-full hover:shadow-md h-full relative rounded-md overflow-clip flex flex-col justify-between items-start px-4 gap-4 py-6 shadow-light-gray/50 shadow-xs "
+        className="w-full hover:shadow-md h-full justify-between relative rounded-md overflow-clip flex flex-col items-start px-4 gap-4 py-6 shadow-light-gray/50 shadow-xs "
       >
         <div className="flex relative z-10 items-start w-full justify-between gap-4">
           <div className="flex flex-col gap-1">
             <span className="text-sm font-medium font-circular-medium text-black">
               {title}
             </span>
-            <span className="text-gray text-sm">
-              {formatDate(new Date(), "MMMM yyyy")}
-            </span>
           </div>
         </div>
-        <div className="flex relative z-10 flex-col gap-1.5 ">
-          <div className="border w-max border-sidebar-border flex items-center gap-2 text-black py-1 px-2 rounded-md">
-            {Number(value) > Number(prevVal) ? (
-              <TrendingUp className="size-4" />
-            ) : (
-              <TrendingDown className="size-4" />
-            )}
-            <span className="text-xs font-circular-medium text-black">
-              {Number(value) > Number(prevVal) ? "+" : "-"} {percentage}%
-            </span>
-          </div>
+        <div className="flex relative z-10 flex-col gap-1 ">
+          <span className="text-sm text-gray">Total</span>
           <h5 className="text-xl lg:text-2xl font-bold font-circular-bold text-black">
-            {typeof value === "number" ? formatCurrency(value) : value}
+            {value}
           </h5>
         </div>
         {icon}
       </Link>
     );
-  }
-  return (
-    <Link
-      href={url as Route}
-      className="w-full hover:shadow-md h-full justify-between relative rounded-md overflow-clip flex flex-col items-start px-4 gap-4 py-6 shadow-light-gray/50 shadow-xs "
-    >
-      <div className="flex relative z-10 items-start w-full justify-between gap-4">
-        <div className="flex flex-col gap-1">
-          <span className="text-sm font-medium font-circular-medium text-black">
-            {title}
+  })();
+
+  if (tooltipContent) {
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>{cardContent}</TooltipTrigger>
+        <TooltipContent className="p-4">
+          <span className="text-base font-circular-medium">
+            {tooltipContent}
           </span>
-        </div>
-      </div>
-      <div className="flex relative z-10 flex-col gap-1 ">
-        <span className="text-sm text-gray">Total</span>
-        <h5 className="text-xl lg:text-2xl font-bold font-circular-bold text-black">
-          {value}
-        </h5>
-      </div>
-      {icon}
-    </Link>
-  );
+        </TooltipContent>
+      </Tooltip>
+    );
+  }
+
+  return cardContent;
 }
 
 function MetricsWrapper({ homeId }: MetricsWrapperProps) {
@@ -108,6 +139,7 @@ function MetricsWrapper({ homeId }: MetricsWrapperProps) {
           value={0}
           prevVal={0}
           url={`/dashboard/${homeId}/expenses`}
+          tooltipContent={metricsTooltipContent.expense}
         />
         <MetricsCard
           icon={<ApplianceIcon className="absolute  bottom-0 right-0" />}
@@ -117,6 +149,7 @@ function MetricsWrapper({ homeId }: MetricsWrapperProps) {
           value={0}
           prevVal={0}
           url={`/dashboard/${homeId}/appliances`}
+          tooltipContent={metricsTooltipContent.appliance}
         />
         <MetricsCard
           icon={<DocumentIcon className="absolute  bottom-0 right-0" />}
@@ -126,6 +159,7 @@ function MetricsWrapper({ homeId }: MetricsWrapperProps) {
           value={0}
           prevVal={0}
           url={`/dashboard/${homeId}/documents`}
+          tooltipContent={metricsTooltipContent.document}
         />
       </div>
     );
@@ -140,6 +174,7 @@ function MetricsWrapper({ homeId }: MetricsWrapperProps) {
         value={data.expenseMetrics.currentMonthTotal}
         prevVal={data.expenseMetrics.previousMonthTotal}
         url={`/dashboard/${homeId}/expenses`}
+        tooltipContent={metricsTooltipContent.expense}
       />
       <MetricsCard
         icon={<ApplianceIcon className="absolute  bottom-0 right-0" />}
@@ -151,6 +186,7 @@ function MetricsWrapper({ homeId }: MetricsWrapperProps) {
         }`}
         prevVal={0}
         url={`/dashboard/${homeId}/appliances`}
+        tooltipContent={metricsTooltipContent.appliance}
       />
       <MetricsCard
         icon={<DocumentIcon className="absolute  bottom-0 right-0" />}
@@ -162,6 +198,7 @@ function MetricsWrapper({ homeId }: MetricsWrapperProps) {
         }`}
         prevVal={0}
         url={`/dashboard/${homeId}/documents`}
+        tooltipContent={metricsTooltipContent.document}
       />
     </div>
   );

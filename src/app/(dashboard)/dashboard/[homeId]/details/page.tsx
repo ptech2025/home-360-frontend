@@ -6,6 +6,7 @@ import {
 import { cookies } from "next/headers";
 import HomeDetailsWrapper from "@/components/details/HomeDetailsWrapper";
 import { userQueries } from "@/queries/user";
+import { fetchUserServerWithCookies } from "@/lib/actions";
 
 async function DetailsPage(props: PageProps<"/dashboard/[homeId]/details">) {
   const queryClient = new QueryClient();
@@ -13,14 +14,15 @@ async function DetailsPage(props: PageProps<"/dashboard/[homeId]/details">) {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
 
-  await Promise.all([
+  const [user] = await Promise.all([
+    fetchUserServerWithCookies(cookieHeader),
     queryClient.prefetchQuery(
       userQueries.withCookies(cookieHeader).singleHome(homeId)
     ),
   ]);
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <HomeDetailsWrapper homeId={homeId} />
+      <HomeDetailsWrapper homeId={homeId} user={user} />
     </HydrationBoundary>
   );
 }

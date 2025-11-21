@@ -75,7 +75,7 @@ export const DisplayCurrentPlan = ({ user }: { user: AuthUserType }) => {
             )}
           </div>
           <Button asChild className="h-max green-btn">
-            <Link href="/pricing">Upgrade plan</Link>
+            <Link href="/pricing">Manage plan</Link>
           </Button>
         </div>
 

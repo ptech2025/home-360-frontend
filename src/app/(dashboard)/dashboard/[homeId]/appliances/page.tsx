@@ -8,7 +8,7 @@ import AppliancePageWrapper from "@/components/appliance/AppliancePageWrapper";
 import { applianceQueries } from "@/queries/appliance";
 import { FetchAppliancesParams } from "@/types";
 import { ApplianceCategory } from "@/types/prisma-schema-types";
-
+import { fetchUserServerWithCookies } from "@/lib/actions";
 async function AppliancesPage(
   props: PageProps<"/dashboard/[homeId]/appliances">
 ) {
@@ -23,16 +23,20 @@ async function AppliancesPage(
     search: search?.toString(),
     category: category ? (category as ApplianceCategory) : undefined,
   };
-  await Promise.all([
+  const [user] = await Promise.all([
+    fetchUserServerWithCookies(cookieHeader),
     queryClient.prefetchQuery(
       applianceQueries
         .withCookies(cookieHeader)
         .allAppliances(homeId, filterParams)
     ),
+    queryClient.prefetchQuery(
+      applianceQueries.withCookies(cookieHeader).suggestedAppliances(homeId)
+    ),
   ]);
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <AppliancePageWrapper homeId={homeId} filterParams={filterParams} />
+      <AppliancePageWrapper homeId={homeId} filterParams={filterParams} user={user} />
     </HydrationBoundary>
   );
 }

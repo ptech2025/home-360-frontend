@@ -82,6 +82,7 @@ export function AddOrEditCustomTaskDialog({
     mutationFn: taskMutations.create,
     onSuccess: () => {
       toast.success("Task added successfully.");
+      form.reset();
 
       setIsOpen(false);
     },
