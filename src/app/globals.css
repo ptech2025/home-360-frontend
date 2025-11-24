@@ -87,6 +87,7 @@
   --color-main-yellow: var(--main-yellow);
   --color-lighter-gray: var(--lighter-gray);
   --color-lime: var(--lime);
+  --color-new-gray: var(--new-gray);
   --font-circular-medium: "CircularStd-Medium", sans-serif;
   --font-circular-bold: "CircularStd-Bold", sans-serif;
   --font-circular-black: "CircularStd-Black", sans-serif;
@@ -134,6 +135,7 @@
   --main-yellow: #f59e0b;
   --lighter-gray: #eff0f0;
   --lime: #fafbfa;
+  --new-gray: #fcfcfc;
 }
 
 .dark {

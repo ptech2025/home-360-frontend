@@ -84,7 +84,7 @@ function DashboardNavbar({ user }: Props) {
   ];
   return (
     <nav className="w-full  mx-auto px-4 md:px-6 lg:px-8 py-4 flex justify-between items-center gap-6">
-      <Link href="/">
+      <Link href={`/dashboard/${firstHome.id}`}>
         <LogoWithText className="max-md:[&_h3]:hidden" />
       </Link>
       <DesktopDashboardNavLinks userRole={userRole} homeLinks={homeLinks} />

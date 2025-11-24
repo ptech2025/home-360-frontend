@@ -1,88 +1,160 @@
-import { PlayCircleIcon } from "lucide-react";
-import { Button } from "../ui/button";
-import { FeatureShapeIcon } from "../global/Icons";
+
+import { CheckMarkIcon, FeatureStackIcon } from "../global/Icons";
 import Image from "next/image";
-import voiceInputImage from "../../../public/images/voice-input.svg";
-import estimateCardImage from "../../../public/images/estimate-card.svg";
-import estimateSendImage from "../../../public/images/estimate-send.svg";
+import feature1Image from "../../../public/images/feature-one.svg";
+import feature2Image from "../../../public/images/feature-two.svg";
+import feature3Image from "../../../public/images/feature-three.svg";
+import feature4Image from "../../../public/images/feature-four.svg";
+import feature5Image from "../../../public/images/feature-five.svg";
 
 function FeaturesSection() {
   return (
     <section
       id="features"
-      className="custom-container bg-main-green  md:bg-transparent scroll-mt-6"
+      className="custom-container flex flex-col gap-6 items-center justify-between bg-white  scroll-mt-6"
     >
-      <div
-        className={
-          " md:rounded-4xl bg-main-green w-full flex-col flex gap-10 justify-between items-center p-6  md:p-8 lg:p-12 "
-        }
-      >
-        <div className="flex flex-col items-center gap-4">
-          <Button
-            asChild
-            className="font-medium  font-circular-medium text-base h-11 rounded-4xl text-black w-max  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-black group"
-          >
-            <a href="#features">
-              <PlayCircleIcon className="size-5 text-main-yellow" />
-
-              <span>Watch Video</span>
-            </a>
-          </Button>
-          <h3 className="text-3xl font-broke-bold text-white font-bold text-center md:text-4xl lg:text-[2.5rem]">
-            How QuickEstimate Works
-          </h3>
+      <div className="flex flex-col gap-2 items-center justify-center">
+        <div className="flex items-center gap-2">
+          <span className="rounded-full bg-main-green size-2"></span>
+          <span className="text-sm font-circular-medium text-black">
+            Features
+          </span>
         </div>
-        <div className="grid grid-cols-1  lg:grid-cols-3 w-full gap-6">
-          <article className="flex flex-col gap-10">
-            <div className="rounded-4xl flex items-start justify-center relative overflow-clip h-[460px] bg-[#e8e9ee]">
-              <Image
-                alt={"voice input preview"}
-                src={voiceInputImage.src}
-                height={450}
-                width={347}
-                sizes={"50vw"}
-                className="object-cover h-[450px] md:h-[350px] xl:h-[300px] w-full relative -top-8  md:-top-10  z-10"
-              />
-              <FeatureShapeIcon className="absolute top-0 left-1/2 -translate-x-1/2" />
+        <h2 className="text-3xl text-center max-w-md lg:text-4xl text-black font-medium font-circular-medium">
+          {" "}
+          All Your Home Essentials, One Smart Platform
+        </h2>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full h-full max-w-[1200px]">
+        <div className="col-start-1 bg-new-gray w-full h-full rounded-3xl border border-lighter-gray">
+          <div className="flex gap-2 items-start p-4">
+            <div className="rounded-xl shrink-0 bg-main-green size-10.5 items-center justify-center flex">
+              <CheckMarkIcon />
             </div>
-            <p className="text-white text-base md:text-lg lg:text-xl font-broke-bold font-bold text-center">
-              You either type in your job details or use your voice to input
-              your details.{" "}
-            </p>
-          </article>{" "}
-          <article className="flex flex-col gap-10">
-            <div className="rounded-4xl flex justify-center items-center relative overflow-clip h-[460px] bg-[#e8e9ee]">
-              <Image
-                alt={"estimate card preview"}
-                src={estimateCardImage.src}
-                height={400}
-                width={347}
-                sizes={"50vw"}
-                className="object-cover h-[400px]  relative z-10"
-              />
-              <FeatureShapeIcon className="absolute top-0 left-1/2 -translate-x-1/2" />
+            <div className="flex flex-col gap-0.5">
+              <h3 className="text-lg font-circular-medium text-black">
+                Home Profiles
+              </h3>
+              <p className="text-sm font-circular-light text-black">
+                Manage all your homes, switch instantly from your profile page.
+              </p>
             </div>
-            <p className="text-white text-base md:text-lg lg:text-xl font-broke-bold font-bold text-center">
-              AI drafts the estimate, taking in the scope, costs and location of
-              the project.
-            </p>
-          </article>{" "}
-          <article className="flex flex-col gap-10">
-            <div className="rounded-4xl flex lg:justify-center items-end relative overflow-clip h-[460px] bg-[#e8e9ee]">
-              <Image
-                alt={"estimate send preview"}
-                src={estimateSendImage.src}
-                height={480}
-                width={380}
-                sizes={"50vw"}
-                className="object-cover h-[480px]  relative z-10"
-              />
-              <FeatureShapeIcon className="absolute top-0 left-1/2 -translate-x-1/2" />
+          </div>
+
+          {/* //Image goes here */}
+          <div className="w-full h-[300px] relative">
+            <Image
+              src={feature1Image}
+              alt="Home Profile"
+              className="w-full h-full object-cover"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              unoptimized
+            />
+          </div>
+        </div>
+        <div className="col-start-2 col-span-2 bg-new-gray w-full h-full rounded-3xl border border-lighter-gray">
+          <div className="flex gap-2 items-center p-4">
+            <div className="rounded-xl shrink-0 bg-main-green size-10.5 items-center justify-center flex">
+              <FeatureStackIcon />
             </div>
-            <p className="text-white text-base md:text-lg lg:text-xl font-broke-bold font-bold text-center">
-              Edit the estimate if necessary and forward to your client.
+            <div className="flex flex-col gap-0.5">
+              <h3 className="text-lg font-circular-medium text-black">
+                Maintenance & Reminders
+              </h3>
+              <p className="text-sm font-circular-light text-black">
+                Automated schedules + custom task creation.
+              </p>
+            </div>
+          </div>
+
+          {/* //Image goes here */}
+          <div className="w-full h-[350px] relative">
+            <Image
+              src={feature2Image}
+              alt="Maintenance & Reminders"
+              className="w-full h-full object-cover object-top"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              unoptimized
+            />
+          </div>
+        </div>
+
+        <div className="bg-new-gray w-full h-full rounded-3xl border border-lighter-gray">
+          <div className="flex flex-col gap-0.5 p-4">
+            <h3 className="text-lg font-circular-medium text-black">
+              Document Vault
+            </h3>
+            <p className="text-sm font-circular-light text-black">
+              Organize tasks with labels for better Secure Cloudinary storage
+              for receipts, insurance, ownership papers.
             </p>
-          </article>
+          </div>
+
+          {/* //Image goes here */}
+          <div className="w-full h-[300px] relative">
+            <Image
+              src={feature3Image}
+              alt="Document Vault"
+              className="w-full h-full object-cover"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              unoptimized
+            />
+          </div>
+        </div>
+
+        <div className="bg-new-gray w-full h-full rounded-3xl border border-lighter-gray">
+          <div className="flex flex-col gap-0.5 p-4">
+            <h3 className="text-lg font-circular-medium text-black">
+              Public Records Integration
+            </h3>
+            <p className="text-sm font-circular-light text-black">
+              Automatically pulled from address input.
+            </p>
+          </div>
+
+          {/* //Image goes here */}
+          <div className="w-full h-[300px] relative">
+            <Image
+              src={feature4Image}
+              alt="Public Records Integration"
+              className="w-full h-full object-cover"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              unoptimized
+            />
+          </div>
+        </div>
+
+        <div className="bg-new-gray w-full h-full rounded-3xl border border-lighter-gray">
+          <div className="flex flex-col gap-0.5 p-4">
+            <h3 className="text-lg font-circular-medium text-black">
+              Service Providers Management
+            </h3>
+            <p className="text-sm font-circular-light text-black">
+              Easily track all your home’s service contacts with enhanced
+              provider search available
+            </p>
+          </div>
+
+          {/* //Image goes here */}
+          <div className="w-full h-[300px] relative">
+            <Image
+              src={feature5Image}
+              alt="Service Providers Management"
+              className="w-full h-full object-cover"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              unoptimized
+            />
+          </div>
         </div>
       </div>
     </section>

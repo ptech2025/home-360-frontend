@@ -75,7 +75,7 @@ export function SignedInMobileNavLinks() {
           className={cn(
             "inline-block w-full p-4 text-end border-b border-lighter-grey data-[state=active]:text-black hover:data-[state=inactive]:text-black/80 data-[state=inactive]:text-[#838E9E] cursor-pointer justify-center text-base font-medium   transition-colors"
           )}
-          href={"/"}
+          href={"/onboarding"}
         >
           Dashboard
         </Link>
