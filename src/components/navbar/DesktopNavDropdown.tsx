@@ -19,7 +19,7 @@ function DesktopNavDropdown() {
         <div className="flex items-center gap-3">
           <Button
             asChild
-            className="font-medium font-circular-medium text-base h-11 rounded-4xl text-main-green lg:flex hidden px-4 bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-green group"
+            className="font-medium font-circular-medium text-base h-11 rounded-md text-main-green lg:flex hidden px-4 bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-main-green group"
           >
             <Link prefetch={true} href={"/sign-in"}>
               <span>Sign in</span>
@@ -27,11 +27,10 @@ function DesktopNavDropdown() {
           </Button>{" "}
           <Button
             asChild
-            className="font-medium font-circular-medium text-base text-white h-11 rounded-4xl lg:flex hidden px-4! bg-main-green hover:border-black border border-transparent transition-colors hover:bg-white hover:text-main-green group"
+            className="font-medium font-circular-medium text-base text-white h-11 rounded-md lg:flex hidden px-4! bg-main-green hover:border-black border border-transparent transition-colors hover:bg-white hover:text-main-green group"
           >
             <Link prefetch={true} href={"/sign-up"}>
-              <span>Get started</span>
-              <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform duration-200" />
+              <span>Create an Account</span>
             </Link>
           </Button>
         </div>
@@ -59,7 +58,7 @@ function DesktopNavDropdown() {
                 className={
                   "inline-block w-full p-4 text-end border-b border-lighter-grey data-[state=active]:text-main-green hover:data-[state=inactive]:text-main-green/80 data-[state=inactive]:text-[#838E9E] cursor-pointer justify-center text-base font-medium   transition-colors"
                 }
-                href={"/dashboard/profile"}
+                href={"/onboarding"}
               >
                 Dashboard
               </Link>

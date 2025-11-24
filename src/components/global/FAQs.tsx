@@ -37,8 +37,9 @@ const faqsArr = [
 function FAQs() {
   return (
     <div
+      id="faqs"
       className={cn(
-        "  w-full flex-col flex gap-10 justify-between items-center p-6  md:p-8 lg:p-12 "
+        "  w-full flex-col flex gap-10 justify-between items-center p-6 scroll-mt-6 md:p-8 lg:p-12 "
       )}
     >
       <div className="w-full max-w-[770px] flex flex-col items-center gap-8">
