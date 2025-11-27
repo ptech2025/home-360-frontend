@@ -19,7 +19,7 @@ import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import { AnimatedPrice } from "./AnimatedPrice";
 
 import { toast } from "sonner";
-function PricingPageWrapper({ user }: { user: AuthUserType }) {
+function PricingPageWrapper({ user }: { user: AuthUserType | null }) {
   const currentPlan = user && user.subscription ? user.subscription.plan : null;
 
   const router = useRouter();
