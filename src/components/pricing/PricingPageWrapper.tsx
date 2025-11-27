@@ -13,7 +13,7 @@ import { Badge } from "../ui/badge";
 import { Button } from "@/components/ui/button";
 import { CircleCheckIcon } from "@/components/global/Icons";
 import { cn } from "@/lib/utils";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import { AnimatedPrice } from "./AnimatedPrice";
@@ -206,21 +206,26 @@ function PricingPageWrapper({ user }: { user: AuthUserType | null }) {
                           currentPlan?.id === plan.id
                         }
                       >
-                        <span>
-                          {currentPlan?.id === plan.id
-                            ? "Current Plan"
-                            : `Subscribe to ${plan.name}`}
-                        </span>
-                        {
-                          <ArrowRight
-                            className={cn(
-                              "w-5 h-5 text-inherit shrink-0 group-hover:-translate-x-1 transition-all duration-300",
-                              currentPlan?.id === plan.id
-                                ? "opacity-0"
-                                : "opacity-100"
-                            )}
-                          />
-                        }
+                        {isChoosingPlan || isChangingPlan ? (
+                          <Loader2 className="w-5 h-5 animate-spin text-inherit" />
+                        ) : (
+                          <>
+                            <span>
+                              {currentPlan?.id === plan.id
+                                ? "Current Plan"
+                                : `Subscribe to ${plan.name}`}
+                            </span>
+
+                            <ArrowRight
+                              className={cn(
+                                "w-5 h-5 text-inherit shrink-0 group-hover:-translate-x-1 transition-all duration-300",
+                                currentPlan?.id === plan.id
+                                  ? "opacity-0"
+                                  : "opacity-100"
+                              )}
+                            />
+                          </>
+                        )}
                       </Button>
                     </div>
                   </div>
