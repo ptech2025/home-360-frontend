@@ -19,7 +19,7 @@ function HeroSection() {
 
         <h1 className="text-4xl text-center lg:text-5xl text-black font-medium font-circular-medium">
           {" "}
-          Your Home, All in <span className="text-main-green">Once</span> Place
+          Your Home, All in <span className="text-main-green">One</span> Place
         </h1>
         <SignedOut>
           <Button asChild className="green-btn rounded-lg group h-11">
