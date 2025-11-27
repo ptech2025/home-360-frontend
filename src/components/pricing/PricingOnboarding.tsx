@@ -23,7 +23,7 @@ type Props = {
   type: "onboarding" | "change";
 };
 
-function PricingTabs({ currentPlan, type }: Props) {
+function PricingOnboarding({ currentPlan, type }: Props) {
   const router = useRouter();
   const [priceMode, setPriceMode] = useState<"monthly" | "yearly">("monthly");
   const { data, isLoading } = useQuery(subscriptionQueries.fetchPlans());
@@ -61,13 +61,14 @@ function PricingTabs({ currentPlan, type }: Props) {
 
   return (
     <section className="flex relative z-20 flex-col gap-4 items-center w-full ">
-      <div className="flex flex-col gap-2 items-center justify-center">
-        <h2 className="text-2xl font-circular-bold text-center font-bold">
-          Select Your Plan
-        </h2>
-        <p className="text-base font-circular-medium text-center text-black">
-          Choose the plan that fits your needs. You can upgrade or cancel
-          anytime.
+      <div className="flex items-center justify-center gap-4 flex-col text-center max-w-xl">
+        <h1 className="text-4xl text-center lg:text-5xl text-black font-medium font-circular-medium">
+          Unlock the <span className="text-main-green">Full Potential</span> of
+          Your Home{" "}
+        </h1>
+        <p className="text-black text-base text-center">
+          With flexible pricing plans, you can choose the option that best fits
+          your needs and budget.
         </p>
       </div>
 
@@ -247,4 +248,4 @@ function PricingTabs({ currentPlan, type }: Props) {
   );
 }
 
-export default PricingTabs;
+export default PricingOnboarding;
