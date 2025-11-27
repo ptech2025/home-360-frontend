@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import CreateHomeOnboarding from "./CreateHomeOnboarding";
 import WelcomeOnboarding from "./WelcomeOnboarding";
 import { Home, Subscription } from "@/types/prisma-schema-types";
-import PricingTabs from "../pricing/PricingTabs";
+import PricingOnboarding from "../pricing/PricingOnboarding";
 
 type Props = {
   homes: Home[];
@@ -32,7 +32,7 @@ function OnboardingWrapper({ homes, subscription }: Props) {
             )}
           </div>
         ) : (
-          <PricingTabs currentPlan={null} type="onboarding" />
+          <PricingOnboarding currentPlan={null} type="onboarding" />
         )}
       </div>
     </section>
