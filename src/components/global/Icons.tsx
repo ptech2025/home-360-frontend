@@ -2,6 +2,63 @@ interface IconProps {
   className?: string;
 }
 
+export const CircleCheckIcon = ({ className }: IconProps) => {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <mask
+        id="mask0_1228_7148"
+        style={{ maskType: "alpha" }}
+        maskUnits="userSpaceOnUse"
+        x="-1"
+        y="0"
+        width="21"
+        height="20"
+      >
+        <g clipPath="url(#clip0_1228_7148)">
+          <path
+            d="M13.832 2.78103C12.5658 2.04844 11.1283 1.66377 9.66536 1.66603C5.06286 1.66603 1.33203 5.39686 1.33203 9.99936C1.33203 14.6019 5.06286 18.3327 9.66536 18.3327C14.2679 18.3327 17.9987 14.6019 17.9987 9.99936C17.9987 9.42852 17.9412 8.87103 17.832 8.33269"
+            stroke="black"
+            strokeWidth="1.25"
+            strokeLinecap="round"
+          />
+          <path
+            d="M6.33203 10.416C6.33203 10.416 7.58203 10.416 9.2487 13.3327C9.2487 13.3327 13.8812 5.69352 17.9987 4.16602"
+            stroke="black"
+            strokeWidth="1.25"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </g>
+      </mask>
+      <g mask="url(#mask0_1228_7148)">
+        <rect
+          width="20"
+          height="20"
+          transform="translate(-0.334961)"
+          fill="currentColor"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_1228_7148">
+          <rect
+            width="20"
+            height="20"
+            fill="white"
+            transform="translate(-0.334961)"
+          />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};
+
 export const CheckMarkIcon = ({ className }: IconProps) => {
   return (
     <svg

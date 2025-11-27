@@ -1,4 +1,6 @@
 import NavbarWrapper from "@/components/navbar/NavbarWrapper"
+import Footer from "@/components/global/Footer";
+
 
 export default function PublicLayout({
   children,
@@ -9,7 +11,7 @@ export default function PublicLayout({
     <>
       <NavbarWrapper />
       <main className="min-h-dvh">{children}</main>
-    
+    <Footer />
     </>
   );
 }

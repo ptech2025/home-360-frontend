@@ -1,5 +1,21 @@
 import ContactUsForm from "@/components/forms/ContactUsForm";
 import FAQs from "@/components/global/FAQs";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description:
+    "Get in touch with Home360. We'd love to hear from you. Fill out our contact form and we'll get back to you soon.",
+  alternates: {
+    canonical: "/contact",
+  },
+  openGraph: {
+    title: "Contact Us | Home360",
+    description:
+      "Get in touch with Home360. We'd love to hear from you. Fill out our contact form and we'll get back to you soon.",
+    url: "https://myhomethreesixty.com/contact",
+  },
+};
 
 function ContactUsPage() {
   return (

@@ -1,10 +1,11 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "motion/react";
 
 import howItWorks1Image from "../../../public/images/how-it-works-one.svg";
 import howItWorks2Image from "../../../public/images/how-it-works-two.svg";
 import howItWorks3Image from "../../../public/images/how-it-works-three.svg";
-import howItWorks4Image from "../../../public/images/how-it-works-four.svg";
-import howItWorks5Image from "../../../public/images/how-it-works-five.svg";
 
 function HowItWorksSection() {
   return (
@@ -20,8 +21,14 @@ function HowItWorksSection() {
           </span>
         </div>
       </div>
-      <div className="grid gap-4 w-full h-full max-w-[1200px]">
-        <div className="bg-new-gray p-4 grid grid-cols-2 gap-4 items-center justify-center w-full h-full rounded-3xl">
+      <div className="grid gap-4 w-full  max-w-[1200px]">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="bg-new-gray p-4 grid grid-cols-1 lg:grid-cols-2 gap-4 items-center justify-center w-full rounded-3xl"
+        >
           <div className="flex flex-col w-full gap-4">
             <div className="flex items-center gap-2">
               <span className="rounded-full bg-main-yellow size-2"></span>
@@ -52,19 +59,14 @@ function HowItWorksSection() {
               unoptimized
             />
           </div>
-        </div>
-        <div className="bg-new-gray p-4 grid grid-cols-2 gap-4 items-center justify-center w-full h-full rounded-3xl">
-          <div className="flex flex-col relative h-[480px] w-full items-center gap-4">
-            <Image
-              src={howItWorks3Image}
-              alt="Customize Your Dashboard"
-              className="w-full h-full object-cover object-top"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              unoptimized
-            />
-          </div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="bg-new-gray p-4 grid grid-cols-1 lg:grid-cols-2 gap-4 items-center justify-center w-full rounded-3xl"
+        >
           <div className="flex flex-col w-full gap-4">
             <div className="flex items-center gap-2">
               <span className="rounded-full bg-main-yellow size-2"></span>
@@ -103,9 +105,26 @@ function HowItWorksSection() {
               </li>
             </ul>
           </div>
-        </div>
+          <div className="flex flex-col lg:order-first relative h-[480px] w-full items-center gap-4">
+            <Image
+              src={howItWorks3Image}
+              alt="Customize Your Dashboard"
+              className="w-full h-full object-cover object-top"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              unoptimized
+            />
+          </div>
+        </motion.div>
 
-        <div className="bg-new-gray p-4 grid grid-cols-2 gap-4 items-center justify-center w-full h-full rounded-3xl">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="bg-new-gray p-4 grid grid-cols-1 lg:grid-cols-2 gap-4 items-center justify-center w-full h-full rounded-3xl"
+        >
           <div className="flex flex-col w-full gap-4">
             <div className="flex items-center gap-2">
               <span className="rounded-full bg-main-yellow size-2"></span>
@@ -156,7 +175,7 @@ function HowItWorksSection() {
               unoptimized
             />
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

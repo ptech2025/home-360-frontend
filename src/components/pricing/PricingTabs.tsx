@@ -15,6 +15,7 @@ import { Skeleton } from "../ui/skeleton";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { AnimatedPrice } from "./AnimatedPrice";
 const tabsOptions = [
   {
     value: "monthly",
@@ -218,7 +219,7 @@ function PricingTabs({ currentPlan, type }: Props) {
                           </h3>
                         </div>{" "}
                         <span className="text-lg font-circular-medium">
-                          ${plan.price}/{plan.interval}
+                          <AnimatedPrice value={plan.price} />/{plan.interval}
                         </span>
                       </Button>
                     ))}
@@ -307,7 +308,7 @@ function PricingTabs({ currentPlan, type }: Props) {
                           </h3>
                         </div>{" "}
                         <span className="text-lg font-circular-medium">
-                          ${plan.price}/{plan.interval}
+                          <AnimatedPrice value={plan.price} />/{plan.interval}
                         </span>
                       </Button>
                     ))}

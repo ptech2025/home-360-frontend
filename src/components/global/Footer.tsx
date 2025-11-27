@@ -183,12 +183,16 @@ function Footer() {
         <span className="text-sm font-circular-light text-black">
           &copy; {new Date().getFullYear()} Home360.
         </span>
-        <span className="text-sm font-circular-light text-black">
+        <Link href={"/privacy-policy"} className="text-sm hover:underline font-circular-light text-black ">
+        <span >
           Privacy Policy
         </span>{" "}
-        <span className="text-sm font-circular-light text-black">
-          Terms of Service
-        </span>
+        </Link>  <Link href={"/terms-of-service"} className="text-sm hover:underline font-circular-light text-black ">
+        <span >
+           Terms of Service
+        </span>{" "}
+        </Link>
+        
       </div>
     </footer>
   );

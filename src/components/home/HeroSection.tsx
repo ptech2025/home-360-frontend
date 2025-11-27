@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 import { Button } from "../ui/button";
@@ -5,6 +7,7 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { SignedOut } from "../auth/AuthStatusComponent";
 import heroImage from "../../../public/images/dashboard-preview.svg";
+import { motion } from "motion/react";
 
 function HeroSection() {
   return (
@@ -27,7 +30,17 @@ function HeroSection() {
           </Button>
         </SignedOut>
       </div>
-      <div className="relative w-full h-full flex items-center justify-center ">
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          type: "spring",
+          damping: 20,
+          stiffness: 100,
+          duration: 0.8,
+        }}
+        className="relative w-full h-full flex items-center justify-center "
+      >
         <Image
           src={heroImage}
           alt="hero"
@@ -37,7 +50,7 @@ function HeroSection() {
           priority
           unoptimized
         />
-      </div>
+      </motion.div>
     </section>
   );
 }
