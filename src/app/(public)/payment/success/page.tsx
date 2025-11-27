@@ -3,6 +3,26 @@ import { SuccessCheckIcon } from "@/components/global/Icons";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Payment Successful",
+  description:
+    "Your payment has been processed successfully. Thank you for subscribing to Home360. A copy of your invoice has been sent to your email.",
+  alternates: {
+    canonical: "/payment/success",
+  },
+  openGraph: {
+    title: "Payment Successful | Home360",
+    description:
+      "Your payment has been processed successfully. Thank you for subscribing to Home360.",
+    url: "https://myhomethreesixty.com/payment/success",
+  },
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 function PaymentSuccessfulPage() {
   return (

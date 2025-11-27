@@ -4,7 +4,6 @@ import HowItWorksSection from "@/components/home/HowItWorksSection";
 
 import TestimontialSection from "@/components/home/TestimontialSection";
 import FAQs from "@/components/global/FAQs";
-import Footer from "@/components/global/Footer";
 function HomePage() {
   return (
     <>
@@ -13,7 +12,7 @@ function HomePage() {
       <HowItWorksSection />
       <TestimontialSection />
       <FAQs />
-      <Footer />
+
     </>
   );
 }

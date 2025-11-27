@@ -45,6 +45,7 @@ export const userMutations = {
   updateProfile: mutationResult((variables: PersonalInfoSchemaType) =>
     userService.updateProfile(variables)
   ),
-
-  // server-only variant
+  contactUs: mutationResult((variables: { email: string; name: string; message: string }) =>
+    userService.contactUs(variables)
+  ),  
 };

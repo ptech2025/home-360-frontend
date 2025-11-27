@@ -1,5 +1,19 @@
 import UnsubscribeButtons from "@/components/global/UnsubscribeButtons";
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Unsubscribe",
+  description:
+    "Manage your email preferences and unsubscribe from Home360 newsletters and updates.",
+  alternates: {
+    canonical: "/unsubscribe",
+  },
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 async function UnsubscribePage({
   searchParams,

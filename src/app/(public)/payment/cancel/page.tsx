@@ -3,6 +3,26 @@ import { FailureCrossIcon } from "@/components/global/Icons";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Payment Failed",
+  description:
+    "There was an error processing your payment. Please try again or contact support if the issue persists.",
+  alternates: {
+    canonical: "/payment/cancel",
+  },
+  openGraph: {
+    title: "Payment Failed | Home360",
+    description:
+      "There was an error processing your payment. Please try again or contact support if the issue persists.",
+    url: "https://myhomethreesixty.com/payment/cancel",
+  },
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 function PaymentCancelPage() {
   return (
@@ -29,7 +49,7 @@ function PaymentCancelPage() {
           </div>
         </div>
       </section>
-      <FAQs  />
+      <FAQs />
     </>
   );
 }

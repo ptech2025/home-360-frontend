@@ -1,3 +1,4 @@
+"use client";
 
 import { CheckMarkIcon, FeatureStackIcon } from "../global/Icons";
 import Image from "next/image";
@@ -6,6 +7,7 @@ import feature2Image from "../../../public/images/feature-two.svg";
 import feature3Image from "../../../public/images/feature-three.svg";
 import feature4Image from "../../../public/images/feature-four.svg";
 import feature5Image from "../../../public/images/feature-five.svg";
+import { motion } from "motion/react";
 
 function FeaturesSection() {
   return (
@@ -21,12 +23,17 @@ function FeaturesSection() {
           </span>
         </div>
         <h2 className="text-3xl text-center max-w-md lg:text-4xl text-black font-medium font-circular-medium">
-          {" "}
           All Your Home Essentials, One Smart Platform
         </h2>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full h-full max-w-[1200px]">
-        <div className="col-start-1 bg-new-gray w-full h-full rounded-3xl border border-lighter-gray">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full  max-w-[1200px]">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="col-start-1 bg-new-gray w-full h-full rounded-3xl border border-lighter-gray"
+        >
           <div className="flex gap-2 items-start p-4">
             <div className="rounded-xl shrink-0 bg-main-green size-10.5 items-center justify-center flex">
               <CheckMarkIcon />
@@ -53,8 +60,14 @@ function FeaturesSection() {
               unoptimized
             />
           </div>
-        </div>
-        <div className="col-start-2 col-span-2 bg-new-gray w-full h-full rounded-3xl border border-lighter-gray">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="lg:col-start-2 lg:col-span-2 bg-new-gray w-full h-full rounded-3xl border border-lighter-gray"
+        >
           <div className="flex gap-2 items-center p-4">
             <div className="rounded-xl shrink-0 bg-main-green size-10.5 items-center justify-center flex">
               <FeatureStackIcon />
@@ -81,9 +94,15 @@ function FeaturesSection() {
               unoptimized
             />
           </div>
-        </div>
+        </motion.div>
 
-        <div className="bg-new-gray w-full h-full rounded-3xl border border-lighter-gray">
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="bg-new-gray w-full h-full rounded-3xl border border-lighter-gray"
+        >
           <div className="flex flex-col gap-0.5 p-4">
             <h3 className="text-lg font-circular-medium text-black">
               Document Vault
@@ -106,9 +125,15 @@ function FeaturesSection() {
               unoptimized
             />
           </div>
-        </div>
+        </motion.div>
 
-        <div className="bg-new-gray w-full h-full rounded-3xl border border-lighter-gray">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="bg-new-gray w-full h-full rounded-3xl border border-lighter-gray"
+        >
           <div className="flex flex-col gap-0.5 p-4">
             <h3 className="text-lg font-circular-medium text-black">
               Public Records Integration
@@ -130,9 +155,15 @@ function FeaturesSection() {
               unoptimized
             />
           </div>
-        </div>
+        </motion.div>
 
-        <div className="bg-new-gray w-full h-full rounded-3xl border border-lighter-gray">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="bg-new-gray w-full h-full rounded-3xl border border-lighter-gray"
+        >
           <div className="flex flex-col gap-0.5 p-4">
             <h3 className="text-lg font-circular-medium text-black">
               Service Providers Management
@@ -155,7 +186,7 @@ function FeaturesSection() {
               unoptimized
             />
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

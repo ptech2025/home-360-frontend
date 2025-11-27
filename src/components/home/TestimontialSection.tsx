@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "motion/react";
 
 const testimonialsArr = [
   {
@@ -60,13 +63,21 @@ function TestimontialSection() {
         </div>
         <h2 className="text-3xl text-center max-w-md lg:text-4xl text-black font-medium font-circular-medium">
           {" "}
-          What our user say about their experiences
+          What our user&apos;s say about their experiences
         </h2>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full h-full max-w-[1200px]">
-        {testimonialsArr.map((testimonial) => (
-          <div
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full  max-w-[1200px]">
+        {testimonialsArr.map((testimonial, index) => (
+          <motion.div
             key={testimonial.name}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{
+              duration: 0.6,
+              delay: index * 0.1,
+              ease: [0.16, 1, 0.3, 1],
+            }}
             className="bg-white w-full h-full rounded-3xl border border-lighter-gray p-4 flex flex-col gap-4"
           >
             <div className="flex items-center gap-2">
@@ -89,7 +100,7 @@ function TestimontialSection() {
             <p className="text-sm font-circular-medium text-black">
               {testimonial.testimonial}
             </p>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>
