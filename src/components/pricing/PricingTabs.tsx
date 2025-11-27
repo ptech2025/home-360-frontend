@@ -4,28 +4,19 @@ import {
   subscriptionMutations,
   subscriptionQueries,
 } from "@/queries/subscription";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { SubscriptionPlan } from "@/types/prisma-schema-types";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "../ui/button";
-import { CircleCheck, Loader2 } from "lucide-react";
-import { Checkbox } from "../ui/checkbox";
-import { Skeleton } from "../ui/skeleton";
 import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { AnimatedPrice } from "./AnimatedPrice";
-const tabsOptions = [
-  {
-    value: "monthly",
-    label: "Monthly",
-  },
-  {
-    value: "yearly",
-    label: "Yearly",
-  },
-];
+import { Switch } from "../ui/switch";
+import { Badge } from "../ui/badge";
+import { cn } from "@/lib/utils";
+import { CircleCheckIcon } from "../global/Icons";
+import { ArrowRight, Loader2 } from "lucide-react";
 
 type Props = {
   currentPlan: SubscriptionPlan | null;
@@ -34,16 +25,8 @@ type Props = {
 
 function PricingTabs({ currentPlan, type }: Props) {
   const router = useRouter();
-  const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(
-    currentPlan
-  );
-  const [activeTab, setActiveTab] = useState("monthly");
-  const [hasMounted, setHasMounted] = useState(false);
+  const [priceMode, setPriceMode] = useState<"monthly" | "yearly">("monthly");
   const { data, isLoading } = useQuery(subscriptionQueries.fetchPlans());
-
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
 
   const { mutate: choosePlan, isPending: isChoosingPlan } = useMutation({
     mutationFn: subscriptionMutations.subscribeToPlan,
@@ -76,38 +59,6 @@ function PricingTabs({ currentPlan, type }: Props) {
     }
   };
 
-  // Auto-select first plan when data loads or tab changes
-  useEffect(() => {
-    if (!data || data.length === 0) return;
-
-    const hasMonthly =
-      (data || []).filter((p) => p.interval === "monthly").length > 0;
-    const hasYearly =
-      (data || []).filter((p) => p.interval === "yearly").length > 0;
-
-    // If the active tab has no plans, switch to the one that does to avoid empty mount
-    if (activeTab === "monthly" && !hasMonthly && hasYearly) {
-      setActiveTab("yearly");
-      return;
-    }
-    if (activeTab === "yearly" && !hasYearly && hasMonthly) {
-      setActiveTab("monthly");
-      return;
-    }
-
-    const plansForActiveTab =
-      activeTab === "monthly"
-        ? (data || []).filter((p) => p.interval === "monthly")
-        : (data || []).filter((p) => p.interval === "yearly");
-    if (plansForActiveTab && plansForActiveTab.length > 0) {
-      const firstPlan = plansForActiveTab[0];
-      if (!selectedPlan || selectedPlan.interval !== activeTab) {
-        setSelectedPlan(firstPlan);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, activeTab]);
-
   return (
     <section className="flex relative z-20 flex-col gap-4 items-center w-full ">
       <div className="flex flex-col gap-2 items-center justify-center">
@@ -120,247 +71,178 @@ function PricingTabs({ currentPlan, type }: Props) {
         </p>
       </div>
 
-      {isLoading && (
-        <div className="w-full flex flex-col gap-6 min-h-[300px]">
-          <div className="flex justify-center gap-2">
-            {tabsOptions.map((option) => (
-              <Skeleton key={option.value} className="h-9 w-24 rounded-md" />
-            ))}
+      <div className="flex items-center justify-center gap-8 flex-col w-full">
+        {data && (
+          <div className="flex items-center gap-2">
+            <span
+              data-state={priceMode === "monthly" ? "checked" : "unchecked"}
+              className="text-black text-base data-[state=checked]:text-main-green font-circular-medium"
+            >
+              Monthly
+            </span>
+            <Switch
+              checked={priceMode === "yearly"}
+              onCheckedChange={(checked) =>
+                setPriceMode(checked ? "yearly" : "monthly")
+              }
+            />
+            <span
+              data-state={priceMode === "yearly" ? "checked" : "unchecked"}
+              className="text-black text-base data-[state=checked]:text-main-green font-circular-medium"
+            >
+              Yearly
+            </span>
+            <Badge className="bg-main-green/10 rounded-xl px-2 font-circular-medium text-sm text-main-green border-main-green">
+              <span>-15%</span>
+            </Badge>
           </div>
-          <div className="flex w-full flex-col md:flex-row gap-4">
-            <div className="flex flex-col gap-6 flex-1 min-h-[300px]">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <Skeleton key={i} className="h-[60px] rounded-2xl" />
-              ))}
-            </div>
-            <div className="flex p-5 bg-white flex-col rounded-2xl border-light-gray border w-full max-w-[400px] gap-4 min-h-[200px]">
-              <Skeleton className="h-5 w-24" />
-              <ul className="flex flex-col gap-2">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <li
-                    key={i}
-                    className="flex justify-between items-center gap-2"
-                  >
-                    <Skeleton className="h-4 flex-1" />
-                    <Skeleton className="h-4 w-4 rounded-full" />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {!isLoading && (!data || data.length === 0) && (
-        <div className="w-full flex items-center justify-center rounded-md border border-light-gray bg-white p-6 text-base text-black">
-          No subscription plans available.
-        </div>
-      )}
-
-      {!isLoading && data && data.length > 0 && !selectedPlan && (
-        <div className="w-full flex items-center justify-center rounded-md border border-light-gray bg-white p-6 text-base text-gray">
-          Loading plans...
-        </div>
-      )}
-
-      {hasMounted && !isLoading && data && data.length > 0 && selectedPlan && (
-        <Tabs
-          value={activeTab}
-          onValueChange={setActiveTab}
-          className="w-full items-center justify-center gap-6"
-        >
-          <TabsList>
-            {tabsOptions.map((option) => (
-              <TabsTrigger
-                key={option.value}
-                value={option.value}
-                className="data-[state=active]:bg-main-green data-[state=inactive]:text-main-green data-[state=active]:text-white text-sm font-circular-medium px-4"
+        )}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-7xl">
+          {isLoading ? (
+            // Loading skeletons
+            Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className="bg-white border border-light-gray rounded-2xl p-6 animate-pulse"
               >
-                {option.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          <TabsContent
-            value="monthly"
-            className="flex w-full flex-col md:flex-row gap-4 min-h-[300px]"
-          >
-            {(() => {
-              const plans = (data || []).filter(
-                (p) => p.interval === "monthly"
+                <div className="h-6 bg-gray-200 rounded w-24 mb-4"></div>
+                <div className="h-8 bg-gray-200 rounded w-32 mb-2"></div>
+                <div className="h-4 bg-gray-200 rounded w-20 mb-6"></div>
+                <div className="space-y-2">
+                  <div className="h-4 bg-gray-200 rounded"></div>
+                  <div className="h-4 bg-gray-200 rounded"></div>
+                  <div className="h-4 bg-gray-200 rounded"></div>
+                </div>
+              </div>
+            ))
+          ) : data && data.length > 0 ? (
+            (() => {
+              // Filter plans by the selected interval
+              const filteredPlans = (data || []).filter(
+                (plan) => plan.interval === priceMode
               );
-              if (plans.length === 0) {
-                return (
-                  <div className="w-full rounded-md border border-light-gray bg-white p-4 text-sm text-black">
-                    No monthly plans available.
-                  </div>
-                );
-              }
-              const selectedInTab =
-                plans.find((p) => p.id === selectedPlan?.id) || plans[0];
-              return (
-                <>
-                  <div className="flex md:basis-1/2 flex-col gap-6 flex-1 min-h-[300px]">
-                    {plans.map((plan) => (
-                      <Button
-                        key={plan.id}
-                        data-state={
-                          selectedPlan?.id === plan.id ? "active" : "inactive"
-                        }
-                        onClick={() => setSelectedPlan(plan)}
-                        className="flex h-[60px]  rounded-2xl py-4 border data-[state=inactive]:text-black  data-[state=inactive]:border-light-gray shadow-none data-[state=inactive]:bg-white justify-between items-center gap-4 data-[state=active]:bg-main-green data-[state=active]:text-white"
-                      >
-                        <div className="flex items-center gap-4">
-                          <Checkbox
-                            checked={selectedPlan?.id === plan.id}
-                            className="data-[state=checked]:bg-white data-[state=checked]:border-main-green data-[state=checked]:text-main-green shrink-0"
-                          />
-                          <h3 className="text-sm font-circular-medium capitalize">
-                            {plan.name}
-                          </h3>
-                        </div>{" "}
-                        <span className="text-lg font-circular-medium">
-                          <AnimatedPrice value={plan.price} />/{plan.interval}
-                        </span>
-                      </Button>
-                    ))}
 
-                    <Button
-                      onClick={() => handleSelectedPlan(selectedPlan?.id)}
-                      className="w-max green-btn min-w-[175px]"
-                      disabled={
-                        !selectedPlan || currentPlan?.id === selectedPlan?.id
-                      }
-                    >
-                      {isChoosingPlan || isChangingPlan ? (
-                        <Loader2 className="size-4 animate-spin" />
-                      ) : (
-                        <span>
-                          {currentPlan?.id === selectedPlan?.id
-                            ? "Current Plan"
-                            : `Subscribe to ${selectedPlan?.name}`}
-                        </span>
-                      )}
-                    </Button>
-                  </div>
-                  <div className="flex p-5 bg-white flex-col rounded-2xl border-light-gray border w-full md:max-w-[400px] gap-4 min-h-[200px]">
-                    <h5 className="text-base font-circular-medium">
-                      Benefits:
-                    </h5>
-                    <ul className="flex flex-col gap-2">
-                      {selectedInTab?.benefits &&
-                      selectedInTab.benefits.length > 0 ? (
-                        selectedInTab.benefits.map((benefit) => (
-                          <li
-                            key={benefit.id}
-                            className="flex justify-between items-center gap-2"
-                          >
-                            <span className="text-sm text-black ">
-                              {benefit.benefit}
-                            </span>
-                            <CircleCheck className="text-white size-4  shrink-0 fill-main-green" />
-                          </li>
-                        ))
-                      ) : (
-                        <li className="text-sm text-gray">
-                          No benefits available
-                        </li>
-                      )}
-                    </ul>
-                  </div>
-                </>
-              );
-            })()}
-          </TabsContent>{" "}
-          <TabsContent
-            value="yearly"
-            className="flex w-full flex-col md:flex-row gap-4 min-h-[300px]"
-          >
-            {(() => {
-              const plans = (data || []).filter((p) => p.interval === "yearly");
-              if (plans.length === 0) {
+              if (filteredPlans.length === 0) {
                 return (
-                  <div className="w-full rounded-md border border-light-gray bg-white p-4 text-sm text-gray">
-                    No yearly plans available.
+                  <div className="col-span-3 text-center text-black py-8">
+                    No {priceMode} plans available.
                   </div>
                 );
               }
-              const selectedInTab =
-                plans.find((p) => p.id === selectedPlan?.id) || plans[0];
-              return (
-                <>
-                  <div className="flex flex-col gap-6 flex-1 min-h-[300px]">
-                    {plans.map((plan) => (
+
+              return filteredPlans.map((plan, index) => {
+                const isMiddleCard = index === 1;
+                return (
+                  <div
+                    key={plan.id}
+                    className={`relative bg-white border rounded-3xl p-6 flex flex-col ${
+                      isMiddleCard
+                        ? "border-main-green shadow-lg"
+                        : "border-light-gray"
+                    }`}
+                  >
+                    {isMiddleCard && (
+                      <div className="absolute z-10 -top-4 left-1/2 -translate-x-1/2">
+                        <div
+                          className="absolute inset-0 bg-white rounded-full -z-10"
+                          style={{
+                            width: "calc(100% + 8px)",
+                            height: "calc(100% + 8px)",
+                            top: "-4px",
+                            left: "-4px",
+                          }}
+                        ></div>
+                        <Badge className="bg-main-yellow/10 border border-main-yellow text-main-yellow rounded-full px-4 py-1 font-circular-medium text-sm relative">
+                          Most Popular
+                        </Badge>
+                      </div>
+                    )}
+                    <div className="flex flex-col gap-4 flex-1">
+                      <div>
+                        <h3
+                          className={cn(
+                            "text-xl font-circular-bold text-black mb-2",
+                            isMiddleCard && "text-main-green"
+                          )}
+                        >
+                          {plan.name}
+                        </h3>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-4xl font-circular-bold text-black">
+                            <AnimatedPrice value={plan.price} />
+                          </span>
+                          <span className="text-base text-black/60 font-circular-medium">
+                            /{plan.interval}
+                          </span>
+                        </div>
+                      </div>
+                      {plan.benefits && plan.benefits.length > 0 && (
+                        <ul className="flex flex-col gap-3 flex-1">
+                          {plan.benefits.map((benefit, benefitIndex) => (
+                            <li
+                              key={benefitIndex}
+                              className="flex items-start gap-2"
+                            >
+                              <CircleCheckIcon
+                                className={cn(
+                                  "w-5 h-5 text-black shrink-0 mt-0.5",
+                                  isMiddleCard && "text-main-green"
+                                )}
+                              />
+                              <span className="text-sm text-black font-circular-light">
+                                {benefit.benefit}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                       <Button
-                        key={plan.id}
-                        data-state={
-                          selectedPlan?.id === plan.id ? "active" : "inactive"
+                        className={cn(
+                          `w-full mt-auto h-12 group`,
+                          isMiddleCard
+                            ? "bg-main-green hover:bg-main-green/90 text-white"
+                            : "bg-white border border-light-gray text-black hover:bg-gray-50"
+                        )}
+                        onClick={() => handleSelectedPlan(plan.id)}
+                        disabled={
+                          isChoosingPlan ||
+                          isChangingPlan ||
+                          currentPlan?.id === plan.id
                         }
-                        onClick={() => setSelectedPlan(plan)}
-                        className="flex h-[60px]  rounded-2xl py-4 border data-[state=inactive]:text-black  data-[state=inactive]:border-light-gray shadow-none data-[state=inactive]:bg-white justify-between items-center gap-4 data-[state=active]:bg-main-green data-[state=active]:text-white"
                       >
-                        <div className="flex items-center gap-4">
-                          <Checkbox
-                            checked={selectedPlan?.id === plan.id}
-                            className="data-[state=checked]:bg-white data-[state=checked]:border-main-green data-[state=checked]:text-main-green shrink-0"
-                          />
-                          <h3 className="text-sm font-circular-medium capitalize">
-                            {plan.name}
-                          </h3>
-                        </div>{" "}
-                        <span className="text-lg font-circular-medium">
-                          <AnimatedPrice value={plan.price} />/{plan.interval}
-                        </span>
-                      </Button>
-                    ))}
-                    <Button
-                      onClick={() => handleSelectedPlan(selectedPlan?.id)}
-                      className="w-max green-btn min-w-[175px]"
-                      disabled={
-                        !selectedPlan || currentPlan?.id === selectedPlan?.id
-                      }
-                    >
-                      {isChoosingPlan || isChangingPlan ? (
-                        <Loader2 className="size-4 animate-spin" />
-                      ) : (
-                        <span>
-                          {currentPlan?.id === selectedPlan?.id
-                            ? "Current Plan"
-                            : `Subscribe to ${selectedPlan?.name}`}
-                        </span>
-                      )}
-                    </Button>
-                  </div>
-                  <div className="flex p-5 bg-white flex-col rounded-2xl border-light-gray border w-full md:max-w-[400px] gap-4 min-h-[200px]">
-                    <h5 className="text-base font-circular-medium">
-                      Benefits:
-                    </h5>
-                    <ul className="flex flex-col gap-2">
-                      {selectedInTab?.benefits &&
-                      selectedInTab.benefits.length > 0 ? (
-                        selectedInTab.benefits.map((benefit) => (
-                          <li
-                            key={benefit.id}
-                            className="flex justify-between items-center gap-2"
-                          >
-                            <span className="text-sm text-black ">
-                              {benefit.benefit}
+                        {isChoosingPlan || isChangingPlan ? (
+                          <Loader2 className="w-5 h-5 animate-spin text-inherit" />
+                        ) : (
+                          <>
+                            <span>
+                              {currentPlan?.id === plan.id
+                                ? "Current Plan"
+                                : `Subscribe to ${plan.name}`}
                             </span>
-                            <CircleCheck className="text-white size-4  shrink-0 fill-main-green" />
-                          </li>
-                        ))
-                      ) : (
-                        <li className="text-sm text-gray">
-                          No benefits available
-                        </li>
-                      )}
-                    </ul>
+
+                            <ArrowRight
+                              className={cn(
+                                "w-5 h-5 text-inherit shrink-0 group-hover:-translate-x-1 transition-all duration-300",
+                                currentPlan?.id === plan.id
+                                  ? "opacity-0"
+                                  : "opacity-100"
+                              )}
+                            />
+                          </>
+                        )}
+                      </Button>
+                    </div>
                   </div>
-                </>
-              );
-            })()}
-          </TabsContent>
-        </Tabs>
-      )}
+                );
+              });
+            })()
+          ) : (
+            <div className="col-span-3 text-center text-black py-8">
+              No subscription plans available.
+            </div>
+          )}
+        </div>
+      </div>
     </section>
   );
 }
