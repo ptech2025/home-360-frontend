@@ -99,4 +99,7 @@ export const userService = {
     });
     return res.data as FetchAllHomesResponse;
   },
+  contactUs: async (data: { email: string; name: string; message: string }) => {
+    await api.post("/api/user/contact-us", data);
+  },
 };
