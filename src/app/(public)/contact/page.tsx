@@ -23,14 +23,15 @@ function ContactUsPage() {
       <div className="custom-container flex justify-center items-center flex-col gap-10">
         <div className="flex flex-col items-center gap-4">
           <h1 className="text-3xl text-center md:text-[2.5rem] font-circular-bold font-bold text-black">
-            Contact us
+            Contact <span className="text-main-green">Us</span>
           </h1>
           <span className="text-sm text-center font-circular-medium text-black">
-            We’d love to hear from you. Please fill out this form.
+            Have questions or feedback? We&apos;re here to help. Reach out and
+            we&apos;ll get back to you as soon as possible.
           </span>
         </div>
 
-        <section className="w-full max-w-[33rem]">
+        <section className="w-full max-w-[35rem]">
           <ContactUsForm />
         </section>
       </div>

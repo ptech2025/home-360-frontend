@@ -18,7 +18,6 @@ function HeroSection() {
         </div>
 
         <h1 className="text-4xl text-center lg:text-5xl text-black font-medium font-circular-medium">
-          {" "}
           Your Home, All in <span className="text-main-green">One</span> Place
         </h1>
         <SignedOut>
