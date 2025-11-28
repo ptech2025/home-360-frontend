@@ -53,12 +53,12 @@ const socialLinks = [
     links: [
       {
         label: "Facebook",
-        href: "https://www.facebook.com/myhomethreesixty",
+        href: "https://www.facebook.com/share/1EYZHghCPs/?mibextid=wwXIfr",
         external: true,
       },
       {
         label: "Instagram",
-        href: "https://www.instagram.com/myhomethreesixty",
+        href: "https://www.instagram.com/myhomethreesixty?igsh=MTltMDhrYmhyemk0dQ%3D%3D&utm_source=qr",
         external: true,
       },
     ],
