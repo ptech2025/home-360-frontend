@@ -6,20 +6,30 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
 import { getDocumentCategoryCount } from "@/utils/funcs";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { Route } from "next";
 
 type DocumentSidebarProps = {
   homeId: string;
 };
 
 function DocumentSidebar({ homeId }: DocumentSidebarProps) {
+  const { category } = useParams<{ homeId: string; category?: string }>();
+  const searchParams = useSearchParams();
   const pathname = usePathname();
   const { data, isPending } = useQuery(userQueries.singleHome(homeId));
 
   const getActiveCategory = (category: string) => {
     const isActive = pathname.includes(category);
 
+    return isActive;
+  };
+  const getActiveTag = (tag: string) => {
+    const currentTag = searchParams.get("tag");
+    const isActive = currentTag
+      ? currentTag.toLowerCase() === tag.toLowerCase()
+      : false;
     return isActive;
   };
 
@@ -114,10 +124,15 @@ function DocumentSidebar({ homeId }: DocumentSidebarProps) {
               ).map((tag) => (
                 <Link
                   key={tag}
-                  href={`/dashboard/${homeId}/documents?tags=${tag}`}
-                  className="px-2 py-1 h-auto w-max rounded-md bg-white transition-colors hover:bg-main-green text-black hover:text-white border border-light-gray hover:border-white text-sm font-medium font-circular-medium"
+                  data-state={getActiveTag(tag) ? "active" : "inactive"}
+                  href={
+                    `/dashboard/${homeId}/documents${
+                      category ? `/${category}?tag=${tag}` : `?tag=${tag}`
+                    }` as Route
+                  }
+                  className="px-2 py-1 h-auto w-max rounded-md data-[state=active]:bg-main-green data-[state=active]:text-white data-[state=active]:border-main-green data-[state=active]:hover:text-black  data-[state=active]:hover:border-main-green data-[state=inactive]:hover:bg-main-green/20 transition-colors  data-[state=inactive]:text-black border data-[state=inactive]:border-light-gray  text-sm font-medium font-circular-medium data-[state=inactive]:bg-white"
                 >
-                  {tag}
+                  <span>{tag}</span>
                 </Link>
               ))}
           </div>

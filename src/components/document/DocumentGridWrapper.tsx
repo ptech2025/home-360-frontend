@@ -1,19 +1,34 @@
 import { Document } from "@/types/prisma-schema-types";
 import DocumentEmpty from "./DocumentEmpty";
 import { format } from "date-fns";
-import { Button } from "../ui/button";
-import { Download } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
-import { renderDocumentCategoryStyle } from "@/utils/funcs";
+import { PermissionResult, renderDocumentCategoryStyle } from "@/utils/funcs";
 import DocumentActions from "./DocumentActions";
+import UpgradePrompt from "../global/UpgradePrompt";
 
 type DocumentGridWrapperProps = {
   documents: Document[];
+  hasAddPermission: PermissionResult;
 };
 
-function DocumentGridWrapper({ documents }: DocumentGridWrapperProps) {
-  if (documents.length === 0) return <DocumentEmpty />;
+function DocumentGridWrapper({
+  documents,
+  hasAddPermission,
+}: DocumentGridWrapperProps) {
+  if (documents.length === 0) {
+    return hasAddPermission.allowed ? (
+      <DocumentEmpty />
+    ) : (
+      <div className="flex justify-center items-center h-full relative w-full">
+        <UpgradePrompt
+          reason={hasAddPermission.reason}
+          upgradeMessage={hasAddPermission.upgradeMessage}
+          className="left-1/2 -translate-x-1/2 top-20"
+        />
+      </div>
+    );
+  }
   return (
     <div className="grid w-full gap-4 grid-cols-[repeat(auto-fill,minmax(20rem,1fr))]">
       {documents.map((document) => (

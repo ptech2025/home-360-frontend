@@ -21,7 +21,7 @@ import { signInSchema, SignInSchemaType } from "@/types/zod-schemas";
 import { Input } from "../ui/input";
 import { GoogleIcon } from "../global/Icons";
 import EmailVerificationSent from "./EmailVerificationSent";
-import { useRouter } from "nextjs-toploader/app";
+import { useRouter } from "next/navigation";
 import { Home } from "@/types/prisma-schema-types";
 
 function SignInForm() {
@@ -31,7 +31,7 @@ function SignInForm() {
   const [showVerifyEmail, setShowVerifyEmail] = useState(false);
   const lastMethod = authClient.getLastUsedLoginMethod();
 
-  const { push } = useRouter();
+  const router = useRouter();
 
   const form = useForm<SignInSchemaType>({
     resolver: zodResolver(signInSchema),
@@ -77,9 +77,10 @@ function SignInForm() {
         onSuccess: async (ctx) => {
           if (ctx.data.user.isOnboarded && ctx.data.user.homes.length > 0) {
             const firstHome: Home = ctx.data.user.homes[0];
-            push(`/dashboard/${firstHome.id}`);
+
+            router.push(`/dashboard/${firstHome.id}`);
           } else {
-            push("/onboarding");
+            router.push("/onboarding");
           }
         },
         onError: (ctx) => {

@@ -1,7 +1,7 @@
 "use client";
 
 import { documentQueries } from "@/queries/document";
-import { FetchDocumentParams } from "@/types";
+import { AuthUserType, FetchDocumentParams } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import DocumentPageHeader from "./DocumentPageHeader";
@@ -13,15 +13,16 @@ import DocumentGridWrapper from "./DocumentGridWrapper";
 import PaginationContainer from "../global/PaginationContainer";
 import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
-import { renderDocumentCategoryStyle } from "@/utils/funcs";
+import { canAddDocument, renderDocumentCategoryStyle } from "@/utils/funcs";
 import { ChevronsUpDown } from "lucide-react";
 import { format } from "date-fns";
 import DocumentActions from "./DocumentActions";
+import { DocumentsPageLoadingSkeleton } from "../global/Skeletons";
 
 type Props = {
   homeId: string;
   filterParams: FetchDocumentParams;
-  viewMode: "grid" | "list";
+  user: AuthUserType | null;
 };
 
 const columns: ColumnDef<Document>[] = [
@@ -110,14 +111,13 @@ const columns: ColumnDef<Document>[] = [
     enableHiding: false,
   },
 ];
-function AllDocumentsPageWrapper({ homeId, filterParams, viewMode }: Props) {
+function AllDocumentsPageWrapper({ homeId, filterParams, user }: Props) {
+  const [displayMode, setDisplayMode] = useState<"grid" | "list">("grid");
   const { data, isLoading } = useQuery(
     documentQueries.all(homeId, filterParams)
   );
-  const [displayMode, setDisplayMode] = useState<"grid" | "list">(
-    viewMode || "grid"
-  );
-  if (isLoading) return <div>Loading...</div>;
+  const hasAddDocumentPermission = canAddDocument(user, data?.documentUsage);
+  if (isLoading) return <DocumentsPageLoadingSkeleton />;
 
   return (
     <section className="flex flex-col items-center gap-2 w-full">
@@ -130,9 +130,10 @@ function AllDocumentsPageWrapper({ homeId, filterParams, viewMode }: Props) {
         count={data?.pagination.totalRecords || 0}
         viewMode={displayMode}
         setViewMode={setDisplayMode}
+        hasAddPermission={hasAddDocumentPermission}
       />
       {displayMode === "grid" ? (
-        <DocumentGridWrapper documents={data?.documents || []} />
+        <DocumentGridWrapper documents={data?.documents || []} hasAddPermission={hasAddDocumentPermission} />
       ) : (
         <DataTable
           columns={columns}

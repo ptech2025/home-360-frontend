@@ -7,32 +7,33 @@ import {
 import { cookies } from "next/headers";
 import { documentQueries } from "@/queries/document";
 import { FetchDocumentParams } from "@/types";
-import { DocumentCategory } from "@/types/prisma-schema-types";
+import { fetchUserServerWithCookies } from "@/lib/actions";
 
 async function AllDocumentsPage(
   props: PageProps<"/dashboard/[homeId]/documents">
 ) {
   const queryClient = new QueryClient();
   const { homeId } = await props.params;
-  const { search, tags, page, viewMode } = await props.searchParams;
+  const { search, tag, page, size } = await props.searchParams;
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
 
   const filterParams: FetchDocumentParams = {
     search: search?.toString(),
-    tags: Array.isArray(tags) ? tags : tags ? [tags] : [],
+    tag: tag ? tag.toString() : undefined,
     page: page ? parseInt(page.toString()) : 1,
-    size: 10,
+    size: size ? parseInt(size.toString()) : 10,
   };
 
-  await Promise.all([
+  const [user] = await Promise.all([
+    fetchUserServerWithCookies(cookieHeader),
     queryClient.prefetchQuery(
       documentQueries.withCookies(cookieHeader).all(homeId, filterParams)
     ),
   ]);
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <AllDocumentsPageWrapper homeId={homeId} filterParams={filterParams} viewMode={viewMode as "grid" | "list"} />
+      <AllDocumentsPageWrapper homeId={homeId} filterParams={filterParams} user={user} />
     </HydrationBoundary>
   );
 }

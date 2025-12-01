@@ -1,51 +1,33 @@
-import { API_URL } from "@/utils/constants";
+import { SubscriptionPlan } from "@/types/prisma-schema-types";
+import { api, withAuthHeaders } from "@/lib/axios-client";
 
-import axios from "axios";
-import { Subscription } from "@/types";
+export const subscriptionService = {
+  fetchPlans: async (): Promise<SubscriptionPlan[]> => {
+    const res = await api.get(`/api/subscription/plans`, {
+      withCredentials: true,
+    });
+    return res.data as SubscriptionPlan[];
+  },
+  subscribeToPlan: async (planId: string, cookies?: string) => {
+    const res = await api.post(
+      `/api/subscription/checkout/${planId}`,
 
-export const fetchSubscriptions = async (): Promise<Subscription[]> => {
-  try {
-    const res: { data: Subscription[] } = await axios.get(
-      `${API_URL}/api/subscription`,
-      {
-        withCredentials: true,
-      }
+      withAuthHeaders(cookies)
     );
-    return res.data;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-};
-
-export const subscribeToPlan = async (planId: string) => {
-  const res = await axios.post(
-    `${API_URL}/api/subscription/checkout`,
-    { planId },
-    {
-      withCredentials: true,
-    }
-  );
-  return res.data.url as string;
-};
-
-export const changePlan = async (planId: string) => {
-  const res = await axios.post(
-    `${API_URL}/api/subscription/change-plan`,
-    { planId },
-    {
-      withCredentials: true,
-    }
-  );
-  return res.data.url as string;
-};
-export const cancelSubscription = async (planId: string) => {
-  const res = await axios.post(
-    `${API_URL}/api/subscription/cancel`,
-    { planId },
-    {
-      withCredentials: true,
-    }
-  );
-  return res.data.url as string;
+    return res.data.url as string;
+  },
+  changePlan: async (planId: string, cookies?: string) => {
+    const res = await api.post(
+      `/api/subscription/change-plan/${planId}`,
+      withAuthHeaders(cookies)
+    );
+    return res.data.url as string;
+  },
+  cancelSubscription: async (planId: string, cookies?: string) => {
+    const res = await api.patch(
+      `/api/subscription/cancel/${planId}`,
+      withAuthHeaders(cookies)
+    );
+    return res.data.url as string;
+  },
 };

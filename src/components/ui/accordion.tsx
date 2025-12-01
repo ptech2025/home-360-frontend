@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import { Minus, Plus, X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 

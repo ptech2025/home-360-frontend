@@ -51,7 +51,9 @@ function CreateHomeOnboarding({
 
   const onSubmit = async (values: CreateHomeSchemaType) => {
     const fullAddress = `${values.address.trim()}, ${values.city.trim()}, ${values.state.trim()}, USA`;
-    mutate(fullAddress);
+    mutate({
+      address: fullAddress,
+    });
   };
   return (
     <div className="flex relative z-20 flex-col   w-full items-center justify-center gap-6">
@@ -59,7 +61,7 @@ function CreateHomeOnboarding({
         <h1 className="text-black font-circular-bold text-2xl md:text-3xl lg:text-4xl font-bold">
           Property Registration
         </h1>
-        <p className="text-base text-center md:text-lg font-circular-regular font-normal text-light-gray">
+        <p className="text-base text-center font-circular-medium font-normal text-black">
           We currently only support US residential properties. Add your property
           details to get started
         </p>
@@ -148,7 +150,6 @@ function CreateHomeOnboarding({
                 )}
               />
             </div>
-
             <Button
               size={"lg"}
               disabled={isLoading}

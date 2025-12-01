@@ -1,48 +1,69 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AuthUserType } from "@/types";
-import { UpdatePassword } from "./SecurityTabContents";
-import { DisplayCurrentPlan } from "./PricingTabContents";
+import { UpdatePassword } from "./SecurityTabContent";
+import { UpdateProfileForm } from "./ProfileTabContent";
+import { DisplayCurrentPlan } from "./PricingTabContent";
 
 const tabsOptions = [
   {
-    value: "general",
-    label: "General",
-  },
-  {
-    value: "billing",
-    label: "Billing & Subscription",
+    value: "profile",
+    label: "Profile",
   },
   {
     value: "security",
     label: "Security",
   },
+  {
+    value: "billing",
+    label: "Billing",
+  },
 ];
 
 function SettingsPageWrapper({ user }: { user: AuthUserType }) {
   return (
-    <section className="w-full flex-col flex gap-6 py-4  px-10 md:px-20 lg:px-25">
-      <h1 className="text-lg md:text-xl lg:text-2xl font-bold font-broke-bold text-black">
-        Settings
-      </h1>
-      <Tabs defaultValue="general" className="w-full gap-6">
-        <TabsList className="w-full h-12.5 bg-transparent">
+    <section className="px-4 flex flex-col gap-4 py-4 bg-lighter-gray/50 min-h-dvh">
+      <div className="flex flex-col gap-2 w-full">
+        <h1 className="text-black text-xl font-circular-medium">
+          App Settings
+        </h1>
+        <p className="text-gray text-sm">Customize your Home360 experience</p>
+      </div>
+      <Tabs
+        defaultValue="profile"
+        orientation="vertical"
+        className="w-full flex flex-1 flex-col gap-6 md:flex-row "
+      >
+        <TabsList className="flex w-full max-w-full md:h-full md:min-h-full md:justify-start  flex-row gap-2 rounded-md bg-white p-0 md:p-4 md:w-56 md:flex-col">
           {tabsOptions.map((option) => {
             return (
               <TabsTrigger
                 value={option.value}
                 key={option.value}
-                className="data-[state=active]:text-black data-[state=inactive]:text-black/50 data-[state=active]:bg-main-green/10"
+                className="group data-[state=active]:shadow-none flex items-center gap-3 justify-start rounded-md border border-transparent px-3 py-2 text-left transition-colors data-[state=active]:bg-light-gray/10 data-[state=active]:text-black data-[state=inactive]:text-black/50 md:flex-none md:h-11 md:w-full"
               >
-                {option.label}
+                <span className="w-1 h-full rounded-md shrink-0 bg-transparent transition-colors group-data-[state=active]:bg-main-green" />
+                <span className="font-circular-medium">{option.label}</span>
               </TabsTrigger>
             );
           })}
         </TabsList>
 
-        <TabsContent value="security">
+        <TabsContent
+          value="profile"
+          className="w-full flex-1 rounded-md flex flex-col gap-4 bg-white"
+        >
+          <UpdateProfileForm user={user} />
+        </TabsContent>
+        <TabsContent
+          value="security"
+          className="w-full rounded-md flex flex-col gap-4 bg-white"
+        >
           <UpdatePassword />
         </TabsContent>
-        <TabsContent value="billing">
+        <TabsContent
+          value="billing"
+          className="w-full rounded-md flex flex-col gap-4 bg-white"
+        >
           <DisplayCurrentPlan user={user} />
         </TabsContent>
       </Tabs>

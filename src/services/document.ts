@@ -1,6 +1,6 @@
 import { api, withAuthHeaders } from "@/lib/axios-client";
 import { FetchAllDocumentsResponse, FetchDocumentParams } from "@/types";
-import { Document, Home, PublicRecord } from "@/types/prisma-schema-types";
+import { Document } from "@/types/prisma-schema-types";
 import { CreateDocumentSchemaType } from "@/types/zod-schemas";
 
 export const documentService = {
@@ -25,7 +25,7 @@ export const documentService = {
       },
     });
   },
-  updateDocument: async (docId: string, data: CreateDocumentSchemaType) => {
+  updateDocument: async (homeId: string, docId: string, data: CreateDocumentSchemaType) => {
     const formData = new FormData();
     if (data.file) {
       formData.append("file", data.file);
@@ -40,7 +40,7 @@ export const documentService = {
       }
     });
 
-    return await api.patch(`/api/document/${docId}`, formData, {
+    return await api.patch(`/api/document/${docId}/${homeId}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

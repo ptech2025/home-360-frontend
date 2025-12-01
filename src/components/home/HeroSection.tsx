@@ -1,64 +1,55 @@
+"use client";
+
 import Link from "next/link";
-import { HeroEllipseIcon, TextLineIcon, StarIcon } from "../global/Icons";
-import { Badge } from "../ui/badge";
+
 import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import heroImg from "../../../public/images/hero-tab.svg";
-import heroImag from "../../../public/images/hero-tab.png";
+import { SignedOut } from "../auth/AuthStatusComponent";
+import heroImage from "../../../public/images/dashboard-preview.svg";
+import { motion } from "motion/react";
 
 function HeroSection() {
   return (
-    <section className="relative h-[850px] overflow-x-clip flex flex-col-reverse lg:flex-row gap-6 justify-between  items-center lg:items-start mx-auto w-full max-w-[1800px]">
-      <Image
-        src={heroImg.src}
-        alt="chat image"
-        className="lg:w-1/2 w-full object-cover flex-1 h-full relative z-10 "
-        placeholder="blur"
-        blurDataURL={heroImag.blurDataURL}
-        priority
-        width={heroImag.width}
-        height={heroImag.height}
-      />
-      <div className="flex flex-col relative z-10 gap-6 max-w-[600px] lg:items-start items-center py-4 sm:py-6  md:py-10 lg:py-14  px-4 sm:px-6  md:px-10 lg:pr-14 lg:pl-0">
-        <Badge className="bg-[#E7E9EE] text-black">
-          <StarIcon className="text-black" />
-          <span>AI chat</span>
-        </Badge>
-        <div className="flex flex-col items-center lg:items-start gap-4">
-          <h1 className="bg-[linear-gradient(93deg,#FF9A6C_4.45%,#172B85_47.16%)] relative text-center lg:text-start text-4xl md:text-5xl font-broke-bold font-bold lg:text-6xl bg-clip-text text-transparent">
-            <span>Talk Your bid.</span>
-            <TextLineIcon className="absolute -bottom-5 -right-3" />
-          </h1>
-          <h2 className="text-black text-center lg:text-start text-4xl md:text-5xl font-broke-bold font-bold lg:text-6xl">
-            Close the Job.
-          </h2>
+    <section className="relative pt-6 h-[800px] bg-[linear-gradient(to_bottom,rgba(45,106,79,0)_3%,rgba(45,106,79,0.3)_45%,rgba(45,106,79,0)_100%)] overflow-x-clip flex flex-col  gap-6 justify-between  items-center  mx-auto w-full max-w-[1800px]">
+      <div className="flex flex-col gap-4 items-center">
+        <div className="rounded-3xl py-1 px-3 border border-main-yellow flex items-center justify-center bg-main-yellow/10 text-main-yellow text-base fonto-circular-medium">
+          <span> Best Home Management </span>
         </div>
-        <p className="text-base text-center lg:text-start lg:text-lg font-circular-medium text-black">
-          QuickEstimate turns your voice notes into professional job proposals
-          in seconds. Save time, win more jobs, and get paid faster.
-        </p>
-        <div className="flex flex-col sm:flex-row w-full lg:justify-start justify-center items-center gap-2">
-          <Button
-            asChild
-            className="font-medium font-circular-medium text-base text-white h-11 rounded-4xl px-6 w-max bg-main-green hover:border-black border border-transparent transition-colors hover:bg-white hover:text-black group"
-          >
-            <Link prefetch={true} href={"/sign-up"}>
-              <span>Start Free Today</span>
-            </Link>
-          </Button>
-          <Button
-            asChild
-            className="font-medium font-circular-medium text-base h-11 rounded-4xl text-black w-max  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-black group"
-          >
-            <Link prefetch={true} href={"/#features"}>
-              <span>See how it works</span>
+
+        <h1 className="text-4xl text-center lg:text-5xl text-black font-medium font-circular-medium">
+          Your Home, All in <span className="text-main-green">One</span> Place
+        </h1>
+        <SignedOut>
+          <Button asChild className="green-btn rounded-lg group h-11">
+            <Link prefetch={true} href={"/sign-in"}>
+              <span>Get Started For Free</span>
               <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform duration-200" />
             </Link>
-          </Button>{" "}
-        </div>
+          </Button>
+        </SignedOut>
       </div>
-      <HeroEllipseIcon className="absolute bottom-0 left-1/2 -translate-x-1/2" />
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          type: "spring",
+          damping: 20,
+          stiffness: 100,
+          duration: 0.8,
+        }}
+        className="relative w-full h-full flex items-center justify-center "
+      >
+        <Image
+          src={heroImage}
+          alt="hero"
+          className="object-contain"
+          sizes="100vw"
+          fill
+          priority
+          unoptimized
+        />
+      </motion.div>
     </section>
   );
 }

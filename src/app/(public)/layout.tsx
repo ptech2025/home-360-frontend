@@ -1,6 +1,6 @@
-import Newsletter from "@/components/global/Newsletter";
+import NavbarWrapper from "@/components/navbar/NavbarWrapper"
 import Footer from "@/components/global/Footer";
-import Navbar from "@/components/navbar/NavbarWrapper";
+
 
 export default function PublicLayout({
   children,
@@ -9,10 +9,9 @@ export default function PublicLayout({
 }>) {
   return (
     <>
-      {/* <Navbar /> */}
+      <NavbarWrapper />
       <main className="min-h-dvh">{children}</main>
-      {/* <Newsletter />
-      <Footer /> */}
+    <Footer />
     </>
   );
 }

@@ -3,6 +3,26 @@ import { SuccessCheckIcon } from "@/components/global/Icons";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Payment Successful",
+  description:
+    "Your payment has been processed successfully. Thank you for subscribing to Home360. A copy of your invoice has been sent to your email.",
+  alternates: {
+    canonical: "/payment/success",
+  },
+  openGraph: {
+    title: "Payment Successful | Home360",
+    description:
+      "Your payment has been processed successfully. Thank you for subscribing to Home360.",
+    url: "https://myhomethreesixty.com/payment/success",
+  },
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 function PaymentSuccessfulPage() {
   return (
@@ -15,14 +35,14 @@ function PaymentSuccessfulPage() {
               Payment Successful
             </h1>
             <p className="text-sm max-w-xs md:text-base font-circular-medium text-black/80 font-medium text-center">
-              Thank you for subscribing. A copy of your invoice receipt has been
-              sent to your email.
+              Thank you for subscribing. A copy of your invoice has been sent to
+              your email.
             </p>
             <Button
               asChild
               className="font-medium font-circular-medium text-base h-11 rounded-4xl text-black w-full max-w-md  px-6! bg-[#E7E9EE] hover:border-[#E7E9EE] border border-transparent transition-colors hover:bg-white hover:text-black group"
             >
-              <Link prefetch={true} href={"/"}>
+              <Link prefetch={true} href={"/onboarding"}>
                 <span>Go to dashboard</span>
                 <ArrowUpRight className="size-5 group-hover:translate-x-1 transition-transform duration-200" />
               </Link>

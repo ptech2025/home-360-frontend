@@ -2,17 +2,24 @@
 
 import { useState, useEffect, FormEvent } from "react";
 import { Search } from "lucide-react";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import {
+  useRouter,
+  useSearchParams,
+  usePathname,
+  useParams,
+} from "next/navigation";
 import { useDebounce } from "use-debounce";
 import { useQueryClient } from "@tanstack/react-query";
 import { Route } from "next";
+import { cn } from "@/lib/utils";
 
 type Props = {
   searchKey: string;
   placeHolder: string;
+  className?: string;
 };
 
-function SearchBar({ searchKey, placeHolder }: Props) {
+function SearchBar({ searchKey, placeHolder, className }: Props) {
   const queryClient = useQueryClient();
   const { push } = useRouter();
   const searchParams = useSearchParams();
@@ -20,6 +27,7 @@ function SearchBar({ searchKey, placeHolder }: Props) {
   const [searchVal, setSearchVal] = useState(
     searchParams?.get(searchKey) || ""
   );
+  const params = useParams();
   const [debouncedSearchVal] = useDebounce(searchVal, 300);
 
   const handleSearchChange = (e: FormEvent<HTMLInputElement>) => {
@@ -43,11 +51,11 @@ function SearchBar({ searchKey, placeHolder }: Props) {
     );
 
     queryClient.invalidateQueries({
-      queryKey: ["projects", { page: 1, [searchKey]: debouncedSearchVal }],
-    });
-
-    queryClient.invalidateQueries({
-      queryKey: ["clients", { page: 1, [searchKey]: debouncedSearchVal }],
+      queryKey: [
+        "all-tasks",
+        params.homeId,
+        { page: 1, [searchKey]: debouncedSearchVal },
+      ],
     });
 
     const search = new URLSearchParams(queryParams).toString();
@@ -57,7 +65,12 @@ function SearchBar({ searchKey, placeHolder }: Props) {
   }, [debouncedSearchVal, pathname, push, searchKey, searchParams]);
 
   return (
-    <div className="group transition-colors  duration-200 focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px] border-sidebar-border relative flex h-full flex-1 items-center gap-2 rounded-lg border bg-transparent px-4 py-2.5 ">
+    <div
+      className={cn(
+        "group transition-colors  duration-200 focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px] border-sidebar-border relative flex h-full flex-1 items-center gap-2 rounded-lg border bg-transparent px-4 py-2.5 ",
+        className
+      )}
+    >
       <button type="button" className="flex h-full items-center justify-center">
         <Search className="size-5 shrink-0 cursor-pointer transition-all text-black " />
       </button>

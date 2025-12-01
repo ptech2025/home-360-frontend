@@ -16,7 +16,6 @@ import { Loader2 } from "lucide-react";
 import { waitListSchema, WaitListSchemaType } from "@/types/zod-schemas";
 import { Input } from "../ui/input";
 import { useMutation } from "@tanstack/react-query";
-import { renderAxiosOrAuthError } from "@/lib/axios-client";
 import { userMutations } from "@/queries/user";
 
 function WaitListForm() {

@@ -1,17 +1,19 @@
-import WaitlistPage from "@/components/home/WaitlistPage";
-import WhySection from "@/components/home/WhySection";
-import {
-  HydrationBoundary,
-  dehydrate,
-  QueryClient,
-} from "@tanstack/react-query";
-function HomePage() {
-  const queryClient = new QueryClient();
+import HeroSection from "@/components/home/HeroSection";
+import FeaturesSection from "@/components/home/FeaturesSection";
+import HowItWorksSection from "@/components/home/HowItWorksSection";
 
+import TestimontialSection from "@/components/home/TestimontialSection";
+import FAQs from "@/components/global/FAQs";
+function HomePage() {
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <WaitlistPage />
-    </HydrationBoundary>
+    <>
+      <HeroSection />
+      <FeaturesSection />
+      <HowItWorksSection />
+      <TestimontialSection />
+      <FAQs />
+
+    </>
   );
 }
 export default HomePage;

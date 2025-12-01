@@ -15,7 +15,7 @@ export default function NavLinksDesktop() {
             prefetch={true}
             data-state={isActive(link.href) ? "active" : "inactive"}
             className={cn(
-              "inline-block py-4 data-[state=active]:text-main-green hover:data-[state=inactive]:text-main-green/80 data-[state=inactive]:text-[#838E9E] font-circular-medium  cursor-pointer justify-center text-base font-semibold data-[state=active]:border-main-yellow border-b-2 data-[state=inactive]:border-transparent transition-colors "
+              "inline-block py-4 data-[state=active]:text-main-green hover:data-[state=inactive]:text-main-yellow data-[state=inactive]:text-black font-circular-medium  cursor-pointer justify-center text-base  data-[state=active]:border-main-green border-b-2 data-[state=inactive]:border-transparent transition-colors "
             )}
             href={link.href}
           >

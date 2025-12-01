@@ -5,29 +5,30 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 import { cookies } from "next/headers";
-import { userQueries } from "@/queries/user";
 import { documentQueries } from "@/queries/document";
 import { FetchDocumentParams } from "@/types";
 import { DocumentCategory } from "@/types/prisma-schema-types";
+import { fetchUserServerWithCookies } from "@/lib/actions";
 
 async function DocumentCategoryPage(
   props: PageProps<"/dashboard/[homeId]/documents/[category]">
 ) {
   const queryClient = new QueryClient();
   const { homeId, category } = await props.params;
-  const { search, tags, page, viewMode } = await props.searchParams;
+  const { search, tag, page } = await props.searchParams;
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
 
   const filterParams: FetchDocumentParams = {
     search: search?.toString(),
-    tags: Array.isArray(tags) ? tags : tags ? [tags] : [],
+    tag: tag ? tag.toString() : undefined,
     page: page ? parseInt(page.toString()) : 1,
     category: category as DocumentCategory,
     size: 10,
   };
 
-  await Promise.all([
+  const [user] = await Promise.all([
+    fetchUserServerWithCookies(cookieHeader),
     queryClient.prefetchQuery(
       documentQueries.withCookies(cookieHeader).all(homeId, filterParams)
     ),
@@ -37,7 +38,7 @@ async function DocumentCategoryPage(
       <AllDocumentsPageWrapper
         homeId={homeId}
         filterParams={filterParams}
-        viewMode={viewMode as "grid" | "list"}
+        user={user}
       />
     </HydrationBoundary>
   );

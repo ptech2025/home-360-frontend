@@ -1,89 +1,199 @@
 "use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { PiInstagramLogoLight } from "react-icons/pi";
-import { TiSocialFacebook } from "react-icons/ti";
 
-const footerLinks = [
+import { SignedOut } from "../auth/AuthStatusComponent";
+import { Button } from "../ui/button";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { LogoWithText } from "./Logo";
+import { Route } from "next";
+const quickLinks = [
   {
-    link: "/about",
-    title: "About",
+    title: "Quick Links",
+    links: [
+      {
+        label: "Home",
+        href: "/",
+        external: false,
+      },
+      {
+        label: "Features",
+        href: "/#features",
+        external: false,
+      },
+      {
+        label: "FAQs",
+        href: "/#faqs",
+        external: false,
+      },
+      {
+        label: "Pricing",
+        href: "/pricing",
+        external: false,
+      },
+    ],
   },
+];
+
+const contactLinks = [
   {
-    link: "/pricing",
-    title: "Pricing",
+    title: "Contact",
+    links: [
+      {
+        label: "support@myhomethreesixty.com",
+        href: "mailto:support@myhomethreesixty.com",
+        external: true,
+      },
+    ],
   },
+];
+
+const socialLinks = [
   {
-    link: "/#features",
-    title: "Features",
+    title: "Social",
+    links: [
+      {
+        label: "Facebook",
+        href: "https://www.facebook.com/share/1EYZHghCPs/?mibextid=wwXIfr",
+        external: true,
+      },
+      {
+        label: "Instagram",
+        href: "https://www.instagram.com/myhomethreesixty?igsh=MTltMDhrYmhyemk0dQ%3D%3D&utm_source=qr",
+        external: true,
+      },
+    ],
   },
 ];
 
 function Footer() {
-  const pathname = usePathname();
-  const isActive = (href: string) => {
-    return pathname === href;
-  };
   return (
-    <footer className="custom-container flex flex-col gap-10">
-      {/* <div className="flex flex-col gap-6 sm:flex-row justify-between items-center">
-        <ul className="flex sm:flex-row flex-col items-center gap-6">
-          {footerLinks.map((link, index) => {
-            return (
-              <li key={index}>
-                <Link
-                  data-state={isActive(link.link) ? "active" : "inactive"}
-                  href={link.link}
-                  className="text-[#808080] transition-colors text-sm hover:text-black data-[state=active]:underline data-[state-active]:text-black"
-                >
-                  {link.title}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-        <div className="flex items-center gap-5">
-          <a
-            href="https://m.facebook.com/quickestimateai/"
-            className="p-3  hover:shadow-black hover:shadow h-10 gap-2.5 items-center justify-center  flex rounded-4xl border border-black bg-transparent cursor-pointer text-sm font-semibold"
-          >
-            <TiSocialFacebook className="size-5" />
-            <span className="h-full w-px bg-[#808080]"></span>
-            <span>Facebook</span>
-          </a>{" "}
-          <a
-            href="https://www.instagram.com/quickestimate/"
-            className="p-3  hover:shadow-black hover:shadow h-10 gap-2.5 items-center justify-center  flex rounded-4xl border border-black bg-transparent cursor-pointer text-sm font-semibold"
-          >
-            <PiInstagramLogoLight className="size-5" />
-            <span className="h-full w-px bg-[#808080]"></span>
-            <span>Instagram</span>
-          </a>
+    <footer className="custom-container flex flex-col gap-10 items-center justify-center">
+      <div className="max-w-lg flex flex-col gap-3 items-center justify-center">
+        <h6 className="text-4xl md:text-5xl text-center font-circular-medium text-black">
+          Ready to simplify your home{" "}
+          <span className="text-main-green">management?</span>
+        </h6>
+        <p className="text-base font-circular-light text-black text-center">
+          Start your journey and see why homeowners love Home360.
+        </p>
+
+        <SignedOut>
+          <Button asChild className="green-btn rounded-lg group h-11">
+            <Link prefetch={true} href={"/sign-in"}>
+              <span>Get Started For Free</span>
+              <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform duration-200" />
+            </Link>
+          </Button>
+        </SignedOut>
+      </div>
+      <div className="flex items-center justify-between gap-2 border border-lighter-gray p-6 rounded-3xl w-full">
+        <div className="flex flex-col gap-4">
+          <LogoWithText />
+          <h6 className="text-sm font-circular-medium text-black">
+            Your Home, All in <span className="text-main-green">One</span> Place
+          </h6>
+        </div>
+        <div className="flex w-max gap-6">
+          {quickLinks.map((link) => (
+            <div key={link.title} className="flex w-max flex-col gap-4">
+              <h6 className="text-sm font-circular-medium text-black">
+                {link.title}
+              </h6>
+              <ul className="grid grid-cols-2 gap-2">
+                {link.links.map((link) => (
+                  <li
+                    key={link.label}
+                    className="text-sm font-circular-light text-black hover:text-main-green transition-colors"
+                  >
+                    {link.external ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link href={link.href as Route}>{link.label}</Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          {contactLinks.map((link) => (
+            <div key={link.title} className="flex w-max flex-col gap-4">
+              <h6 className="text-sm font-circular-medium text-black">
+                {link.title}
+              </h6>
+              <ul className="grid grid-cols-1 gap-2">
+                {link.links.map((link) => (
+                  <li
+                    key={link.label}
+                    className="text-sm font-circular-light text-black hover:text-main-green transition-colors"
+                  >
+                    {link.external ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link href={link.href as Route}>{link.label}</Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          {socialLinks.map((link) => (
+            <div key={link.title} className="flex w-max flex-col gap-4">
+              <h6 className="text-sm font-circular-medium text-black">
+                {link.title}
+              </h6>
+              <ul className="grid grid-cols-1 gap-2">
+                {link.links.map((link) => (
+                  <li
+                    key={link.label}
+                    className="text-sm font-circular-light text-black hover:text-main-green transition-colors"
+                  >
+                    {link.external ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link href={link.href as Route}>{link.label}</Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
-      <div className="border-t pt-6 gap-2 border-[#808080] flex items-center justify-center">
-        <span className="text-sm text-black">
-          &copy; Copyright {new Date().getFullYear()}
+      <div className="flex gap-4 justify-end items-center w-full">
+        <span className="text-sm font-circular-light text-black">
+          &copy; {new Date().getFullYear()} Home360.
         </span>
-        <span className="size-1 rounded-full bg-main-green"></span>
-
-        <Link
-          href={`/terms`}
-          data-state={isActive("/terms") ? "active" : "inactive"}
-          className="text-black transition-colors text-sm hover:underline data-[state=active]:underline"
-        >
-          Terms
+        <Link href={"/privacy-policy"} className="text-sm hover:underline font-circular-light text-black ">
+        <span >
+          Privacy Policy
+        </span>{" "}
+        </Link>  <Link href={"/terms-of-service"} className="text-sm hover:underline font-circular-light text-black ">
+        <span >
+           Terms of Service
+        </span>{" "}
         </Link>
-
-        <span className="size-1 rounded-full bg-main-green"></span>
-        <Link
-          href={`/privacy-policy`}
-          data-state={isActive("/privacy-policy") ? "active" : "inactive"}
-          className="text-black transition-colors text-sm hover:underline data-[state=active]:underline"
-        >
-          Privacy
-        </Link>
-      </div> */}
+        
+      </div>
     </footer>
   );
 }

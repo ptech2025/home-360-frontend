@@ -19,9 +19,10 @@ import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { userMutations } from "@/queries/user";
 
 function ContactForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm<ContactFormSchemaType>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
@@ -33,21 +34,20 @@ function ContactForm() {
 
   const { reset } = form;
 
-  const onSubmit = async (data: ContactFormSchemaType) => {
-    try {
-      setIsSubmitting(true);
-      toast.success("Message sent successfully, we will get back to you soon.");
+  const { mutate, isPending: isLoading } = useMutation({
+    mutationFn: userMutations.contactUs,
+    onSuccess: () => {
       reset({
         email: "",
         name: "",
         message: "",
       });
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong, try again later.");
-    } finally {
-      setIsSubmitting(false);
-    }
+      toast.success("Message sent successfully, we will get back to you soon.");
+    },
+  });
+
+  const onSubmit = (values: ContactFormSchemaType) => {
+    mutate(values);
   };
   return (
     <Form {...form}>
@@ -129,9 +129,9 @@ function ContactForm() {
         <Button
           type="submit"
           className="rounded-4xl h-11 w-full bg-main-green border font-circular-medium font-medium border-transparent text-white hover:border-black hover:bg-transparent hover:text-black"
-          disabled={isSubmitting}
+          disabled={isLoading}
         >
-          {isSubmitting ? (
+          {isLoading ? (
             <>
               <Loader2 className="size-4 animate-spin" />{" "}
               <span>Sending...</span>

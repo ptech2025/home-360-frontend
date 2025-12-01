@@ -58,11 +58,14 @@ export enum ReminderType {
 }
 
 export enum ExpenseCategory {
+  mortgage = "mortgage",
   maintenance = "maintenance",
-  utilities = "utilities",
   improvements = "improvements",
-  insurance = "insurance",
-  taxes = "taxes",
+  utilities = "utilities",
+  landscaping = "landscaping",
+  safety = "safety",
+  administrative = "administrative",
+  sustainability = "sustainability",
   other = "other",
 }
 
@@ -87,6 +90,27 @@ export enum ProviderType {
   other = "other",
 }
 
+export enum MaintenanceFrequency {
+  monthly = "monthly",
+  quarterly = "quarterly",
+  annual = "annual",
+  biannual = "biannual",
+  five_years = "five_years",
+  ten_years = "ten_years",
+}
+
+export enum PlanInterval {
+  monthly = "monthly",
+  yearly = "yearly",
+}
+
+export enum SubscriptionStatus {
+  trialing = "trialing",
+  active = "active",
+  canceled = "canceled",
+  expired = "expired",
+}
+
 export interface Home {
   id: string;
   userId: string;
@@ -105,25 +129,44 @@ export interface Home {
   yearBuilt?: number;
   squareFeet?: number;
   lotSizeSqFt?: number;
-  photoUrl?: string;
+  photoUrl: string | null;
   homeValue?: number;
-  homeType: HomeType;
+  homeType: string;
+  active: boolean;
   createdAt: Date;
   updatedAt: Date;
 
   documents: Document[];
   appliances: Appliance[];
-  //   expenses    Expense[]
+  expenses: Expense[];
   records: PublicRecord[];
-  //   reminders   Reminder[]
-  //   providers   ServiceProvider[]
-  //   serviceJobs ServiceHistory[]
+  reminders: Reminder[];
+  providers: ServiceProvider[];
+  serviceJobs: ServiceHistory[];
+}
+
+export interface UserQuota {
+  id: string;
+  userId: string;
+  interval: PlanInterval;
+  cycleStart: Date;
+  cycleEnd: Date;
+  allocatedDocumentCredits: number;
+  allocatedAiQueryCredits: number;
+  allocatedApplianceCredits: number;
+  documentCreditsUsed: number;
+  aiQueryCreditsUsed: number;
+  applianceCreditsUsed: number;
+  createdAt: Date;
+  updatedAt: Date;
+  user: AuthUserType;
 }
 
 export interface Appliance {
   id: string;
   homeId: string;
   name: string;
+  image: string | null;
   brand?: string | null;
   model?: string | null;
   serialNumber?: string | null;
@@ -136,10 +179,10 @@ export interface Appliance {
   createdAt: Date;
   updatedAt: Date;
 
-  // receipt?: Receipt | null;
-  // maintenance?: ApplianceMaintenance[];
+  receipt: Receipt | null;
+  maintenance: ApplianceMaintenance[];
   home: Home;
-  // reminders?: Reminder[];
+  reminders: Reminder[];
   records: PublicRecord[];
 }
 
@@ -166,8 +209,174 @@ export interface PublicRecord {
   id: string;
   homeId: string;
   recordType: PublicRecordType;
-  data: Record<string, any>;
+  data: Record<string, string | null>;
   retrievedAt: Date;
   updatedAt: Date;
   home: Home;
+}
+
+export interface ServiceProvider {
+  id: string;
+  userId: string;
+  name: string;
+  type: ProviderType;
+  phone: string | null;
+  email: string | null;
+  notes: string | null;
+  address: string | null;
+  website: string;
+  avgRating: number | null;
+  isHired: boolean;
+  jobs: ServiceHistory[];
+  createdAt: Date;
+  updatedAt: Date;
+  home: Home | null;
+  user: AuthUserType;
+  _count: { jobs: number };
+}
+
+export interface ServiceHistory {
+  id: string;
+  homeId: string;
+  providerId: string;
+  jobDescription: string;
+  date: Date;
+  invoiceUrl: string | null;
+  previewUrl: string | null;
+  rating: number | null;
+  amount: number | null;
+  createdAt: Date;
+  updatedAt: Date;
+  home: Home;
+  provider: ServiceProvider;
+}
+
+export interface Receipt {
+  id: string;
+  applianceId: string | null;
+  expenseId: string | null;
+  fileUrl: string;
+  previewUrl: string | null;
+  sourceType: ReceiptSourceType;
+  extracted: Record<string, string | null> | null;
+  notes: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+
+  appliance: Appliance | null;
+  expenses: Expense | null;
+  maintenances: ApplianceMaintenance[];
+}
+
+export interface Expense {
+  id: string;
+  title: string;
+  homeId: string;
+  amount: number;
+  category: ExpenseCategory;
+  date: Date;
+  description: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+
+  home: Home;
+  receipts: Receipt[];
+}
+
+export interface ApplianceMaintenance {
+  id: string;
+  applianceId: string | null;
+  receiptId: string | null;
+  description: string | null;
+  maintenanceDate: Date | null;
+  cost: number | null;
+  intervalMonths: number | null;
+  status: ReminderStatus;
+  createdAt: Date;
+  updatedAt: Date;
+
+  appliance: Appliance | null;
+  receipt: Receipt | null;
+}
+
+export interface Reminder {
+  id: string;
+  userId: string;
+  homeId: string;
+  applianceId: string | null;
+  priority: Priority;
+  taskName: string;
+  dueDate: Date;
+  status: ReminderStatus;
+  type: ReminderType;
+  createdAt: Date;
+  updatedAt: Date;
+
+  user: AuthUserType;
+  home: Home;
+  appliance: Appliance | null;
+}
+
+export interface MaintenanceInstance {
+  id: string;
+  templateId: string | null;
+  homeId: string;
+  userId: string;
+  title: string;
+  description: string | null;
+  dueDate: Date;
+  frequency: MaintenanceFrequency;
+  status: ReminderStatus;
+  completedAt: Date | null;
+  category: ReminderType;
+  isCustom: boolean;
+  reminderSent: boolean;
+  reminderSentAt: Date | null;
+  estimatedCost: number | null;
+  createdAt: Date;
+  updatedAt: Date;
+
+  home: Home;
+  user: AuthUserType;
+}
+
+export interface SubscriptionPlanBenefit {
+  id: string;
+  planId: string;
+  benefit: string;
+  plan: SubscriptionPlan;
+}
+
+export interface SubscriptionPlan {
+  id: string;
+  name: string;
+  price: number;
+  stripePriceId: string;
+  documentCredit?: number | null;
+  aiQueryCredit?: number | null;
+  applianceCredit?: number | null;
+  maxHomes: number;
+  interval: PlanInterval;
+  active: boolean;
+  benefits: SubscriptionPlanBenefit[];
+  subscriptions: Subscription[];
+  createdAt: Date | null;
+  updatedAt: Date | null;
+}
+
+export interface Subscription {
+  id: string;
+  userId: string;
+  planId: string;
+  stripeCustomerId: string;
+  stripePriceId: string;
+  stripeSubId: string;
+  status: SubscriptionStatus;
+  currentPeriodStart: Date;
+  currentPeriodEnd: Date;
+  hasBeenCancelled: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  user: AuthUserType;
+  plan: SubscriptionPlan;
 }

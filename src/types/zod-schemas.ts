@@ -1,6 +1,14 @@
 import { z } from "zod";
 import { fromError } from "zod-validation-error";
-import { DocumentCategory } from "./prisma-schema-types";
+import {
+  DocumentCategory,
+  ProviderType,
+  ReminderType,
+  ReminderStatus,
+  MaintenanceFrequency,
+  ExpenseCategory,
+  ApplianceCategory,
+} from "./prisma-schema-types";
 
 export const signUpSchema = z
   .object({
@@ -111,12 +119,154 @@ export const createDocumentSchema = (type: "create" | "update") =>
     category: z.enum([...Object.values(DocumentCategory)]),
     tags: z
       .array(z.string())
-      .min(1, { message: "At least one tag is required" }),
+      .min(1, { message: "At least one tag is required" })
+      .max(5, "Maximum of 5 tags"),
     file:
       type === "create"
         ? validateDocumentFile()
         : validateDocumentFile().optional(),
   });
+
+export const createServiceProviderSchema = z.object({
+  name: z.string().min(1, { message: "Name is required" }),
+  type: z.enum([...Object.values(ProviderType)], {
+    message: `Provider Type is required and must be one of the following: ${Object.values(
+      ProviderType
+    ).join(", ")}`,
+  }),
+  phone: z.string().optional(),
+  email: z.email({ message: "Invalid email address" }).optional(),
+  address: z.string().optional(),
+  website: z.url({ message: "Invalid website URL" }).optional(),
+  notes: z
+    .string()
+    .max(100, { message: "Notes must be less than 100 characters" })
+    .optional(),
+});
+
+export const createServiceJobSchema = z.object({
+  homeId: z
+    .string({ message: "Home is required" })
+    .min(1, { message: "Home is required" }),
+  jobDescription: z
+    .string({ message: "Job Description is required" })
+    .min(1, { message: "Job Description is required" })
+    .max(100, { message: "Job Description must be less than 100 characters" }),
+  date: z.coerce.date({ message: "Date is required" }),
+  rating: z.coerce
+    .number({ message: "Rating must be a number" })
+    .min(1, { message: "Rating is required" })
+    .max(5, {
+      message: "Rating must be between 1 and 5",
+    }),
+  amount: z.coerce
+    .number({ message: "Amount must be a number" })
+    .min(1, { message: "Amount is required" }),
+  file: validatePDFOrImageFile().optional(),
+});
+
+export const createHomeTaskSchema = z.object({
+  title: z.string().min(1, { message: "Task Name is required" }),
+  status: z
+    .enum([...Object.values(ReminderStatus)], {
+      message: `Status is required and must be one of the following: ${Object.values(
+        ReminderStatus
+      ).join(", ")}`,
+    })
+    .optional(),
+  description: z
+    .string()
+    .max(100, { message: "Description must be less than 100 characters" })
+    .optional(),
+  category: z.enum([...Object.values(ReminderType)], {
+    message: `Task Category is required and must be one of the following: ${Object.values(
+      ReminderType
+    ).join(", ")}`,
+  }),
+  frequency: z.enum([...Object.values(MaintenanceFrequency)], {
+    message: `Frequency is required and must be one of the following: ${Object.values(
+      MaintenanceFrequency
+    ).join(", ")}`,
+  }),
+  dueDate: z.coerce.date({ message: "Due date is required" }),
+});
+
+export const createExpenseSchema = z.object({
+  title: z.string().min(1, { message: "Title is required" }),
+  amount: z.coerce
+    .number({ message: "Amount must be a number" })
+    .min(0, { message: "Amount must be greater than or equal to 0" }),
+  category: z.enum([...Object.values(ExpenseCategory)], {
+    message: `Category is required and must be one of the following: ${Object.values(
+      ExpenseCategory
+    ).join(", ")}`,
+  }),
+  date: z.string().min(1, { message: "Date is required" }),
+  description: z.string().optional(),
+  file: validatePDFOrImageFile().optional(),
+});
+
+export const createApplianceSchema = z.object({
+  name: z.string().min(1, { message: "Name is required" }),
+  brand: z.string().optional(),
+  model: z.string().optional(),
+  serialNumber: z.string().optional(),
+  category: z.enum([...Object.values(ApplianceCategory)], {
+    message: `Category is required and must be one of the following: ${Object.values(
+      ApplianceCategory
+    ).join(", ")}`,
+  }),
+  purchaseDate: z.coerce.date().optional(),
+  purchasePrice: z.coerce
+    .number({ message: "Purchase price must be a number" })
+    .int({ message: "Purchase price must be an integer" })
+    .min(0, { message: "Purchase price must be greater than or equal to 0" })
+    .optional(),
+  warrantyExpiry: z.coerce.date().optional(),
+  installationDate: z.coerce.date().optional(),
+  image: validateImageFile().optional(),
+  receipt: validatePDFOrImageFile().optional(),
+});
+
+export const createApplianceMaintenanceSchema = z.object({
+  title: z.string().min(1, { message: "Title is required" }),
+  maintenanceDate: z.coerce.date({ message: "Maintenance date is required" }),
+  intervalMonths: z.coerce
+    .number({ message: "Frequency must be a number" })
+    .int({ message: "Frequency must be an integer" })
+    .min(1, { message: "Frequency must be greater than or equal to 1" })
+    .max(12, { message: "Frequency must be less than or equal to 12" }),
+});
+
+export const updateHomeDetailsSchema = z.object({
+  yearBuilt: z.coerce
+    .number({ message: "Year built must be a number" })
+    .int({ message: "Year built must be an integer" })
+    .min(1800, { message: "Year built must be at least 1800" })
+    .max(new Date().getFullYear(), {
+      message: `Year built cannot exceed ${new Date().getFullYear()}`,
+    })
+    .optional(),
+  squareFeet: z.coerce
+    .number({ message: "Square feet must be a number" })
+    .int({ message: "Square feet must be an integer" })
+    .optional(),
+  lotSizeSqFt: z.coerce
+    .number({ message: "Lot size must be a number" })
+    .int({ message: "Lot size must be an integer" })
+    .optional(),
+  bathrooms: z.coerce
+    .number({ message: "Bathrooms must be a number" })
+    .int({ message: "Bathrooms must be an integer" })
+    .optional(),
+  bedrooms: z.coerce
+    .number({ message: "Bedrooms must be a number" })
+    .int({ message: "Bedrooms must be an integer" })
+    .optional(),
+  homeType: z.string().min(1, { message: "Home type is required" }),
+
+  file: validateImageFile().optional(),
+});
 
 export function validateImageFiles() {
   const maxUploadSize = 2 * 1024 * 1024; // 2MB
@@ -130,7 +280,7 @@ export function validateImageFiles() {
 
   return z
     .array(z.instanceof(File))
-    .max(8, "You can only upload up to 8 images")
+    .max(5, "You can only upload up to 5s images")
     .refine(
       (files) => files.every((file) => file.size <= maxUploadSize),
       "Each file must be less than 2MB"
@@ -185,7 +335,7 @@ export function validateDocumentFile() {
 }
 
 export function validateDocumentFiles() {
-  const maxUploadSize = 5 * 1024 * 1024; // 5MB
+  const maxUploadSize = 3 * 1024 * 1024; // 5MB
   const acceptedFileTypes = [
     "application/pdf",
     "application/msword", // .doc
@@ -199,7 +349,7 @@ export function validateDocumentFiles() {
     .max(5, "You can only upload up to 5 documents")
     .refine(
       (files) => files.every((file) => file.size <= maxUploadSize),
-      "Each file must be less than 5MB"
+      "Each file must be less than 3MB"
     )
     .refine(
       (files) => files.every((file) => acceptedFileTypes.includes(file.type)),
@@ -243,7 +393,7 @@ export function validatePDFOrImageFiles() {
     .max(5, "You can only upload up to 5 documents")
     .refine(
       (files) => files.every((file) => file.size <= maxUploadSize),
-      "Each file must be less than 5MB"
+      "Each file must be less than 3MB"
     )
     .refine(
       (files) => files.every((file) => acceptedFileTypes.includes(file.type)),
@@ -275,4 +425,19 @@ export type CreateHomeSchemaType = z.infer<typeof createHomeSchema>;
 export type PersonalInfoSchemaType = z.infer<typeof personalInfoSchema>;
 export type CreateDocumentSchemaType = z.infer<
   ReturnType<typeof createDocumentSchema>
+>;
+
+export type CreateServiceProviderSchemaType = z.infer<
+  typeof createServiceProviderSchema
+>;
+
+export type CreateServiceJobSchemaType = z.infer<typeof createServiceJobSchema>;
+export type CreateHomeTaskSchemaType = z.infer<typeof createHomeTaskSchema>;
+export type CreateExpenseSchemaType = z.infer<typeof createExpenseSchema>;
+export type CreateApplianceSchemaType = z.infer<typeof createApplianceSchema>;
+export type CreateApplianceMaintenanceSchemaType = z.infer<
+  typeof createApplianceMaintenanceSchema
+>;
+export type UpdateHomeDetailsSchemaType = z.infer<
+  typeof updateHomeDetailsSchema
 >;

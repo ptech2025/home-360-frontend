@@ -87,6 +87,7 @@
   --color-main-yellow: var(--main-yellow);
   --color-lighter-gray: var(--lighter-gray);
   --color-lime: var(--lime);
+  --color-new-gray: var(--new-gray);
   --font-circular-medium: "CircularStd-Medium", sans-serif;
   --font-circular-bold: "CircularStd-Bold", sans-serif;
   --font-circular-black: "CircularStd-Black", sans-serif;
@@ -125,15 +126,16 @@
   --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
   --sidebar-accent: oklch(0.968 0.007 247.896);
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
+  --sidebar-border: #e5e5e5;
   --sidebar-ring: oklch(0.704 0.04 256.788);
   --main-green: #2d6a4f;
   --light-gray: #b5b7bc;
   --new-black: #111827;
   --gray: #737373;
-  --main-yellow: #f8be5c;
+  --main-yellow: #f59e0b;
   --lighter-gray: #eff0f0;
   --lime: #fafbfa;
+  --new-gray: #fcfcfc;
 }
 
 .dark {
@@ -201,6 +203,15 @@
   @apply w-full pl-[45px]! bottom-[-5px]!;
 }
 
+.green-btn {
+  @apply text-white cursor-pointer  bg-main-green hover:bg-white hover:border-main-green hover:text-main-green border border-transparent transition-colors;
+}
+.light-green-btn {
+  @apply text-main-green cursor-pointer  bg-main-green/10 hover:bg-white hover:border-main-green/10 hover:text-main-green border border-transparent transition-colors;
+}
+.yellow-btn {
+  @apply text-white cursor-pointer  bg-main-yellow hover:bg-white hover:border-main-yellow hover:text-main-yellow border border-transparent transition-colors;
+}
 @layer base {
   * {
     @apply border-border outline-ring/50;

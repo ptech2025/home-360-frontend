@@ -21,6 +21,7 @@ import { signUpSchema, SignUpSchemaType } from "@/types/zod-schemas";
 import { Input } from "../ui/input";
 import { GoogleIcon } from "../global/Icons";
 import EmailVerificationSent from "./EmailVerificationSent";
+import { getDefaultImage } from "@/utils/funcs";
 
 function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -66,7 +67,7 @@ function SignUpForm() {
         email: values.email,
         name: `${values.firstName} ${values.lastName}`,
         password: values.password,
-        image: `https://ui-avatars.com/api/?size=60&background=2d6a4f&color=fff&rounded=true&name=${values.firstName}+${values.lastName}`,
+        image: getDefaultImage(values.firstName + " " + values.lastName),
 
         callbackURL: `${process.env.NEXT_PUBLIC_URL}/onboarding`,
       },

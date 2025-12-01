@@ -1,46 +1,63 @@
 "use client";
 
-import {
-  OverviewCard,
-  UpcomingEventsCardWrapper,
-  MetricsCardWrapper,
-  ServicesCard,
-} from "@/components/dashboard/DashboardCards";
-import { RecentTasksTable } from "@/components/dashboard/DashboardTables";
+import MetricsWrapper from "@/components/dashboard/MetricsWrapper";
+import RecentTasksWrapper from "@/components/dashboard/RecentTasksWrapper";
 import { userQueries } from "@/queries/user";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { DashboardOverview } from "../dashboard/DashboardOverview";
+import UpcomingEventsWrapper from "../dashboard/UpcomingEventsWrapper";
+import ServicesWrapper from "../dashboard/ServicesWrapper";
+import {
+  DashboardPageLoadingSkeleton,
+  MetricsWrapperLoadingSkeleton,
+  ServicesWrapperLoadingSkeleton,
+  TableLoadingSkeleton,
+  UpcomingEventsWrapperLoadingSkeleton,
+} from "../global/Skeletons";
+import { Suspense } from "react";
+import { AuthUserType } from "@/types";
 type Props = {
   homeId: string;
+  user: AuthUserType | null;
 };
 
-function SingleHomePageWrapper({ homeId }: Props) {
+function SingleHomePageWrapper({ homeId, user }: Props) {
   const { replace } = useRouter();
   const { data: homeData, isPending: isHomeLoading } = useQuery(
     userQueries.singleHome(homeId)
   );
 
   if (isHomeLoading) {
-    return <div>Loading...</div>;
+    return <DashboardPageLoadingSkeleton />;
   }
   if (!homeData) {
     replace("/onboarding");
-    return null;
+    return <DashboardPageLoadingSkeleton />;
   }
 
   return (
     <section className="flex flex-col gap-4 px-4 py-4 ">
       <div className="lg:flex-row flex flex-col gap-4">
-        <OverviewCard home={homeData} />
-        <UpcomingEventsCardWrapper />
+        <DashboardOverview home={homeData} />
+        <Suspense fallback={<UpcomingEventsWrapperLoadingSkeleton />}>
+          <UpcomingEventsWrapper
+            type="reminders"
+            homeId={homeId}
+            calendarClassName="max-w-[15rem] hidden lg:block [--cell-size:--spacing(8.5)]"
+          />
+        </Suspense>
       </div>
-      <MetricsCardWrapper
-        documents={homeData.documents}
-        appliances={homeData.appliances}
-      />
+      <Suspense fallback={<MetricsWrapperLoadingSkeleton />}>
+        <MetricsWrapper homeId={homeId} />
+      </Suspense>
       <div className="lg:flex-row flex flex-col gap-4">
-        <RecentTasksTable />
-        <ServicesCard />
+        <Suspense fallback={<TableLoadingSkeleton />}>
+          <RecentTasksWrapper homeId={homeId} user={user} />
+        </Suspense>
+        <Suspense fallback={<ServicesWrapperLoadingSkeleton />}>
+          <ServicesWrapper homeId={homeId} />
+        </Suspense>
       </div>
     </section>
   );
