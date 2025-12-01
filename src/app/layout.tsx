@@ -3,6 +3,8 @@ import { Poppins } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "sonner";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import Providers from "./providers";
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -69,6 +71,8 @@ export default function RootLayout({
 
           <Toaster position="top-center" richColors />
         </Providers>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
