@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import * as motion from "motion/react-client";
+import  { motion} from "framer-motion";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
