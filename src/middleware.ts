@@ -4,7 +4,7 @@ import {
   fetchSession,
   protectDashboard,
   redirectAuthUser,
-} from "./middlewares";
+} from "./proxy";
 
 const privateRoutes = ["/dashboard"];
 const authRoutes = [
