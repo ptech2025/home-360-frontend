@@ -4,7 +4,7 @@ import {
   fetchSession,
   protectDashboard,
   redirectAuthUser,
-} from "./proxy";
+} from "./middlewares";
 
 const privateRoutes = ["/dashboard"];
 const authRoutes = [
@@ -14,7 +14,7 @@ const authRoutes = [
   "/sign-up",
 ];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const session = await fetchSession(request);
