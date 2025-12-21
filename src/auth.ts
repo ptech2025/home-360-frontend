@@ -14,7 +14,7 @@ const authRoutes = [
   "/sign-up",
 ];
 
-export async function proxy(request: NextRequest) {
+export async function auth(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const session = await fetchSession(request);
