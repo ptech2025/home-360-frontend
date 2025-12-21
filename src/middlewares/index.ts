@@ -17,7 +17,6 @@ export const fetchSession = async (
       "/api/auth/get-session",
       {
         baseURL: API_URL,
-        // baseURL: 'http://localhost:9000',
         headers: { cookie: cookie || "" },
         signal: controller.signal,
       }

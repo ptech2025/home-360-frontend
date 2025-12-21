@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/proxy/index.ts",
+    "src/middlewares/index.ts",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
