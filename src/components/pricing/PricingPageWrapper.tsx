@@ -34,6 +34,7 @@ function PricingPageWrapper({ user }: { user: AuthUserType | null }) {
     },
     onError: (error) => {
       const msg = renderAxiosOrAuthError(error);
+
       toast.error(msg);
       setSelectedPlanId(null);
     },
@@ -51,6 +52,10 @@ function PricingPageWrapper({ user }: { user: AuthUserType | null }) {
   });
 
   const handleSelectedPlan = (planId: string) => {
+    if (!user) {
+      router.push("/sign-in");
+      return;
+    }
     setSelectedPlanId(planId);
     if (currentPlan) {
       changePlan({ planId });
