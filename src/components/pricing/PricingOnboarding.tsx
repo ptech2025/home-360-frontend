@@ -27,16 +27,12 @@ function PricingOnboarding({ currentPlan, type }: Props) {
   const router = useRouter();
   const [priceMode, setPriceMode] = useState<"monthly" | "yearly">("monthly");
   const { data, isLoading } = useQuery(subscriptionQueries.fetchPlans());
+  const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
 
   const { mutate: choosePlan, isPending: isChoosingPlan } = useMutation({
     mutationFn: subscriptionMutations.subscribeToPlan,
     onSuccess(url) {
-      // window.location.href = url;
-      if (!url?.startsWith("https://")) {
-        toast.error("Invalid checkout URL");
-        return;
-      }
-      window.location.assign(url);
+      window.location.href = url;
     },
     onError: (error) => {
       const msg = renderAxiosOrAuthError(error);
@@ -52,17 +48,21 @@ function PricingOnboarding({ currentPlan, type }: Props) {
     onError: (error) => {
       const msg = renderAxiosOrAuthError(error);
       toast.error(msg);
+      setSelectedPlanId(null);
     },
   });
 
   const handleSelectedPlan = (planId: string | undefined) => {
     if (!planId) return;
+    setSelectedPlanId(planId);
     if (type === "onboarding") {
       choosePlan({ planId });
     } else {
       changePlan({ planId });
     }
   };
+
+  const isLoadingSelectedPlan = isChoosingPlan || isChangingPlan;
 
   return (
     <section className="flex relative z-20 flex-col gap-4 items-center w-full ">
@@ -211,12 +211,10 @@ function PricingOnboarding({ currentPlan, type }: Props) {
                         )}
                         onClick={() => handleSelectedPlan(plan.id)}
                         disabled={
-                          isChoosingPlan ||
-                          isChangingPlan ||
-                          currentPlan?.id === plan.id
+                          isLoadingSelectedPlan || currentPlan?.id === plan.id
                         }
                       >
-                        {isChoosingPlan || isChangingPlan ? (
+                        {isLoadingSelectedPlan && selectedPlanId === plan.id ? (
                           <Loader2 className="w-5 h-5 animate-spin text-inherit" />
                         ) : (
                           <>
