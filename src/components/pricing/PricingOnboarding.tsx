@@ -32,12 +32,7 @@ function PricingOnboarding({ currentPlan, type }: Props) {
   const { mutate: choosePlan, isPending: isChoosingPlan } = useMutation({
     mutationFn: subscriptionMutations.subscribeToPlan,
     onSuccess(url) {
-      // window.location.href = url;
-      if (!url?.startsWith("https://")) {
-        toast.error("Invalid checkout URL");
-        return;
-      }
-      window.location.assign(url);
+      window.location.href = url;
     },
     onError: (error) => {
       const msg = renderAxiosOrAuthError(error);
