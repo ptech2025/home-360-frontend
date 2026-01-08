@@ -31,7 +31,6 @@ function PricingOnboarding({ currentPlan, type }: Props) {
   const { mutate: choosePlan, isPending: isChoosingPlan } = useMutation({
     mutationFn: subscriptionMutations.subscribeToPlan,
     onSuccess(url) {
-      // window.location.href = url;
       if (!url?.startsWith("https://")) {
         toast.error("Invalid checkout URL");
         return;
@@ -98,9 +97,9 @@ function PricingOnboarding({ currentPlan, type }: Props) {
             >
               Yearly
             </span>
-            <Badge className="bg-main-green/10 rounded-xl px-2 font-circular-medium text-sm text-main-green border-main-green">
+            {/* <Badge className="bg-main-green/10 rounded-xl px-2 font-circular-medium text-sm text-main-green border-main-green">
               <span>-15%</span>
-            </Badge>
+            </Badge> */}
           </div>
         )}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-7xl">
@@ -175,7 +174,8 @@ function PricingOnboarding({ currentPlan, type }: Props) {
                         </h3>
                         <div className="flex items-baseline gap-1">
                           <span className="text-4xl font-circular-bold text-black">
-                            <AnimatedPrice value={plan.price} />
+                            {plan.price}
+                            {/* <AnimatedPrice value={plan.price} /> */}
                           </span>
                           <span className="text-base text-black/60 font-circular-medium">
                             /{plan.interval}
