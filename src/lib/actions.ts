@@ -9,7 +9,7 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export const fetchUserServer = async () => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
 
   try {
